@@ -474,7 +474,7 @@
                         android:layout_marginRight="15dp">
                         s
 
-                        <com.xcy.fzb.all.persente.SlideSwitch
+                        <com.xcy.fzbcity.all.persente.SlideSwitch
                             android:id="@+id/sswit"
                             android:layout_width="70dp"
                             android:layout_height="25dp"
@@ -482,7 +482,7 @@
                             slideswitch:shape="circle"
                             slideswitch:themeColor="#0FBF62">
 
-                        </com.xcy.fzb.all.persente.SlideSwitch>
+                        </com.xcy.fzbcity.all.persente.SlideSwitch>
 
                         <TextView
                             android:id="@+id/stxt"

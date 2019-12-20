@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#EEEEEE"
     android:orientation="vertical"
-    tools:context=".all.fragment.DynamicFragment">
+    tools:context="com.xcy.fzbcity.all.fragment.DynamicFragment">
 
     <in.srain.cube.views.ptr.PtrClassicFrameLayout
         android:id="@+id/store_house_ptr_frame_11"

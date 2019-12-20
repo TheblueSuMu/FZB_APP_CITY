@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:orientation="vertical"
-    tools:context=".all.view.BigPhotoActivity">
+    tools:context="com.xcy.fzbcity.all.view.BigPhotoActivity">
 
     <LinearLayout
         android:orientation="vertical"

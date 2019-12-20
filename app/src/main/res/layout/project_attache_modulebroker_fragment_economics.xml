@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="20dp"
     android:background="#FFFFFF"
     android:orientation="vertical"
     tools:ignore="ResourceName">
@@ -38,7 +37,7 @@
         android:layout_marginTop="75dp"
         android:layout_height="match_parent">
 
-        <com.xcy.fzb.all.utils.SuperSwipeRefreshLayout
+        <com.xcy.fzbcity.all.utils.SuperSwipeRefreshLayout
             android:id="@+id/PtrClassic_modulebroke"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -60,7 +59,7 @@
                     android:orientation="vertical">
 
 
-                    <com.xcy.fzb.all.utils.MyViewPager
+                    <com.xcy.fzbcity.all.utils.MyViewPager
                         android:id="@+id/vpager_one"
                         android:layout_width="match_parent"
                         android:layout_height="155dp"
@@ -69,7 +68,7 @@
                         android:layout_marginRight="15dp"
                         android:layout_marginBottom="25dp">
 
-                    </com.xcy.fzb.all.utils.MyViewPager>
+                    </com.xcy.fzbcity.all.utils.MyViewPager>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -663,66 +662,9 @@
                 </LinearLayout>
             </ScrollView>
 
-        </com.xcy.fzb.all.utils.SuperSwipeRefreshLayout>
+        </com.xcy.fzbcity.all.utils.SuperSwipeRefreshLayout>
 
 
     </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/fragment_report_picker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#e7e7e7"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/fragment_report_picker_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="取消"
-                android:textColor="#ff666666"
-                android:textSize="18sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="请选择时间"
-                android:textColor="#ff111111"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/fragment_report_picker_ensure"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical|right"
-                android:text="确定"
-                android:textColor="#334485"
-                android:textSize="18sp" />
-
-
-        </LinearLayout>
-
-        <top.defaults.view.DateTimePickerView
-            android:id="@+id/fragment_report_pickerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#e7e7e7"
-            app:preferredMaxOffsetItemCount="4" />
-    </LinearLayout>
 
 </RelativeLayout>

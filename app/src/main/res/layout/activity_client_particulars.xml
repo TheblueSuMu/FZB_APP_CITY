@@ -120,7 +120,7 @@
 
     </LinearLayout>
 
-    <com.xcy.fzb.all.api.FreeView
+    <com.xcy.fzbcity.all.api.FreeView
         android:id="@+id/client_particulars_report"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"

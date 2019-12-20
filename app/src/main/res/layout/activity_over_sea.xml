@@ -45,7 +45,7 @@
                 android:textColorHint="#ff333333" />
         </RelativeLayout>
 
-        <com.xcy.fzb.all.utils.SuperSwipeRefreshLayout
+        <com.xcy.fzbcity.all.utils.SuperSwipeRefreshLayout
             xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
             android:id="@+id/oversea_ptrclass"
             android:layout_width="match_parent"
@@ -324,7 +324,7 @@
                 </LinearLayout>
             </ScrollView>
 
-        </com.xcy.fzb.all.utils.SuperSwipeRefreshLayout>
+        </com.xcy.fzbcity.all.utils.SuperSwipeRefreshLayout>
 
     </LinearLayout>
 
@@ -430,7 +430,7 @@
 
     </LinearLayout>
 
-    <com.xcy.fzb.all.api.FreeView
+    <com.xcy.fzbcity.all.api.FreeView
         android:id="@+id/oversea_report"
         android:layout_width="49dp"
         android:layout_height="49dp"

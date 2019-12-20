@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#F8F8F9"
     android:orientation="vertical"
-    tools:context=".all.view.NickNameActivity">
+    tools:context="com.xcy.fzbcity.all.view.NickNameActivity">
 
     <LinearLayout
         android:orientation="vertical"

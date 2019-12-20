@@ -152,7 +152,7 @@
 
         </RelativeLayout>
 
-<!--        <com.xcy.fzb.all.utils.SuperSwipeRefreshLayout-->
+<!--        <SuperSwipeRefreshLayout-->
 <!--            android:id="@+id/ssrl_s"-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="match_parent">-->
@@ -185,7 +185,7 @@
                     android:layout_centerInParent="true"
                     app:indicatorName="LineSpinFadeLoaderIndicator" />
             </RelativeLayout>
-<!--        </com.xcy.fzb.all.utils.SuperSwipeRefreshLayout>-->
+<!--        </SuperSwipeRefreshLayout>-->
 
 
     </LinearLayout>

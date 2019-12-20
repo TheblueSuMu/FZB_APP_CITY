@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#FFFFFF"
-    tools:context=".captain_assistant.view.Assistant_Teams_Activity">
+    tools:context="com.xcy.fzbcity.captain_assistant.view.Assistant_Teams_Activity">
 
     <LinearLayout
         android:orientation="vertical"

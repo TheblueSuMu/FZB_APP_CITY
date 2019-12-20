@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".all.fragment.MoreTypeFragment">
+    tools:context="com.xcy.fzbcity.all.fragment.MoreTypeFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/more_type_rv"

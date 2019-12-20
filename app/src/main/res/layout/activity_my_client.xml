@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".all.view.MyClientActivity">
+    tools:context="com.xcy.fzbcity.all.view.MyClientActivity">
 
     <LinearLayout
         android:orientation="vertical"

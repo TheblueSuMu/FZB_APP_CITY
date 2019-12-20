@@ -6,7 +6,7 @@
     xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
     android:background="#EEEEEE"
     android:orientation="vertical"
-    tools:context=".all.fragment.GuestRoomFragment">
+    tools:context="com.xcy.fzbcity.all.fragment.GuestRoomFragment">
     <in.srain.cube.views.ptr.PtrClassicFrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#EEEEEE"
     android:orientation="vertical"
-    tools:context=".all.fragment.BrokerageCityFragment">
+    tools:context="com.xcy.fzbcity.all.fragment.BrokerageCityFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/brokerage_city_rv"

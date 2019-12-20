@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".all.view.BuildingDynamicActivity">
+    tools:context="com.xcy.fzbcity.all.view.BuildingDynamicActivity">
 
     <LinearLayout
         android:orientation="vertical"

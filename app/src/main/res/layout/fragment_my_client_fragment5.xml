@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".all.fragment.MyClientFragment1">
+    tools:context="com.xcy.fzbcity.all.fragment.MyClientFragment1">
 
     <in.srain.cube.views.ptr.PtrClassicFrameLayout
         android:id="@+id/store_house_ptr_frame_6"

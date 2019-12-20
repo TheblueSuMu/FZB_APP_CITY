@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#FFFFFF"
-    tools:context=".all.view.AboutFZBActivity">
+    tools:context="com.xcy.fzbcity.all.view.AboutFZBActivity">
 
     <LinearLayout
         android:orientation="vertical"

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:ignore="MissingDefaultResource,ResourceName">
 
-    <com.xcy.fzb.all.utils.SuperSwipeRefreshLayout
+    <com.xcy.fzbcity.all.utils.SuperSwipeRefreshLayout
         android:id="@+id/e_ssrfl_5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -533,7 +533,7 @@
                 </LinearLayout>
             </RelativeLayout>
         </ScrollView>
-    </com.xcy.fzb.all.utils.SuperSwipeRefreshLayout>
+    </com.xcy.fzbcity.all.utils.SuperSwipeRefreshLayout>
 
 
 </LinearLayout>

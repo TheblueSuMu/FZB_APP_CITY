@@ -3,7 +3,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.xcy.fzb.project_attache.adapter.RotationLayout
+    <com.xcy.fzbcity.project_attache.adapter.RotationLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/map_shape"
@@ -20,6 +20,6 @@
             android:paddingRight="10dp"
             android:paddingBottom="5dp" />
 
-    </com.xcy.fzb.project_attache.adapter.RotationLayout>
+    </com.xcy.fzbcity.project_attache.adapter.RotationLayout>
 
 </LinearLayout>

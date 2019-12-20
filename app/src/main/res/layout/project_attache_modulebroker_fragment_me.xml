@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:ignore="MissingDefaultResource,ResourceName">
-    <com.xcy.fzb.all.utils.SuperSwipeRefreshLayout
+    <com.xcy.fzbcity.all.utils.SuperSwipeRefreshLayout
         android:layout_width="match_parent"
         android:id="@+id/e_ssrfl_4"
         android:layout_height="wrap_content">
@@ -16,7 +16,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"><RelativeLayout
+                android:orientation="vertical">
+
+                <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#E9EBEB"
@@ -144,7 +146,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="10dp"
-                                android:text="打卡记录(套)"
+                                android:text="打卡记录"
                                 android:textColor="#111111"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -427,6 +429,6 @@
                 </LinearLayout>
             </RelativeLayout></LinearLayout>
         </ScrollView>
-    </com.xcy.fzb.all.utils.SuperSwipeRefreshLayout>
+    </com.xcy.fzbcity.all.utils.SuperSwipeRefreshLayout>
 
 </LinearLayout>

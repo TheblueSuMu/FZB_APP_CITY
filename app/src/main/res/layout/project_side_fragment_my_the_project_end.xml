@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".Main.presente.MyTheProjectEndFragment">
 
-    <com.xcy.fzb.all.utils.SuperSwipeRefreshLayout
+    <com.xcy.fzbcity.all.utils.SuperSwipeRefreshLayout
         android:id="@+id/e_ssrfl_3"
         android:background="#EEEEED"
         android:layout_width="match_parent"
@@ -307,6 +307,6 @@
                     android:src="@mipmap/next" />
             </RelativeLayout>
         </LinearLayout>
-    </com.xcy.fzb.all.utils.SuperSwipeRefreshLayout>
+    </com.xcy.fzbcity.all.utils.SuperSwipeRefreshLayout>
 
 </LinearLayout>

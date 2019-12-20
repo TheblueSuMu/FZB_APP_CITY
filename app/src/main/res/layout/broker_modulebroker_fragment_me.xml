@@ -7,7 +7,7 @@
     android:background="#E9EBEB"
     tools:ignore="MissingDefaultResource,ResourceName">
 
-    <com.xcy.fzb.all.utils.SuperSwipeRefreshLayout
+    <com.xcy.fzbcity.all.utils.SuperSwipeRefreshLayout
         android:id="@+id/e_ssrfl_1"
         android:background="#FFF"
         android:layout_width="match_parent"
@@ -501,6 +501,6 @@
 
         </ScrollView>
 
-    </com.xcy.fzb.all.utils.SuperSwipeRefreshLayout>
+    </com.xcy.fzbcity.all.utils.SuperSwipeRefreshLayout>
 
 </LinearLayout>

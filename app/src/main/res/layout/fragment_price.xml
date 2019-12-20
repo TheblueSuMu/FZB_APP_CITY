@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context=".all.fragment.PriceFragment">
+    tools:context="com.xcy.fzbcity.all.fragment.PriceFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

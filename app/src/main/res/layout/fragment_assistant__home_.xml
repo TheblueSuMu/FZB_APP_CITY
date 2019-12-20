@@ -51,7 +51,7 @@
 
     </RelativeLayout>
 
-    <com.xcy.fzb.all.utils.SuperSwipeRefreshLayout
+    <com.xcy.fzbcity.all.utils.SuperSwipeRefreshLayout
         android:layout_below="@id/icon_c"
         android:background="#FFF"
         android:id="@+id/home_srl"
@@ -290,7 +290,7 @@
 
         </ScrollView>
 
-    </com.xcy.fzb.all.utils.SuperSwipeRefreshLayout>
+    </com.xcy.fzbcity.all.utils.SuperSwipeRefreshLayout>
 
     <RelativeLayout
         android:id="@+id/home_picker"

@@ -4,7 +4,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.1"
     defaultConfig {
-        applicationId "com.xcy.fzb"
+        applicationId "com.xcy.fzbcity"
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 2
@@ -32,26 +32,26 @@ android {
 }
 
 MobSDK {
-    appKey "2c202d1537658"
-    appSecret "3dd053031d293170b5d2de6611a1b0b6"
+    appKey "2d805fbd93420"
+    appSecret "94399702435b92b0ea3d014d3ae97039"
     ShareSDK {
         loopShare true
         devInfo {
             Wechat {
-                appId "wx9d85bc7226e4f900"
-                appSecret "94e5ef971d7e3ba906fcfbd935fefa68"
-                userName "com.xcy.fzb"
+                appId "wxf9a42b48a61cfd62"
+                appSecret "5a368f360488e63e0642c4f77ebd9c2d"
+                userName "com.xcy.fzbcity"
                 path "pages/index/index.html?id=1"
                 withShareTicket true
                 miniprogramType 2
             }
             WechatMoments {
-                appId "wx9d85bc7226e4f900"
-                appSecret "94e5ef971d7e3ba906fcfbd935fefa68"
+                appId "wxf9a42b48a61cfd62"
+                appSecret "5a368f360488e63e0642c4f77ebd9c2d"
             }
             WechatFavorite {
-                appId "wx9d85bc7226e4f900"
-                appSecret "94e5ef971d7e3ba906fcfbd935fefa68"
+                appId "wxf9a42b48a61cfd62"
+                appSecret "5a368f360488e63e0642c4f77ebd9c2d"
             }
 
         }

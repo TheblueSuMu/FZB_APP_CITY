@@ -8,7 +8,7 @@
     android:id="@+id/progress_layout"
     progressLayout:progressBackground="#999999"
     progressLayout:progress="false"
-    tools:context=".captain_assistant.view.Captain_Assistant_MainActivity">
+    tools:context="com.xcy.fzbcity.captain_assistant.view.Captain_Assistant_MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

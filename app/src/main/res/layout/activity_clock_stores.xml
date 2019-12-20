@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context=".project_attache.view.ClockStoresActivity">
+    tools:context="com.xcy.fzbcity.project_attache.view.ClockStoresActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -109,7 +109,7 @@
                 android:textColor="#ff111111"
                 android:textSize="12sp" />
 
-            <com.xcy.fzb.all.utils.SourcePanel
+            <com.xcy.fzbcity.all.utils.SourcePanel
                 android:id="@+id/clock_stores_gv"
                 android:layout_width="match_parent"
                 android:layout_height="108dp"
