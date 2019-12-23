@@ -425,6 +425,7 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
                     @SuppressLint("WrongConstant")
                     @Override
                     public void onNext(HomeBean homeBean) {
+                        Log.i("运营数据","运营数据：");
                         tv1_home_the_project_end.setText("" + homeBean.getData().getProdjectCount());
                         tv2_home_the_project_end.setText("" + homeBean.getData().getReportNumber());
                         tv3_home_the_project_end.setText("" + homeBean.getData().getAccessingNumber());
@@ -710,7 +711,7 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
         if (NewlyIncreased.getUserMessage().equals("7")){
             init();
         }
-        initViewData();
+//        initViewData();
     }
 
     public String getTime2(Date date) {//可根据需要自行截取数据显示
