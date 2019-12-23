@@ -39,6 +39,7 @@ import com.stx.xmarqueeview.XMarqueeView;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.adapter.RecyclerAdapter;
 import com.xcy.fzbcity.all.adapter.TextBannerAdapter;
+import com.xcy.fzbcity.all.api.CityContents;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.application.DemoApplication;
 import com.xcy.fzbcity.all.modle.Bean;
@@ -52,6 +53,9 @@ import com.xcy.fzbcity.all.persente.SingleClick;
 import com.xcy.fzbcity.all.persente.StatusBar;
 import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.utils.ToastUtil;
+import com.xcy.fzbcity.all.view.CityWideActivity;
+import com.xcy.fzbcity.all.view.MapHouseActivity;
+import com.xcy.fzbcity.all.view.MyBrokerageActivity;
 import com.xcy.fzbcity.all.view.MyClientActivity;
 import com.xcy.fzbcity.all.view.OverSeaActivity;
 import com.xcy.fzbcity.all.view.SearchInterfaceActivity;
@@ -155,12 +159,12 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
 
                         if (SharItOff.getShar().equals("隐")) {
                             SharItOff.setShar("显");
-                            ToastUtil.showLongToast(getContext(),"佣金已显示，如需隐藏请摇动");
+                            ToastUtil.showLongToast(getContext(), "佣金已显示，如需隐藏请摇动");
                         } else if (SharItOff.getShar().equals("显")) {
                             SharItOff.setShar("隐");
-                            ToastUtil.showLongToast(getContext(),"佣金已隐藏，如需显示请摇动");
+                            ToastUtil.showLongToast(getContext(), "佣金已隐藏，如需显示请摇动");
                         }
-                        Log.i("MyCL","摇一摇");
+                        Log.i("MyCL", "摇一摇");
 
                         initHotList();
                         vibrator.vibrate(100);
@@ -197,7 +201,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
     }
 
     //命名区域
-    private void fvbId(View view){
+    private void fvbId(View view) {
         application = (DemoApplication) getActivity().getApplication();
 
 
@@ -207,7 +211,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
         banner = view.findViewById(R.id.home_banner);
 
         layout = view.findViewById(R.id.home_srl);
-        tvBanner2 =  view.findViewById(R.id.tv_banner2);
+        tvBanner2 = view.findViewById(R.id.tv_banner2);
 
         textView1 = view.findViewById(R.id.home_item_sojourn);
         textView2 = view.findViewById(R.id.home_item_overseas);
@@ -242,30 +246,54 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
     @Override
     public void onClick(View view) {
         if (hotlist.size() != 0) {
-            if(view.getId() == R.id.home_city_selector){
+            if (view.getId() == R.id.home_city_selector) {
                 showPickerView();
             } else if (view.getId() == R.id.home_search) {
-                Intent intent = new Intent(view.getContext(), SearchInterfaceActivity.class);
+//                Intent intent = new Intent(view.getContext(), SearchInterfaceActivity.class);
+//                startActivity(intent);
+                Intent intent = new Intent(view.getContext(), OverSeaActivity.class);
                 startActivity(intent);
             } else if (view.getId() == R.id.home_item_sojourn) {
 
-                FinalContents.setProjectType("3");
-                Intent intent_sojourn = new Intent(view.getContext(), OverSeaActivity.class);
-                startActivity(intent_sojourn);
-            }else if (view.getId() == R.id.home_item_overseas) {
-                FinalContents.setProjectType("2");
-                Intent intent_overseas = new Intent(view.getContext(), OverSeaActivity.class);
+//                FinalContents.setProjectType("3");
+//                Intent intent_sojourn = new Intent(view.getContext(), OverSeaActivity.class);
+//                startActivity(intent_sojourn);
+
+                CityContents.setCityType("2");
+                FinalContents.setIfCityType("2");
+                Intent intent = new Intent(view.getContext(), CityWideActivity.class);
+                startActivity(intent);
+
+            } else if (view.getId() == R.id.home_item_overseas) {
+//                FinalContents.setProjectType("2");
+//                Intent intent_overseas = new Intent(view.getContext(), OverSeaActivity.class);
+//                startActivity(intent_overseas);
+
+                FinalContents.setIfCity(FinalContents.getCityID());
+                FinalContents.setIfCityType("");
+                Intent intent_overseas = new Intent(view.getContext(), MapHouseActivity.class);
                 startActivity(intent_overseas);
-            }else if (view.getId() == R.id.home_item_client) {
-                FinalContents.setProjectType("1");
-                Intent intent_overseas = new Intent(view.getContext(), OverSeaActivity.class);
-                startActivity(intent_overseas);
-            }else if (view.getId() == R.id.home_item_brokerage) {
-                Intent intent_overseas = new Intent(view.getContext(), MyClientActivity.class);
-                startActivity(intent_overseas);
+
+            } else if (view.getId() == R.id.home_item_client) {
+//                FinalContents.setProjectType("1");
+//                Intent intent_overseas = new Intent(view.getContext(), OverSeaActivity.class);
+//                startActivity(intent_overseas);
+
+                CityContents.setCityType("1");
+                FinalContents.setIfCityType("1");
+                Intent intent = new Intent(view.getContext(), CityWideActivity.class);
+                startActivity(intent);
+
+
+            } else if (view.getId() == R.id.home_item_brokerage) {
+//                Intent intent_overseas = new Intent(view.getContext(), MyClientActivity.class);
+//                startActivity(intent_overseas);
+
+                Intent intent = new Intent(getContext(), MyBrokerageActivity.class);
+                startActivity(intent);
             }
-        }else {
-            if(view.getId() == R.id.home_city_selector){
+        } else {
+            if (view.getId() == R.id.home_city_selector) {
                 showPickerView();
             }
         }
@@ -308,13 +336,13 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                 if (!citylist.get(options1).getId().equals(FinalContents.getOldCityId())) {
                                     FinalContents.setCityIs("不是当前城市");
                                     SharItOff.setShar("隐");
-                                }else {
+                                } else {
                                     FinalContents.setCityIs("");
                                 }
                                 city.setText(list.get(options1));
                                 FinalContents.setCityName(list.get(options1));
                                 FinalContents.setCityID(citylist.get(options1).getId());
-                                Log.i("city",FinalContents.getCityID());
+                                Log.i("city", FinalContents.getCityID());
 
                                 initHotList();
                             }
@@ -330,7 +358,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i("城市列表","获取："+e.getMessage());
+                        Log.i("城市列表", "获取：" + e.getMessage());
                     }
 
                     @Override
@@ -341,7 +369,6 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
     }
 
 
-
     private void initHotList() {
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(FinalContents.getBaseUrl());
@@ -349,7 +376,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<HotBean> userMessage = fzbInterface.getHotList(FinalContents.getUserID(),FinalContents.getCityID(),"1","1000");
+        Observable<HotBean> userMessage = fzbInterface.getHotList(FinalContents.getUserID(), FinalContents.getCityID(), "1", "1000");
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<HotBean>() {
@@ -361,7 +388,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                     @SuppressLint("WrongConstant")
                     @Override
                     public void onNext(HotBean hotBean) {
-                        Log.i("hotBean",hotBean.getMsg());
+                        Log.i("hotBean", hotBean.getMsg());
                         if (hotBean.getCode().equals("1")) {
                             HotBean.DataBean hotBeanData = hotBean.getData();
                             hotlist = hotBeanData.getRows();
@@ -378,11 +405,11 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                 recyclerView.setNestedScrollingEnabled(false);
                                 recyclerView.setAdapter(recyclerAdapter);
                                 recyclerAdapter.notifyDataSetChanged();
-                            }else {
+                            } else {
                                 all_no_information.setVisibility(View.VISIBLE);
                                 recyclerView.setVisibility(View.GONE);
                             }
-                        }else {
+                        } else {
                             recyclerView.setVisibility(View.GONE);
                             all_no_information.setVisibility(View.VISIBLE);
                         }
@@ -392,7 +419,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                     public void onError(Throwable e) {
                         recyclerView.setVisibility(View.GONE);
                         all_no_information.setVisibility(View.VISIBLE);
-                        Log.i("列表数据获取错误","错误"+e);
+                        Log.i("列表数据获取错误", "错误" + e);
                     }
 
                     @Override
@@ -403,14 +430,14 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
     }
 
     //文字轮播
-    private void tvBanner(){
+    private void tvBanner() {
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(FinalContents.getBaseUrl());
         builder.addConverterFactory(GsonConverterFactory.create());
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<MessageBean2> userMessage = fzbInterface.getMessageTextList(FinalContents.getUserID(),FinalContents.getCityID(),"");
+        Observable<MessageBean2> userMessage = fzbInterface.getMessageTextList(FinalContents.getUserID(), FinalContents.getCityID(), "");
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<MessageBean2>() {
@@ -426,13 +453,13 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                         messagelist = dataBean.getRows();
 
 
-                        for (int i = 0; i < messagelist.size(); i++){
+                        for (int i = 0; i < messagelist.size(); i++) {
                             if (messagelist.get(i).getType().equals("0")) {
-                                messagelist2.add(new Bean(R.mipmap.give,messagelist.get(i).getTitle()));
-                            }else if (messagelist.get(i).getType().equals("2")){
-                                messagelist2.add(new Bean(R.mipmap.lodger,messagelist.get(i).getTitle()));
-                            }else if (messagelist.get(i).getType().equals("5")){
-                                messagelist2.add(new Bean(R.mipmap.goodnews,messagelist.get(i).getTitle()));
+                                messagelist2.add(new Bean(R.mipmap.give, messagelist.get(i).getTitle()));
+                            } else if (messagelist.get(i).getType().equals("2")) {
+                                messagelist2.add(new Bean(R.mipmap.lodger, messagelist.get(i).getTitle()));
+                            } else if (messagelist.get(i).getType().equals("5")) {
+                                messagelist2.add(new Bean(R.mipmap.goodnews, messagelist.get(i).getTitle()));
                             }
                         }
 
@@ -444,9 +471,9 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                             public void onItemClick(int postion) {
                                 if (messagelist.get(postion).getType().equals("0")) {
                                     listterner.process("0"); // 3.1 执行回调
-                                }else if (messagelist.get(postion).getType().equals("2")){
+                                } else if (messagelist.get(postion).getType().equals("2")) {
                                     listterner.process("2"); // 3.1 执行回调
-                                }else if (messagelist.get(postion).getType().equals("5")){
+                                } else if (messagelist.get(postion).getType().equals("5")) {
                                     listterner.process("5"); // 3.1 执行回调
                                 }
                             }
@@ -455,7 +482,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i("列表数据获取错误","错误"+e);
+                        Log.i("列表数据获取错误", "错误" + e);
                     }
 
                     @Override
@@ -478,7 +505,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<ImgData> userMessage = fzbInterface.getBannerList(FinalContents.getUserID(),FinalContents.getCityID(),"",arrposid);
+        Observable<ImgData> userMessage = fzbInterface.getBannerList(FinalContents.getUserID(), FinalContents.getCityID(), "1", arrposid);
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ImgData>() {
@@ -492,8 +519,8 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                     public void onNext(ImgData imgData) {
                         imglist = imgData.getData();
                         if (imglist.size() != 0) {
-                            for (int i = 0; i < imglist.size(); i++){
-                                list_path.add(FinalContents.getImageUrl()+ imglist.get(i).getCoverImg());
+                            for (int i = 0; i < imglist.size(); i++) {
+                                list_path.add(FinalContents.getImageUrl() + imglist.get(i).getCoverImg());
                                 list_title.add(imglist.get(i).getTitle());
                             }
 
@@ -519,12 +546,12 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                 public void OnBannerClick(int position) {
                                     FinalContents.setProjectID(imglist.get(position).getProject().getId());
                                     FinalContents.setNewID(imglist.get(position).getId());
-                                    Log.i("详情","项目ID"+FinalContents.getProjectID());
-                                    Log.i("详情","用户ID"+FinalContents.getUserID());
-                                    Log.i("详情","用户ID"+FinalContents.getNewID());
+                                    Log.i("详情", "项目ID" + FinalContents.getProjectID());
+                                    Log.i("详情", "用户ID" + FinalContents.getUserID());
+                                    Log.i("详情", "用户ID" + FinalContents.getNewID());
                                     Intent intent = new Intent(view.getContext(), WebViewActivity.class);
-                                    intent.putExtra("title","新闻详情");
-                                    intent.putExtra("webview",imglist.get(position).getContent());
+                                    intent.putExtra("title", "新闻详情");
+                                    intent.putExtra("webview", imglist.get(position).getContent());
                                     startActivity(intent);
                                 }
                             });
@@ -536,7 +563,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i("列表数据获取错误","错误"+e);
+                        Log.i("列表数据获取错误", "错误" + e);
                     }
 
                     @Override
@@ -583,9 +610,9 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        if(activity instanceof FragmentInteraction) {
-            listterner = (FragmentInteraction)activity; // 2.2 获取到宿主activity并赋值
-        } else{
+        if (activity instanceof FragmentInteraction) {
+            listterner = (FragmentInteraction) activity; // 2.2 获取到宿主activity并赋值
+        } else {
             throw new IllegalArgumentException("activity must implements FragmentInteraction");
         }
     }

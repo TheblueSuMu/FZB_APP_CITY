@@ -130,13 +130,13 @@ public class CollectActivity extends AllActivity implements View.OnClickListener
                     public void run() {
                         ptrClassicFrameLayout.refreshComplete();
                         ptrClassicFrameLayout.setLastUpdateTimeKey("2017-2-10");
-                        if(collect_ll1.getVisibility() == View.VISIBLE){
-                            recyclerViewData("3");
-                        }else if(collect_ll2.getVisibility() == View.VISIBLE){
-                            recyclerViewData("2");
-                        }else if(collect_ll3.getVisibility() == View.VISIBLE){
+//                        if(collect_ll1.getVisibility() == View.VISIBLE){
+//                            recyclerViewData("3");
+//                        }else if(collect_ll2.getVisibility() == View.VISIBLE){
+//                            recyclerViewData("2");
+//                        }else if(collect_ll3.getVisibility() == View.VISIBLE){
                             recyclerViewData("1");
-                        }
+//                        }
                     }
                 }, 1000);
             }
@@ -236,13 +236,13 @@ public class CollectActivity extends AllActivity implements View.OnClickListener
     @Override
     protected void onRestart() {
         super.onRestart();
-        if(collect_ll1.getVisibility() == View.VISIBLE){
-            recyclerViewData("3");
-        }else if(collect_ll2.getVisibility() == View.VISIBLE){
-            recyclerViewData("2");
-        }else if(collect_ll3.getVisibility() == View.VISIBLE){
+//        if(collect_ll1.getVisibility() == View.VISIBLE){
+//            recyclerViewData("3");
+//        }else if(collect_ll2.getVisibility() == View.VISIBLE){
+//            recyclerViewData("2");
+//        }else if(collect_ll3.getVisibility() == View.VISIBLE){
             recyclerViewData("1");
-        }
+//        }
     }
 
 
@@ -272,13 +272,13 @@ public class CollectActivity extends AllActivity implements View.OnClickListener
                             SharItOff.setShar("隐");
                             ToastUtil.showToast(this,"佣金已隐藏，如需显示请摇动");
                         }
-                        if(collect_ll1.getVisibility() == View.VISIBLE){
-                            recyclerViewData("3");
-                        }else if(collect_ll2.getVisibility() == View.VISIBLE){
-                            recyclerViewData("2");
-                        }else if(collect_ll3.getVisibility() == View.VISIBLE){
+//                        if(collect_ll1.getVisibility() == View.VISIBLE){
+//                            recyclerViewData("3");
+//                        }else if(collect_ll2.getVisibility() == View.VISIBLE){
+//                            recyclerViewData("2");
+//                        }else if(collect_ll3.getVisibility() == View.VISIBLE){
                             recyclerViewData("1");
-                        }
+//                        }
 
 
                         vibrator.vibrate(100);

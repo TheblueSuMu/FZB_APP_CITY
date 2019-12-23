@@ -40,6 +40,7 @@ import com.stx.xmarqueeview.XMarqueeView;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.adapter.RecyclerAdapter;
 import com.xcy.fzbcity.all.adapter.TextBannerAdapter;
+import com.xcy.fzbcity.all.api.CityContents;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.application.DemoApplication;
 import com.xcy.fzbcity.all.modle.Bean;
@@ -53,6 +54,8 @@ import com.xcy.fzbcity.all.persente.SingleClick;
 import com.xcy.fzbcity.all.persente.StatusBar;
 import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.utils.ToastUtil;
+import com.xcy.fzbcity.all.view.CityWideActivity;
+import com.xcy.fzbcity.all.view.MapHouseActivity;
 import com.xcy.fzbcity.all.view.OverSeaActivity;
 import com.xcy.fzbcity.all.view.SearchInterfaceActivity;
 import com.xcy.fzbcity.all.view.WebViewActivity;
@@ -242,22 +245,39 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
             if(view.getId() == R.id.project_city_selector){
                 showPickerView();
             } else if (view.getId() == R.id.home_search) {
-                Intent intent = new Intent(view.getContext(), SearchInterfaceActivity.class);
+//                Intent intent = new Intent(view.getContext(), SearchInterfaceActivity.class);
+//                startActivity(intent);
+                Intent intent = new Intent(view.getContext(), OverSeaActivity.class);
                 startActivity(intent);
             } else if (view.getId() == R.id.home_item_sojourn) {
-                FinalContents.setProjectType("3");
-                Intent intent = new Intent(view.getContext(), OverSeaActivity.class);
+//                FinalContents.setProjectType("3");
+//                Intent intent = new Intent(view.getContext(), OverSeaActivity.class);
+//                startActivity(intent);
+                CityContents.setCityType("2");
+                FinalContents.setIfCityType("2");
+                Intent intent = new Intent(view.getContext(), CityWideActivity.class);
                 startActivity(intent);
             }else if (view.getId() == R.id.home_item_overseas) {
-                FinalContents.setProjectType("2");
-                Intent intent = new Intent(view.getContext(), OverSeaActivity.class);
-                startActivity(intent);
+//                FinalContents.setProjectType("2");
+//                Intent intent = new Intent(view.getContext(), OverSeaActivity.class);
+//                startActivity(intent);
+                FinalContents.setIfCity(FinalContents.getCityID());
+                FinalContents.setIfCityType("");
+                Intent intent_overseas = new Intent(view.getContext(), MapHouseActivity.class);
+                startActivity(intent_overseas);
             }else if (view.getId() == R.id.home_item_brokerage) {
-                Intent intent = new Intent(view.getContext(), MyProjectActivity.class);
+//                Intent intent = new Intent(view.getContext(), MyProjectActivity.class);
+//                startActivity(intent);
+                Intent intent = new Intent(getContext(), MyProjectActivity.class);
                 startActivity(intent);
             }else if (view.getId() == R.id.home_item_client) {
-                FinalContents.setProjectType("1");
-                Intent intent = new Intent(view.getContext(), OverSeaActivity.class);
+//                FinalContents.setProjectType("1");
+//                Intent intent = new Intent(view.getContext(), OverSeaActivity.class);
+//                startActivity(intent);
+
+                CityContents.setCityType("1");
+                FinalContents.setIfCityType("1");
+                Intent intent = new Intent(view.getContext(), CityWideActivity.class);
                 startActivity(intent);
 
 //                Intent intent = new Intent(view.getContext(), MyClientActivity.class);

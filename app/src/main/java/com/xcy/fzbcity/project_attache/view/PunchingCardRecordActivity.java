@@ -44,7 +44,7 @@ public class PunchingCardRecordActivity extends AppCompatActivity implements Swi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_punching_card_record);
 
-        initView();
+         initView();
 
     }
 

@@ -88,12 +88,12 @@ public class Project_Side_HomeRecyclerAdapter extends RecyclerView.Adapter<Proje
             holder.tagView.setTags(tags);
         }
 
-        if (beanList.get(position).getIsgroup().equals("1")) {
-            holder.group_booking.setVisibility(View.VISIBLE);
-            holder.group_booking.setText(beanList.get(position).getGroupNum()+"个团火热报名中...");
-        }else {
+//        if (beanList.get(position).getIsgroup().equals("1")) {
+//            holder.group_booking.setVisibility(View.VISIBLE);
+//            holder.group_booking.setText(beanList.get(position).getGroupNum()+"个团火热报名中...");
+//        }else {
             holder.group_booking.setVisibility(View.GONE);
-        }
+//        }
 
         holder.chick.setText(Html.fromHtml("报备(" + "<font color='#A52A2A'>" + beanList.get(position).getReportAmount() + "</font>"+")"));
         holder.attention.setText(Html.fromHtml("关注(" + "<font color='#A52A2A'>" + beanList.get(position).getBrowseNum() + "</font>"+")"));

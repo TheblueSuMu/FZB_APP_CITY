@@ -14,7 +14,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/my_brokerage">
 
             <RelativeLayout
@@ -44,6 +44,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="20dp"
@@ -160,7 +161,7 @@
                 >
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:background="#fff"
+                    android:background="#FFFFFF"
                     android:id="@+id/my_project_recyler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">

@@ -108,7 +108,7 @@
                         <TextView
                             android:layout_margin="10dp"
                             android:layout_weight="1"
-                            android:text="城市房产"
+                            android:text="同城项目"
                             android:textSize="12sp"
                             android:textColor="#111"
                             android:gravity="center"
@@ -134,7 +134,7 @@
                         <TextView
                             android:layout_margin="10dp"
                             android:layout_weight="1"
-                            android:text="旅居房产"
+                            android:text="跨城项目"
                             android:textSize="12sp"
                             android:textColor="#111"
                             android:gravity="center"
@@ -154,14 +154,14 @@
 
                         <ImageView
                             android:layout_gravity="center"
-                            android:src="@mipmap/home_item_overseas"
+                            android:src="@mipmap/new4"
                             android:layout_width="43dp"
                             android:layout_height="43dp"/>
 
                         <TextView
                             android:layout_margin="10dp"
                             android:layout_weight="1"
-                            android:text="海外房产"
+                            android:text="地图找房"
                             android:textSize="12sp"
                             android:textColor="#111"
                             android:gravity="center"
@@ -185,7 +185,7 @@
 
                         <ImageView
                             android:layout_gravity="center"
-                            android:src="@mipmap/my_project"
+                            android:src="@mipmap/new6"
                             android:layout_width="43dp"
                             android:layout_height="43dp"/>
 

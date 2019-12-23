@@ -40,9 +40,11 @@
                 android:background="@drawable/edittext_shape"
                 android:gravity="center"
                 android:hint="搜索"
+                android:maxLines="1"
+                android:lines="1"
+                android:inputType="text"
                 android:textColor="#333333"
-                android:textSize="15sp"
-                android:textColorHint="#ff333333" />
+                android:textSize="15sp"/>
         </RelativeLayout>
 
         <com.xcy.fzbcity.all.utils.SuperSwipeRefreshLayout
@@ -80,9 +82,11 @@
                         android:layout_marginTop="21dp"
                         android:text="海外房产"
                         android:textColor="#ff111111"
+                        android:visibility="gone"
                         android:textSize="23sp" />
 
                     <androidx.core.widget.NestedScrollView
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
@@ -109,6 +113,7 @@
                     </androidx.core.widget.NestedScrollView>
 
                     <RelativeLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -155,6 +160,7 @@
                     </RelativeLayout>
 
                     <View
+                        android:visibility="gone"
                         android:id="@+id/seview"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -165,6 +171,7 @@
                         android:background="#fff3f2f7" />
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/oversea_linear_issue"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
@@ -199,6 +206,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
@@ -312,6 +320,7 @@
                     </RelativeLayout>
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -431,6 +440,7 @@
     </LinearLayout>
 
     <com.xcy.fzbcity.all.api.FreeView
+        android:visibility="gone"
         android:id="@+id/oversea_report"
         android:layout_width="49dp"
         android:layout_height="49dp"

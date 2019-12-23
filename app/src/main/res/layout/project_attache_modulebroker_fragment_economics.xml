@@ -391,6 +391,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:visibility="gone"
                                 android:orientation="horizontal">
 
                                 <LinearLayout
@@ -462,14 +463,6 @@
 
                             </LinearLayout>
 
-                        </LinearLayout>
-                        <!--TODO 我的项目-->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:orientation="horizontal">
-
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -506,6 +499,16 @@
                                 </LinearLayout>
 
                             </LinearLayout>
+
+                        </LinearLayout>
+                        <!--TODO 我的项目-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:orientation="horizontal">
+
+
 
                             <!--                        <LinearLayout-->
                             <!--                            android:layout_width="1dp"-->
@@ -567,7 +570,21 @@
                                 </LinearLayout>
 
                             </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
 
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                </LinearLayout>
+
+                            </LinearLayout>
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"

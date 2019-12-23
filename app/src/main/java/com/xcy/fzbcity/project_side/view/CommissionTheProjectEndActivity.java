@@ -81,7 +81,7 @@ public class CommissionTheProjectEndActivity extends AllActivity implements View
 
     String search = "";
     String status = "";
-    String projectType = "3";
+    String projectType = "1";
     String projectId = "";
     String startTime = "";
     String endTime = "";

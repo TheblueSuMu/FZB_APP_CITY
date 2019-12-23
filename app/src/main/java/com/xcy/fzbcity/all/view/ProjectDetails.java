@@ -910,11 +910,11 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
 //                        if (FinalContents.getZyHome().equals("1")) {
 //                            project_details_group_booking.setVisibility(View.GONE);
 //                        } else {
-                        if (projectDetailsBeanData.getProjectListVo().getIsgroup().equals("1")) {
-                            project_details_group_booking.setVisibility(View.VISIBLE);
-                        } else {
+//                        if (projectDetailsBeanData.getProjectListVo().getIsgroup().equals("1")) {
+//                            project_details_group_booking.setVisibility(View.VISIBLE);
+//                        } else {
                             project_details_group_booking.setVisibility(View.GONE);
-                        }
+//                        }
 //                        }
 
                         message.setText(projectDetailsBeanData.getMatingInformation().getTraffic());

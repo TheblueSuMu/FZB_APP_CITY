@@ -406,11 +406,60 @@
                             <!--                                android:layout_gravity="bottom"-->
                             <!--                                android:layout_marginBottom="-3dp"-->
                             <!--                                android:background="#E5E5E5"></LinearLayout>-->
-
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:id="@+id/layout4"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content">
+
+                                        <TextView
+                                            android:id="@+id/tv6_home_the_project_end"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:ellipsize="end"
+                                            android:lines="1"
+                                            android:text=""
+                                            android:textColor="#111111"
+                                            android:textSize="18sp" />
+
+                                        <ImageView
+                                            android:id="@+id/project_side_img_4"
+                                            android:layout_width="5dp"
+                                            android:layout_height="5dp"
+                                            android:layout_toRightOf="@id/tv6_home_the_project_end"
+                                            android:src="@mipmap/item_unread"
+                                            android:visibility="gone"/>
+                                    </RelativeLayout>
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="5dp"
+                                        android:gravity="center"
+                                        android:text="认筹"
+                                        android:textColor="#111111"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:visibility="gone"
                                 android:orientation="horizontal">
 
                                 <LinearLayout
@@ -465,55 +514,7 @@
                             android:layout_marginTop="30dp"
                             android:orientation="horizontal">
 
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="horizontal">
 
-                                <LinearLayout
-                                    android:id="@+id/layout4"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:gravity="center"
-                                    android:orientation="vertical">
-
-                                    <RelativeLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content">
-
-                                        <TextView
-                                            android:id="@+id/tv6_home_the_project_end"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_gravity="center"
-                                            android:ellipsize="end"
-                                            android:lines="1"
-                                            android:text=""
-                                            android:textColor="#111111"
-                                            android:textSize="18sp" />
-
-                                        <ImageView
-                                            android:id="@+id/project_side_img_4"
-                                            android:layout_width="5dp"
-                                            android:layout_height="5dp"
-                                            android:layout_toRightOf="@id/tv6_home_the_project_end"
-                                            android:src="@mipmap/item_unread"
-                                            android:visibility="gone"/>
-                                    </RelativeLayout>
-
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="5dp"
-                                        android:gravity="center"
-                                        android:text="认筹"
-                                        android:textColor="#111111"
-                                        android:textSize="12sp" />
-                                </LinearLayout>
-
-                            </LinearLayout>
 
                             <!--                            <LinearLayout-->
                             <!--                                android:layout_width="1dp"-->
@@ -666,14 +667,6 @@
 
                             </LinearLayout>
 
-                        </LinearLayout>
-                        <!--TODO 应收-->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:orientation="horizontal">
-
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -709,6 +702,16 @@
                                 </LinearLayout>
 
                             </LinearLayout>
+
+                        </LinearLayout>
+                        <!--TODO 应收-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:orientation="horizontal">
+
+
 
                             <!--                            <LinearLayout-->
                             <!--                                android:layout_width="1dp"-->
@@ -836,7 +839,38 @@
                                 </LinearLayout>
 
                             </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:visibility="invisible">
 
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:text=""
+                                        android:textColor="#334485"
+                                        android:textSize="15dp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="5dp"
+                                        android:gravity="center"
+                                        android:text="未结(万)"
+                                        android:textColor="#ff666666"
+                                        android:textSize="13sp" />
+                                </LinearLayout>
+
+                            </LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout

@@ -163,38 +163,38 @@ public class SearchInterfaceActivity extends AllActivity implements View.OnClick
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if (KeyEvent.KEYCODE_ENTER == i && KeyEvent.ACTION_DOWN == keyEvent.getAction()) {
-                    if (search_ll1.getVisibility() == View.VISIBLE) {
+//                    if (search_ll1.getVisibility() == View.VISIBLE) {
 //                        if(FinalContents.getIdentity().equals("5") || FinalContents.getIdentity().equals("8") || FinalContents.getIdentity().equals("9")){
 //                            String s = search_edit_text.getText().toString();
 //                            initComPany("", s, "");
 //                        }else {
-                            recyclerViewData("3");
+//                            recyclerViewData("3");
 //                        }
-                    } else if (search_ll2.getVisibility() == View.VISIBLE) {
+//                    } else if (search_ll2.getVisibility() == View.VISIBLE) {
 //                        if(FinalContents.getIdentity().equals("5") || FinalContents.getIdentity().equals("8") || FinalContents.getIdentity().equals("9")){
 //                            String s = search_edit_text.getText().toString();
 //                            initStore("", s, "", "", "", "");
 //                        }else {
-                            recyclerViewData("2");
+//                            recyclerViewData("2");
 //                        }
-                    } else if (search_ll3.getVisibility() == View.VISIBLE) {
+//                    } else if (search_ll3.getVisibility() == View.VISIBLE) {
 //                        if(FinalContents.getIdentity().equals("5") || FinalContents.getIdentity().equals("8") || FinalContents.getIdentity().equals("9")){
 //                            String s = search_edit_text.getText().toString();
 //                            initBroker("", s, "", "", "", "");
 //                        }else {
                             recyclerViewData("1");
+////                        }
+//                    } else if (search_ll4.getVisibility() == View.VISIBLE) {
+//                        if(SearchIndext == 0){
+//                            recyclerViewData("");
+//                        }else if(SearchIndext == 1){
+//                            recyclerViewData("1");
+//                        }else if(SearchIndext == 2){
+//                            recyclerViewData("2");
+//                        }else if(SearchIndext == 3){
+//                            recyclerViewData("3");
 //                        }
-                    } else if (search_ll4.getVisibility() == View.VISIBLE) {
-                        if(SearchIndext == 0){
-                            recyclerViewData("");
-                        }else if(SearchIndext == 1){
-                            recyclerViewData("1");
-                        }else if(SearchIndext == 2){
-                            recyclerViewData("2");
-                        }else if(SearchIndext == 3){
-                            recyclerViewData("3");
-                        }
-                    }
+//                    }
                     return true;
                 }
                 return false;
@@ -210,11 +210,11 @@ public class SearchInterfaceActivity extends AllActivity implements View.OnClick
 //            initComPany("", "", "");
 //            FinalContents.setStoreList("2");
 //        } else {
-            search_l4.setVisibility(View.GONE);
-            search_tv_1.setText("旅居房产");
-            search_tv_2.setText("海外房产");
-            search_tv_3.setText("城市房产");
-            recyclerViewData("3");
+//            search_l4.setVisibility(View.GONE);
+//            search_tv_1.setText("旅居房产");
+//            search_tv_2.setText("海外房产");
+//            search_tv_3.setText("城市房产");
+            recyclerViewData("1");
 //        }
 
     }
@@ -366,7 +366,7 @@ public class SearchInterfaceActivity extends AllActivity implements View.OnClick
 //                    initComPany("", "", "");
 //                    FinalContents.setStoreList("2");
 //                } else {
-                    recyclerViewData("3");
+//                    recyclerViewData("3");
 //                }
                 break;
             case R.id.search_l2:
@@ -386,7 +386,7 @@ public class SearchInterfaceActivity extends AllActivity implements View.OnClick
 //                    initStore("", "", "", "", "", "");
 //                    FinalContents.setStoreList("1");
 //                } else {
-                    recyclerViewData("2");
+//                    recyclerViewData("2");
 //                }
                 break;
             case R.id.search_l3:
@@ -406,7 +406,7 @@ public class SearchInterfaceActivity extends AllActivity implements View.OnClick
 ////                    }
 //                    initBroker("", "", "", "", "", "");
 //                } else {
-                    recyclerViewData("1");
+//                    recyclerViewData("1");
 //                }
                 break;
             case R.id.search_l4:

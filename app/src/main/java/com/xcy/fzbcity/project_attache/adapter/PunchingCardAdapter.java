@@ -40,13 +40,15 @@ public class PunchingCardAdapter extends RecyclerView.Adapter<PunchingCardAdapte
         }
         punchingCardViewHolder.punching_tv1.setText(rows.get(i).getStoreName());
         if(rows.get(i).getIsMy().equals("0")){
+            punchingCardViewHolder.punching_tv2.setVisibility(View.VISIBLE);
             if(rows.get(i).getCreateBy().getIdentity().equals("5")){
                 punchingCardViewHolder.punching_tv2.setText("负责专员：" + rows.get(i).getCreateBy().getName());
             }else if(rows.get(i).getCreateBy().getIdentity().equals("8")){
                 punchingCardViewHolder.punching_tv2.setText("负责经理：" + rows.get(i).getCreateBy().getName());
+            }else if(rows.get(i).getCreateBy().getIdentity().equals("9")){
+                punchingCardViewHolder.punching_tv2.setText("负责总监：" + rows.get(i).getCreateBy().getName());
             }
-
-        }else if(rows.get(i).getIsMy().equals("1")){
+        }else if (rows.get(i).getIsMy().equals("1")){
             punchingCardViewHolder.punching_tv2.setVisibility(View.GONE);
         }
 

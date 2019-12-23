@@ -624,11 +624,13 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                     public void onNext(UserIdentity userIdentity) {
                         if (userIdentity.getData().getIdentity().equals("1") || userIdentity.getData().getIdentity().equals("2") || userIdentity.getData().getIdentity().equals("3")) {
                             initBroker();
-                        } else if (userIdentity.getData().getIdentity().equals("4") || userIdentity.getData().getIdentity().equals("5") || userIdentity.getData().getIdentity().equals("7")|| userIdentity.getData().getIdentity().equals("63") || userIdentity.getData().getIdentity().equals("8") || userIdentity.getData().getIdentity().equals("9")) {
+                        } else if (userIdentity.getData().getIdentity().equals("4") || userIdentity.getData().getIdentity().equals("5") || userIdentity.getData().getIdentity().equals("8") || userIdentity.getData().getIdentity().equals("9")) {
                             initExemplary();
-                        } else if (userIdentity.getData().getIdentity().equals("60") || userIdentity.getData().getIdentity().equals("61") || userIdentity.getData().getIdentity().equals("62") ) {
-                            initCaptain();
                         }
+//                        userIdentity.getData().getIdentity().equals("7")|| userIdentity.getData().getIdentity().equals("63") ||
+//                        else if (userIdentity.getData().getIdentity().equals("60") || userIdentity.getData().getIdentity().equals("61") || userIdentity.getData().getIdentity().equals("62") ) {
+//                            initCaptain();
+//                        }
                         type = "2";
                     }
 
@@ -690,11 +692,13 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                     public void onNext(UserIdentity userIdentity) {
                         if (userIdentity.getData().getIdentity().equals("1") || userIdentity.getData().getIdentity().equals("2") || userIdentity.getData().getIdentity().equals("3")) {
                             initBroker();
-                        } else if (userIdentity.getData().getIdentity().equals("4") || userIdentity.getData().getIdentity().equals("5") || userIdentity.getData().getIdentity().equals("7") || userIdentity.getData().getIdentity().equals("63") || userIdentity.getData().getIdentity().equals("8") || userIdentity.getData().getIdentity().equals("9")) {
+                        } else if (userIdentity.getData().getIdentity().equals("4") || userIdentity.getData().getIdentity().equals("5") || userIdentity.getData().getIdentity().equals("8") || userIdentity.getData().getIdentity().equals("9")) {
                             initExemplary();
-                        } else if (userIdentity.getData().getIdentity().equals("60") || userIdentity.getData().getIdentity().equals("61") || userIdentity.getData().getIdentity().equals("62")) {
-                            initCaptain();
                         }
+//                        userIdentity.getData().getIdentity().equals("7") || userIdentity.getData().getIdentity().equals("63") ||
+//                        else if (userIdentity.getData().getIdentity().equals("60") || userIdentity.getData().getIdentity().equals("61") || userIdentity.getData().getIdentity().equals("62")) {
+//                            initCaptain();
+//                        }
                         type = "1";
                     }
 

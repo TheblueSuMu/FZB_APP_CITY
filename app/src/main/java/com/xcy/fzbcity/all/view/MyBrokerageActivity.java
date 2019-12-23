@@ -134,13 +134,13 @@ public class MyBrokerageActivity extends AllActivity implements View.OnClickList
                     //处理事件
                     if (isnum == 0) {
                         s = my_brokerage_et.getText().toString();
-                        if (myBrokerageLj.getVisibility() == View.VISIBLE) {
-                            initDataDown("3", s);
-                        } else if (myBrokerageHw.getVisibility() == View.VISIBLE) {
-                            initDataDown("2", s);
-                        } else if (myBrokerageCs.getVisibility() == View.VISIBLE) {
+//                        if (myBrokerageLj.getVisibility() == View.VISIBLE) {
+//                            initDataDown("3", s);
+//                        } else if (myBrokerageHw.getVisibility() == View.VISIBLE) {
+//                            initDataDown("2", s);
+//                        } else if (myBrokerageCs.getVisibility() == View.VISIBLE) {
                             initDataDown("1", s);
-                        }
+//                        }
                         isnum = 1;
                     }
                     return true;
@@ -161,13 +161,13 @@ public class MyBrokerageActivity extends AllActivity implements View.OnClickList
                         initDataUp();
                         my_brokerage_et.setText("");
                         s = my_brokerage_et.getText().toString();
-                        if (myBrokerageLj.getVisibility() == View.VISIBLE) {
-                            initDataDown("3", s);
-                        } else if (myBrokerageHw.getVisibility() == View.VISIBLE) {
-                            initDataDown("2", s);
-                        } else if (myBrokerageCs.getVisibility() == View.VISIBLE) {
+//                        if (myBrokerageLj.getVisibility() == View.VISIBLE) {
+//                            initDataDown("3", s);
+//                        } else if (myBrokerageHw.getVisibility() == View.VISIBLE) {
+//                            initDataDown("2", s);
+//                        } else if (myBrokerageCs.getVisibility() == View.VISIBLE) {
                             initDataDown("1", s);
-                        }
+//                        }
                     }
                 }, 1000);
             }
@@ -180,7 +180,7 @@ public class MyBrokerageActivity extends AllActivity implements View.OnClickList
 
         initDataUp();
         s = my_brokerage_et.getText().toString();
-        initDataDown("3", s);
+        initDataDown("1", s);
 
     }
 

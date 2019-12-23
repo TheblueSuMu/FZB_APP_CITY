@@ -53,7 +53,7 @@ public class MyProjectActivity extends AllActivity implements View.OnClickListen
     LinearLayout my_project_ll3;
 
     RecyclerView my_project_recyler;
-    String projectType = "2";
+    String projectType = "1";
     private ImageView all_no_information;
 
     @Override

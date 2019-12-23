@@ -209,6 +209,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:visibility="gone"
                     android:id="@+id/my_client_ll_4"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
