@@ -118,16 +118,16 @@
         <activity android:name="com.xcy.fzbcity.all.view.WeChatBindingActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan"/>        <!--TODO 公用 微信绑定或解绑-->
 
         <activity android:name="com.xcy.fzbcity.FinMag" android:theme="@style/LunchTheme">       <!--TODO 域名-->
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name="com.xcy.fzbcity.BaseUrl" android:theme="@style/LunchTheme">       <!--TODO 启动页-->
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
+        </activity>
+        <activity android:name="com.xcy.fzbcity.BaseUrl" android:theme="@style/LunchTheme">       <!--TODO 启动页-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity android:name="com.xcy.fzbcity.Introduction" android:launchMode="singleTop"/>       <!--TODO 引导页-->
