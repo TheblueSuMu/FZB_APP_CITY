@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
@@ -626,6 +627,8 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                             initBroker();
                         } else if (userIdentity.getData().getIdentity().equals("4") || userIdentity.getData().getIdentity().equals("5") || userIdentity.getData().getIdentity().equals("8") || userIdentity.getData().getIdentity().equals("9")) {
                             initExemplary();
+                        }else {
+                            ToastUtil.showLongToast(LoginActivity.this,"无权限登录");
                         }
 //                        userIdentity.getData().getIdentity().equals("7")|| userIdentity.getData().getIdentity().equals("63") ||
 //                        else if (userIdentity.getData().getIdentity().equals("60") || userIdentity.getData().getIdentity().equals("61") || userIdentity.getData().getIdentity().equals("62") ) {
@@ -694,6 +697,8 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                             initBroker();
                         } else if (userIdentity.getData().getIdentity().equals("4") || userIdentity.getData().getIdentity().equals("5") || userIdentity.getData().getIdentity().equals("8") || userIdentity.getData().getIdentity().equals("9")) {
                             initExemplary();
+                        }else {
+                            ToastUtil.showLongToast(LoginActivity.this,"无权限登录");
                         }
 //                        userIdentity.getData().getIdentity().equals("7") || userIdentity.getData().getIdentity().equals("63") ||
 //                        else if (userIdentity.getData().getIdentity().equals("60") || userIdentity.getData().getIdentity().equals("61") || userIdentity.getData().getIdentity().equals("62")) {
@@ -1503,11 +1508,15 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                         passWord = "";
                         if (userIdentity.getData().getIdentity().equals("1") || userIdentity.getData().getIdentity().equals("2") || userIdentity.getData().getIdentity().equals("3")) {
                             initBroker();
-                        } else if (userIdentity.getData().getIdentity().equals("4") || userIdentity.getData().getIdentity().equals("5") || userIdentity.getData().getIdentity().equals("7")|| userIdentity.getData().getIdentity().equals("63") || userIdentity.getData().getIdentity().equals("8") || userIdentity.getData().getIdentity().equals("9")) {
+                        } else if (userIdentity.getData().getIdentity().equals("4") || userIdentity.getData().getIdentity().equals("5") || userIdentity.getData().getIdentity().equals("8") || userIdentity.getData().getIdentity().equals("9")) {
                             initExemplary();
-                        } else if (userIdentity.getData().getIdentity().equals("60") || userIdentity.getData().getIdentity().equals("61") || userIdentity.getData().getIdentity().equals("62") ) {
-                            initCaptain();
+                        } else {
+                            ToastUtil.showLongToast(LoginActivity.this,"无权限登录");
                         }
+//                         || userIdentity.getData().getIdentity().equals("7")|| userIdentity.getData().getIdentity().equals("63") ||
+//                        else if (userIdentity.getData().getIdentity().equals("60") || userIdentity.getData().getIdentity().equals("61") || userIdentity.getData().getIdentity().equals("62") ) {
+//                            initCaptain();
+//                        }
                     }
 
                     @Override
