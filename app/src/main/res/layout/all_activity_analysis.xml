@@ -141,7 +141,7 @@
                                 android:layout_below="@id/all_activity_analysis_acreage_area"
                                 android:layout_marginLeft="7dp"
                                 android:layout_marginTop="7dp"
-                                android:text="面积"
+                                android:text="面积约"
                                 android:textSize="12sp"
                                 android:textColor="#666666"
                                 android:layout_width="wrap_content"
