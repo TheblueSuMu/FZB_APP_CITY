@@ -310,6 +310,9 @@ public interface MyService {
     @POST("commonSelect/isWeChat")
     Observable<WechatBindingBean> getIsWeChat(@Query("userId") String userId);
 
+    //手机绑定微信
+    @POST("commonSelect/online")
+    Observable<OnLineBean> getOnLine(@Query("appType") String appType);
 
     //身份查询
     @POST("commonSelect/userIdentity")
