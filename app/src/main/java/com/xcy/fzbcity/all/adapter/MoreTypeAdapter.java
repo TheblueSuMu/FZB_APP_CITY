@@ -46,7 +46,7 @@ public class MoreTypeAdapter extends RecyclerView.Adapter<MoreTypeAdapter.ViewHo
                 if (more == 0) {
                     more = 1;
                     holder.more_type_Rv.setVisibility(View.VISIBLE);
-                    holder.more_img_1.setImageResource(img[0]);
+                    holder.more_img_1.setImageResource(img[1]);
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
                     linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                     holder.more_type_Rv.setLayoutManager(linearLayoutManager);
@@ -56,17 +56,17 @@ public class MoreTypeAdapter extends RecyclerView.Adapter<MoreTypeAdapter.ViewHo
                 } else if (more == 1) {
                     more = 0;
                     holder.more_type_Rv.setVisibility(View.GONE);
-                    holder.more_img_1.setImageResource(img[1]);
+                    holder.more_img_1.setImageResource(img[0]);
                 }
             }
         });
         if (list.get(position).getIsshow().equals("0")) {
             more = 0;
-            holder.more_img_1.setImageResource(img[1]);
+            holder.more_img_1.setImageResource(img[0]);
             holder.more_type_Rv.setVisibility(View.GONE);
         } else if (list.get(position).getIsshow().equals("1")) {
             more = 1;
-            holder.more_img_1.setImageResource(img[0]);
+            holder.more_img_1.setImageResource(img[1]);
             holder.more_type_Rv.setVisibility(View.VISIBLE);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
