@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
@@ -34,6 +35,7 @@ import com.xcy.fzbcity.all.utils.CommonUtil;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 import com.xcy.fzbcity.all.utils.VirturlUtil;
 import com.xcy.fzbcity.all.view.AllActivity;
+import com.xcy.fzbcity.broker.view.Broker_MainActivity;
 import com.xcy.fzbcity.project_attache.fragment.DFragment;
 import com.xcy.fzbcity.project_attache.fragment.EFragment;
 import com.xcy.fzbcity.project_attache.fragment.HomeFragment;
@@ -43,7 +45,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Project_Attache_MainActivity extends AllActivity implements View.OnClickListener , HomeFragment.FragmentInteraction {
+public class Project_Attache_MainActivity extends AllActivity implements View.OnClickListener, HomeFragment.FragmentInteraction {
     private RadioButton button_home;
     private RadioButton button_message;
     private RadioButton button_backup;
@@ -71,14 +73,14 @@ public class Project_Attache_MainActivity extends AllActivity implements View.On
     EFragment eFragment = new EFragment();
 
     //定义一个变量，来标识是否退出
-    private static boolean isExit=false;
+    private static boolean isExit = false;
 
     @SuppressLint("HandlerLeak")
-    Handler handler=new Handler(){
+    Handler handler = new Handler() {
         @Override
-        public void handleMessage(Message msg){
+        public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            isExit=false;
+            isExit = false;
         }
     };
 
@@ -94,7 +96,7 @@ public class Project_Attache_MainActivity extends AllActivity implements View.On
 
     }
 
-    private void init_No_Network(){
+    private void init_No_Network() {
         boolean networkAvailable = CommonUtil.isNetworkAvailable(this);
         if (networkAvailable) {
 
@@ -110,7 +112,7 @@ public class Project_Attache_MainActivity extends AllActivity implements View.On
                     startActivity(getIntent());
                 }
             });
-            ToastUtil.showLongToast(this,"当前无网络，请检查网络后再进行登录");
+            ToastUtil.showLongToast(this, "当前无网络，请检查网络后再进行登录");
         }
     }
 
@@ -172,10 +174,10 @@ public class Project_Attache_MainActivity extends AllActivity implements View.On
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
 
-        transaction.add(R.id.main_framelayout,home_fragment);
-        transaction.add(R.id.main_framelayout,dFragment);
-        transaction.add(R.id.main_framelayout,message_fragment);
-        transaction.add(R.id.main_framelayout,eFragment);
+        transaction.add(R.id.main_framelayout, home_fragment);
+        transaction.add(R.id.main_framelayout, dFragment);
+        transaction.add(R.id.main_framelayout, message_fragment);
+        transaction.add(R.id.main_framelayout, eFragment);
 
         transaction.show(home_fragment);
         transaction.hide(dFragment);
@@ -197,11 +199,15 @@ public class Project_Attache_MainActivity extends AllActivity implements View.On
         img_backup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GetandSaveCurrentImage();
-                String sdCardPath = getSDCardPath();
-                Intent intent = new Intent(Project_Attache_MainActivity.this, ContentActivity.class);
-                intent.putExtra("img", filepath);
-                startActivity(intent);
+                if (FinalContents.getCityIs().equals("")) {
+                    GetandSaveCurrentImage();
+                    String sdCardPath = getSDCardPath();
+                    Intent intent = new Intent(Project_Attache_MainActivity.this, ContentActivity.class);
+                    intent.putExtra("img", filepath);
+                    startActivity(intent);
+                } else if (FinalContents.getCityIs().equals("不是当前城市")) {
+                    ToastUtil.showLongToast(Project_Attache_MainActivity.this, "不是主营城市");
+                }
             }
         });
 
@@ -239,11 +245,16 @@ public class Project_Attache_MainActivity extends AllActivity implements View.On
 //                transaction.replace(R.id.main_framelayout,dFragment);
                 break;
             case R.id.button_backup:
-                GetandSaveCurrentImage();
-                String sdCardPath = getSDCardPath();
-                Intent intent = new Intent(Project_Attache_MainActivity.this, ContentActivity.class);
-                intent.putExtra("img", filepath);
-                startActivity(intent);
+                if (FinalContents.getCityIs().equals("")) {
+                    GetandSaveCurrentImage();
+                    String sdCardPath = getSDCardPath();
+                    Intent intent = new Intent(Project_Attache_MainActivity.this, ContentActivity.class);
+                    intent.putExtra("img", filepath);
+                    startActivity(intent);
+                } else if (FinalContents.getCityIs().equals("不是当前城市")) {
+                    ToastUtil.showLongToast(Project_Attache_MainActivity.this, "不是主营城市");
+                }
+
                 break;
             case R.id.button_economics:
                 init_No_Network();
@@ -362,22 +373,21 @@ public class Project_Attache_MainActivity extends AllActivity implements View.On
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event){
-        if(keyCode==KeyEvent.KEYCODE_BACK){
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             exit();
             return false;
         }
-        return super.onKeyDown(keyCode,event);
+        return super.onKeyDown(keyCode, event);
     }
 
-    private void exit(){
-        if(!isExit){
-            isExit=true;
-            ToastUtil.showLongToast(getApplicationContext(),"再按一次返回键，退出程序");
+    private void exit() {
+        if (!isExit) {
+            isExit = true;
+            ToastUtil.showLongToast(getApplicationContext(), "再按一次返回键，退出程序");
             //利用handler延迟发送更改状态信息
-            handler.sendEmptyMessageDelayed(0,2000);
-        }
-        else{
+            handler.sendEmptyMessageDelayed(0, 2000);
+        } else {
             AllActivity.exit = true;
             finish();
             System.exit(0);
