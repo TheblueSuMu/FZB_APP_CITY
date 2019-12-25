@@ -222,7 +222,8 @@ public class MeFragment extends Fragment implements View.OnClickListener, SwipeR
                         Glide.with(getActivity()).load(FinalContents.getImageUrl() + userBean.getData().getPhoto()).into(img_my_the_project_end);
                         name_my_the_project_end.setText(userBean.getData().getName());
                         city_my_the_project_end.setText(userBean.getData().getCity());
-                        shop_my_the_project_end.setText(userBean.getData().getCityName());
+//                        shop_my_the_project_end.setText(userBean.getData().getCityName());
+                        shop_my_the_project_end.setText(userBean.getData().getCity() + "  " + userBean.getData().getCityName());
                         if (userBean.getData().getIdentity().equals("4")) {
                             position_my_the_project_end.setText("专案");
                         }
@@ -248,7 +249,8 @@ public class MeFragment extends Fragment implements View.OnClickListener, SwipeR
         Glide.with(getActivity()).load(FinalContents.getImageUrl() + userBean.getData().getPhoto()).into(img_my_the_project_end);
         name_my_the_project_end.setText(userBean.getData().getName());
         city_my_the_project_end.setText(userBean.getData().getCity());
-        shop_my_the_project_end.setText(userBean.getData().getCityName());
+//        shop_my_the_project_end.setText(userBean.getData().getCityName());
+        shop_my_the_project_end.setText(userBean.getData().getCity() + "  " + userBean.getData().getCityName());
         if (userBean.getData().getIdentity().equals("4")) {
             position_my_the_project_end.setText("专案");
         }

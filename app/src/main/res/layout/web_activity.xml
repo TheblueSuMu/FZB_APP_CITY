@@ -6,6 +6,7 @@
     <RelativeLayout
         android:id="@+id/webview_linear"
         android:layout_width="match_parent"
+        android:visibility="visible"
         android:paddingTop="20dp"
         android:layout_height="64dp"
         android:layout_alignParentTop="true"
@@ -51,28 +52,8 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
         android:visibility="visible"
         android:background="#fff">
-
-        <TextView
-            android:id="@+id/web_layout_title"
-            android:textColor="#ff333333"
-            android:textSize="23sp"
-            android:gravity="center"
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_marginTop="11dp"
-            android:id="@+id/web_time"
-            android:textColor="#ff999999"
-            android:textSize="12sp"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -83,27 +64,6 @@
                 android:visibility="invisible"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:layout_marginTop="15dp"
-                    android:id="@+id/web_content"
-                    android:textSize="14sp"
-                    android:textColor="#666666"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/web_rv"
-                    android:layout_marginTop="15dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-
-            </LinearLayout>
 
         </RelativeLayout>
 

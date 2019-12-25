@@ -140,6 +140,7 @@ public class AddStoreActivity extends AllActivity implements View.OnClickListene
     private String s4;
     private String s5;
     private String s6 = "";
+    private String address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -904,7 +905,9 @@ public class AddStoreActivity extends AllActivity implements View.OnClickListene
 
             getLatitude = data.getStringExtra("getLatitude");
             getLongitude = data.getStringExtra("getLongitude");
+            address = data.getStringExtra("address");
 
+            add_broker_et4.setText(address);
 
             StringBuffer stringBuffer1 = new StringBuffer();
             StringBuffer stringBuffer2 = new StringBuffer();
@@ -912,42 +915,42 @@ public class AddStoreActivity extends AllActivity implements View.OnClickListene
             StringBuffer append1 = stringBuffer1.append(getLatitude);
             StringBuffer append2 = stringBuffer2.append(getLongitude);
 
-            Retrofit.Builder builder = new Retrofit.Builder();
-            builder.baseUrl(FinalContents.getBaseUrl());
-            builder.addConverterFactory(GsonConverterFactory.create());
-            builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
-            Retrofit build = builder.build();
-            MyService fzbInterface = build.create(MyService.class);
-
-            Observable<ChangeAddress> changeAddress = fzbInterface.getChangeAddress(getLongitude, getLatitude);
-            changeAddress.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<ChangeAddress>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(ChangeAddress changeAddress) {
-
-                            add_broker_et4.setText(changeAddress.getData().getValue());
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-//                            ToastUtil.showToast(AddStoreActivity.this,"请重新定位详情地址");
-                            Log.i("经纬度转坐标", "经纬度转坐标错误信息：" + e.getMessage());
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
+//            Retrofit.Builder builder = new Retrofit.Builder();
+//            builder.baseUrl(FinalContents.getBaseUrl());
+//            builder.addConverterFactory(GsonConverterFactory.create());
+//            builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+//            Retrofit build = builder.build();
+//            MyService fzbInterface = build.create(MyService.class);
+//
+//            Observable<ChangeAddress> changeAddress = fzbInterface.getChangeAddress(getLongitude, getLatitude);
+//            changeAddress.subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new Observer<ChangeAddress>() {
+//                        @Override
+//                        public void onSubscribe(Disposable d) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onNext(ChangeAddress changeAddress) {
+//
+//                            add_broker_et4.setText(changeAddress.getData().getValue());
+//
+//                        }
+//
+//                        @Override
+//                        public void onError(Throwable e) {
+//
+////                            ToastUtil.showToast(AddStoreActivity.this,"请重新定位详情地址");
+//                            Log.i("经纬度转坐标", "经纬度转坐标错误信息：" + e.getMessage());
+//
+//                        }
+//
+//                        @Override
+//                        public void onComplete() {
+//
+//                        }
+//                    });
         }
 
         isnum = 0;

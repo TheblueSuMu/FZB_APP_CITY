@@ -4,18 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
-import com.xcy.fzbcity.all.adapter.WebAdapter;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.modle.ProjectTalkToolShareBean;
 import com.xcy.fzbcity.all.persente.StatusBar;
@@ -23,7 +20,6 @@ import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.utils.CommonUtil;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -38,10 +34,6 @@ public class WebActivity extends AllActivity {
     private TextView title;
     private RelativeLayout back;
     private ImageView share;
-    private TextView web_layout_title;
-    private TextView web_time;
-    private TextView web_content;
-    private RecyclerView web_rv;
     private List<String> arraylist;
     private WebView web_webview;
 
@@ -76,10 +68,6 @@ public class WebActivity extends AllActivity {
 
         StatusBar.makeStatusBarTransparent(this);
 
-        web_layout_title = findViewById(R.id.web_layout_title);
-        web_time = findViewById(R.id.web_time);
-        web_content = findViewById(R.id.web_content);
-        web_rv = findViewById(R.id.web_rv);
         web_webview = findViewById(R.id.web_webview);
 
         title = findViewById(R.id.webview_title);
@@ -118,36 +106,44 @@ public class WebActivity extends AllActivity {
 
                     @Override
                     public void onNext(final ProjectTalkToolShareBean projectTalkToolShareBean) {
-                        web_layout_title.setText(projectTalkToolShareBean.getData().getTalkToolInfo().getTitle());
-                        web_time.setText(projectTalkToolShareBean.getData().getTalkToolInfo().getCreateDate());
                         if (titleUrl.equals("海报详情")) {
-                            web_webview.setVisibility(View.GONE);
-                            web_content.setVisibility(View.VISIBLE);
-                            web_rv.setVisibility(View.VISIBLE);
-                            web_content.setText(projectTalkToolShareBean.getData().getTalkToolInfo().getContent());
+                            web_webview.setVisibility(View.VISIBLE);
+                            Log.i("网址加载","http://admin.fangzuobiao.com:88/expandingCustomersDetail?userId="+FinalContents.getUserID()+"&talkToolId="+FinalContents.getTalkToolId());
+                            WebSettings mWebSettings = web_webview.getSettings();
 
-                            if (projectTalkToolShareBean.getData().getTalkToolInfo().getImg().equals("")) {
+                            mWebSettings.setJavaScriptEnabled(true);//是否允许JavaScript脚本运行，默认为false
+                            mWebSettings.setDomStorageEnabled(true);//开启本地DOM存储
+                            mWebSettings.setJavaScriptCanOpenWindowsAutomatically(true);//设置js可以直接打开窗口，如window.open()，默认为false
+                            mWebSettings.setJavaScriptEnabled(true);//是否允许JavaScript脚本运行，默认为false。设置true时，会提醒可能造成XSS漏洞
+                            mWebSettings.setSupportZoom(true);//是否可以缩放，默认true
+                            mWebSettings.setBuiltInZoomControls(false);//是否显示缩放按钮，默认false
+                            mWebSettings.setUseWideViewPort(false);//设置此属性，可任意比例缩放。大视图模式
+                            mWebSettings.setLoadWithOverviewMode(true);//和setUseWideViewPort(true)一起解决网页自适应问题
+                            mWebSettings.setAppCacheEnabled(true);//是否使用缓存
+                            mWebSettings.setDomStorageEnabled(true);//开启本地DOM存储
+                            mWebSettings.setLoadsImagesAutomatically(true); // 加载图片
+                            mWebSettings.setMediaPlaybackRequiresUserGesture(false);//播放音频，多媒体需要用户手动？设置为false为可自动播放
+                            web_webview.loadUrl("http://admin.fangzuobiao.com:88/expandingCustomersDetail?userId="+FinalContents.getUserID()+"&talkToolId="+FinalContents.getTalkToolId());
 
-                            }else {
-                                arraylist = new ArrayList<>();
-                                String[] a  = projectTalkToolShareBean.getData().getTalkToolInfo().getImg().split("[|]");
-                                for (int i = 0; i < a.length; i++){
-                                    arraylist.add(a[i]);
-                                }
-                                LinearLayoutManager layoutManager = new LinearLayoutManager(WebActivity.this);
-                                layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                                web_rv.setLayoutManager(layoutManager);
-                                WebAdapter webAdapter = new WebAdapter(arraylist);
-                                webAdapter.setImageUrl(projectTalkToolShareBean.getData().getTalkToolInfo().getImg());
-                                web_rv.setAdapter(webAdapter);
-                                webAdapter.notifyDataSetChanged();
-                            }
                         } else if (titleUrl.equals("卖点详情")) {
                             web_webview.setVisibility(View.VISIBLE);
-                            web_content.setVisibility(View.GONE);
-                            web_rv.setVisibility(View.GONE);
+                            web_webview.setVisibility(View.VISIBLE);
+                            Log.i("网址加载","http://admin.fangzuobiao.com:88/expandingCustomersDetail?userId="+FinalContents.getUserID()+"&talkToolId="+FinalContents.getTalkToolId());
+                            WebSettings mWebSettings = web_webview.getSettings();
 
-                            web_webview.loadDataWithBaseURL(null, projectTalkToolShareBean.getData().getTalkToolInfo().getContent(), "text/html", "utf-8", null);
+                            mWebSettings.setJavaScriptEnabled(true);//是否允许JavaScript脚本运行，默认为false
+                            mWebSettings.setDomStorageEnabled(true);//开启本地DOM存储
+                            mWebSettings.setJavaScriptCanOpenWindowsAutomatically(true);//设置js可以直接打开窗口，如window.open()，默认为false
+                            mWebSettings.setJavaScriptEnabled(true);//是否允许JavaScript脚本运行，默认为false。设置true时，会提醒可能造成XSS漏洞
+                            mWebSettings.setSupportZoom(true);//是否可以缩放，默认true
+                            mWebSettings.setBuiltInZoomControls(false);//是否显示缩放按钮，默认false
+                            mWebSettings.setUseWideViewPort(false);//设置此属性，可任意比例缩放。大视图模式
+                            mWebSettings.setLoadWithOverviewMode(true);//和setUseWideViewPort(true)一起解决网页自适应问题
+                            mWebSettings.setAppCacheEnabled(true);//是否使用缓存
+                            mWebSettings.setDomStorageEnabled(true);//开启本地DOM存储
+                            mWebSettings.setLoadsImagesAutomatically(true); // 加载图片
+                            mWebSettings.setMediaPlaybackRequiresUserGesture(false);//播放音频，多媒体需要用户手动？设置为false为可自动播放
+                            web_webview.loadUrl("http://admin.fangzuobiao.com:88/expandingCustomersDetail?userId="+FinalContents.getUserID()+"&talkToolId="+FinalContents.getTalkToolId());
                         }
 
 

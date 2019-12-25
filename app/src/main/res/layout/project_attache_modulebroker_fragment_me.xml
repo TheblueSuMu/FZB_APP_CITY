@@ -101,6 +101,8 @@
                                 android:layout_marginLeft="10dp"
                                 android:text=""
                                 android:textColor="#FFFFFF"
+                                android:maxLines="1"
+                                android:ellipsize="end"
                                 android:textSize="12sp" />
                         </LinearLayout>
 

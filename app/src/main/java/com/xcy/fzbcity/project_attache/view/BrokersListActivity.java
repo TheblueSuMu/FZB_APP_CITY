@@ -229,12 +229,28 @@ public class BrokersListActivity extends AllActivity implements View.OnClickList
         super.onResume();
         Log.i("销毁","数2："+FinalContents.getStoreId());
         if(FinalContents.getCompanyId().equals("")){
-            initData(FinalContents.getStoreId(), "", "","","","");
+            String s = brokers_list_et.getText().toString();
+            String s1 = brokers_tv.getText().toString();
+            if (s1.equals("全部")) {
+                initData(FinalContents.getStoreId(), s, "","","","");
+            } else if (s1.equals("只看异常经纪人")) {
+                initData(FinalContents.getStoreId(), s, "2","","","");
+            }
+//            initData(FinalContents.getStoreId(), "", "","","","");
         }else {
             String types = getIntent().getStringExtra("types");
             String starts = getIntent().getStringExtra("starts");
             String ends = getIntent().getStringExtra("ends");
-            initData(FinalContents.getStoreId(), "", "",types,starts,ends);
+
+            String s = brokers_list_et.getText().toString();
+            String s1 = brokers_tv.getText().toString();
+            if (s1.equals("全部")) {
+                initData(FinalContents.getStoreId(), s, "",types,starts,ends);
+            } else if (s1.equals("只看异常经纪人")) {
+                initData(FinalContents.getStoreId(), s, "2",types,starts,ends);
+            }
+
+//            initData(FinalContents.getStoreId(), "", "",types,starts,ends);
         }
     }
 

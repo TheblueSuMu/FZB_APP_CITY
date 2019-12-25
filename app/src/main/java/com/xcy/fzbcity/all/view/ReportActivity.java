@@ -1066,9 +1066,13 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
                             report_binding_confirm.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + changePhoneBean.getData().getBusiness()));//跳转到拨号界面，同时传递电话号码
-                                    startActivity(dialIntent);
-                                    finish();
+                                    if(changePhoneBean.getData().getBusiness().equals("")){
+                                        ToastUtil.showLongToast(ReportActivity.this,"暂无专案电话");
+                                    }else {
+                                        Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + changePhoneBean.getData().getBusiness()));//跳转到拨号界面，同时传递电话号码
+                                        startActivity(dialIntent);
+                                        finish();
+                                    }
                                     show.dismiss();
                                 }
                             });

@@ -197,7 +197,8 @@ public class EFragment extends Fragment implements View.OnClickListener, SwipeRe
                             me_identity.setText("总监");
                         }
                         me_city.setText(data.getCity());
-                        me_store.setText(data.getStoreManage() + "");
+//                        me_store.setText(data.getStoreManage() + "");
+                        me_store.setText(data.getCity() + "  " + data.getCityName());
 
                         Connector.setZyDataBean(userMessageBean);
                     }
@@ -339,7 +340,8 @@ public class EFragment extends Fragment implements View.OnClickListener, SwipeRe
             me_identity.setText("总监");
         }
         me_city.setText(data.getCity());
-        me_store.setText(data.getStoreManage() + "");
+//        me_store.setText(data.getStoreManage() + "");
+        me_store.setText(data.getCity() + "  " + data.getCityName());
     }
 
     @Override

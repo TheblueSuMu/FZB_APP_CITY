@@ -30,13 +30,18 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
 import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.persente.StatusBar;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
-public class TestMapActivity extends AppCompatActivity{
+public class TestMapActivity extends AppCompatActivity {
 
     // 定位相关
     LocationClient mLocClient;
@@ -48,7 +53,7 @@ public class TestMapActivity extends AppCompatActivity{
     BDLocation mlocation;
     private double latitude = 0;
     private double longitude = 0;
-//    private GeoCoder mCoder;
+    private GeoCoder mCoder;
     private LatLng latLng1;
     private RoutePlanSearch mSearch;
     GeoCoder geoCoder = GeoCoder.newInstance();
@@ -61,6 +66,7 @@ public class TestMapActivity extends AppCompatActivity{
 
     RelativeLayout text_map_rl;
     ImageView text_map_img;
+    private String address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,8 +147,9 @@ public class TestMapActivity extends AppCompatActivity{
         option.setAddrType("all");
         mLocClient.setLocOption(option);
         //经纬度转地址
-//        mSearch = RoutePlanSearch.newInstance();
-//        mCoder = GeoCoder.newInstance();
+        mCoder = GeoCoder.newInstance();
+        mSearch = RoutePlanSearch.newInstance();
+        mCoder.setOnGetGeoCodeResultListener(onGetGeoCoderResultListener);
 //        mSearch.setOnGetRoutePlanResultListener((OnGetRoutePlanResultListener) this);
 
         BaiduMap.OnMapClickListener listener = new BaiduMap.OnMapClickListener() {
@@ -167,10 +174,10 @@ public class TestMapActivity extends AppCompatActivity{
                 latitude = latLng.latitude;
                 longitude = latLng.longitude;
                 //经纬度转地址
-//                mCoder.reverseGeoCode(new ReverseGeoCodeOption()
-//                        .location(point)
-//                        // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
-//                        .radius(500));
+                mCoder.reverseGeoCode(new ReverseGeoCodeOption()
+                        .location(point)
+                        // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
+                        .radius(500));
 
                 latLng1 = latLng;
             }
@@ -187,6 +194,28 @@ public class TestMapActivity extends AppCompatActivity{
         mLocClient.start();
 
     }
+
+    OnGetGeoCoderResultListener onGetGeoCoderResultListener = new OnGetGeoCoderResultListener() {
+        @Override
+        public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
+
+        }
+
+        @Override
+        public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
+            if (reverseGeoCodeResult == null || reverseGeoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
+                //没有找到检索结果
+                Log.i("经纬度", "没有找到检索结果");
+                return;
+            } else {
+                //详细地址
+                address = reverseGeoCodeResult.getAddress();
+                //行政区号
+                int adCode = reverseGeoCodeResult.getCityCode();
+                Log.i("经纬度", "address：" + address);
+            }
+        }
+    };
 
 //    //经纬度转地址
 //    OnGetGeoCoderResultListener listener = new OnGetGeoCoderResultListener() {
@@ -309,8 +338,9 @@ public class TestMapActivity extends AppCompatActivity{
             intent.putExtra("getLatitude", latitude + "");
             //经度
             intent.putExtra("getLongitude", longitude + "");
-//        //地址
-//        intent.putExtra("getAddress", mlocation.getAddrStr());
+            //地址
+            intent.putExtra("address", address + "");
+
             setResult(RESULT_OK, intent);
             finish();
         }
