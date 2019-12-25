@@ -117,8 +117,12 @@ public class MoreInformationActivity extends AllActivity implements View.OnClick
         more_qt_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + FinalContents.getIPhone()));//跳转到拨号界面，同时传递电话号码
-                startActivity(dialIntent);
+                if (FinalContents.getIPhone().equals("")) {
+                    ToastUtil.showLongToast(MoreInformationActivity.this,"暂无专案");
+                }else {
+                    Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + FinalContents.getIPhone()));//跳转到拨号界面，同时传递电话号码
+                    startActivity(dialIntent);
+                }
             }
         });
 
@@ -127,8 +131,12 @@ public class MoreInformationActivity extends AllActivity implements View.OnClick
         more_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + FinalContents.getIPhone()));//跳转到拨号界面，同时传递电话号码
-                startActivity(dialIntent);
+                if (FinalContents.getIPhone().equals("")) {
+                    ToastUtil.showLongToast(MoreInformationActivity.this,"暂无专案");
+                }else {
+                    Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + FinalContents.getIPhone()));//跳转到拨号界面，同时传递电话号码
+                    startActivity(dialIntent);
+                }
             }
         });
 

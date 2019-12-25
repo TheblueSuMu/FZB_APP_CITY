@@ -1,6 +1,5 @@
 package com.xcy.fzbcity.all.view;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -15,7 +14,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,9 +34,7 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.api.Connector;
 import com.xcy.fzbcity.all.api.FinalContents;
-import com.xcy.fzbcity.all.api.NewlyIncreased;
 import com.xcy.fzbcity.all.modle.AddPhotoBean;
-import com.xcy.fzbcity.all.modle.ChangeNameBean;
 import com.xcy.fzbcity.all.modle.ChangeSexBean;
 import com.xcy.fzbcity.all.modle.GWDataBean;
 import com.xcy.fzbcity.all.modle.PersonalPhotoBean;
@@ -175,133 +171,6 @@ public class PersonalInformationActivity extends AllActivity implements View.OnC
         personalRl4.setOnClickListener(this);
         personalRl5.setOnClickListener(this);
         personalRl6.setOnClickListener(this);
-
-        personal_et_name.clearFocus();
-
-        personal_et_name.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
-
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    // 获得焦点
-                } else {
-                    // 失去焦点
-                    hideInput();
-                    //TODO 处理事件
-                    Retrofit.Builder builder = new Retrofit.Builder();
-                    builder.baseUrl(FinalContents.getBaseUrl());
-                    builder.addConverterFactory(GsonConverterFactory.create());
-                    builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
-                    Retrofit build = builder.build();
-                    MyService fzbInterface = build.create(MyService.class);
-                    Observable<ChangeNameBean> userMessage = fzbInterface.getUpdateName(FinalContents.getUserID(),personal_et_name.getText().toString());
-                    userMessage.subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Observer<ChangeNameBean>() {
-                                @Override
-                                public void onSubscribe(Disposable d) {
-
-                                }
-
-                                @SuppressLint("WrongConstant")
-                                @Override
-                                public void onNext(ChangeNameBean changeNameBean) {
-                                    if (changeNameBean.getData().getMessage().equals("修改昵称成功")) {
-                                        personal_et_name.setVisibility(View.GONE);
-                                        personal_name.setVisibility(View.VISIBLE);
-                                        personal_name.setText(personal_et_name.getText().toString());
-                                        ToastUtil.showLongToast(PersonalInformationActivity.this, changeNameBean.getData().getMessage());
-
-                                        if (FinalContents.getIdentity().equals("1") || FinalContents.getIdentity().equals("2") || FinalContents.getIdentity().equals("3")) {
-                                            UserMessageBean userMessageBean = Connector.getUserMessageBean();
-                                            UserMessageBean.DataBean dataBean = userMessageBean.getData();
-                                            dataBean.setName(personal_et_name.getText().toString());
-                                            userMessageBean.setData(dataBean);
-                                            Connector.setUserMessageBean(userMessageBean);
-                                            NewlyIncreased.setUserMessage("123");
-                                        } else if (FinalContents.getIdentity().equals("4")  || FinalContents.getIdentity().equals("7")) {
-                                            UserBean userMessageBean = Connector.getUserBean();
-                                            UserBean.DataBean dataBean = userMessageBean.getData();
-                                            dataBean.setName(personal_et_name.getText().toString());
-                                            userMessageBean.setData(dataBean);
-                                            Connector.setUserBean(userMessageBean);
-                                            NewlyIncreased.setUserMessage("7");
-                                        } else if (FinalContents.getIdentity().equals("5")) {
-                                            ZYDataBean userMessageBean = Connector.getZyDataBean();
-                                            ZYDataBean.DataBean dataBean = userMessageBean.getData();
-                                            dataBean.setName(personal_et_name.getText().toString());
-                                            userMessageBean.setData(dataBean);
-                                            Connector.setZyDataBean(userMessageBean);
-                                            NewlyIncreased.setUserMessage("5");
-                                        }  else if (FinalContents.getIdentity().equals("8")) {
-                                            ZYDataBean userMessageBean = Connector.getZyDataBean();
-                                            ZYDataBean.DataBean dataBean = userMessageBean.getData();
-                                            dataBean.setName(personal_et_name.getText().toString());
-                                            userMessageBean.setData(dataBean);
-                                            Connector.setZyDataBean(userMessageBean);
-                                            NewlyIncreased.setUserMessage("8");
-                                        }  else if (FinalContents.getIdentity().equals("9")) {
-                                            ZYDataBean userMessageBean = Connector.getZyDataBean();
-                                            ZYDataBean.DataBean dataBean = userMessageBean.getData();
-                                            dataBean.setName(personal_et_name.getText().toString());
-                                            userMessageBean.setData(dataBean);
-                                            Connector.setZyDataBean(userMessageBean);
-                                            NewlyIncreased.setUserMessage("9");
-                                        } else if (FinalContents.getIdentity().equals("60")) {
-                                            ZhangBingDataBean userMessageBean = Connector.getZhangBingDataBean();
-                                            ZhangBingDataBean.DataBean dataBean = userMessageBean.getData();
-                                            ZhangBingDataBean.DataBean.SysUserBean sysUserBean = dataBean.getSysUser();
-                                            sysUserBean.setName(personal_et_name.getText().toString());
-                                            dataBean.setSysUser(sysUserBean);
-                                            userMessageBean.setData(dataBean);
-                                            Connector.setZhangBingDataBean(userMessageBean);
-                                            NewlyIncreased.setUserMessage("60");
-                                        } else if (FinalContents.getIdentity().equals("61")) {
-                                            GWDataBean userMessageBean = Connector.getGwDataBean();
-                                            GWDataBean.DataBean dataBean = userMessageBean.getData();
-                                            GWDataBean.DataBean.SysUserBean sysUserBean = dataBean.getSysUser();
-                                            sysUserBean.setName(personal_et_name.getText().toString());
-                                            dataBean.setSysUser(sysUserBean);
-                                            userMessageBean.setData(dataBean);
-                                            Connector.setGwDataBean(userMessageBean);
-                                            NewlyIncreased.setUserMessage("61");
-                                        } else if (FinalContents.getIdentity().equals("62")) {
-                                            GWDataBean userMessageBean = Connector.getGwDataBean();
-                                            GWDataBean.DataBean dataBean = userMessageBean.getData();
-                                            GWDataBean.DataBean.SysUserBean sysUserBean = dataBean.getSysUser();
-                                            sysUserBean.setName(personal_et_name.getText().toString());
-                                            dataBean.setSysUser(sysUserBean);
-                                            userMessageBean.setData(dataBean);
-                                            Connector.setGwDataBean(userMessageBean);
-                                            NewlyIncreased.setUserMessage("61");
-                                        } else if (FinalContents.getIdentity().equals("63")) {
-                                            UserBean userMessageBean = Connector.getUserBean();
-                                            UserBean.DataBean dataBean = userMessageBean.getData();
-                                            dataBean.setName(personal_et_name.getText().toString());
-                                            userMessageBean.setData(dataBean);
-                                            Connector.setUserBean(userMessageBean);
-                                            NewlyIncreased.setUserMessage("63");
-                                        }
-                                        initData();
-                                    }
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-                                    ToastUtil.showLongToast(PersonalInformationActivity.this, "修改昵称失败");
-                                    Log.i("修改昵称失败", "错误" + e);
-                                }
-
-                                @Override
-                                public void onComplete() {
-
-                                }
-                            });
-                }
-            }
-
-
-        });
 
 
         if (FinalContents.getIdentity().equals("1") || FinalContents.getIdentity().equals("2") || FinalContents.getIdentity().equals("3") || FinalContents.getIdentity().equals("4") || FinalContents.getIdentity().equals("5") || FinalContents.getIdentity().equals("7")|| FinalContents.getIdentity().equals("8")|| FinalContents.getIdentity().equals("9")) {
@@ -614,118 +483,8 @@ public class PersonalInformationActivity extends AllActivity implements View.OnC
                 break;
 //昵称
             case R.id.personal_rl_2:
-//                intent = new Intent(PersonalInformationActivity.this, NickNameActivity.class);
-//                intent.putExtra("tx", "");
-//                intent.putExtra("xb", data.getSex());
-//                startActivity(intent);
-//                finish();
-
-                String s1 = personal_name.getText().toString();
-                personal_name.setVisibility(View.GONE);
-                personal_et_name.setVisibility(View.VISIBLE);
-                personal_et_name.setText(s1);
-
-                personal_et_name.setOnKeyListener(new View.OnKeyListener() {
-                    @Override
-                    public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                        if (KeyEvent.KEYCODE_ENTER == i && KeyEvent.ACTION_DOWN == keyEvent.getAction()) {
-                            //TODO 处理事件
-                            String s = personal_et_name.getText().toString();
-
-                            String url = FinalContents.getImageUrl() + "/fangfang/app/v1/commonUpdate/updateName?" + "userId=" + FinalContents.getUserID() + "&name=" + s;
-
-                            OkHttpPost okHttpPost = new OkHttpPost(url);
-                            String data = okHttpPost.post();
-                            Gson gson = new Gson();
-                            ChangeNameBean changeNameBean = gson.fromJson(data, ChangeNameBean.class);
-                            ChangeNameBean.DataBean data1 = changeNameBean.getData();
-                            if (data1.getMessage().equals("修改昵称成功")) {
-                                personal_et_name.setVisibility(View.GONE);
-                                personal_name.setVisibility(View.VISIBLE);
-                                personal_name.setText(s);
-                                ToastUtil.showToast(PersonalInformationActivity.this, data1.getMessage());
-
-                                if (FinalContents.getIdentity().equals("1") || FinalContents.getIdentity().equals("2") || FinalContents.getIdentity().equals("3")) {
-                                    UserMessageBean userMessageBean = Connector.getUserMessageBean();
-                                    UserMessageBean.DataBean dataBean = userMessageBean.getData();
-                                    dataBean.setName(personal_et_name.getText().toString());
-                                    userMessageBean.setData(dataBean);
-                                    Connector.setUserMessageBean(userMessageBean);
-                                    NewlyIncreased.setUserMessage("123");
-                                } else if (FinalContents.getIdentity().equals("4")  || FinalContents.getIdentity().equals("7")) {
-                                    UserBean userMessageBean = Connector.getUserBean();
-                                    UserBean.DataBean dataBean = userMessageBean.getData();
-                                    dataBean.setName(personal_et_name.getText().toString());
-                                    userMessageBean.setData(dataBean);
-                                    Connector.setUserBean(userMessageBean);
-                                    NewlyIncreased.setUserMessage("7");
-                                } else if (FinalContents.getIdentity().equals("5")) {
-                                    ZYDataBean userMessageBean = Connector.getZyDataBean();
-                                    ZYDataBean.DataBean dataBean = userMessageBean.getData();
-                                    dataBean.setName(personal_et_name.getText().toString());
-                                    userMessageBean.setData(dataBean);
-                                    Connector.setZyDataBean(userMessageBean);
-                                    NewlyIncreased.setUserMessage("5");
-                                }  else if (FinalContents.getIdentity().equals("8")) {
-                                    ZYDataBean userMessageBean = Connector.getZyDataBean();
-                                    ZYDataBean.DataBean dataBean = userMessageBean.getData();
-                                    dataBean.setName(personal_et_name.getText().toString());
-                                    userMessageBean.setData(dataBean);
-                                    Connector.setZyDataBean(userMessageBean);
-                                    NewlyIncreased.setUserMessage("8");
-                                }  else if (FinalContents.getIdentity().equals("9")) {
-                                    ZYDataBean userMessageBean = Connector.getZyDataBean();
-                                    ZYDataBean.DataBean dataBean = userMessageBean.getData();
-                                    dataBean.setName(personal_et_name.getText().toString());
-                                    userMessageBean.setData(dataBean);
-                                    Connector.setZyDataBean(userMessageBean);
-                                    NewlyIncreased.setUserMessage("9");
-                                } else if (FinalContents.getIdentity().equals("60")) {
-                                    ZhangBingDataBean userMessageBean = Connector.getZhangBingDataBean();
-                                    ZhangBingDataBean.DataBean dataBean = userMessageBean.getData();
-                                    ZhangBingDataBean.DataBean.SysUserBean sysUserBean = dataBean.getSysUser();
-                                    sysUserBean.setName(personal_et_name.getText().toString());
-                                    dataBean.setSysUser(sysUserBean);
-                                    userMessageBean.setData(dataBean);
-                                    Connector.setZhangBingDataBean(userMessageBean);
-                                    NewlyIncreased.setUserMessage("60");
-                                } else if (FinalContents.getIdentity().equals("61")) {
-                                    GWDataBean userMessageBean = Connector.getGwDataBean();
-                                    GWDataBean.DataBean dataBean = userMessageBean.getData();
-                                    GWDataBean.DataBean.SysUserBean sysUserBean = dataBean.getSysUser();
-                                    sysUserBean.setName(personal_et_name.getText().toString());
-                                    dataBean.setSysUser(sysUserBean);
-                                    userMessageBean.setData(dataBean);
-                                    Connector.setGwDataBean(userMessageBean);
-                                    NewlyIncreased.setUserMessage("61");
-                                } else if (FinalContents.getIdentity().equals("62")) {
-                                    GWDataBean userMessageBean = Connector.getGwDataBean();
-                                    GWDataBean.DataBean dataBean = userMessageBean.getData();
-                                    GWDataBean.DataBean.SysUserBean sysUserBean = dataBean.getSysUser();
-                                    sysUserBean.setName(personal_et_name.getText().toString());
-                                    dataBean.setSysUser(sysUserBean);
-                                    userMessageBean.setData(dataBean);
-                                    Connector.setGwDataBean(userMessageBean);
-                                    NewlyIncreased.setUserMessage("61");
-                                } else if (FinalContents.getIdentity().equals("63")) {
-                                    UserBean userMessageBean = Connector.getUserBean();
-                                    UserBean.DataBean dataBean = userMessageBean.getData();
-                                    dataBean.setName(personal_et_name.getText().toString());
-                                    userMessageBean.setData(dataBean);
-                                    Connector.setUserBean(userMessageBean);
-                                    NewlyIncreased.setUserMessage("63");
-                                }
-                                initData();
-                            } else {
-                                ToastUtil.showToast(PersonalInformationActivity.this, "修改昵称失败");
-                            }
-                            return true;
-                        }
-                        return false;
-                    }
-
-                });
-
+                intent = new Intent(PersonalInformationActivity.this, NickNameActivity.class);
+                startActivity(intent);
                 break;
 //性别
             case R.id.personal_rl_3:

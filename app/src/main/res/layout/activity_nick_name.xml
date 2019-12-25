@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F8F8F9"
-    android:orientation="vertical"
-    tools:context="com.xcy.fzbcity.all.view.NickNameActivity">
+    android:orientation="vertical">
 
     <LinearLayout
+        android:background="#FFF"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -41,25 +41,35 @@
                 android:textColor="#fffffefe"
                 android:textSize="17sp" />
 
-            <TextView
-                android:id="@+id/nick_wc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <RelativeLayout
+                android:id="@+id/nick_ensure"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="34dp"
-                android:layout_marginRight="15dp"
-                android:text="完成"
-                android:textColor="#ffffffff"
-                android:textSize="15sp" />
+                android:layout_width="50dp"
+                android:layout_height="70dp">
+
+                <TextView
+                    android:id="@+id/nick_wc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="34dp"
+                    android:layout_marginRight="15dp"
+                    android:text="完成"
+                    android:textColor="#ffffffff"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
         </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:background="#FFFFFF"
             android:orientation="horizontal">
 
             <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/user_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -69,17 +79,20 @@
                 android:textSize="16sp" />
 
             <EditText
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/user_title"
                 android:id="@+id/nick_change_name"
                 android:layout_width="match_parent"
                 android:layout_marginRight="15dp"
                 android:layout_height="wrap_content"
+                android:gravity="right"
+                android:hint="请输入要修改的昵称"
+                android:textSize="15sp"
                 android:background="#FFFFFF"
-                android:imeOptions="actionDone"
                 android:singleLine="true"
-                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="15dp"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
 
     </LinearLayout>
