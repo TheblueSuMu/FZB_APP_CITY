@@ -135,11 +135,13 @@ public class CompanyDetailsActivity extends AllActivity implements View.OnClickL
     private String string1;
     private String string2;
 
+    public static CompanyDetailsActivity companyDetailsActivity = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.project_attache_activity_company_details);
-
+        companyDetailsActivity = this;
         init_No_Network();
     }
 
@@ -374,12 +376,12 @@ public class CompanyDetailsActivity extends AllActivity implements View.OnClickL
     }
 
     //            TODO 数据统计 时间选择 开始时间
-    private void initTime1_Date1(){
+    private void initTime1_Date1() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year, month, dayOfMonth-15);
+        startDate.set(year, month, dayOfMonth - 15);
         final Calendar endDate = Calendar.getInstance();
-        endDate.set(year, month, dayOfMonth+15);
+        endDate.set(year, month, dayOfMonth + 15);
         TimePickerView pvTime = new TimePickerBuilder(CompanyDetailsActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -397,19 +399,19 @@ public class CompanyDetailsActivity extends AllActivity implements View.OnClickL
                 .isCenterLabel(false)
                 .setDate(selectedDate)
                 .setLineSpacingMultiplier(1.2f)
-                .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
+                .setTextXOffset(-10, 0, 10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
                 .setRangDate(startDate, endDate)
                 .build();
         pvTime.show();
     }
 
     //            TODO 数据统计 时间选择 结束时间
-    private void initTime1_Date2(){
+    private void initTime1_Date2() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year, month, dayOfMonth-15);
+        startDate.set(year, month, dayOfMonth - 15);
         final Calendar endDate = Calendar.getInstance();
-        endDate.set(year, month, dayOfMonth+15);
+        endDate.set(year, month, dayOfMonth + 15);
         TimePickerView pvTime = new TimePickerBuilder(CompanyDetailsActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -427,19 +429,19 @@ public class CompanyDetailsActivity extends AllActivity implements View.OnClickL
                 .isCenterLabel(false)
                 .setDate(selectedDate)
                 .setLineSpacingMultiplier(1.2f)
-                .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
+                .setTextXOffset(-10, 0, 10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
                 .setRangDate(startDate, endDate)
                 .build();
         pvTime.show();
     }
 
     //            TODO 财务数据 时间选择 开始时间
-    private void initTime2_Date1(){
+    private void initTime2_Date1() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year, month, dayOfMonth-15);
+        startDate.set(year, month, dayOfMonth - 15);
         final Calendar endDate = Calendar.getInstance();
-        endDate.set(year, month, dayOfMonth+15);
+        endDate.set(year, month, dayOfMonth + 15);
         TimePickerView pvTime = new TimePickerBuilder(CompanyDetailsActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -453,19 +455,19 @@ public class CompanyDetailsActivity extends AllActivity implements View.OnClickL
                 .isCenterLabel(false)
                 .setDate(selectedDate)
                 .setLineSpacingMultiplier(1.2f)
-                .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
+                .setTextXOffset(-10, 0, 10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
                 .setRangDate(startDate, endDate)
                 .build();
         pvTime.show();
     }
 
     //            TODO 财务数据 时间选择 结束时间
-    private void initTime2_Date2(){
+    private void initTime2_Date2() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year, month, dayOfMonth-15);
+        startDate.set(year, month, dayOfMonth - 15);
         final Calendar endDate = Calendar.getInstance();
-        endDate.set(year, month, dayOfMonth+15);
+        endDate.set(year, month, dayOfMonth + 15);
         TimePickerView pvTime = new TimePickerBuilder(CompanyDetailsActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -479,7 +481,7 @@ public class CompanyDetailsActivity extends AllActivity implements View.OnClickL
                 .isCenterLabel(false)
                 .setDate(selectedDate)
                 .setLineSpacingMultiplier(1.2f)
-                .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
+                .setTextXOffset(-10, 0, 10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
                 .setRangDate(startDate, endDate)
                 .build();
         pvTime.show();
@@ -750,12 +752,12 @@ public class CompanyDetailsActivity extends AllActivity implements View.OnClickL
                 startActivity(intent);
                 break;
             case R.id.details_change:
-                finish();
+//                finish();
                 intent = new Intent(CompanyDetailsActivity.this, AddStoreActivity.class);
                 FinalContents.setStoreId(storeInfo.getStoreId());
                 FinalContents.setStoreChange("修改");
                 startActivity(intent);
-                finish();
+//                finish();
                 break;
             case R.id.company_details_ttcall:
                 Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + storeInfo.getAttachePhone()));//跳转到拨号界面，同时传递电话号码

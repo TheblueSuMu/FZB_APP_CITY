@@ -40,7 +40,7 @@
                 android:background="@drawable/comment"
                 android:imeOptions="actionSearch"
                 android:gravity="center"
-                android:hint="搜索"
+                android:hint="搜索(客户姓名/手机号/项目名称)"
                 android:textColor="#333333"
                 android:textSize="12sp" />
 

@@ -671,6 +671,7 @@ public class AddStoreActivity extends AllActivity implements View.OnClickListene
                     public void onNext(AddStoreBean addStoreBean) {
                         if (addStoreBean.getData().getMessage().equals("保存成功")) {
                             ToastUtil.showLongToast(AddStoreActivity.this, addStoreBean.getData().getMessage());
+                            CompanyDetailsActivity.companyDetailsActivity.finish();
                             finish();
                             FinalContents.setStoreChange("");
                         } else {
@@ -729,6 +730,7 @@ public class AddStoreActivity extends AllActivity implements View.OnClickListene
                     public void onNext(AddStoreBean addStoreBean) {
                         if (addStoreBean.getData().getMessage().equals("保存成功")) {
                             ToastUtil.showLongToast(AddStoreActivity.this, addStoreBean.getData().getMessage());
+                            CompanyDetailsActivity.companyDetailsActivity.finish();
                             finish();
                             FinalContents.setStoreChange("");
                         } else {

@@ -340,6 +340,7 @@ public class AddBrokerActivity extends AllActivity implements View.OnClickListen
                             public void onNext(AddBrokerBean addBrokerBean) {
                                 if (addBrokerBean.getData().getStatus() == 1) {
                                     ToastUtil.showLongToast(AddBrokerActivity.this, addBrokerBean.getData().getMessage());
+                                    BrokerActivity.brokerActivity.finish();
                                     finish();
                                 } else {
                                     ToastUtil.showLongToast(AddBrokerActivity.this, "" + addBrokerBean.getData().getMessage());
@@ -409,6 +410,7 @@ public class AddBrokerActivity extends AllActivity implements View.OnClickListen
                                     ToastUtil.showLongToast(AddBrokerActivity.this, addBrokerBean.getData().getMessage());
                                     FinalContents.setAddtype1("");
                                     FinalContents.setAddtype2("");
+                                    BrokerActivity.brokerActivity.finish();
                                     finish();
                                 } else {
                                     ToastUtil.showLongToast(AddBrokerActivity.this, addBrokerBean.getData().getMessage());

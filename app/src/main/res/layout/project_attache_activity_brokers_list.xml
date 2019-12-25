@@ -71,7 +71,7 @@
                     android:layout_marginRight="110dp"
                     android:background="@drawable/comment"
                     android:gravity="center"
-                    android:hint="搜索"
+                    android:hint="搜索经纪公司/经纪门店/经纪人姓名/手机号"
                     android:textColor="#333333"
                     android:textSize="12sp" />
 

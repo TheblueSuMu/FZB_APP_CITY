@@ -109,13 +109,13 @@ public class MyProjectActivity extends AllActivity implements View.OnClickListen
                     public void run() {
                         ptrClassicFrameLayout.refreshComplete();
                         ptrClassicFrameLayout.setLastUpdateTimeKey("2017-2-10");
-                        if(my_project_ll1.getVisibility() == View.VISIBLE){
-                            projectType = "2";
+//                        if(my_project_ll1.getVisibility() == View.VISIBLE){
+//                            projectType = "2";
+//                            initData();
+//                        }else if(my_project_ll2.getVisibility() == View.VISIBLE){
+                            projectType = "1";
                             initData();
-                        }else if(my_project_ll2.getVisibility() == View.VISIBLE){
-                            projectType = "3";
-                            initData();
-                        }
+//                        }
                     }
                 }, 1000);
             }

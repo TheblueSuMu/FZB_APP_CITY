@@ -419,6 +419,7 @@ public class AddCompanyActivity extends AllActivity implements View.OnClickListe
                                 FinalContents.setStoreChange("");
                                 FinalContents.setMyAddType("公司");
                                 ToastUtil.showLongToast(AddCompanyActivity.this, addCompanyBean.getData().getMessage());
+                                StoreDetailsActivity.storeDetailsActivity.finish();
                                 finish();
                             } else {
                                 ToastUtil.showLongToast(AddCompanyActivity.this, addCompanyBean.getData().getMessage());
