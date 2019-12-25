@@ -161,22 +161,39 @@ public class MeFragment extends Fragment implements View.OnClickListener, SwipeR
                 break;
 //                TODO 退出登录
             case R.id.exit_my_the_project_end:
-                AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
-                builder2.setTitle("确定要退出程序吗?");
-                builder2.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+                View inflate = LayoutInflater.from(getActivity()).inflate(R.layout.binding_report, null, false);
+                builder1.setView(inflate);
+                final AlertDialog show1 = builder1.show();
+                show1.getWindow().setBackgroundDrawableResource(R.drawable.report_shape);
+                TextView report_binding_title = inflate.findViewById(R.id.report_binding_title);
+                TextView report_binding_confirm_tv = inflate.findViewById(R.id.report_binding_confirm_tv);
+                TextView report_binding_cancel_tv = inflate.findViewById(R.id.report_binding_cancel_tv);
+                RelativeLayout report_binding_cancel = inflate.findViewById(R.id.report_binding_cancel);
+                RelativeLayout report_binding_confirm = inflate.findViewById(R.id.report_binding_confirm);
+                report_binding_title.setText("确定要退出程序吗?");//内容
+                report_binding_confirm_tv.setText("确定");
+                report_binding_cancel_tv.setText("取消");
+                report_binding_title.setTextColor(Color.parseColor("#111111"));
+                report_binding_cancel_tv.setTextColor(Color.parseColor("#334485"));
+                report_binding_confirm_tv.setTextColor(Color.parseColor("#334485"));
+                report_binding_cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onClick(View v) {
+                        show1.dismiss();
+                    }
+                });
+                report_binding_confirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         FinalContents.setIFSP("1");
-                        FinalContents.setFragmentSS("0");
-                        FinalContents.setFragmentSSS("0");
                         intent = new Intent(getContext(), LoginActivity.class);
                         startActivity(intent);
                         getActivity().finish();
                         FinalContents.setDengLu("0");
+                        show1.dismiss();
                     }
                 });
-                AlertDialog show2 = builder2.show();
-                show2.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#334485"));
                 break;
         }
 

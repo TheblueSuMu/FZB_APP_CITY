@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="325dp"
     android:layout_height="wrap_content"
-    android:background="@drawable/report_shape"
     android:orientation="vertical"
     android:paddingTop="15dp"
     tools:ignore="ResourceName">
@@ -13,25 +12,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
-        android:visibility="gone"
         android:text="该客户已报备"
         android:textColor="#111111"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/report_binding_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/report_binding_title_S"
-        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
         android:gravity="center"
         android:lineSpacingExtra="15dp"
-        android:layout_marginRight="15dp"
         android:text=""
         android:textColor="#111111"
         android:textSize="16sp" />
