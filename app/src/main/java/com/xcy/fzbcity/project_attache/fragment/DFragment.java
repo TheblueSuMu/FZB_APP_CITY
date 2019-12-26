@@ -909,15 +909,8 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
             values.add(new Entry(i, list.get(i)));
         }
 
-        LineDataSet set1;
 
-        if (combinedChart.getData() != null &&
-                combinedChart.getData().getDataSetCount() > 0) {
-            set1 = (LineDataSet) combinedChart.getData().getDataSetByIndex(0);
-            set1.setValues(values);
-            combinedChart.getData().notifyDataChanged();
-            combinedChart.notifyDataSetChanged();
-        } else {
+        {
             combinedChart.setDrawBorders(false); // 显示边界
             combinedChart.getDescription().setEnabled(false);  // 不显示备注信息
             combinedChart.setPinchZoom(false); // 比例缩放

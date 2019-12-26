@@ -115,7 +115,7 @@ public class WebActivity extends AllActivity {
                             Log.i("网址加载","http://admin.fangzuobiao.com:88/expandingCustomersDetail?userId="+FinalContents.getUserID()+"&talkToolId="+FinalContents.getTalkToolId());
                             WebSettings mWebSettings = web_webview.getSettings();
 
-                            mWebSettings.setJavaScriptEnabled(true);//是否允许JavaScript脚本运行，默认为false
+//                            mWebSettings.setJavaScriptEnabled(true);//是否允许JavaScript脚本运行，默认为false
                             mWebSettings.setDomStorageEnabled(true);//开启本地DOM存储
                             mWebSettings.setJavaScriptCanOpenWindowsAutomatically(true);//设置js可以直接打开窗口，如window.open()，默认为false
                             mWebSettings.setJavaScriptEnabled(true);//是否允许JavaScript脚本运行，默认为false。设置true时，会提醒可能造成XSS漏洞
@@ -124,7 +124,7 @@ public class WebActivity extends AllActivity {
                             mWebSettings.setUseWideViewPort(false);//设置此属性，可任意比例缩放。大视图模式
                             mWebSettings.setLoadWithOverviewMode(true);//和setUseWideViewPort(true)一起解决网页自适应问题
                             mWebSettings.setAppCacheEnabled(true);//是否使用缓存
-                            mWebSettings.setDomStorageEnabled(true);//开启本地DOM存储
+//                            mWebSettings.setDomStorageEnabled(true);//开启本地DOM存储
                             mWebSettings.setLoadsImagesAutomatically(true); // 加载图片
                             mWebSettings.setMediaPlaybackRequiresUserGesture(false);//播放音频，多媒体需要用户手动？设置为false为可自动播放
                             web_webview.setLongClickable(true);
@@ -136,7 +136,7 @@ public class WebActivity extends AllActivity {
                             Log.i("网址加载","http://admin.fangzuobiao.com:88/expandingCustomersDetail?userId="+FinalContents.getUserID()+"&talkToolId="+FinalContents.getTalkToolId());
                             WebSettings mWebSettings = web_webview.getSettings();
 
-                            mWebSettings.setJavaScriptEnabled(true);//是否允许JavaScript脚本运行，默认为false
+//                            mWebSettings.setJavaScriptEnabled(true);//是否允许JavaScript脚本运行，默认为false
                             mWebSettings.setDomStorageEnabled(true);//开启本地DOM存储
                             mWebSettings.setJavaScriptCanOpenWindowsAutomatically(true);//设置js可以直接打开窗口，如window.open()，默认为false
                             mWebSettings.setJavaScriptEnabled(true);//是否允许JavaScript脚本运行，默认为false。设置true时，会提醒可能造成XSS漏洞
@@ -145,7 +145,7 @@ public class WebActivity extends AllActivity {
                             mWebSettings.setUseWideViewPort(false);//设置此属性，可任意比例缩放。大视图模式
                             mWebSettings.setLoadWithOverviewMode(true);//和setUseWideViewPort(true)一起解决网页自适应问题
                             mWebSettings.setAppCacheEnabled(true);//是否使用缓存
-                            mWebSettings.setDomStorageEnabled(true);//开启本地DOM存储
+//                            mWebSettings.setDomStorageEnabled(true);//开启本地DOM存储
                             mWebSettings.setLoadsImagesAutomatically(true); // 加载图片
                             mWebSettings.setMediaPlaybackRequiresUserGesture(false);//播放音频，多媒体需要用户手动？设置为false为可自动播放
                             web_webview.setLongClickable(true);
