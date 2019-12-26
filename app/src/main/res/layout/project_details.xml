@@ -884,6 +884,7 @@
                     android:layout_marginTop="24dp"
                     android:orientation="vertical"
                     android:paddingLeft="15dp"
+                    android:visibility="gone"
                     android:paddingRight="12dp">
 
                     <TextView

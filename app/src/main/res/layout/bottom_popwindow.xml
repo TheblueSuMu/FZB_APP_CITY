@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn_take_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/report_shape"
+        android:text="保存图片"
+        android:textColor="#666666"
+        android:textStyle="bold" /> 
+     
+    <Button
+        android:layout_marginTop="5dp"
+        android:id="@+id/btn_take_photo_S"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/report_shape"
+        android:text="取消"
+        android:textColor="#334485"
+        android:layout_marginBottom="5dp"
+        android:textStyle="bold" />
+</LinearLayout>

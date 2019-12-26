@@ -399,7 +399,7 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                         pvOptions.setPicker(arrayList);
                         //      展示
                         pvOptions.show();
-                    }else {
+                    }else if(projectDetailsBeanData.getProjectListVo().getFfAttacheList().size() == 0){
                         ToastUtil.showLongToast(ProjectDetails.this,"暂无专案");
                     }
                 } catch (Exception e) {

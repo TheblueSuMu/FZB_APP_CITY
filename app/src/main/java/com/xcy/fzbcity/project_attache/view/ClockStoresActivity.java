@@ -243,15 +243,15 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
 //                if (mDatas.size() == 3) {
 //                    ToastUtil.showLongToast(ClockStoresActivity.this, "图片最多三张");
 //                } else {
-                    if (position == parent.getChildCount() - 1) {
+                if (position == parent.getChildCount() - 1) {
 
-                        if (mDatas.size() == 3) {
-                            Intent intent = new Intent(ClockStoresActivity.this, BigPhotoActivity.class);
-                            intent.putExtra("index", position);
-                            intent.putExtra("bigPhotoimg", stringBuffer.toString());// -1  -1  -1
-                            startActivity(intent);
+                    if (mDatas.size() == 3) {
+                        Intent intent = new Intent(ClockStoresActivity.this, BigPhotoActivity.class);
+                        intent.putExtra("index", position);
+                        intent.putExtra("bigPhotoimg", stringBuffer.toString());// -1  -1  -1
+                        startActivity(intent);
 //                            ToastUtil.showLongToast(ClockStoresActivity.this, "图片最多三张");
-                        } else {
+                    } else {
 //                        AlertDialog.Builder builder = new AlertDialog.Builder(ConfirmTheVisitActivity.this);
 //                        builder.setTitle("请选择图片来源");
 //                        builder.setItems(new String[]{"相机", "相册"}, new DialogInterface.OnClickListener() {
@@ -259,47 +259,47 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
 //                            public void onClick(DialogInterface dialogInterface, int i) {
 //                                if (i == 0) {
 
-                            try {
-                                //检测是否有写的权限
-                                int permission = ActivityCompat.checkSelfPermission(ClockStoresActivity.this,
-                                        "android.permission.WRITE_EXTERNAL_STORAGE");
-                                if (permission != PackageManager.PERMISSION_GRANTED) {
-                                    // 没有写的权限，去申请写的权限，
-                                    ActivityCompat.requestPermissions(ClockStoresActivity.this, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                        try {
+                            //检测是否有写的权限
+                            int permission = ActivityCompat.checkSelfPermission(ClockStoresActivity.this,
+                                    "android.permission.WRITE_EXTERNAL_STORAGE");
+                            if (permission != PackageManager.PERMISSION_GRANTED) {
+                                // 没有写的权限，去申请写的权限，
+                                ActivityCompat.requestPermissions(ClockStoresActivity.this, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
                             }
-                            String SDState = Environment.getExternalStorageState();
-                            if (SDState.equals(Environment.MEDIA_MOUNTED)) {
-                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);// "android.media.action.IMAGE_CAPTURE"
-                                /***
-                                 * 需要说明一下，以下操作使用照相机拍照，拍照后的图片会存放在相册中的 这里使用的这种方式有一个好处就是获取的图片是拍照后的原图
-                                 * 如果不实用ContentValues存放照片路径的话，拍照后获取的图片为缩略图不清晰
-                                 */
-                                ContentValues values = new ContentValues();
-                                Uri photoUri = ClockStoresActivity.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        String SDState = Environment.getExternalStorageState();
+                        if (SDState.equals(Environment.MEDIA_MOUNTED)) {
+                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);// "android.media.action.IMAGE_CAPTURE"
+                            /***
+                             * 需要说明一下，以下操作使用照相机拍照，拍照后的图片会存放在相册中的 这里使用的这种方式有一个好处就是获取的图片是拍照后的原图
+                             * 如果不实用ContentValues存放照片路径的话，拍照后获取的图片为缩略图不清晰
+                             */
+                            ContentValues values = new ContentValues();
+                            Uri photoUri = ClockStoresActivity.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
 
 //TODO Uri图片转换成file类型的 start
-                                file = uri2File(photoUri);
-                                Log.i("MyCL", "Uri图片转换成file类型的：" + file);
+                            file = uri2File(photoUri);
+                            Log.i("MyCL", "Uri图片转换成file类型的：" + file);
 
-                                isPhoto = 1;
+                            isPhoto = 1;
 
 //TODO Uri图片转换成file类型的 end
-                                Log.i("MyCL", "图片路径：" + photoUri);
-                                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                                startActivityForResult(intent, 1);
-                            } else {
+                            Log.i("MyCL", "图片路径：" + photoUri);
+                            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                            startActivityForResult(intent, 1);
+                        } else {
 
-                            }
                         }
-                    } else {
-                        Intent intent = new Intent(ClockStoresActivity.this, BigPhotoActivity.class);
-                        intent.putExtra("index", position);
-                        intent.putExtra("bigPhotoimg", stringBuffer.toString());// -1  -1  -1
-                        startActivity(intent);
+                    }
+                } else {
+                    Intent intent = new Intent(ClockStoresActivity.this, BigPhotoActivity.class);
+                    intent.putExtra("index", position);
+                    intent.putExtra("bigPhotoimg", stringBuffer.toString());// -1  -1  -1
+                    startActivity(intent);
 //                        ArrayList<String> listImage = new ArrayList<>();
 //                        final String[] a = stringBuffer.toString().split("[|]");
 //                        for (int i = 0; i < a.length; i++) {
@@ -309,7 +309,7 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
 //                        stringBuffer.append(listImage);
 //                        adapter.notifyDataSetChanged();
 
-                    }
+                }
 //                }
             }
         });
@@ -388,14 +388,14 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
                         Log.i("MyCL", "门店打卡记录数据：" + data.getRows().toString());
                         adapter1.setRows(data.getRows());
                         store_details_rv.setAdapter(adapter1);
-                        if (data.getRows().size() == 2) {
-                            store_details_check.setVisibility(View.GONE);
-                            store_details_check_S.setVisibility(View.GONE);
-                            confirm_the_visit_gv.setVisibility(View.GONE);
-                            store_details_img_btn.setVisibility(View.GONE);
-                        } else {
+//                        if (data.getRows().size() >= 2) {
+//                            store_details_check.setVisibility(View.GONE);
+//                            store_details_check_S.setVisibility(View.GONE);
+//                            confirm_the_visit_gv.setVisibility(View.GONE);
+//                            store_details_img_btn.setVisibility(View.GONE);
+//                        } else {
                             initDataS();
-                        }
+//                        }
 
                     }
 
@@ -465,8 +465,8 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
         LatLng start = new LatLng(Double.valueOf(mylatitude), Double.valueOf(mylongitude));
         double distance = DistanceUtil.getDistance(ll, start);
         Log.i("MyCL", "ll：" + ll);
-        Log.i("MyCL", "start：" + start);
-        Log.i("MyCL", "distance：" + distance);
+        Log.i("MyCL", "data.getTotal()：" + data.getTotal());
+        Log.i("MyCL", "data.getTotal()：" + data.getTotal());
 
         if (distance < 50) {
             Log.i("MyCL", "范围小于50");
@@ -479,6 +479,7 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
                 Glide.with(ClockStoresActivity.this).load(R.mipmap.daodiandaka).into(store_details_img_btn);//到店打卡
                 store_details_img_btn_tv1.setVisibility(View.GONE);
                 store_details_img_btn_tv2.setVisibility(View.GONE);
+                store_details_img_btn_tv1.setText("进店打卡");
             } else if (data.getTotal() == 1) {
                 store_details_check.setText("出店打卡：");
 //                store_details_img_btn_tv1.setVisibility(View.GONE);
@@ -491,15 +492,16 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
                 l = timeStamp - createTime;
                 StartTime();
                 Glide.with(ClockStoresActivity.this).load(R.mipmap.dakabeijing).into(store_details_img_btn);//出店打卡
-            } else if (data.getTotal() == 2) {
-                store_details_img_btn.setVisibility(View.GONE);
-                store_details_check.setVisibility(View.GONE);
-                store_details_check_S.setVisibility(View.GONE);
-                confirm_the_visit_gv.setVisibility(View.GONE);
-                store_details_img_btn_tv1.setVisibility(View.GONE);
-                store_details_img_btn_tv2.setVisibility(View.GONE);
-
             }
+//            else if (data.getTotal() >= 2) {
+//                store_details_img_btn.setVisibility(View.GONE);
+//                store_details_check.setVisibility(View.GONE);
+//                store_details_check_S.setVisibility(View.GONE);
+//                confirm_the_visit_gv.setVisibility(View.GONE);
+//                store_details_img_btn_tv1.setVisibility(View.GONE);
+//                store_details_img_btn_tv2.setVisibility(View.GONE);
+//
+//            }
 
         } else if (distance > 50) {
             //TODO 不在范围内 按钮状态：未到指定区域
@@ -532,57 +534,57 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
                 finish();
                 break;
             case R.id.store_details_img_btn:
-                    //打卡
-                    Log.i("MyCL", "点击按钮");
-                    if (num == 1) {
-                        //未开启定位权限
-                        Log.i("MyCL", "未开启定位权限");
-                        ToastUtil.showLongToast(ClockStoresActivity.this, "未开启定位权限，无法打卡");
-                    } else if (num == 2) {
-                        //暂无状态
-                        Log.i("MyCL", "暂无状态");
-                    } else if (num == 3) {
-                        //到店打卡
-                        Log.i("MyCL", "到店打卡/出店打卡");
-                        if (stringBuffer.length() == 0) {
-                            Log.i("MyCL", "打卡失败 图片至少一张");
-                            ToastUtil.showLongToast(ClockStoresActivity.this, "照片不能为空");
-                            //打卡失败 图片至少一张
-                        } else {
-                            if (data.getTotal() == 0) {
+                //打卡
+                Log.i("MyCL", "点击按钮");
+                if (num == 1) {
+                    //未开启定位权限
+                    Log.i("MyCL", "未开启定位权限");
+                    ToastUtil.showLongToast(ClockStoresActivity.this, "未开启定位权限，无法打卡");
+                } else if (num == 2) {
+                    //暂无状态
+                    Log.i("MyCL", "暂无状态");
+                } else if (num == 3) {
+                    //到店打卡
+                    Log.i("MyCL", "到店打卡/出店打卡");
+                    if (stringBuffer.length() == 0) {
+                        Log.i("MyCL", "打卡失败 图片至少一张");
+                        ToastUtil.showLongToast(ClockStoresActivity.this, "照片不能为空");
+                        //打卡失败 图片至少一张
+                    } else {
+                        if (data.getTotal() == 0) {
+                            initClockIn();
+                        } else if (data.getTotal() == 1) {
+                            if (min < 30 && hour == 0) {
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(ClockStoresActivity.this);
+                                View inflate = LayoutInflater.from(ClockStoresActivity.this).inflate(R.layout.binding_report, null, false);
+                                builder1.setView(inflate);
+                                TextView report_binding_title = inflate.findViewById(R.id.report_binding_title);
+                                TextView report_binding_confirm_tv = inflate.findViewById(R.id.report_binding_confirm_tv);
+                                TextView report_binding_cancel_tv = inflate.findViewById(R.id.report_binding_cancel_tv);
+                                RelativeLayout report_binding_cancel = inflate.findViewById(R.id.report_binding_cancel);
+                                RelativeLayout report_binding_confirm = inflate.findViewById(R.id.report_binding_confirm);
+                                report_binding_title.setText("未到指定时间,无效打卡");//内容
+                                report_binding_confirm_tv.setText("取消打卡");
+                                report_binding_cancel_tv.setText("继续打卡");
+                                final AlertDialog show = builder1.show();
+                                report_binding_cancel.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        show.dismiss();
+                                        initClockIn();
+                                    }
+                                });
+                                report_binding_confirm.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        show.dismiss();
+                                    }
+                                });
+                            } else if (min >= 30 || hour > 0) {
                                 initClockIn();
-                            } else if (data.getTotal() == 1) {
-                                if (min < 30) {
-                                    AlertDialog.Builder builder1 = new AlertDialog.Builder(ClockStoresActivity.this);
-                                    View inflate = LayoutInflater.from(ClockStoresActivity.this).inflate(R.layout.binding_report, null, false);
-                                    builder1.setView(inflate);
-                                    TextView report_binding_title = inflate.findViewById(R.id.report_binding_title);
-                                    TextView report_binding_confirm_tv = inflate.findViewById(R.id.report_binding_confirm_tv);
-                                    TextView report_binding_cancel_tv = inflate.findViewById(R.id.report_binding_cancel_tv);
-                                    RelativeLayout report_binding_cancel = inflate.findViewById(R.id.report_binding_cancel);
-                                    RelativeLayout report_binding_confirm = inflate.findViewById(R.id.report_binding_confirm);
-                                    report_binding_title.setText("未到指定时间,无效打卡");//内容
-                                    report_binding_confirm_tv.setText("取消打卡");
-                                    report_binding_cancel_tv.setText("继续打卡");
-                                    final AlertDialog show = builder1.show();
-                                    report_binding_cancel.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            show.dismiss();
-                                             initClockIn();
-                                        }
-                                    });
-                                    report_binding_confirm.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            show.dismiss();
-                                        }
-                                    });
-                                } else if (min >= 30) {
-                                    initClockIn();
-                                }
                             }
-                            //打卡成功 刷新
+                        }
+                        //打卡成功 刷新
 //                        if (data.getTotal() == 0) {
 //                            //进店打卡成功
 //                            store_details_check.setText("出店打卡");
@@ -594,11 +596,11 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
 //                            confirm_the_visit_gv.setVisibility(View.GONE);
 //                            stringBuffer.setLength(0);
 //                        }
-                        }
-                    } else if (num == 4) {
-                        //未到指定区域
-                        Log.i("MyCL", "未到指定区域");
-                        ToastUtil.showLongToast(ClockStoresActivity.this, "未到指定区域");
+                    }
+                } else if (num == 4) {
+                    //未到指定区域
+                    Log.i("MyCL", "未到指定区域");
+                    ToastUtil.showLongToast(ClockStoresActivity.this, "未到指定区域");
 //                    Intent intent = new Intent(ClockStoresActivity.this, MapHouseActivity.class);
 //                    startActivity(intent);
                 }
@@ -665,13 +667,18 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
                                 mDatas.clear();
                                 adapter.notifyDataSetChanged();
                             } else if (data.getTotal() == 1) {
-                                store_details_check.setVisibility(View.GONE);
-                                store_details_check_S.setVisibility(View.GONE);
-                                confirm_the_visit_gv.setVisibility(View.GONE);
-                                store_details_img_btn.setVisibility(View.GONE);
+                                store_details_check.setText("到店打卡");
+//                                store_details_check.setVisibility(View.GONE);
+//                                store_details_check_S.setVisibility(View.GONE);
+//                                confirm_the_visit_gv.setVisibility(View.GONE);
+//                                store_details_img_btn.setVisibility(View.GONE);
                                 stringBuffer.setLength(0);
                                 mDatas.clear();
                                 adapter.notifyDataSetChanged();
+                                if (!timerTask.cancel()) {
+                                    timerTask.cancel();
+                                    timer1.cancel();
+                                }
                             }
                             initData();
 
@@ -681,6 +688,7 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
 
                     @Override
                     public void onError(Throwable throwable) {
+                        ToastUtil.showLongToast(ClockStoresActivity.this,"数据异常请联系管理员");
                         Log.i("MyCL", "门店打卡错误信息：" + throwable.getMessage());
                     }
 

@@ -171,7 +171,7 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
                         me_city.setText(data.getCity());
                         UserMessageBean.DataBean.StoreManageBean storeManage = data.getStoreManage();
 //                        me_store.setText(storeManage.getStoreName());
-                        me_store.setText(data.getCity() + "  " + data.getCompanyManage().getCompanyName() + "  " + data.getStoreManage().getStoreName());
+                        me_store.setText(data.getCompanyManage().getCompanyName() + "  " + data.getStoreManage().getStoreName());
                         me_tv_name.setText(data.getStoreManageName());
                         me_tv_phone.setText(data.getStoreManagePhone());
 
@@ -359,7 +359,7 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
         me_city.setText(data.getCity());
         UserMessageBean.DataBean.StoreManageBean storeManage = data.getStoreManage();
 //        me_store.setText(storeManage.getStoreName());
-        me_store.setText(data.getCity() + "  " + data.getCompanyManage().getCompanyName() + "  " + data.getStoreManage().getStoreName());
+        me_store.setText(data.getCompanyManage().getCompanyName() + "  " + data.getStoreManage().getStoreName());
         me_tv_name.setText(data.getStoreManageName());
         me_tv_phone.setText(data.getStoreManagePhone());
     }

@@ -297,7 +297,7 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
                         name_home_the_project_end.setText(userBean.getData().getName());
                         city_home_the_project_end.setText(userBean.getData().getCity());
 //                        shop_home_the_project_end.setText(userBean.getData().getCityName());
-                        shop_home_the_project_end.setText(userBean.getData().getCity() + "  " + userBean.getData().getCityName());
+                        shop_home_the_project_end.setText(userBean.getData().getCityName());
                         position_home_the_project_end.setText("专案");
                         FinalContents.setCityID(userBean.getData().getCityId());
 
@@ -703,7 +703,7 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
         name_home_the_project_end.setText(userBean.getData().getName());
         city_home_the_project_end.setText(userBean.getData().getCity());
 //        shop_home_the_project_end.setText(userBean.getData().getCityName());
-        shop_home_the_project_end.setText(userBean.getData().getCity() + "  " + userBean.getData().getCityName());
+        shop_home_the_project_end.setText(userBean.getData().getCityName());
         position_home_the_project_end.setText("专案");
     }
 

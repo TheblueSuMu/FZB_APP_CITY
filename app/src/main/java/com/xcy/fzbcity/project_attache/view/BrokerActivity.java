@@ -19,16 +19,22 @@ import android.widget.TextView;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IFillFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -116,7 +122,7 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
     RelativeLayout broker_rl;
     TextView broker_tv;
 
-    private LineChart details_chart;
+    private CombinedChart combinedChart;
     private List<Integer> integers;
     private List<String> indexList;
     private Intent intent;
@@ -222,7 +228,7 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
         broker_tv18 = findViewById(R.id.broker_tv18);
         broker_call = findViewById(R.id.broker_call);
 
-        details_chart = findViewById(R.id.lc_broker);
+        combinedChart = findViewById(R.id.lc_broker);
 
         project_attache_broker_ll1.setOnClickListener(this);
         project_attache_broker_ll3.setOnClickListener(this);
@@ -812,13 +818,13 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
     private void init(final List<Integer> list) {
 
         //显示边界
-        details_chart.setDrawBorders(false);
+        combinedChart.setDrawBorders(false);
         //无数据时显示的文字
-        details_chart.setNoDataText("暂无数据");
+        combinedChart.setNoDataText("暂无数据");
         //折线图不显示数值
 //        data.setDrawValues(false);
         //得到X轴
-        XAxis xAxis = details_chart.getXAxis();
+        XAxis xAxis = combinedChart.getXAxis();
         //设置X轴的位置（默认在上方)
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         //设置X轴坐标之间的最小间隔
@@ -835,8 +841,8 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
         //设置X轴值为字符串
         xAxis.setValueFormatter(new IndexAxisValueFormatter(indexList));
         //得到Y轴
-        YAxis yAxis = details_chart.getAxisLeft();
-        YAxis rightYAxis = details_chart.getAxisRight();
+        YAxis yAxis = combinedChart.getAxisLeft();
+        YAxis rightYAxis = combinedChart.getAxisRight();
         //设置Y轴是否显示
         rightYAxis.setEnabled(false); //右侧Y轴不显示
 //        yAxis.setEnabled(false);
@@ -853,20 +859,20 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
         //+1:y轴多一个单位长度，为了好看
         yAxis.setAxisMaximum(Collections.max(list) + 1);
         //图例：得到Lengend
-        Legend legend = details_chart.getLegend();
+        Legend legend = combinedChart.getLegend();
         //隐藏Lengend
         legend.setEnabled(false);
         //隐藏描述
         Description description = new Description();
         description.setEnabled(false);
-        details_chart.setDescription(description);
+        combinedChart.setDescription(description);
         //图标刷新
-        details_chart.invalidate();
-        details_chart.animateXY(2000, 2000);
+        combinedChart.invalidate();
+        combinedChart.animateXY(2000, 2000);
         setData(list);
 
         // don't forget to refresh the drawing
-        details_chart.invalidate();
+        combinedChart.invalidate();
     }
 
     //TODO 详情页趋势图数据填充
@@ -880,54 +886,102 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
 
         LineDataSet set1;
 
-        if (details_chart.getData() != null &&
-                details_chart.getData().getDataSetCount() > 0) {
-            set1 = (LineDataSet) details_chart.getData().getDataSetByIndex(0);
+        if (combinedChart.getData() != null &&
+                combinedChart.getData().getDataSetCount() > 0) {
+            set1 = (LineDataSet) combinedChart.getData().getDataSetByIndex(0);
             set1.setValues(values);
-            details_chart.getData().notifyDataChanged();
-            details_chart.notifyDataSetChanged();
+            combinedChart.getData().notifyDataChanged();
+            combinedChart.notifyDataSetChanged();
         } else {
-            // create a dataset and give it a type
-            set1 = new LineDataSet(values, "DataSet");
+            combinedChart.setDrawBorders(false); // 显示边界
+            combinedChart.getDescription().setEnabled(false);  // 不显示备注信息
+            combinedChart.setPinchZoom(false); // 比例缩放
+            combinedChart.animateY(1500);
+            combinedChart.setTouchEnabled(true);
+            combinedChart.setDragEnabled(true);
+            combinedChart.getLegend().setEnabled(false);
+            combinedChart.setDoubleTapToZoomEnabled(false);
+            combinedChart.setHighlightPerTapEnabled(false);
+            combinedChart.getAxisRight().setEnabled(false);
 
-            set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-            set1.setCubicIntensity(0.2f);
-            set1.setDrawFilled(true);
-            set1.setDrawCircles(true);
-            set1.setLineWidth(1.8f);
-            set1.setCircleRadius(3f);
-            set1.setValueTextSize(9f);
-            set1.setHighlightEnabled(!set1.isHighlightEnabled());
-            set1.setCircleColor(Color.parseColor("#FFFFFF"));
-            set1.setCircleHoleColor(Color.parseColor("#5484FF"));
-            set1.setHighLightColor(Color.BLACK);
-            set1.setColor(Color.parseColor("#5484FF"));
-//            set1.setFillColor(R.color.mian);
-            set1.setFillAlpha(20);
-            Drawable drawable = getResources().getDrawable(R.drawable.line_back);
-            set1.setFillDrawable(drawable);
-            set1.setDrawValues(!set1.isDrawValuesEnabled());
-            set1.setDrawHorizontalHighlightIndicator(false);
-            set1.setFillFormatter(new IFillFormatter() {
+            XAxis xAxis = combinedChart.getXAxis();
+            xAxis.setDrawGridLines(false);
+            /*解决左右两端柱形图只显示一半的情况 只有使用CombinedChart时会出现，如果单独使用BarChart不会有这个问题*/
+            xAxis.setAxisMinimum(-0.2f);
+            xAxis.setAxisMaximum(values.size() - 0.5f);
+            xAxis.setGranularity(1f);
+
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // 设置X轴标签位置，BOTTOM在底部显示，TOP在顶部显示
+            xAxis.setValueFormatter(new ValueFormatter() {
                 @Override
-                public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
-                    return details_chart.getAxisLeft().getAxisMinimum();
+                public String getFormattedValue(float value) {
+                    if (indexList.size() != 0) {
+                        return indexList.get((int) value % indexList.size());
+                    }else {
+                        return "";
+                    }
                 }
             });
 
+            YAxis axisLeft = combinedChart.getAxisLeft(); // 获取左边Y轴操作类
+            axisLeft.setAxisMinimum(0); // 设置最小值
+            axisLeft.setGranularity(10); // 设置Label间隔
 
-            // create a data object with the data sets
-            LineData data = new LineData(set1);
-            data.setValueTextSize(9f);
-            data.setDrawValues(false);
+            YAxis axisRight = combinedChart.getAxisRight(); // 获取右边Y轴操作类
+            axisRight.setDrawGridLines(false); // 不绘制背景线，上面左边Y轴并没有设置此属性，因为不设置默认是显示的
+            axisRight.setGranularity(10); // 设置Label间隔
+            axisRight.setAxisMinimum(0); // 设置最小值
 
-            // set data
-            details_chart.setData(data);
-            // 设置放大限制
-            details_chart.getViewPortHandler().setMaximumScaleX(1.0f); // 限制X轴放大限制
-            details_chart.getViewPortHandler().setMaximumScaleY(1.0f); // 限制Y轴放大限制
+            List<Entry> lineEntries = new ArrayList<>();
+            List<BarEntry> barEntries = new ArrayList<>();
+            for (int i = 0; i < indexList.size(); i++) {
+                lineEntries.add(new Entry(i, list.get(i)));
+                barEntries.add(new BarEntry(i, list.get(i)));
+            }
+
+            /**
+             * 初始化柱形图的数据
+             * 此处用suppliers的数量做循环，因为总共所需要的数据源数量应该和标签个数一致
+             * 其中BarEntry是柱形图数据源的实体类，包装xy坐标数据
+             */
+            /******************BarData start********************/
+
+            BarDataSet barDataSet = new BarDataSet(barEntries, "LAR");  // 新建一组柱形图，"LAR"为本组柱形图的Label
+            barDataSet.setColor(Color.parseColor("#a3bef4")); // 设置柱形图颜色
+            barDataSet.setValueTextColor(Color.parseColor("#0288d1")); //  设置柱形图顶部文本颜色
+            barDataSet.setDrawValues(false);
+            BarData barData = new BarData();
+            barData.addDataSet(barDataSet);// 添加一组柱形图，如果有多组柱形图数据，则可以多次addDataSet来设置
+            barData.setBarWidth(0.1f);
+
+            /******************BarData end********************/
+
+            /**
+             * 初始化折线图数据
+             * 说明同上
+             */
+            /******************LineData start********************/
+
+            LineDataSet lineDataSet = new LineDataSet(lineEntries, "不良率");
+            lineDataSet.setColor(Color.parseColor("#5484ff"));
+            lineDataSet.setCircleColor(Color.parseColor("#5484ff"));
+            lineDataSet.setCircleHoleColor(Color.parseColor("#FFFFFF"));
+            lineDataSet.setLineWidth(2);
+            lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+            lineDataSet.setHighlightEnabled(false);
+            lineDataSet.setCubicIntensity(0.2f);
+            lineDataSet.setDrawValues(true);
+            LineData lineData = new LineData();
+            lineData.addDataSet(lineDataSet);
+            /******************LineData end********************/
+
+            CombinedData combinedData = new CombinedData(); // 创建组合图的数据
+            combinedData.setData(barData);  // 添加柱形图数据源
+            combinedData.setData(lineData); // 添加折线图数据源
+            combinedChart.setVisibleXRange(0,5);
+            combinedChart.setData(combinedData); // 为组合图设置数据源
         }
-        details_chart.animateXY(2000, 2000);
+        combinedChart.animateXY(2000, 2000);
 
     }
 

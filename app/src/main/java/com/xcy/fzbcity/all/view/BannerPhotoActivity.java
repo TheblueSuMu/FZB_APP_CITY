@@ -160,6 +160,13 @@ public class BannerPhotoActivity extends AllActivity {
         BaseFragmentAdapter adapter = new BaseFragmentAdapter(getSupportFragmentManager(), mFragments, mTitles);
         viewpager.setAdapter(adapter);
         viewpager.setCurrentItem(index);
+        viewpager.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.i("下标","");
+                return true;
+            }
+        });
         viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -180,6 +187,7 @@ public class BannerPhotoActivity extends AllActivity {
                 banner_photo_tab_layout.getTabAt(i).select();
             }
         }
+
 
 
         banner_photo_tab_layout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

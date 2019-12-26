@@ -66,6 +66,8 @@ public class CommissionTheProjectEndActivity extends AllActivity implements View
     TextView commission_the_project_end_tv2;
     TextView commission_the_project_end_tv3;
     TextView commission_the_project_end_tv4;
+    TextView tv_id1;
+    TextView tv_id2;
 
     LinearLayout commission_the_project_end_l1;
     LinearLayout commission_the_project_end_l2;
@@ -154,6 +156,8 @@ public class CommissionTheProjectEndActivity extends AllActivity implements View
         commission_the_project_end_l6 = findViewById(R.id.commission_the_project_end_l6);
         commission_the_project_end_rl = findViewById(R.id.commission_the_project_end_rl);
         commission_the_project_end_rv = findViewById(R.id.commission_the_project_end_rv);
+        tv_id1 = findViewById(R.id.tv_id1);
+        tv_id2 = findViewById(R.id.tv_id2);
 
         project_side_commission_the_project_end_ptrclass.setPtrHandler(new PtrHandler() {
             @Override
@@ -195,6 +199,8 @@ public class CommissionTheProjectEndActivity extends AllActivity implements View
         drawer_reset = findViewById(R.id.drawer_reset);
         drawer_ensure = findViewById(R.id.drawer_ensure);
 
+        tv_id1.setText("<");
+        tv_id2.setText(">");
         initData();
         initDataBean();
 
@@ -236,8 +242,8 @@ public class CommissionTheProjectEndActivity extends AllActivity implements View
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
         String string = String.format(Locale.getDefault(), "%d.%02d.%02d", year, month, dayOfMonth);
-        drawer_start_time.setText("<"+string);
-        drawer_end_time.setText("-"+string+" >");
+        drawer_start_time.setText(string);
+        drawer_end_time.setText(string);
     }
 
     @SingleClick(1000)
@@ -341,8 +347,8 @@ public class CommissionTheProjectEndActivity extends AllActivity implements View
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
         String string = String.format(Locale.getDefault(), "%d.%02d.%02d", year, month + 1, dayOfMonth);
-        drawer_start_time.setText("<"+string);
-        drawer_end_time.setText("-"+string+" >");
+        drawer_start_time.setText(string);
+        drawer_end_time.setText(string);
         startTime = drawer_start_time.getText().toString();
         endTime = drawer_end_time.getText().toString();
 
@@ -372,7 +378,7 @@ public class CommissionTheProjectEndActivity extends AllActivity implements View
         TimePickerView pvTime = new TimePickerBuilder(CommissionTheProjectEndActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                drawer_start_time.setText("<"+ getTime2(date));
+                drawer_start_time.setText(getTime2(date));
                 startTime = getTime2(date);
             }
         })
@@ -479,6 +485,16 @@ public class CommissionTheProjectEndActivity extends AllActivity implements View
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
+
+        Log.i("专案佣金","FinalContents.getUserID()：" + FinalContents.getUserID());
+        Log.i("专案佣金","search：" + search);
+        Log.i("专案佣金","status：" + status);
+        Log.i("专案佣金","projectType：" + projectType);
+        Log.i("专案佣金","ProjectID：" + ProjectID);
+        Log.i("专案佣金","startTime：" + startTime);
+        Log.i("专案佣金","endTime：" + endTime);
+        Log.i("专案佣金","NewlyIncreased.getYJType()：" + NewlyIncreased.getYJType());
+
         Observable<ReceivableBean> userMessage = fzbInterface.getMoneyList(FinalContents.getUserID(),search,status,projectType,ProjectID,startTime,endTime,"1000",NewlyIncreased.getYJType());
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

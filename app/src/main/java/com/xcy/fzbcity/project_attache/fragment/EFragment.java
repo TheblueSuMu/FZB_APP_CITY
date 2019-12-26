@@ -198,7 +198,7 @@ public class EFragment extends Fragment implements View.OnClickListener, SwipeRe
                         }
                         me_city.setText(data.getCity());
 //                        me_store.setText(data.getStoreManage() + "");
-                        me_store.setText(data.getCity() + "  " + data.getCityName());
+                        me_store.setText(data.getCityName());
 
                         Connector.setZyDataBean(userMessageBean);
                     }
@@ -341,7 +341,7 @@ public class EFragment extends Fragment implements View.OnClickListener, SwipeRe
         }
         me_city.setText(data.getCity());
 //        me_store.setText(data.getStoreManage() + "");
-        me_store.setText(data.getCity() + "  " + data.getCityName());
+        me_store.setText(data.getCityName());
     }
 
     @Override

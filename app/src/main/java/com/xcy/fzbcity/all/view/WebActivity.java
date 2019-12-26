@@ -1,7 +1,10 @@
 package com.xcy.fzbcity.all.view;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -10,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
@@ -123,7 +127,8 @@ public class WebActivity extends AllActivity {
                             mWebSettings.setDomStorageEnabled(true);//开启本地DOM存储
                             mWebSettings.setLoadsImagesAutomatically(true); // 加载图片
                             mWebSettings.setMediaPlaybackRequiresUserGesture(false);//播放音频，多媒体需要用户手动？设置为false为可自动播放
-                            web_webview.loadUrl("http://admin.fangzuobiao.com:88/expandingCustomersDetail?userId="+FinalContents.getUserID()+"&talkToolId="+FinalContents.getTalkToolId());
+                            web_webview.setLongClickable(true);
+                            web_webview.loadUrl(FinalContents.getImageUrl()+"/expandingCustomersDetail?userId="+FinalContents.getUserID()+"&talkToolId="+FinalContents.getTalkToolId());
 
                         } else if (titleUrl.equals("卖点详情")) {
                             web_webview.setVisibility(View.VISIBLE);
@@ -143,16 +148,24 @@ public class WebActivity extends AllActivity {
                             mWebSettings.setDomStorageEnabled(true);//开启本地DOM存储
                             mWebSettings.setLoadsImagesAutomatically(true); // 加载图片
                             mWebSettings.setMediaPlaybackRequiresUserGesture(false);//播放音频，多媒体需要用户手动？设置为false为可自动播放
-                            web_webview.loadUrl("http://admin.fangzuobiao.com:88/expandingCustomersDetail?userId="+FinalContents.getUserID()+"&talkToolId="+FinalContents.getTalkToolId());
+                            web_webview.setLongClickable(true);
+                            web_webview.loadUrl(FinalContents.getImageUrl()+"/expandingCustomersDetail?userId="+FinalContents.getUserID()+"&talkToolId="+FinalContents.getTalkToolId());
                         }
-
-
                         share.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 FinalContents.showShare(projectTalkToolShareBean.getData().getTalkToolInfo().getTitle(),webUrl,titleUrl,FinalContents.getImageUrl()+projectTalkToolShareBean.getData().getTalkToolInfo().getShareIcon(),webUrl,WebActivity.this);
                             }
                         });
+
+                        web_webview.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                Log.i("webView网页","长按事件");
+                                return true;
+                            }
+                        });
+
                     }
 
                     @Override

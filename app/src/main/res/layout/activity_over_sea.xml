@@ -383,7 +383,7 @@
                     android:button="@null"
                     android:drawableRight="@drawable/radio_butten"
                     android:gravity="center"
-                    android:text="国家"
+                    android:text="地区"
                     android:textColor="#333333"
                     android:textSize="14sp" />
 

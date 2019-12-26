@@ -23,7 +23,7 @@
            <RelativeLayout
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:layout_marginTop="27dp">
+               android:layout_marginTop="35dp">
 
                <RelativeLayout
                    android:id="@+id/commission_the_project_end_return"
@@ -445,7 +445,13 @@
             android:gravity="center"
             android:visibility="gone"
             android:orientation="horizontal">
-
+            <TextView
+                android:id="@+id/tv_id1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#ff334485"
+                android:textSize="13sp" />
             <TextView
                 android:id="@+id/drawer_start_time"
                 android:layout_width="wrap_content"
@@ -466,6 +472,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2019.04.03"
+                android:textColor="#ff334485"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_id2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
                 android:textColor="#ff334485"
                 android:textSize="13sp" />
 

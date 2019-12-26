@@ -123,6 +123,7 @@ public class MoreInformationActivity extends AllActivity implements View.OnClick
                     Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + FinalContents.getIPhone()));//跳转到拨号界面，同时传递电话号码
                     startActivity(dialIntent);
                 }
+                FinalContents.setIPhone("");
             }
         });
 
@@ -137,6 +138,7 @@ public class MoreInformationActivity extends AllActivity implements View.OnClick
                     Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + FinalContents.getIPhone()));//跳转到拨号界面，同时传递电话号码
                     startActivity(dialIntent);
                 }
+                FinalContents.setIPhone("");
             }
         });
 
