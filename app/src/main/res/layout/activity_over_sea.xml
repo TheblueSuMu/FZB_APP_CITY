@@ -241,7 +241,7 @@
                             android:button="@null"
                             android:drawableRight="@drawable/over_sea"
                             android:gravity="center"
-                            android:text="国家"
+                            android:text="地区"
                             android:textColor="#ff333333"
                             android:textSize="14sp" />
 

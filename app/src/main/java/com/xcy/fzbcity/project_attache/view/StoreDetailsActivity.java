@@ -116,11 +116,13 @@ public class StoreDetailsActivity extends AllActivity implements View.OnClickLis
     private String string1;
     private String string2;
 
+    public static StoreDetailsActivity storeDetailsActivity = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_details);
+        storeDetailsActivity = this;
         init_No_Network();
 
     }
@@ -493,12 +495,12 @@ public class StoreDetailsActivity extends AllActivity implements View.OnClickLis
                 startActivity(dialIntent);
                 break;
             case R.id.store_details_change:
-                finish();
+//                finish();
                 intent = new Intent(StoreDetailsActivity.this, AddCompanyActivity.class);
                 FinalContents.setCompanyId(companyInfo.getCompanyId());
                 FinalContents.setStoreChange("修改");
                 startActivity(intent);
-                finish();
+//                finish();
                 break;
             case R.id.store_details_tv4:
                 initTime1_Date1();
@@ -703,5 +705,6 @@ public class StoreDetailsActivity extends AllActivity implements View.OnClickLis
             initDataS();
         }
     }
+
 
 }

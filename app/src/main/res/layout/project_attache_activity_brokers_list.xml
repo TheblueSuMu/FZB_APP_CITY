@@ -62,16 +62,32 @@
                 android:layout_marginTop="70dp"
                 android:background="#00000000">
 
+                <TextView
+                    android:id="@+id/brokers_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:text="全部"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
+
                 <EditText
+                    android:layout_toLeftOf="@id/brokers_tv"
                     android:id="@+id/brokers_list_et"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginRight="110dp"
+                    android:layout_marginRight="15dp"
                     android:background="@drawable/comment"
                     android:gravity="center"
-                    android:hint="搜索"
+                    android:hint="搜索经纪公司/经纪门店/经纪人姓名/手机号"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:paddingRight="5dp"
+                    android:paddingLeft="5dp"
                     android:textColor="#333333"
                     android:textSize="12sp" />
 
@@ -84,22 +100,14 @@
 <!--                    android:layout_marginRight="15dp"-->
 <!--                    android:layout_centerVertical="true">-->
 
-                <RelativeLayout
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp">
-                    <TextView
-                        android:id="@+id/brokers_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
-                        android:text="全部"
-                        android:textColor="#FFFFFF"
-                        android:textSize="16sp" />
-                </RelativeLayout>
+<!--                <RelativeLayout-->
+<!--                    android:layout_width="100dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignParentRight="true"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:layout_marginRight="15dp">-->
+
+<!--                </RelativeLayout>-->
 <!--                </RelativeLayout>-->
 
             </RelativeLayout>

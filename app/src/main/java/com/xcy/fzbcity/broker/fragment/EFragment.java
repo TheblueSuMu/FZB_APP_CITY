@@ -170,7 +170,8 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
                         }
                         me_city.setText(data.getCity());
                         UserMessageBean.DataBean.StoreManageBean storeManage = data.getStoreManage();
-                        me_store.setText(storeManage.getStoreName());
+//                        me_store.setText(storeManage.getStoreName());
+                        me_store.setText(data.getCity() + "  " + data.getCompanyManage().getCompanyName() + "  " + data.getStoreManage().getStoreName());
                         me_tv_name.setText(data.getStoreManageName());
                         me_tv_phone.setText(data.getStoreManagePhone());
 
@@ -254,21 +255,56 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
             show.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#334485"));
         } else if (id == R.id.my_exit) {
 //            TODO 退出登录
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setMessage("确定要退出程序吗?");
-//            builder.setTitle("退出完成");
-            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+            View inflate = LayoutInflater.from(getActivity()).inflate(R.layout.binding_report, null, false);
+            builder1.setView(inflate);
+            final AlertDialog show = builder1.show();
+            show.getWindow().setBackgroundDrawableResource(R.drawable.report_shape);
+            TextView report_binding_title = inflate.findViewById(R.id.report_binding_title);
+            TextView report_binding_confirm_tv = inflate.findViewById(R.id.report_binding_confirm_tv);
+            TextView report_binding_cancel_tv = inflate.findViewById(R.id.report_binding_cancel_tv);
+            RelativeLayout report_binding_cancel = inflate.findViewById(R.id.report_binding_cancel);
+            RelativeLayout report_binding_confirm = inflate.findViewById(R.id.report_binding_confirm);
+            report_binding_title.setText("确定要退出程序吗?");//内容
+            report_binding_confirm_tv.setText("确定");
+            report_binding_cancel_tv.setText("取消");
+            report_binding_title.setTextColor(Color.parseColor("#111111"));
+            report_binding_cancel_tv.setTextColor(Color.parseColor("#334485"));
+            report_binding_confirm_tv.setTextColor(Color.parseColor("#334485"));
+            report_binding_cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
+                public void onClick(View v) {
+                    show.dismiss();
+                }
+            });
+            report_binding_confirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     FinalContents.setIFSP("1");
                     intent = new Intent(getContext(), LoginActivity.class);
                     startActivity(intent);
                     getActivity().finish();
                     FinalContents.setDengLu("0");
+                    show.dismiss();
                 }
             });
-            AlertDialog show = builder.show();
-            show.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#334485"));
+
+//            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+//            builder.setMessage("确定要退出程序吗?");
+////            builder.setTitle("退出完成");
+//            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialogInterface, int i) {
+//                    FinalContents.setIFSP("1");
+//                    intent = new Intent(getContext(), LoginActivity.class);
+//                    startActivity(intent);
+//                    getActivity().finish();
+//                    FinalContents.setDengLu("0");
+//                }
+//            });
+//            AlertDialog show = builder.show();
+//            show.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#334485"));
 
         }
 
@@ -311,7 +347,7 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
     }
 
 
-    private void init(){
+    private void init() {
         UserMessageBean.DataBean data = Connector.getUserMessageBean().getData();
 
         Glide.with(getActivity()).load(FinalContents.getImageUrl() + data.getPhoto()).into(me_photo);
@@ -322,7 +358,8 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
         }
         me_city.setText(data.getCity());
         UserMessageBean.DataBean.StoreManageBean storeManage = data.getStoreManage();
-        me_store.setText(storeManage.getStoreName());
+//        me_store.setText(storeManage.getStoreName());
+        me_store.setText(data.getCity() + "  " + data.getCompanyManage().getCompanyName() + "  " + data.getStoreManage().getStoreName());
         me_tv_name.setText(data.getStoreManageName());
         me_tv_phone.setText(data.getStoreManagePhone());
     }
@@ -330,7 +367,7 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
     @Override
     public void onResume() {
         super.onResume();
-        if (NewlyIncreased.getUserMessage().equals("123")){
+        if (NewlyIncreased.getUserMessage().equals("123")) {
             init();
             NewlyIncreased.setUserMessage("");
         }

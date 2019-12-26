@@ -989,6 +989,8 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(ReportActivity.this);
                             View inflate = LayoutInflater.from(ReportActivity.this).inflate(R.layout.binding_report, null, false);
                             builder1.setView(inflate);
+                            final AlertDialog show = builder1.show();
+                            show.getWindow().setBackgroundDrawableResource(R.drawable.report_shape);
                             TextView report_binding_title = inflate.findViewById(R.id.report_binding_title);
                             TextView report_binding_confirm_tv = inflate.findViewById(R.id.report_binding_confirm_tv);
                             TextView report_binding_cancel_tv = inflate.findViewById(R.id.report_binding_cancel_tv);
@@ -997,7 +999,6 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
                             report_binding_title.setText(changePhoneBean.getData().getMessage());//内容
                             report_binding_confirm_tv.setText("前去看看");
                             report_binding_cancel_tv.setText("我知道了");
-                            final AlertDialog show = builder1.show();
                             report_binding_cancel.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -1021,6 +1022,8 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(ReportActivity.this);
                             View inflate = LayoutInflater.from(ReportActivity.this).inflate(R.layout.binding_report, null, false);
                             builder1.setView(inflate);
+                            final AlertDialog show = builder1.show();
+                            show.getWindow().setBackgroundDrawableResource(R.drawable.report_shape);
                             TextView report_binding_title = inflate.findViewById(R.id.report_binding_title);
                             RelativeLayout report_binding_cancel = inflate.findViewById(R.id.report_binding_cancel);
                             TextView report_binding_cancel_tv = inflate.findViewById(R.id.report_binding_cancel_tv);
@@ -1030,7 +1033,6 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
                             report_binding_confirm.setVisibility(View.GONE);
                             report_binding_confirm_LinearLayout.setVisibility(View.GONE);
                             report_binding_cancel_tv.setText("我知道了");
-                            final AlertDialog show = builder1.show();
                             report_binding_cancel.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -1044,6 +1046,8 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(ReportActivity.this);
                             View inflate = LayoutInflater.from(ReportActivity.this).inflate(R.layout.binding_report, null, false);
                             builder1.setView(inflate);
+                            final AlertDialog show = builder1.show();
+                            show.getWindow().setBackgroundDrawableResource(R.drawable.report_shape);
                             TextView report_binding_title = inflate.findViewById(R.id.report_binding_title);
                             TextView report_binding_confirm_tv = inflate.findViewById(R.id.report_binding_confirm_tv);
                             TextView report_binding_cancel_tv = inflate.findViewById(R.id.report_binding_cancel_tv);
@@ -1052,7 +1056,6 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
                             report_binding_title.setText(changePhoneBean.getData().getMessage());//内容
                             report_binding_confirm_tv.setText("前去致电");
                             report_binding_cancel_tv.setText("我知道了");
-                            final AlertDialog show = builder1.show();
                             report_binding_cancel.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -1063,9 +1066,13 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
                             report_binding_confirm.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + changePhoneBean.getData().getBusiness()));//跳转到拨号界面，同时传递电话号码
-                                    startActivity(dialIntent);
-                                    finish();
+                                    if(changePhoneBean.getData().getBusiness().equals("")){
+                                        ToastUtil.showLongToast(ReportActivity.this,"暂无专案电话");
+                                    }else {
+                                        Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + changePhoneBean.getData().getBusiness()));//跳转到拨号界面，同时传递电话号码
+                                        startActivity(dialIntent);
+                                        finish();
+                                    }
                                     show.dismiss();
                                 }
                             });

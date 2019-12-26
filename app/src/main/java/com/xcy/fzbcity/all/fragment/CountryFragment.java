@@ -82,7 +82,7 @@ public class CountryFragment extends Fragment {
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<CountryBean> countryBean = fzbInterface.getCountryBean(FinalContents.getUserID(), FinalContents.getCityID(), FinalContents.getProjectType(),"1000");
+        Observable<CountryBean> countryBean = fzbInterface.getCountryBean(FinalContents.getUserID(), FinalContents.getCityID(), "1","1000");
         countryBean.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<CountryBean>() {

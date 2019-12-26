@@ -197,7 +197,8 @@ public class EFragment extends Fragment implements View.OnClickListener, SwipeRe
                             me_identity.setText("总监");
                         }
                         me_city.setText(data.getCity());
-                        me_store.setText(data.getStoreManage() + "");
+//                        me_store.setText(data.getStoreManage() + "");
+                        me_store.setText(data.getCity() + "  " + data.getCityName());
 
                         Connector.setZyDataBean(userMessageBean);
                     }
@@ -283,22 +284,39 @@ public class EFragment extends Fragment implements View.OnClickListener, SwipeRe
             show.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#334485"));
         } else if (id == R.id.my_exit) {
 //            TODO 退出登录
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle("确定要退出程序吗?");
-            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+            View inflate = LayoutInflater.from(getActivity()).inflate(R.layout.binding_report, null, false);
+            builder1.setView(inflate);
+            final AlertDialog show = builder1.show();
+            show.getWindow().setBackgroundDrawableResource(R.drawable.report_shape);
+            TextView report_binding_title = inflate.findViewById(R.id.report_binding_title);
+            TextView report_binding_confirm_tv = inflate.findViewById(R.id.report_binding_confirm_tv);
+            TextView report_binding_cancel_tv = inflate.findViewById(R.id.report_binding_cancel_tv);
+            RelativeLayout report_binding_cancel = inflate.findViewById(R.id.report_binding_cancel);
+            RelativeLayout report_binding_confirm = inflate.findViewById(R.id.report_binding_confirm);
+            report_binding_title.setText("确定要退出程序吗?");//内容
+            report_binding_confirm_tv.setText("确定");
+            report_binding_cancel_tv.setText("取消");
+            report_binding_title.setTextColor(Color.parseColor("#111111"));
+            report_binding_cancel_tv.setTextColor(Color.parseColor("#334485"));
+            report_binding_confirm_tv.setTextColor(Color.parseColor("#334485"));
+            report_binding_cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
+                public void onClick(View v) {
+                    show.dismiss();
+                }
+            });
+            report_binding_confirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     FinalContents.setIFSP("1");
-                    FinalContents.setFragmentSS("0");
-                    FinalContents.setFragmentSSS("0");
                     intent = new Intent(getContext(), LoginActivity.class);
                     startActivity(intent);
                     getActivity().finish();
                     FinalContents.setDengLu("0");
+                    show.dismiss();
                 }
             });
-            AlertDialog show = builder.show();
-            show.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#334485"));
 
         }
 
@@ -322,7 +340,8 @@ public class EFragment extends Fragment implements View.OnClickListener, SwipeRe
             me_identity.setText("总监");
         }
         me_city.setText(data.getCity());
-        me_store.setText(data.getStoreManage() + "");
+//        me_store.setText(data.getStoreManage() + "");
+        me_store.setText(data.getCity() + "  " + data.getCityName());
     }
 
     @Override

@@ -128,10 +128,15 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
     private int month;
     private int dayOfMonth;
 
+    public static BrokerActivity brokerActivity = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.project_attache_activity_broker);
+
+        brokerActivity = this;
+
         init_No_Network();
     }
 
@@ -723,7 +728,7 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
                 startActivity(intent);
                 break;
             case R.id.broker_change:
-                finish();
+//                finish();
                 intent = new Intent(BrokerActivity.this, AddBrokerActivity.class);
                 FinalContents.setAgentId(agentInfo.getAgentId());
                 FinalContents.setBorkerChange("修改");

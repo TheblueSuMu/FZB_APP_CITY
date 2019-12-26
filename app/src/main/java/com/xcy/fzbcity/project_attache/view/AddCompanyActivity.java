@@ -94,6 +94,7 @@ public class AddCompanyActivity extends AllActivity implements View.OnClickListe
     private int GPS_REQUEST_CODE = 10;
 
     int isnum = 0;
+    private String address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -419,6 +420,7 @@ public class AddCompanyActivity extends AllActivity implements View.OnClickListe
                                 FinalContents.setStoreChange("");
                                 FinalContents.setMyAddType("公司");
                                 ToastUtil.showLongToast(AddCompanyActivity.this, addCompanyBean.getData().getMessage());
+                                StoreDetailsActivity.storeDetailsActivity.finish();
                                 finish();
                             } else {
                                 ToastUtil.showLongToast(AddCompanyActivity.this, addCompanyBean.getData().getMessage());
@@ -492,6 +494,7 @@ public class AddCompanyActivity extends AllActivity implements View.OnClickListe
 
             getLatitude = data.getStringExtra("getLatitude");
             getLongitude = data.getStringExtra("getLongitude");
+            address = data.getStringExtra("address");
 
 
             StringBuffer stringBuffer1 = new StringBuffer();
@@ -500,41 +503,43 @@ public class AddCompanyActivity extends AllActivity implements View.OnClickListe
             StringBuffer append1 = stringBuffer1.append(getLatitude);
             StringBuffer append2 = stringBuffer2.append(getLongitude);
 
-            Retrofit.Builder builder = new Retrofit.Builder();
-            builder.baseUrl(FinalContents.getBaseUrl());
-            builder.addConverterFactory(GsonConverterFactory.create());
-            builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
-            Retrofit build = builder.build();
-            MyService fzbInterface = build.create(MyService.class);
+            add_company_et2.setText(address);
 
-            Observable<ChangeAddress> changeAddress = fzbInterface.getChangeAddress(getLongitude, getLatitude);
-            changeAddress.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<ChangeAddress>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(ChangeAddress changeAddress) {
-
-                            add_company_et2.setText(changeAddress.getData().getValue());
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-//                            ToastUtil.showToast(AddCompanyActivity.this,"请重新定位详情地址");
-                            Log.i("经纬度转坐标","经纬度转坐标错误信息：" + e.getMessage());
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
+//            Retrofit.Builder builder = new Retrofit.Builder();
+//            builder.baseUrl(FinalContents.getBaseUrl());
+//            builder.addConverterFactory(GsonConverterFactory.create());
+//            builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+//            Retrofit build = builder.build();
+//            MyService fzbInterface = build.create(MyService.class);
+//
+//            Observable<ChangeAddress> changeAddress = fzbInterface.getChangeAddress(getLongitude, getLatitude);
+//            changeAddress.subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new Observer<ChangeAddress>() {
+//                        @Override
+//                        public void onSubscribe(Disposable d) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onNext(ChangeAddress changeAddress) {
+//
+//                            add_company_et2.setText(changeAddress.getData().getValue());
+//
+//                        }
+//
+//                        @Override
+//                        public void onError(Throwable e) {
+////                            ToastUtil.showToast(AddCompanyActivity.this,"请重新定位详情地址");
+//                            Log.i("经纬度转坐标","经纬度转坐标错误信息：" + e.getMessage());
+//
+//                        }
+//
+//                        @Override
+//                        public void onComplete() {
+//
+//                        }
+//                    });
         }
 
         isnum = 0;

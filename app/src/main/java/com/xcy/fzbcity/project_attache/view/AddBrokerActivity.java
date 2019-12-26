@@ -52,6 +52,7 @@ public class AddBrokerActivity extends AllActivity implements View.OnClickListen
     TextView add_store_tv1;
     TextView add_store_tv2;
     TextView add_store_tv3;
+    TextView broker_tv_id;
 
     EditText add_store_et1;
     EditText add_store_et2;
@@ -132,12 +133,15 @@ public class AddBrokerActivity extends AllActivity implements View.OnClickListen
         add_store_et3 = findViewById(R.id.add_et3);
         add_store_et4 = findViewById(R.id.add_et4);
         add_store_return = findViewById(R.id.add_return);
+        broker_tv_id = findViewById(R.id.broker_tv_id);
 
         add_rl4 = findViewById(R.id.add_rl4);
         add_rl4_s = findViewById(R.id.add_ll4_s);
         add_rg = findViewById(R.id.add_rg);
         add_rb1 = findViewById(R.id.add_rb1);
         add_rb2 = findViewById(R.id.add_rb2);
+
+        broker_tv_id.setVisibility(View.GONE);
 
         add_rl4.setVisibility(View.GONE);
         add_rl4_s.setVisibility(View.GONE);
@@ -150,6 +154,7 @@ public class AddBrokerActivity extends AllActivity implements View.OnClickListen
 
         if (FinalContents.getBorkerChange().equals("修改")) {
             initChangeData();
+            broker_tv_id.setVisibility(View.GONE);
             add_title.setText("修改经纪人");
             add_rl4.setVisibility(View.VISIBLE);
             add_rl4_s.setVisibility(View.VISIBLE);
@@ -201,6 +206,8 @@ public class AddBrokerActivity extends AllActivity implements View.OnClickListen
 //                        }
 
                         ifCompanyManageId = brokerChangeBean.getData().getCompanyManage().getId();
+
+                        add_store_et4.setHint("");
 
                     }
 
@@ -285,9 +292,9 @@ public class AddBrokerActivity extends AllActivity implements View.OnClickListen
                 s5 = add_store_et3.getText().toString();
                 s6 = add_store_et4.getText().toString();
 
-                if (s6.equals("")) {
-                    s6 = 123456 + "";
-                }
+//                if (s6.equals("")) {
+//                    s6 = 123456 + "";
+//                }
 
                 initData();
 
@@ -306,7 +313,13 @@ public class AddBrokerActivity extends AllActivity implements View.OnClickListen
                 num = "3";
             }
 
-            if (s.equals("") || s2.equals("") || s11.equals("") || s3.equals("") || s4.equals("") || s5.equals("") || s6.equals("")) {
+            if(add_store_et4.getHint().equals("")){
+
+            }else {
+
+            }
+
+            if (s.equals("") || s2.equals("") || s11.equals("") || s3.equals("") || s4.equals("") || s5.equals("")) {
                 ToastUtil.showLongToast(this, "带*数据请填写完整");
             } else {
                 Retrofit.Builder builder = new Retrofit.Builder();
@@ -327,6 +340,7 @@ public class AddBrokerActivity extends AllActivity implements View.OnClickListen
                             public void onNext(AddBrokerBean addBrokerBean) {
                                 if (addBrokerBean.getData().getStatus() == 1) {
                                     ToastUtil.showLongToast(AddBrokerActivity.this, addBrokerBean.getData().getMessage());
+                                    BrokerActivity.brokerActivity.finish();
                                     finish();
                                 } else {
                                     ToastUtil.showLongToast(AddBrokerActivity.this, "" + addBrokerBean.getData().getMessage());
@@ -362,7 +376,7 @@ public class AddBrokerActivity extends AllActivity implements View.OnClickListen
             } else if (s11.equals("普通经纪人")) {
                 num = "3";
             }
-            if (s.equals("") || s2.equals("") || s11.equals("") || s3.equals("") || s4.equals("") || s5.equals("") || s6.equals("")) {
+            if (s.equals("") || s2.equals("") || s11.equals("") || s3.equals("") || s4.equals("") || s5.equals("")) {
                 ToastUtil.showLongToast(AddBrokerActivity.this, "带*数据请填写完整");
             } else {
                 Retrofit.Builder builder = new Retrofit.Builder();
@@ -396,6 +410,7 @@ public class AddBrokerActivity extends AllActivity implements View.OnClickListen
                                     ToastUtil.showLongToast(AddBrokerActivity.this, addBrokerBean.getData().getMessage());
                                     FinalContents.setAddtype1("");
                                     FinalContents.setAddtype2("");
+                                    BrokerActivity.brokerActivity.finish();
                                     finish();
                                 } else {
                                     ToastUtil.showLongToast(AddBrokerActivity.this, addBrokerBean.getData().getMessage());

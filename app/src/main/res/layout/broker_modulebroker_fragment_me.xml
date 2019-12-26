@@ -89,6 +89,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="71dp"
                             android:layout_marginTop="37dp"
+                            android:layout_marginRight="30dp"
                             android:orientation="horizontal">
 
                             <TextView
@@ -106,6 +107,8 @@
                                 android:layout_marginLeft="10dp"
                                 android:text=""
                                 android:textColor="#FFFFFF"
+                                android:maxLines="1"
+                                android:ellipsize="end"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
