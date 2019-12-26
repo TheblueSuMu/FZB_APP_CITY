@@ -18,6 +18,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -367,6 +368,7 @@ public class ToApplyForAnIslandActivity extends AllActivity implements View.OnCl
     //选择器
     private void initSelect(final List<String> list, final TextView textView) {
         //      监听选中
+        hideInput();
         OptionsPickerView pvOptions = new OptionsPickerBuilder(ToApplyForAnIslandActivity.this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int option2, int options3, View v) {
@@ -628,4 +630,16 @@ public class ToApplyForAnIslandActivity extends AllActivity implements View.OnCl
         super.onDestroy();
         FinalContents.setDengDao("0");
     }
+
+    /**
+     * 隐藏键盘
+     */
+    protected void hideInput() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        View v = getWindow().peekDecorView();
+        if (null != v) {
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
+    }
+
 }

@@ -1000,6 +1000,7 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
 
     //选择器
     private void initSelect(final List<String> list, final TextView textView) {
+        hideInput();
         //      监听选中
         OptionsPickerView pvOptions = new OptionsPickerBuilder(FillInTransactionInformationActivity.this, new OnOptionsSelectListener() {
             @Override

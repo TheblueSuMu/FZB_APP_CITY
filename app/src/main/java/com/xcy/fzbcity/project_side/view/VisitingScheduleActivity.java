@@ -940,6 +940,7 @@ public class VisitingScheduleActivity extends AppCompatActivity implements View.
     //选择器
     private void initSelect(final List<String> list, final TextView textView) {
         //      监听选中
+        hideInput();
         OptionsPickerView pvOptions = new OptionsPickerBuilder(VisitingScheduleActivity.this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int option2, int options3, View v) {
@@ -1021,4 +1022,7 @@ public class VisitingScheduleActivity extends AppCompatActivity implements View.
         }
         return false;
     }
+
+
+
 }

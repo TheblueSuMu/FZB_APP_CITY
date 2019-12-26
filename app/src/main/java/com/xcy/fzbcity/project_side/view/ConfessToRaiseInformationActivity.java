@@ -207,6 +207,7 @@ public class ConfessToRaiseInformationActivity extends AppCompatActivity impleme
                     list.add("子女");
                     list.add("配偶");
                     list.add("其他");
+                    hideInput();
                     pvOptions = new OptionsPickerBuilder(view.getContext(), new OnOptionsSelectListener() {
                         @Override
                         public void onOptionsSelect(int options1, int option2, int options3, View v) {
@@ -237,6 +238,7 @@ public class ConfessToRaiseInformationActivity extends AppCompatActivity impleme
                     list.add("四室");
                     list.add("五室");
                     //创建
+                    hideInput();
                     pvOptions = new OptionsPickerBuilder(view.getContext(), new OnOptionsSelectListener() {
                         @Override
                         public void onOptionsSelect(int options1, int option2, int options3, View v) {
@@ -508,4 +510,16 @@ public class ConfessToRaiseInformationActivity extends AppCompatActivity impleme
         }
         return false;
     }
+
+    /**
+     * 隐藏键盘
+     */
+    protected void hideInput() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        View v = getWindow().peekDecorView();
+        if (null != v) {
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
+    }
+
 }
