@@ -443,7 +443,9 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
                         integers = tendentcyBean.getData().getSeries().get(0).getData();
                         indexList = tendentcyBean.getData().getXAxis().getData();
                         combinedChart.setVisibility(View.VISIBLE);
-                        setData(integers);
+                        if(integers.size() != 0){
+                            setData(integers);
+                        }
 
                     }
 
@@ -557,7 +559,9 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
                         integers = dBean.getData().getGsonOption().getSeries().get(0).getData();
                         indexList = dBean.getData().getGsonOption().getXAxis().getData();
                         combinedChart.setVisibility(View.VISIBLE);
-                        setData(integers);
+                        if(integers.size() != 0){
+                            setData(integers);
+                        }
                     }
 
                     @Override

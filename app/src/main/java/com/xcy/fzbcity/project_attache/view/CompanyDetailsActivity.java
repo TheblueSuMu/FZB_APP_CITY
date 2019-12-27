@@ -643,7 +643,9 @@ public class CompanyDetailsActivity extends AllActivity implements View.OnClickL
 //                        TODO 近七天活动度
                         integers = companyDetailsBean.getData().getGsonOption().getSeries().get(0).getData();
                         indexList = companyDetailsBean.getData().getGsonOption().getXAxis().getData();
-                        setData(integers);
+                        if(integers.size() != 0){
+                            setData(integers);
+                        }
 
 //                        TODO 佣金
                         CompanyDetailsBean.DataBean.StoreMoneyDataBean storeMoneyData = companyDetailsBean.getData().getStoreMoneyData();

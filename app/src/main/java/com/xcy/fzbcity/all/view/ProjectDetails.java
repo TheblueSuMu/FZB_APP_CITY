@@ -1488,7 +1488,9 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                             }
 
                             indexList = projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(0).getMonthList();
-                            setData(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(0).getMonthPriceList());
+                            if(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(0).getMonthPriceList().size() != 0){
+                                setData(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(0).getMonthPriceList());
+                            }
 
 
                             project_details_tab_layout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -1516,7 +1518,9 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                                         }
                                         if (tabName.equals(tab.getText().toString())) {
                                             indexList = projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthList();
-                                            setData(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthPriceList());
+                                            if(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(0).getMonthPriceList().size() != 0){
+                                                setData(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(0).getMonthPriceList());
+                                            }
                                         }
                                     }
 
@@ -1551,7 +1555,9 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                                         }
                                         if (tabName.equals(tab.getText().toString())) {
                                             indexList = projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthList();
-                                            setData(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthPriceList());
+                                            if(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(0).getMonthPriceList().size() != 0){
+                                                setData(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(0).getMonthPriceList());
+                                            }
                                         }
                                     }
                                 }

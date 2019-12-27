@@ -639,7 +639,9 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
                         BrokerBean.DataBean.GsonOptionBean gsonOption = brokerBean.getData().getGsonOption();
                         integers = brokerBean.getData().getGsonOption().getSeries().get(0).getData();
                         indexList = brokerBean.getData().getGsonOption().getXAxis().getData();
-                        setData(integers);
+                        if(integers.size() != 0){
+                            setData(integers);
+                        }
 //        TODO 佣金
                         BrokerBean.DataBean.AgentMoneyDataBean agentMoneyData = brokerBean.getData().getAgentMoneyData();
                         broker_tv15.setText(agentMoneyData.getTotalAmount() + "");

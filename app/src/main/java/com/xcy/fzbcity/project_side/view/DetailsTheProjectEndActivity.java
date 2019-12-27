@@ -646,7 +646,9 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
                         List<Integer> integers = detailsBean.getData().getGsonOption().getSeries().get(0).getData();
                         Log.i("长度","integers:" +  integers.size());
                         indexList = detailsBean.getData().getGsonOption().getXAxis().getData();
-                        setData(integers);
+                        if(integers.size() != 0){
+                            setData(integers);
+                        }
                     }
 
                     @Override
@@ -763,7 +765,9 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
                     public void onNext(BusinessBean businessBean) {
                         List<Integer> integers = businessBean.getData().getSeries().get(0).getData();
                         indexList = businessBean.getData().getXAxis().getData();
-                        setData(integers);
+                        if(integers.size() != 0){
+                            setData(integers);
+                        }
                     }
 
                     @Override
