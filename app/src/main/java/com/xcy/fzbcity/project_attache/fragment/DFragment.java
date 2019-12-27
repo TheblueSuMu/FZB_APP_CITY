@@ -443,7 +443,7 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
                         integers = tendentcyBean.getData().getSeries().get(0).getData();
                         indexList = tendentcyBean.getData().getXAxis().getData();
                         combinedChart.setVisibility(View.VISIBLE);
-                        init(integers);
+                        setData(integers);
 
                     }
 
@@ -557,7 +557,7 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
                         integers = dBean.getData().getGsonOption().getSeries().get(0).getData();
                         indexList = dBean.getData().getGsonOption().getXAxis().getData();
                         combinedChart.setVisibility(View.VISIBLE);
-                        init(integers);
+                        setData(integers);
                     }
 
                     @Override
@@ -839,66 +839,6 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
 
     }
 
-    //TODO 详情页趋势图绘制
-    private void init(final List<Integer> list) {
-
-        //显示边界
-        combinedChart.setDrawBorders(false);
-        //无数据时显示的文字
-        combinedChart.setNoDataText("暂无数据");
-        //折线图不显示数值
-//        data.setDrawValues(false);
-        //得到X轴
-        XAxis xAxis = combinedChart.getXAxis();
-        //设置X轴的位置（默认在上方)
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        //设置X轴坐标之间的最小间隔
-        xAxis.setGranularity(0f);
-        //设置X轴的刻度数量，第二个参数为true,将会画出明确数量（带有小数点），但是可能值导致不均匀，默认（6，false）
-        xAxis.setLabelCount(indexList.size(), false);
-        //设置X轴的值（最小值、最大值、然后会根据设置的刻度数量自动分配刻度显示）
-        xAxis.setAxisMinimum(0f);
-        xAxis.setAxisMaximum((float) list.size());
-        //不显示网格线
-        xAxis.setDrawGridLines(false);
-        // 标签倾斜
-        xAxis.setLabelRotationAngle(0);
-        //设置X轴值为字符串
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(indexList));
-        //得到Y轴
-        YAxis yAxis = combinedChart.getAxisLeft();
-        YAxis rightYAxis = combinedChart.getAxisRight();
-        //设置Y轴是否显示
-        rightYAxis.setEnabled(false); //右侧Y轴不显示
-//        yAxis.setEnabled(false);
-        //设置y轴坐标之间的最小间隔
-        //不显示网格线
-        yAxis.setDrawGridLines(false);
-//        //设置Y轴坐标之间的最小间隔
-//        yAxis.setGranularity(1);
-        //设置y轴的刻度数量
-        //+2：最大值n就有n+1个刻度，在加上y轴多一个单位长度，为了好看，so+2
-        yAxis.setLabelCount(Collections.max(list) + 2, false);
-        //设置从Y轴值
-        yAxis.setAxisMinimum(0f);
-        //+1:y轴多一个单位长度，为了好看
-        yAxis.setAxisMaximum(Collections.max(list) + 1);
-        //图例：得到Lengend
-        Legend legend = combinedChart.getLegend();
-        //隐藏Lengend
-        legend.setEnabled(false);
-        //隐藏描述
-        Description description = new Description();
-        description.setEnabled(false);
-        combinedChart.setDescription(description);
-        //图标刷新
-        combinedChart.invalidate();
-        combinedChart.animateXY(2000, 2000);
-        setData(list);
-
-        // don't forget to refresh the drawing
-        combinedChart.invalidate();
-    }
 
     //TODO 详情页趋势图数据填充
     private void setData(final List<Integer> list) {
@@ -926,9 +866,12 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
             xAxis.setDrawGridLines(false);
             /*解决左右两端柱形图只显示一半的情况 只有使用CombinedChart时会出现，如果单独使用BarChart不会有这个问题*/
             xAxis.setAxisMinimum(-0.2f);
+            Log.i("长度","values.size()"+values.size());
+            Log.i("长度","list.size()"+list.size());
+            Log.i("长度","indexList.size()"+indexList.size());
             xAxis.setAxisMaximum(values.size() - 0.5f);
             xAxis.setGranularity(1f);
-            xAxis.setLabelRotationAngle(0);
+            xAxis.setTextColor(Color.parseColor("#666666"));
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // 设置X轴标签位置，BOTTOM在底部显示，TOP在顶部显示
             xAxis.setValueFormatter(new ValueFormatter() {
                 @Override
@@ -941,14 +884,23 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
                 }
             });
 
+            int max = 0;
+
+            for (int i = 0;i < list.size();i++){
+                if (list.get(i) > max) {
+                    max = list.get(i);
+                }
+            }
+
             YAxis axisLeft = combinedChart.getAxisLeft(); // 获取左边Y轴操作类
             axisLeft.setAxisMinimum(0); // 设置最小值
-            axisLeft.setGranularity(10); // 设置Label间隔
+            axisLeft.setAxisMaximum((float) (max * 1.1)); // 设置最大值
+            axisLeft.setAxisLineColor(Color.parseColor("#00000000"));
+            axisLeft.setTextColor(Color.parseColor("#999999"));
+            axisLeft.setGridColor(Color.parseColor("#999999"));
+//            axisLeft.setGridColor(Color.parseColor("333333"));
 
-            YAxis axisRight = combinedChart.getAxisRight(); // 获取右边Y轴操作类
-            axisRight.setDrawGridLines(false); // 不绘制背景线，上面左边Y轴并没有设置此属性，因为不设置默认是显示的
-            axisRight.setGranularity(10); // 设置Label间隔
-            axisRight.setAxisMinimum(0); // 设置最小值
+
 
             List<Entry> lineEntries = new ArrayList<>();
             List<BarEntry> barEntries = new ArrayList<>();
@@ -965,8 +917,9 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
             /******************BarData start********************/
 
             BarDataSet barDataSet = new BarDataSet(barEntries, "LAR");  // 新建一组柱形图，"LAR"为本组柱形图的Label
-            barDataSet.setColor(Color.parseColor("#a3bef4")); // 设置柱形图颜色
-            barDataSet.setValueTextColor(Color.parseColor("#0288d1")); //  设置柱形图顶部文本颜色
+            barDataSet.setColor(Color.parseColor("#6596ba")); // 设置柱形图颜色
+            barDataSet.setValueTextColor(Color.parseColor("#666666")); //  设置柱形图顶部文本颜色
+//            barDataSet.setValueTextSize(25);
             barDataSet.setDrawValues(false);
             BarData barData = new BarData();
             barData.addDataSet(barDataSet);// 添加一组柱形图，如果有多组柱形图数据，则可以多次addDataSet来设置
@@ -981,13 +934,14 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
             /******************LineData start********************/
 
             LineDataSet lineDataSet = new LineDataSet(lineEntries, "不良率");
-            lineDataSet.setColor(Color.parseColor("#5484ff"));
-            lineDataSet.setCircleColor(Color.parseColor("#5484ff"));
+            lineDataSet.setColor(Color.parseColor("#ce7951"));
+            lineDataSet.setCircleColor(Color.parseColor("#ce7951"));
             lineDataSet.setCircleHoleColor(Color.parseColor("#FFFFFF"));
-            lineDataSet.setLineWidth(2);
+            lineDataSet.setLineWidth(1);
             lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
             lineDataSet.setHighlightEnabled(false);
             lineDataSet.setCubicIntensity(0.2f);
+            lineDataSet.setValueTextSize(10);
             lineDataSet.setDrawValues(true);
             LineData lineData = new LineData();
             lineData.addDataSet(lineDataSet);
@@ -996,8 +950,12 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
             CombinedData combinedData = new CombinedData(); // 创建组合图的数据
             combinedData.setData(barData);  // 添加柱形图数据源
             combinedData.setData(lineData); // 添加折线图数据源
-            combinedChart.setVisibleXRange(0,5);
+            if (indexList.size() > 5) {
+                combinedChart.setVisibleXRange(0,5);
+            }
             combinedChart.setData(combinedData); // 为组合图设置数据源
+//            combinedChart.setVisibleXRangeMaximum(12);
+//            combinedChart.setVisibleXRangeMinimum(6);
         }
         combinedChart.animateXY(2000, 2000);
 

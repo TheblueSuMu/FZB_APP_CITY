@@ -1374,7 +1374,7 @@
 
                         <View
                             android:layout_marginTop="5dp"
-                            android:background="#5484FF"
+                            android:background="#6596ba"
                             android:layout_width="15dp"
                             android:layout_height="5dp"/>
 
@@ -1391,7 +1391,7 @@
                 </RelativeLayout>
 
 
-                <com.github.mikephil.charting.charts.LineChart
+                <com.github.mikephil.charting.charts.CombinedChart
                     android:id="@+id/project_details_chart"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"

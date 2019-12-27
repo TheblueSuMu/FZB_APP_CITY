@@ -25,16 +25,22 @@ import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bumptech.glide.Glide;
+import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IFillFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.material.tabs.TabLayout;
@@ -181,7 +187,7 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
     private RecyclerView project_details_villa_rv;
     private TextView project_details_villa_title;
 
-    private LineChart details_chart;
+    private CombinedChart combinedChart;
     private TabLayout project_details_tab_layout;
 
     private List<String> indexList;
@@ -271,7 +277,7 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
         project_details_layout3_checkbox = findViewById(R.id.project_details_layout3_checkbox);
         project_details_layout3_view = findViewById(R.id.project_details_layout3_view);
 
-        details_chart = findViewById(R.id.project_details_chart);
+        combinedChart = findViewById(R.id.project_details_chart);
 
         project_details_tab_layout = findViewById(R.id.project_details_tab_layout);
 
@@ -1482,7 +1488,7 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                             }
 
                             indexList = projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(0).getMonthList();
-                            initChart(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(0).getMonthPriceList());
+                            setData(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(0).getMonthPriceList());
 
 
                             project_details_tab_layout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -1510,7 +1516,7 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                                         }
                                         if (tabName.equals(tab.getText().toString())) {
                                             indexList = projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthList();
-                                            initChart(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthPriceList());
+                                            setData(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthPriceList());
                                         }
                                     }
 
@@ -1545,7 +1551,7 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                                         }
                                         if (tabName.equals(tab.getText().toString())) {
                                             indexList = projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthList();
-                                            initChart(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthPriceList());
+                                            setData(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthPriceList());
                                         }
                                     }
                                 }
@@ -1567,73 +1573,6 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                     }
                 });
     }
-
-    //TODO 详情页趋势图绘制
-    private void initChart(final List<Integer> list) {
-
-        //显示边界
-        details_chart.setDrawBorders(false);
-        //无数据时显示的文字
-        details_chart.setNoDataText("暂无数据");
-        details_chart.setBorderColor(R.color.GridColor);
-        //折线图不显示数值
-//        data.setDrawValues(false);
-        //得到X轴
-        XAxis xAxis = details_chart.getXAxis();
-        //设置X轴的位置（默认在上方)
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        //设置X轴坐标之间的最小间隔
-        xAxis.setGranularity(1);
-        //设置X轴的刻度数量，第二个参数为true,将会画出明确数量（带有小数点），但是可能值导致不均匀，默认（6，false）
-        xAxis.setLabelCount(list.size(), false);
-        //设置X轴的值（最小值、最大值、然后会根据设置的刻度数量自动分配刻度显示）
-        xAxis.setAxisMinimum(0f);
-        xAxis.setAxisMaximum(list.size());
-        xAxis.setTextColor(R.color.LableColor);
-        xAxis.setGridColor(R.color.GridColor);
-        //不显示网格线
-        xAxis.setDrawGridLines(false);
-        // 标签倾斜
-        xAxis.setLabelRotationAngle(0);
-        //设置X轴值为字符串
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(indexList));
-
-        //得到Y轴
-        YAxis yAxis = details_chart.getAxisLeft();
-        YAxis rightYAxis = details_chart.getAxisRight();
-        //设置Y轴是否显示
-        rightYAxis.setEnabled(false); //右侧Y轴不显示
-        // yAxis.setEnabled(false);
-        //设置y轴坐标之间的最小间隔
-        //不显示网格线
-        yAxis.setGridColor(R.color.GridColor);
-        yAxis.setTextColor(R.color.LableColor);
-        yAxis.setDrawGridLines(true);
-        //设置Y轴坐标之间的最小间隔
-        yAxis.setGranularity(1);
-        //设置y轴的刻度数量
-        //+2：最大值n就有n+1个刻度，在加上y轴多一个单位长度，为了好看，so+2
-        yAxis.setLabelCount(4, false);
-        //设置从Y轴值
-        yAxis.setAxisMinimum(0);
-        yAxis.setAxisMaximum(list.get(0)+10000);
-        //图例：得到Lengend
-        Legend legend = details_chart.getLegend();
-        //隐藏Lengend
-        legend.setEnabled(false);
-        //隐藏描述
-        Description description = new Description();
-        description.setEnabled(false);
-        details_chart.setDescription(description);
-        //图标刷新
-        details_chart.invalidate();
-        details_chart.animateXY(2000, 2000);
-        setData(list);
-
-        // don't forget to refresh the drawing
-        details_chart.invalidate();
-    }
-
     //TODO 详情页趋势图数据填充
     private void setData(final List<Integer> list) {
 
@@ -1643,56 +1582,113 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
             values.add(new Entry(i, list.get(i)));
         }
 
-        LineDataSet set1;
 
-        if (details_chart.getData() != null && details_chart.getData().getDataSetCount() > 0) {
-            set1 = (LineDataSet) details_chart.getData().getDataSetByIndex(0);
-            set1.setValues(values);
-            details_chart.getData().notifyDataChanged();
-            details_chart.notifyDataSetChanged();
-        } else {
-            // create a dataset and give it a type
-            set1 = new LineDataSet(values, "DataSet");
+        {
+            combinedChart.setDrawBorders(false); // 显示边界
+            combinedChart.getDescription().setEnabled(false);  // 不显示备注信息
+            combinedChart.setPinchZoom(false); // 比例缩放
+            combinedChart.animateY(1500);
+            combinedChart.setTouchEnabled(false);
+            combinedChart.setDragEnabled(true);
+            combinedChart.getLegend().setEnabled(false);
+            combinedChart.setDoubleTapToZoomEnabled(false);
+            combinedChart.setHighlightPerTapEnabled(false);
+            combinedChart.getAxisRight().setEnabled(false);
 
-            set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-            set1.setCubicIntensity(0.2f);
-
-            set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-            set1.setCubicIntensity(0.2f);
-            set1.setDrawFilled(false);
-            set1.setDrawCircles(true);
-            set1.setLineWidth(1.8f);
-            set1.setCircleRadius(3f);
-            set1.setValueTextSize(9f);
-            set1.setHighlightEnabled(!set1.isHighlightEnabled());
-            set1.setCircleColor(Color.parseColor("#FFFFFF"));
-            set1.setCircleHoleColor(Color.parseColor("#5484FF"));
-            set1.setHighLightColor(Color.BLACK);
-            set1.setColor(Color.parseColor("#5484FF"));
-//            set1.setFillColor(R.color.mian);
-            set1.setFillAlpha(20);
-            set1.setDrawValues(!set1.isDrawValuesEnabled());
-            set1.setDrawHorizontalHighlightIndicator(false);
-            set1.setFillFormatter(new IFillFormatter() {
+            XAxis xAxis = combinedChart.getXAxis();
+            xAxis.setDrawGridLines(false);
+            /*解决左右两端柱形图只显示一半的情况 只有使用CombinedChart时会出现，如果单独使用BarChart不会有这个问题*/
+            xAxis.setAxisMinimum(-0.2f);
+            Log.i("长度","values.size()"+values.size());
+            Log.i("长度","list.size()"+list.size());
+            Log.i("长度","indexList.size()"+indexList.size());
+            xAxis.setAxisMaximum(values.size() - 0.5f);
+            xAxis.setGranularity(1f);
+            xAxis.setTextColor(Color.parseColor("#666666"));
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // 设置X轴标签位置，BOTTOM在底部显示，TOP在顶部显示
+            xAxis.setValueFormatter(new ValueFormatter() {
                 @Override
-                public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
-                    return details_chart.getAxisLeft().getAxisMinimum();
+                public String getFormattedValue(float value) {
+                    if (indexList.size() != 0) {
+                        return indexList.get((int) value % indexList.size());
+                    }else {
+                        return "";
+                    }
                 }
             });
 
+            int max = 0;
 
-            // create a data object with the data sets
-            LineData data = new LineData(set1);
-            data.setValueTextSize(9f);
-            data.setDrawValues(false);
+            for (int i = 0;i < list.size();i++){
+                if (list.get(i) > max) {
+                    max = list.get(i);
+                }
+            }
 
-            // set data
-            details_chart.setData(data);
-            // 设置放大限制
-            details_chart.getViewPortHandler().setMaximumScaleX(1.0f); // 限制X轴放大限制
-            details_chart.getViewPortHandler().setMaximumScaleY(1.0f); // 限制Y轴放大限制
+            YAxis axisLeft = combinedChart.getAxisLeft(); // 获取左边Y轴操作类
+            axisLeft.setAxisMinimum(0); // 设置最小值
+            axisLeft.setAxisMaximum((float) (max * 1.1)); // 设置最大值
+            axisLeft.setAxisLineColor(Color.parseColor("#00000000"));
+            axisLeft.setTextColor(Color.parseColor("#999999"));
+            axisLeft.setGridColor(Color.parseColor("999999"));
+
+
+            List<Entry> lineEntries = new ArrayList<>();
+            List<BarEntry> barEntries = new ArrayList<>();
+            for (int i = 0; i < indexList.size(); i++) {
+                lineEntries.add(new Entry(i, list.get(i)));
+                barEntries.add(new BarEntry(i, list.get(i)));
+            }
+
+            /**
+             * 初始化柱形图的数据
+             * 此处用suppliers的数量做循环，因为总共所需要的数据源数量应该和标签个数一致
+             * 其中BarEntry是柱形图数据源的实体类，包装xy坐标数据
+             */
+            /******************BarData start********************/
+
+            BarDataSet barDataSet = new BarDataSet(barEntries, "LAR");  // 新建一组柱形图，"LAR"为本组柱形图的Label
+            barDataSet.setColor(Color.parseColor("#6596ba")); // 设置柱形图颜色
+            barDataSet.setValueTextColor(Color.parseColor("#666666")); //  设置柱形图顶部文本颜色
+//            barDataSet.setValueTextSize(25);
+            barDataSet.setDrawValues(false);
+            BarData barData = new BarData();
+            barData.addDataSet(barDataSet);// 添加一组柱形图，如果有多组柱形图数据，则可以多次addDataSet来设置
+            barData.setBarWidth(0.1f);
+
+            /******************BarData end********************/
+
+            /**
+             * 初始化折线图数据
+             * 说明同上
+             */
+            /******************LineData start********************/
+
+            LineDataSet lineDataSet = new LineDataSet(lineEntries, "不良率");
+            lineDataSet.setColor(Color.parseColor("#ce7951"));
+            lineDataSet.setCircleColor(Color.parseColor("#ce7951"));
+            lineDataSet.setCircleHoleColor(Color.parseColor("#FFFFFF"));
+            lineDataSet.setLineWidth(1);
+            lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+            lineDataSet.setHighlightEnabled(false);
+            lineDataSet.setCubicIntensity(0.2f);
+            lineDataSet.setValueTextSize(10);
+            lineDataSet.setDrawValues(true);
+            LineData lineData = new LineData();
+            lineData.addDataSet(lineDataSet);
+            /******************LineData end********************/
+
+            CombinedData combinedData = new CombinedData(); // 创建组合图的数据
+            combinedData.setData(barData);  // 添加柱形图数据源
+            combinedData.setData(lineData); // 添加折线图数据源
+            if (indexList.size() > 5) {
+                combinedChart.setVisibleXRange(0,5);
+            }
+            combinedChart.setData(combinedData); // 为组合图设置数据源
+//            combinedChart.setVisibleXRangeMaximum(12);
+//            combinedChart.setVisibleXRangeMinimum(6);
         }
-        details_chart.animateXY(2000, 2000);
+        combinedChart.animateXY(2000, 2000);
 
     }
 

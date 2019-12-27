@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
@@ -34,6 +35,8 @@ public class WeChatBindingActivity extends AllActivity{
     private RelativeLayout change_wechat_return;
     private EditText change_wechat_yanzhengma;
     private Button change_wechat_ensure;
+
+    TextView change_wechat_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +68,17 @@ public class WeChatBindingActivity extends AllActivity{
     private void initfvb(){
 
         change_wechat_return = findViewById(R.id.change_wechat_return);
+        change_wechat_title = findViewById(R.id.change_wechat_title);
         change_wechat_et = findViewById(R.id.change_wechat_et);
         change_wechat_yanzhengma_1 = findViewById(R.id.change_wechat_yanzhengma_1);
         change_wechat_yanzhengma = findViewById(R.id.change_wechat_yanzhengma);
         change_wechat_ensure = findViewById(R.id.change_wechat_ensure);
+
+        if(CityContents.getWeChatType().equals("1")){
+            change_wechat_title.setText("绑定微信");
+        }else {
+            change_wechat_title.setText("解绑微信");
+        }
 
         change_wechat_yanzhengma_1.setOnClickListener(new View.OnClickListener() {
             @Override
