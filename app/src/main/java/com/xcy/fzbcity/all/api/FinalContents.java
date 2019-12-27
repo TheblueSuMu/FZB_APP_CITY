@@ -27,7 +27,8 @@ public class FinalContents {
 //    static String ImageUrl = "http://192.168.0.120:8080";
 //    static String ImageUrl = "http://39.98.173.250:8081";
 //    static String ImageUrl = "http://test.fangzuobiao.com:88";
-    static String ImageUrl = "http://yanshi.fangzuobiao.com:88";
+//    static String ImageUrl = "http://yanshi.fangzuobiao.com:88";
+    static String ImageUrl = "http://39.98.209.175:8181";
 //    static String ImageUrl = "http://39.100.13.183:8080";       //      TODO    IP版
 //    static String ImageUrl = "http://city.fangzuobiao.com:88";       //      TODO     域名版
 //    static String ImageUrl = "http://39.98.237.23:8082";       //      TODO     远程版
@@ -60,7 +61,8 @@ public class FinalContents {
 //    static String BaseUrl = "http://192.168.0.120:8080/fangfang/app/v1/";
 //    static String BaseUrl = "http://39.98.173.250:8081/fangfang/app/v1/";
 //    static String BaseUrl = "http://test.fangzuobiao.com:88/fangfang/app/v1/";
-    static String BaseUrl = "http://yanshi.fangzuobiao.com:88/fangfang/app/v1/";
+//    static String BaseUrl = "http://yanshi.fangzuobiao.com:88/fangfang/app/v1/";
+    static String BaseUrl = "http://39.98.209.175:8181/fangfang/app/v1/";
 //    static String BaseUrl = "http://39.100.13.183:8080/fangfang/app/v1/";      //      TODO    IP版
 //    static String BaseUrl = "http://city.fangzuobiao.com:88/fangfang/app/v1/";      //      TODO    域名版
 //    static String BaseUrl = "http://39.98.237.23:8082/fangfang/app/v1/";      //      TODO    远程版

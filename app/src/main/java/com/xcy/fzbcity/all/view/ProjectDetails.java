@@ -26,9 +26,6 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.CombinedChart;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -38,11 +35,7 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IFillFormatter;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.material.tabs.TabLayout;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
@@ -388,23 +381,27 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                         for (int index = 0; index < projectDetailsBeanData.getProjectListVo().getFfAttacheList().size(); index++) {
                             arrayList.add(projectDetailsBeanData.getProjectListVo().getFfAttacheList().get(index).getName());
                         }
-                        //      监听选中
-                        OptionsPickerView pvOptions = new OptionsPickerBuilder(ProjectDetails.this, new OnOptionsSelectListener() {
-                            @Override
-                            public void onOptionsSelect(int options1, int option2, int options3, View v) {
-                                //               返回的分别是三个级别的选中位置
-                                //              展示选中数据
-                                Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + projectDetailsBeanData.getProjectListVo().getFfAttacheList().get(options1).getPhone()));//跳转到拨号界面，同时传递电话号码
-                                startActivity(dialIntent);
-                            }
-                        })
-                                .setSelectOptions(0)//设置选择第一个
-                                .setOutSideCancelable(false)//点击背的地方不消失
-                                .build();//创建
-                        //      把数据绑定到控件上面
-                        pvOptions.setPicker(arrayList);
-                        //      展示
-                        pvOptions.show();
+                        if (arrayList.size() != 0) {
+                            //      监听选中
+                            OptionsPickerView pvOptions = new OptionsPickerBuilder(ProjectDetails.this, new OnOptionsSelectListener() {
+                                @Override
+                                public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                                    //               返回的分别是三个级别的选中位置
+                                    //              展示选中数据
+                                    Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + projectDetailsBeanData.getProjectListVo().getFfAttacheList().get(options1).getPhone()));//跳转到拨号界面，同时传递电话号码
+                                    startActivity(dialIntent);
+                                }
+                            })
+                                    .setSelectOptions(0)//设置选择第一个
+                                    .setOutSideCancelable(false)//点击背的地方不消失
+                                    .build();//创建
+                            //      把数据绑定到控件上面
+                            pvOptions.setPicker(arrayList);
+                            //      展示
+                            pvOptions.show();
+                        }else {
+                            ToastUtil.showLongToast(ProjectDetails.this,"暂无专案");
+                        }
                     }else if(projectDetailsBeanData.getProjectListVo().getFfAttacheList().size() == 0){
                         ToastUtil.showLongToast(ProjectDetails.this,"暂无专案");
                     }
@@ -1038,11 +1035,11 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
 
                         name.setText(projectDetailsBeanData.getProjectListVo().getProjectName());
                         location.setText(projectDetailsBeanData.getProjectListVo().getDetailAddress());
-                        toatl.setText(projectDetailsBeanData.getProjectListVo().getProductTotalPrice());
+                        toatl.setText(projectDetailsBeanData.getProjectListVo().getReferenceToatlPrice());
 
                         unit.setText(projectDetailsBeanData.getProjectListVo().getProductUnitPrice());
 
-                        tary.setText(projectDetailsBeanData.getProjectListVo().getMonetaryUnit());
+                        tary.setText(projectDetailsBeanData.getProjectListVo().getReferenceToatlUnit());
                         areainterval.setText(projectDetailsBeanData.getProjectListVo().getAreaInterval());
 
                         if (FinalContents.getIdentity().equals("63")) {

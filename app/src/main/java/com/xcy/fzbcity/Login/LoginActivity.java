@@ -679,11 +679,11 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                             login_relative.setVisibility(View.VISIBLE);
                             login_select.setVisibility(View.VISIBLE);
                         } else if (onLineBean.getData().getOnline().equals("0")) {
-                            login_relative.setVisibility(View.GONE);
-                            login_select.setVisibility(View.GONE);
+                            login_relative.setVisibility(View.INVISIBLE);
+                            login_select.setVisibility(View.INVISIBLE);
                         }else {
-                            login_relative.setVisibility(View.GONE);
-                            login_select.setVisibility(View.GONE);
+                            login_relative.setVisibility(View.INVISIBLE);
+                            login_select.setVisibility(View.INVISIBLE);
                         }
                     }
 

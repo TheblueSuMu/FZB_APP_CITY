@@ -195,6 +195,8 @@
                 android:background="@drawable/comment"
                 android:drawableLeft="@mipmap/jjqbx"
                 android:hint="  我来说几句"
+                android:imeOptions="actionSend"
+                android:inputType="text"
                 android:paddingLeft="10dp"
                 android:textColor="#111"
                 android:textSize="12sp" />

@@ -1,10 +1,5 @@
 package com.xcy.fzbcity.all.view;
 
-import android.Manifest;
-import android.app.AppOpsManager;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,7 +27,6 @@ import com.xcy.fzbcity.all.persente.ContactModel;
 import com.xcy.fzbcity.all.persente.DividerItemDecoration;
 import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.utils.PhoneUtil;
-import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +76,6 @@ public class PhoneActivity extends AllActivity{
     }
 
     private void initfvb(){
-        havaReadContacts(PhoneActivity.this,"READ_CONTACTS ");
         all_activity_phone_cancle = findViewById(R.id.all_activity_phone_cancle);
         all_activity_phone_search = findViewById(R.id.all_activity_phone_search);
         all_activity_phone_ensure = findViewById(R.id.all_activity_phone_ensure);
@@ -145,55 +137,6 @@ public class PhoneActivity extends AllActivity{
         });
     }
 
-    /**
-     * 判断是否拥有联系人读取权限
-     *
-     * @param context
-     * @return
-     * XXX代表权限字符串，比如 READ_CONTACTS 通讯录读取权限
-     */
-    public boolean havaReadContacts(Context context, String xxx) {
-
-        boolean have = false;
-
-        ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS);
-        if (Build.VERSION.SDK_INT >= 23) {
-            AppOpsManager appOpsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
-            int checkOp = appOpsManager.checkOp(AppOpsManager.OPSTR_READ_CONTACTS, android.os.Process.myUid(), context.getPackageName());
-            Log.e("通讯录权限", "checkOp:" + checkOp);
-            ToastUtil.showLongToast(context,"AppOpsManager.MODE_ALLOWED ："+checkOp);
-            switch (checkOp) {
-                case AppOpsManager.MODE_ALLOWED:
-                    Log.e("通讯录权限", "AppOpsManager.MODE_ALLOWED ：有权限");
-                    ToastUtil.showLongToast(context,"AppOpsManager.MODE_ALLOWED ：有权限");
-                    have = true;
-                    break;
-                case AppOpsManager.MODE_IGNORED:
-                    Log.e("通讯录权限", "AppOpsManager.MODE_IGNORED：被禁止了");
-                    ToastUtil.showLongToast(context,"AppOpsManager.MODE_ALLOWED ：被禁止了");
-                    have = false;
-                    break;
-                case AppOpsManager.MODE_DEFAULT:
-                    Log.e("通讯录权限", "AppOpsManager.MODE_DEFAULT");
-                    ToastUtil.showLongToast(context,"AppOpsManager.MODE_ALLOWED ：默认");
-                    break;
-                case AppOpsManager.MODE_ERRORED:
-                    Log.e("通讯录权限", "AppOpsManager.MODE_ERRORED：出错了");
-                    ToastUtil.showLongToast(context,"AppOpsManager.MODE_ALLOWED ：出错了");
-                    have = false;
-                    break;
-                case 4:
-                    Log.e("通讯录权限", "AppOpsManager.OTHER：权限需要询问");
-                    ToastUtil.showLongToast(context,"AppOpsManager.MODE_ALLOWED ：权限需要询问");
-                    have = false;
-                    break;
-            }
-        } else {
-            have = ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS)
-                    == PackageManager.PERMISSION_GRANTED;
-        }
-        return have;
-    }
 
     private void initViews() {
         PhoneUtil phoneUtil = new PhoneUtil(PhoneActivity.this);
