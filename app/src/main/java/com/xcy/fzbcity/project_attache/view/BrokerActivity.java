@@ -834,6 +834,7 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
             combinedChart.animateY(1500);
             combinedChart.setTouchEnabled(true);
             combinedChart.setDragEnabled(true);
+            combinedChart.setExtraTopOffset(10);
             combinedChart.getLegend().setEnabled(false);
             combinedChart.setDoubleTapToZoomEnabled(false);
             combinedChart.setHighlightPerTapEnabled(false);
@@ -871,7 +872,7 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
 
             YAxis axisLeft = combinedChart.getAxisLeft(); // 获取左边Y轴操作类
             axisLeft.setAxisMinimum(0); // 设置最小值
-            axisLeft.setAxisMaximum((float) (max * 1.1)); // 设置最大值
+//            axisLeft.setAxisMaximum((float) (max * 1.1)); // 设置最大值
             axisLeft.setAxisLineColor(Color.parseColor("#00000000"));
             axisLeft.setTextColor(Color.parseColor("#999999"));
             axisLeft.setGridColor(Color.parseColor("#999999"));
@@ -913,7 +914,7 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
             lineDataSet.setCircleColor(Color.parseColor("#ce7951"));
             lineDataSet.setCircleHoleColor(Color.parseColor("#FFFFFF"));
             lineDataSet.setLineWidth(1);
-            lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+            lineDataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
             lineDataSet.setHighlightEnabled(false);
             lineDataSet.setCubicIntensity(0.2f);
             lineDataSet.setValueTextSize(10);

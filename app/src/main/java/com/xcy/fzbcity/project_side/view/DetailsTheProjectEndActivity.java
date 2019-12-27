@@ -801,6 +801,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
             details_chart.animateY(1500);
             details_chart.setTouchEnabled(true);
             details_chart.setDragEnabled(true);
+            details_chart.setExtraTopOffset(10);
             details_chart.getLegend().setEnabled(false);
             details_chart.setDoubleTapToZoomEnabled(false);
             details_chart.setHighlightPerTapEnabled(false);
@@ -838,7 +839,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
 
             YAxis axisLeft = details_chart.getAxisLeft(); // 获取左边Y轴操作类
             axisLeft.setAxisMinimum(0); // 设置最小值
-            axisLeft.setAxisMaximum(max); // 设置最大值
+//            axisLeft.setAxisMaximum(max); // 设置最大值
             axisLeft.setAxisLineColor(Color.parseColor("#00000000"));
             axisLeft.setTextColor(Color.parseColor("#999999"));
 
@@ -880,7 +881,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
             lineDataSet.setCircleColor(Color.parseColor("#ce7951"));
             lineDataSet.setCircleHoleColor(Color.parseColor("#FFFFFF"));
             lineDataSet.setLineWidth(1);
-            lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+            lineDataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
             lineDataSet.setHighlightEnabled(false);
             lineDataSet.setCubicIntensity(0.2f);
             lineDataSet.setValueTextSize(10);
