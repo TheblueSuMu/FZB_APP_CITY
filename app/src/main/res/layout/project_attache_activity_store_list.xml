@@ -67,6 +67,8 @@
                     android:layout_marginRight="100dp"
                     android:background="@drawable/comment"
                     android:gravity="center"
+                    android:imeOptions="actionSearch"
+                    android:singleLine="true"
                     android:hint="搜索经纪人/负责人/手机"
                     android:textColor="#333333"
                     android:textSize="12sp" />

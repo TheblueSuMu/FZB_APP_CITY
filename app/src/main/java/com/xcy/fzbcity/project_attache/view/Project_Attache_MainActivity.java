@@ -199,15 +199,15 @@ public class Project_Attache_MainActivity extends AllActivity implements View.On
         img_backup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (FinalContents.getCityIs().equals("")) {
+//                if (FinalContents.getCityIs().equals("")) {
                     GetandSaveCurrentImage();
                     String sdCardPath = getSDCardPath();
                     Intent intent = new Intent(Project_Attache_MainActivity.this, ContentActivity.class);
                     intent.putExtra("img", filepath);
                     startActivity(intent);
-                } else if (FinalContents.getCityIs().equals("不是当前城市")) {
-                    ToastUtil.showLongToast(Project_Attache_MainActivity.this, "不是主营城市");
-                }
+//                } else if (FinalContents.getCityIs().equals("不是当前城市")) {
+//                    ToastUtil.showLongToast(Project_Attache_MainActivity.this, "不是主营城市");
+//                }
             }
         });
 
@@ -245,15 +245,15 @@ public class Project_Attache_MainActivity extends AllActivity implements View.On
 //                transaction.replace(R.id.main_framelayout,dFragment);
                 break;
             case R.id.button_backup:
-                if (FinalContents.getCityIs().equals("")) {
+//                if (FinalContents.getCityIs().equals("")) {
                     GetandSaveCurrentImage();
                     String sdCardPath = getSDCardPath();
                     Intent intent = new Intent(Project_Attache_MainActivity.this, ContentActivity.class);
                     intent.putExtra("img", filepath);
                     startActivity(intent);
-                } else if (FinalContents.getCityIs().equals("不是当前城市")) {
-                    ToastUtil.showLongToast(Project_Attache_MainActivity.this, "不是主营城市");
-                }
+//                } else if (FinalContents.getCityIs().equals("不是当前城市")) {
+//                    ToastUtil.showLongToast(Project_Attache_MainActivity.this, "不是主营城市");
+//                }
 
                 break;
             case R.id.button_economics:

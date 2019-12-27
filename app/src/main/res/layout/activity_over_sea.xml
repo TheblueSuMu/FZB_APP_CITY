@@ -41,6 +41,8 @@
                 android:gravity="center"
                 android:hint="搜索"
                 android:maxLines="1"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
                 android:lines="1"
                 android:inputType="text"
                 android:textColor="#333333"

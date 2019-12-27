@@ -1,7 +1,16 @@
 package com.xcy.fzbcity.all.view;
 
 import android.annotation.SuppressLint;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -10,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,6 +41,14 @@ import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.utils.CommonUtil;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +87,32 @@ public class EconomicCircleParticularsActivity extends AllActivity implements Vi
     private boolean whehter = true;
     private RecyclerView particulars_img_rv;
 
+    private int num;
+    private String url;
+    private String imgURl;//图片的URL地址
+    private static final int SAVE_SUCCESS = 0;//保存图片成功
+    private static final int SAVE_FAILURE = 1;//保存图片失败
+    private static final int SAVE_BEGIN = 2;//开始保存图片
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case SAVE_BEGIN:
+                    Toast.makeText(EconomicCircleParticularsActivity.this, "开始保存图片...", Toast.LENGTH_SHORT).show();
+//                    mSaveBtn.setClickable(false);
+                    break;
+                case SAVE_SUCCESS:
+                    Toast.makeText(EconomicCircleParticularsActivity.this, "图片保存成功,请到相册查找...", Toast.LENGTH_SHORT).show();
+//                    mSaveBtn.setClickable(true);
+                    break;
+                case SAVE_FAILURE:
+                    Toast.makeText(EconomicCircleParticularsActivity.this, "图片保存失败,请稍后再试...", Toast.LENGTH_SHORT).show();
+//                    mSaveBtn.setClickable(true);
+                    break;
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +138,7 @@ public class EconomicCircleParticularsActivity extends AllActivity implements Vi
                     startActivity(getIntent());
                 }
             });
-            ToastUtil.showToast(this,"当前无网络，请检查网络后再进行登录");
+            ToastUtil.showToast(this, "当前无网络，请检查网络后再进行登录");
         }
     }
 
@@ -111,7 +155,7 @@ public class EconomicCircleParticularsActivity extends AllActivity implements Vi
                     if (flag == 0) {
                         String s = particulars_et_comment.getText().toString();
                         if (s.equals("")) {
-                            ToastUtil.showToast(EconomicCircleParticularsActivity.this,"评论不能为空");
+                            ToastUtil.showToast(EconomicCircleParticularsActivity.this, "评论不能为空");
                             flag = 0;
                         } else {
                             flag = 1;
@@ -197,8 +241,8 @@ public class EconomicCircleParticularsActivity extends AllActivity implements Vi
     }
 
     private void initData() {
-        Log.i("我的经济圈","用户："+FinalContents.getUserID());
-        Log.i("我的经济圈","id："+FinalContents.getEconomicCircleID());
+        Log.i("我的经济圈", "用户：" + FinalContents.getUserID());
+        Log.i("我的经济圈", "id：" + FinalContents.getEconomicCircleID());
 
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(FinalContents.getBaseUrl());
@@ -228,11 +272,11 @@ public class EconomicCircleParticularsActivity extends AllActivity implements Vi
                         } else {
                             particulars_img_rv.setVisibility(View.VISIBLE);
                             List<String> arraylist = new ArrayList<>();
-                            String[] a  = imgUrl.split("[|]");
-                            for (int i = 0; i < a.length; i++){
+                            String[] a = imgUrl.split("[|]");
+                            for (int i = 0; i < a.length; i++) {
                                 arraylist.add(a[i]);
                             }
-                            GridLayoutManager layoutManager = new GridLayoutManager(EconomicCircleParticularsActivity.this,3);
+                            GridLayoutManager layoutManager = new GridLayoutManager(EconomicCircleParticularsActivity.this, 3);
                             layoutManager.setOrientation(GridLayoutManager.VERTICAL);
                             particulars_img_rv.setLayoutManager(layoutManager);
                             ImageAdapter imageAdapter = new ImageAdapter(arraylist);
@@ -326,6 +370,7 @@ public class EconomicCircleParticularsActivity extends AllActivity implements Vi
 //                                    particulars_zan.setImageResource(zan[0]);
 //                                    particulars_like.setText(totalZanBean.getData().getLikeNum() + "");
 //                                }
+                                ToastUtil.showLongToast(EconomicCircleParticularsActivity.this, totalZanBean.getData().getMessage());
                                 initData();
                             }
 
@@ -344,10 +389,114 @@ public class EconomicCircleParticularsActivity extends AllActivity implements Vi
 //              TODO 评论
             case R.id.particulars_fb_img:
 
+                ClipboardManager clip = (ClipboardManager) EconomicCircleParticularsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                clip.setText(particulars_message.getText().toString() + "");
+
+
+                if (circle.getImgUrl().equals("")) {
+
+                }else {
+                    String UrlImage = circle.getImgUrl();
+                    final String[] a = circle.getImgUrl().split("[|]");
+                    for (int i = 0; i < a.length; i++) {
+                        Log.i("分割图片", "图片：" + a[i]);
+                        final int finalI = i;
+                        Log.i("分割图片", "图片151：" + imgURl);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                url = a[finalI];
+                                imgURl = FinalContents.getImageUrl() + url;
+                                mHandler.obtainMessage(SAVE_BEGIN).sendToTarget();
+                                Bitmap bp = returnBitMap(imgURl);
+                                Log.i("MyCL", "bp：" + bp);
+                                saveImageToPhotos(EconomicCircleParticularsActivity.this, bp);
+                            }
+                        }).start();
+                    }
+                }
+                ToastUtil.showLongToast(EconomicCircleParticularsActivity.this, "复制成功");
+                num = 0;
 
                 break;
 
         }
 
     }
+
+
+    /**
+     * 保存二维码到本地相册
+     */
+    private void saveImageToPhotos(Context context, Bitmap bmp) {
+        // 首先保存图片
+        File appDir = new File(Environment.getExternalStorageDirectory(), "Boohee");
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
+        String fileName = System.currentTimeMillis() + ".jpg";
+        File file = new File(appDir, fileName);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // 其次把文件插入到系统图库
+//        try {
+//            MediaStore.Images.Media.insertImage(context.getContentResolver(),
+//                    file.getAbsolutePath(), fileName, null);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//            mHandler.obtainMessage(SAVE_FAILURE).sendToTarget();
+//            return;
+//        }
+        // 最后通知图库更新
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri uri = Uri.fromFile(file);
+        intent.setData(uri);
+        context.sendBroadcast(intent);
+        mHandler.obtainMessage(SAVE_SUCCESS).sendToTarget();
+    }
+
+    /**
+     * 将URL转化成bitmap形式
+     *
+     * @param url
+     * @return bitmap type
+     */
+    public final static Bitmap returnBitMap(String url) {
+        URL myFileUrl;
+        Bitmap bitmap = null;
+        Log.i("MyCL", "1");
+        try {
+            myFileUrl = new URL(url);
+            Log.i("MyCL", "2");
+            HttpURLConnection conn;
+            Log.i("MyCL", "3");
+            conn = (HttpURLConnection) myFileUrl.openConnection();
+            Log.i("MyCL", "4");
+            conn.setDoInput(true);
+            Log.i("MyCL", "5");
+            conn.connect();
+            Log.i("MyCL", "6");
+            InputStream is = conn.getInputStream();
+            Log.i("MyCL", "7");
+            bitmap = BitmapFactory.decodeStream(is);
+            Log.i("MyCL", "8");
+        } catch (MalformedURLException e) {
+            Log.i("MyCL", "9");
+            e.printStackTrace();
+        } catch (IOException e) {
+            Log.i("MyCL", "10");
+            e.printStackTrace();
+        }
+        Log.i("MyCL", "11");
+        return bitmap;
+    }
+
 }

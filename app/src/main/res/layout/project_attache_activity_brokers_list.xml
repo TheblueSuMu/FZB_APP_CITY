@@ -85,6 +85,8 @@
                     android:gravity="center"
                     android:hint="搜索经纪公司/经纪门店/经纪人姓名/手机号"
                     android:maxLines="1"
+                    android:imeOptions="actionSearch"
+                    android:singleLine="true"
                     android:ellipsize="end"
                     android:paddingRight="5dp"
                     android:paddingLeft="5dp"

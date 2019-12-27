@@ -18,6 +18,8 @@
                 android:layout_marginTop="5dp"
                 android:hint="按客户姓名/手机号搜索"
                 android:gravity="center"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
                 android:drawableLeft="@mipmap/search"
                 android:paddingLeft="5dp"
                 android:drawablePadding="10dp"

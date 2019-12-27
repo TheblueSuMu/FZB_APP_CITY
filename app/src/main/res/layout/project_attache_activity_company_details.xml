@@ -962,12 +962,22 @@
                             android:layout_marginRight="15dp"
                             android:background="#EEEEED"></LinearLayout>
 
+                        <TextView
+                            android:layout_marginTop="35dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:text="近七天活动度"
+                            android:textColor="#ff111111"
+                            android:textSize="15sp"
+                            />
+
                         <com.github.mikephil.charting.charts.CombinedChart
                             android:id="@+id/lc_details"
                             android:layout_width="match_parent"
                             android:layout_height="130dp"
                             android:layout_marginLeft="15dp"
-                            android:layout_marginTop="35dp"
+                            android:layout_marginTop="25dp"
                             android:layout_marginRight="15dp"
                             android:scaleType="fitXY" />
 

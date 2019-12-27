@@ -37,6 +37,8 @@
             android:background="@drawable/edittext_shape"
             android:gravity="center"
             android:hint="搜索"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
             android:textColorHint="#ff333333" />
 
         <ImageView

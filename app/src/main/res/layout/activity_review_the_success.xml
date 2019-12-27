@@ -54,7 +54,7 @@
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_above="@+id/linearlayout_ll">
+                    android:layout_marginBottom="60dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -153,7 +153,7 @@
                     android:id="@+id/linearlayout_ll"
                     android:paddingTop="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="60dp"
                     android:background="@drawable/linearlayout_back"
                     android:layout_alignParentBottom="true"
                     android:orientation="horizontal">
@@ -461,9 +461,9 @@
                 <LinearLayout
                     android:id="@+id/linearlayout_l"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="50dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
 
                     <Button
@@ -472,6 +472,7 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="5dp"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:visibility="gone"
                         android:background="@drawable/points_dialog_but"
@@ -484,6 +485,7 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:visibility="gone"
                         android:background="@drawable/points_dialog_but"
@@ -496,6 +498,7 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:visibility="gone"
                         android:background="@drawable/points_dialog_but"
@@ -508,6 +511,7 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="@drawable/points_dialog_but"
                         android:text="认筹"
@@ -520,6 +524,7 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="10dp"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="@drawable/points_dialog_but"
                         android:text="成交"
@@ -532,6 +537,7 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="10dp"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="@drawable/points_dialog_but"
                         android:text="未成交"
@@ -544,6 +550,7 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="10dp"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="@drawable/points_dialog_but"
                         android:text="修改信息"
@@ -556,6 +563,7 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="10dp"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="@drawable/points_dialog_but"
                         android:text="退筹"
@@ -568,6 +576,7 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="10dp"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="@drawable/points_dialog_but"
                         android:text="调单"
@@ -580,6 +589,7 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="10dp"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="@drawable/points_dialog_but"
                         android:text="退单"
@@ -592,6 +602,7 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="10dp"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="@drawable/points_dialog_but"
                         android:text="通过"
@@ -604,6 +615,7 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="10dp"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="@drawable/points_dialog_but"
                         android:text="拒绝"
@@ -616,6 +628,7 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="10dp"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="@drawable/points_dialog_but"
                         android:text="补全信息"

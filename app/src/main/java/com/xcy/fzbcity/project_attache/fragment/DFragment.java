@@ -595,7 +595,7 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
                 .setLabel("年", "月", "日", "", "", "")//默认设置为年月日时分秒
                 .isCenterLabel(false)
                 .setDate(selectedDate)
-                .setLineSpacingMultiplier(1.2f)
+                .setLineSpacingMultiplier(1.5f)
                 .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
                 .setRangDate(startDate, endDate)
                 .build();
@@ -625,7 +625,7 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
                 .setLabel("年", "月", "日", "", "", "")//默认设置为年月日时分秒
                 .isCenterLabel(false)
                 .setDate(selectedDate)
-                .setLineSpacingMultiplier(1.2f)
+                .setLineSpacingMultiplier(1.5f)
                 .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
                 .setRangDate(startDate, endDate)
                 .build();
@@ -928,7 +928,7 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
             xAxis.setAxisMinimum(-0.2f);
             xAxis.setAxisMaximum(values.size() - 0.5f);
             xAxis.setGranularity(1f);
-
+            xAxis.setLabelRotationAngle(0);
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // 设置X轴标签位置，BOTTOM在底部显示，TOP在顶部显示
             xAxis.setValueFormatter(new ValueFormatter() {
                 @Override
