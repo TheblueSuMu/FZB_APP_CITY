@@ -644,6 +644,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
                         details_the_project_end_tv11.setText("" + detailsBean.getData().getOperation().getInvalidNum());
 
                         List<Integer> integers = detailsBean.getData().getGsonOption().getSeries().get(0).getData();
+                        Log.i("长度","integers:" +  integers.size());
                         indexList = detailsBean.getData().getGsonOption().getXAxis().getData();
                         setData(integers);
                     }
@@ -799,7 +800,6 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
             details_chart.getLegend().setEnabled(false);
             details_chart.setDoubleTapToZoomEnabled(false);
             details_chart.setHighlightPerTapEnabled(false);
-//            details_chart.setDrawGridBackground(true);
             details_chart.getAxisRight().setEnabled(false);
 
             XAxis xAxis = details_chart.getXAxis();
@@ -810,7 +810,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
             Log.i("长度","list.size()"+list.size());
             Log.i("长度","indexList.size()"+indexList.size());
             xAxis.setAxisMaximum(values.size() - 0.5f);
-//            xAxis.setGranularity(1f);
+            xAxis.setGranularity(1f);
             xAxis.setTextColor(Color.parseColor("#666666"));
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // 设置X轴标签位置，BOTTOM在底部显示，TOP在顶部显示
             xAxis.setValueFormatter(new ValueFormatter() {
@@ -834,13 +834,10 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
 
             YAxis axisLeft = details_chart.getAxisLeft(); // 获取左边Y轴操作类
             axisLeft.setAxisMinimum(0); // 设置最小值
-//            axisLeft.setAxisMaximum((float) (max * 1.1)); // 设置最大值
-//            axisLeft.setAxisLineColor(Color.parseColor("#00000000"));
+            axisLeft.setAxisMaximum(max); // 设置最大值
+            axisLeft.setAxisLineColor(Color.parseColor("#00000000"));
             axisLeft.setTextColor(Color.parseColor("#999999"));
-            axisLeft.setDrawGridLines(true);
-            axisLeft.setGridLineWidth(1.0f);
-            axisLeft.setGridColor(Color.parseColor("#666666"));
-            axisLeft.setGridColor(Color.parseColor("#999999"));
+
 
 
             List<Entry> lineEntries = new ArrayList<>();

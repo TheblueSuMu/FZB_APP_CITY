@@ -886,63 +886,6 @@
             </RelativeLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/picker"
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#e7e7e7"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_weight="1"
-                    android:id="@+id/picker_cancel"
-                    android:text="取消"
-                    android:textSize="18sp"
-                    android:textColor="#ff666666"
-                    android:layout_marginLeft="10dp"
-                    android:layout_alignParentLeft="true"
-                    android:gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp" />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="请选择时间"
-                    android:gravity="center"
-                    android:textColor="#ff111111"
-                    android:textSize="18sp"
-                    />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:id="@+id/picker_ensure"
-                    android:text="确定"
-                    android:textSize="18sp"
-                    android:textColor="#334485"
-                    android:layout_marginRight="10dp"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical|right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp" />
-
-
-            </LinearLayout>
-
-            <top.defaults.view.DateTimePickerView
-                android:id="@+id/pickerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:preferredMaxOffsetItemCount="4"
-                android:background="#e7e7e7"/>
-        </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout

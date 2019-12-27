@@ -30,8 +30,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.adapter.ConfessAdapter;
@@ -53,8 +56,10 @@ import com.xcy.fzbcity.all.utils.MoneyValueFilter;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 import com.xcy.fzbcity.project_side.adapter.TimeRangeAdapter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
@@ -99,14 +104,10 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
     RelativeLayout fill_in_transaction_information_rl6;
 
     String type = "";
-    private DateTimePickerView dateTimePickerView;
 
     RelativeLayout transition_layout;
     RecyclerView transition_recycler;
 
-    LinearLayout picker;
-    TextView picker_cancel;
-    TextView picker_ensure;
 
     boolean whether = true;
     private String apartment = "";  //  TODO    户型
@@ -131,6 +132,9 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
     int ifnum5 = 0;
 
     int ifnum6 = 0;
+    private int year;
+    private int month;
+    private int dayOfMonth;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -174,11 +178,11 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
 
         fill_in_transaction_information_title = findViewById(R.id.fill_in_transaction_information_title);
 
-        dateTimePickerView = findViewById(R.id.pickerView);
-        picker = findViewById(R.id.picker);
-        picker_cancel = findViewById(R.id.picker_cancel);
-        picker_ensure = findViewById(R.id.picker_ensure);
 
+        Calendar calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
         project_type = findViewById(R.id.project_type);
         project_relation = findViewById(R.id.project_relation);
@@ -654,19 +658,28 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
                 break;
             //            TODO 成交时间
             case R.id.fill_in_transaction_information_rl5:
-                if (ifnum3 == 0) {
-                    ifnum3 = 1;
-                    picker.setVisibility(View.VISIBLE);
-                    hideInput();
-                    initDate();
-                    ifnum3 = 0;
-                }
-//                Calendar calendar = Calendar.getInstance();
-//                int year = calendar.get(Calendar.YEAR);
-//                int month = calendar.get(Calendar.MONTH) + 1;
-//                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-//                String dateString = String.format(Locale.getDefault(), "%d年%02d月%02d日", year, month, dayOfMonth);
-//                project_time.setText(dateString);
+                hideInput();
+                Calendar selectedDate = Calendar.getInstance();//系统当前时间
+                Calendar startDate = Calendar.getInstance();
+                startDate.set(year-2, month, dayOfMonth);
+                final Calendar endDate = Calendar.getInstance();
+                endDate.set(year, month, dayOfMonth);
+                TimePickerView pvTime = new TimePickerBuilder(FillInTransactionInformationActivity.this, new OnTimeSelectListener() {
+                    @Override
+                    public void onTimeSelect(Date date, View v) {
+                        project_time.setText(getTime1(date));
+                    }
+                })
+
+                        .setType(new boolean[]{true, true, true, false, false, false}) //年月日时分秒 的显示与否，不设置则默认全部显示
+                        .setLabel("年", "月", "日", "", "", "")//默认设置为年月日时分秒
+                        .isCenterLabel(false)
+                        .setDate(selectedDate)
+                        .setLineSpacingMultiplier(1.5f)
+                        .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
+                        .setRangDate(startDate, endDate)
+                        .build();
+                pvTime.show();
                 break;
             //            TODO 佣金
             case R.id.fill_in_transaction_information_rl6:
@@ -687,62 +700,6 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
         }
     }
 
-    //TODO 成交时间赋值
-    private void initDate() {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1;
-        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-        String dateString = String.format(Locale.getDefault(), "%d年%02d月%02d日", year, month, dayOfMonth);
-        dateTimePickerView.setStartDate(new GregorianCalendar(year - 2, month - 1, dayOfMonth));
-        // 注意：月份是从0开始计数的
-        dateTimePickerView.setSelectedDate(new GregorianCalendar(2019, month - 1, dayOfMonth));
-        dateTimePickerView.setEndDate(new GregorianCalendar(year, month - 1, dayOfMonth));
-
-        picker_ensure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                picker.setVisibility(View.GONE);
-            }
-        });
-
-        picker_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                picker.setVisibility(View.GONE);
-            }
-        });
-
-        dateTimePickerView.setOnSelectedDateChangedListener(new DateTimePickerView.OnSelectedDateChangedListener() {
-            @Override
-            public void onSelectedDateChanged(Calendar date) {
-                int year = date.get(Calendar.YEAR);
-                int month = date.get(Calendar.MONTH);
-                int dayOfMonth = date.get(Calendar.DAY_OF_MONTH);
-                String dateString = String.format(Locale.getDefault(), "%d年%02d月%02d日", year, month + 1, dayOfMonth);
-                project_time.setText(dateString);
-            }
-        });
-
-        //            TODO 时间
-        project_time.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                picker.setVisibility(View.VISIBLE);
-                dateTimePickerView.setOnSelectedDateChangedListener(new DateTimePickerView.OnSelectedDateChangedListener() {
-                    @Override
-                    public void onSelectedDateChanged(Calendar date) {
-                        int year = date.get(Calendar.YEAR);
-                        int month = date.get(Calendar.MONTH);
-                        int dayOfMonth = date.get(Calendar.DAY_OF_MONTH);
-                        String dateString = String.format(Locale.getDefault(), "%d年%02d月%02d日", year, month + 1, dayOfMonth);
-                        project_time.setText(dateString);
-                    }
-                });
-            }
-        });
-
-    }
 
     private void initTimeData() {
         Retrofit.Builder builder = new Retrofit.Builder();
@@ -1083,5 +1040,10 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
             return im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
         }
         return false;
+    }
+    public String getTime1(Date date) {//可根据需要自行截取数据显示
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
+        return format.format(date);
     }
 }
