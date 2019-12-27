@@ -122,7 +122,7 @@ public class Dynamic2Adapter extends RecyclerView.Adapter<Dynamic2Adapter.ViewHo
 
 
         Glide.with(context).load(FinalContents.getImageUrl() + list.get(position).getProject().getProjectImg()).placeholder(R.mipmap.logo_square).into(holder.circle_img_1);
-        holder.circle_title.setText(list.get(position).getProject().getProjectName());
+        holder.circle_title.setText(list.get(position).getCreateBy().getName());
         holder.circle_message.setText(list.get(position).getContent());
         holder.circle_time.setText(list.get(position).getCreateDate());
         holder.circle_name.setText(list.get(position).getProject().getProjectName());
