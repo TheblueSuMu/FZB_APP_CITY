@@ -1630,7 +1630,7 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
             axisLeft.setAxisMaximum((float) (max * 1.1)); // 设置最大值
             axisLeft.setAxisLineColor(Color.parseColor("#00000000"));
             axisLeft.setTextColor(Color.parseColor("#999999"));
-            axisLeft.setGridColor(Color.parseColor("999999"));
+            axisLeft.setGridColor(Color.parseColor("#999999"));
 
 
             List<Entry> lineEntries = new ArrayList<>();
