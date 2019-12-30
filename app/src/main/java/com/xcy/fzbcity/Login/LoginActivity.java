@@ -1266,8 +1266,8 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         final Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        final Observable<AppPackageBean> appPackage = fzbInterface.getAppPackage("android","com.xcy.fzb", versionName);
-        Log.i("提示更新","数据："+FinalContents.getBaseUrl()+"commonSelect/appPackage&appType=android&appPackage=com.xcy.fzb&appVeriosn="+versionName);
+        final Observable<AppPackageBean> appPackage = fzbInterface.getAppPackage("android","com.xcy.fzbcity", versionName);
+        Log.i("提示更新","数据："+FinalContents.getBaseUrl()+"commonSelect/appPackage&appType=android&appPackage=com.xcy.fzbcity&appVeriosn="+versionName);
         appPackage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AppPackageBean>() {
@@ -1327,6 +1327,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                             builder1.setPositiveButton("更新", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    dial = false;
                                     url = appPackageBean.getData().getAppurl();
                                     showDownloadDialog();
                                 }
@@ -1334,8 +1335,8 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                             builder1.setOnDismissListener(new DialogInterface.OnDismissListener() {
                                 @Override
                                 public void onDismiss(DialogInterface dialogInterface) {
-                                    AllActivity.exit = true;
-                                    finish();
+//                                    AllActivity.exit = true;
+////                                    finish();
                                 }
                             });
                             builder1.show();
@@ -1383,6 +1384,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
         // 下载文件
         downloadAPK();
     }
+
     /**
      * 开启新线程下载apk文件
      */
@@ -1394,8 +1396,8 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                     if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
                         String sdPath = Environment.getExternalStorageDirectory() + "/";
 //                      文件保存路径
-                        mSavePath = sdPath + "fzbdownload";
-
+                        mSavePath = sdPath + "fzbcitydownload";
+                        Log.i("下载","数据："+url);
                         File dir = new File(mSavePath);
                         if (!dir.exists()){
                             dir.mkdir();
@@ -1473,16 +1475,20 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 //执行的数据类型
         if (Build.VERSION.SDK_INT >= 24) { //判读版本是否在7.0以上
             //参数1 上下文, 参数2 Provider主机地址 和配置文件中保持一致   参数3  共享的文件
-            Uri apkUri =
-                    FileProvider.getUriForFile(LoginActivity.this, "com.xcy.fzb.fileprovider", apkFile);
+            Uri apkUri = FileProvider.getUriForFile(LoginActivity.this, "com.xcy.fzbcity.fileprovider", apkFile);
             //添加这一句表示对目标应用临时授权该Uri所代表的文件
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
             intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+            LoginActivity.this.startActivity(intent);
         } else {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
             intent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");
+            LoginActivity.this.startActivity(intent);
         }
         Log.e("TAG", "安装apk");
-        LoginActivity.this.startActivity(intent);
+
 
 //        File apkFile = new File(mSavePath, mVersion_name);
 //        if (!apkFile.exists()){
@@ -1578,5 +1584,13 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mDownloadDialog != null) {
+            mDownloadDialog.dismiss();
+        }
     }
 }
