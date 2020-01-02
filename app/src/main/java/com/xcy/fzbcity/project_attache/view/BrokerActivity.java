@@ -399,11 +399,11 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
             public void onTimeSelect(Date date, View v) {
                 broker_tv4.setText(getTime2(date));
                 NewlyIncreased.setStartDate(getTime2(date));
-                if (project_attache_broker_ll2. getVisibility() == View.VISIBLE) {
-                    initDataNum("3", broker_tv4.getText().toString(), broker_tv5.getText().toString(), "1");
-                } else if (project_attache_broker_ll4.getVisibility() == View.VISIBLE) {
-                    initDataNum("3", broker_tv4.getText().toString(), broker_tv5.getText().toString(), "2");
-                }
+//                if (project_attache_broker_ll2. getVisibility() == View.VISIBLE) {
+//                    initDataNum("3", broker_tv4.getText().toString(), broker_tv5.getText().toString(), "1");
+//                } else if (project_attache_broker_ll4.getVisibility() == View.VISIBLE) {
+//                    initDataNum("3", broker_tv4.getText().toString(), broker_tv5.getText().toString(), "2");
+//                }
             }
         })
                 .setType(new boolean[]{true, true, true, false, false, false}) //年月日时分秒 的显示与否，不设置则默认全部显示
@@ -459,7 +459,7 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
             public void onTimeSelect(Date date, View v) {
                 broker_tv13.setText(getTime2(date));
                 NewlyIncreased.setYJstartDate(getTime2(date));
-                initFinanceNum("3", broker_tv13.getText().toString(), broker_tv14.getText().toString());
+//                initFinanceNum("3", broker_tv13.getText().toString(), broker_tv14.getText().toString());
             }
         })
                 .setType(new boolean[]{true, true, true, false, false, false}) //年月日时分秒 的显示与否，不设置则默认全部显示

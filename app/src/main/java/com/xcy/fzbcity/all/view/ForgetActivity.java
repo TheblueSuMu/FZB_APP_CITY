@@ -161,9 +161,14 @@ public class ForgetActivity extends AllActivity implements View.OnClickListener 
 
                     @Override
                     public void onNext(CodeBean codeBean) {
-                        CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(getCode, 60000, 1000);
-                        mCountDownTimerUtils.start();
-                        ToastUtil.showToast(ForgetActivity.this, codeBean.getData().getMessage());
+                        if(codeBean.getData().getStatus().equals("0")){
+                            ToastUtil.showToast(ForgetActivity.this, codeBean.getData().getMessage());
+                        }else if(codeBean.getData().getStatus().equals("1")){
+                            CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(getCode, 60000, 1000);
+                            mCountDownTimerUtils.start();
+                            ToastUtil.showToast(ForgetActivity.this, codeBean.getData().getMessage());
+                        }
+
                     }
 
                     @Override

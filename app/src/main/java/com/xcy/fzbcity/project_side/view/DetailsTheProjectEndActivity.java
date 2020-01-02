@@ -177,8 +177,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
     LinearLayout project_attache_ll4;
     String tag = "1";
     private String string;
-    private Date selectdate;
-
+    private Date select;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -430,9 +429,8 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
     private void initTime1_Date1() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year, month, dayOfMonth - 15);
-        final Calendar endDate = Calendar.getInstance();
-        endDate.set(year, month, dayOfMonth + 15);
+        startDate.set(year - 3, month, dayOfMonth);
+        Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(DetailsTheProjectEndActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -458,9 +456,8 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
     private void initTime1_Date2() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year, month, dayOfMonth - 15);
-        final Calendar endDate = Calendar.getInstance();
-        endDate.set(year, month, dayOfMonth + 15);
+        startDate.set(year - 3, month, dayOfMonth);
+        Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(DetailsTheProjectEndActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -486,16 +483,14 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
     private void initTime2_Date1() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year, month, dayOfMonth - 15);
-        final Calendar endDate = Calendar.getInstance();
-        endDate.set(year, month, dayOfMonth + 15);
+        startDate.set(year - 3, month, dayOfMonth);
+        Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(DetailsTheProjectEndActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 beforeDate2 = getTime2(date);
                 details_the_project_end_time3.setText("<" + getTime2(date));
                 NewlyIncreased.setYJstartDate(getTime2(date));
-                initViewData1();
             }
         })
 
@@ -514,9 +509,8 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
     private void initTime2_Date2() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year, month, dayOfMonth - 15);
-        final Calendar endDate = Calendar.getInstance();
-        endDate.set(year, month, dayOfMonth + 15);
+        startDate.set(year - 3, month, dayOfMonth);
+        Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(DetailsTheProjectEndActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -542,16 +536,14 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
     private void initTime3_Date1() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year, month, dayOfMonth - 15);
-        final Calendar endDate = Calendar.getInstance();
-        endDate.set(year, month, dayOfMonth + 15);
+        startDate.set(year - 3, month, dayOfMonth);
+        Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(DetailsTheProjectEndActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                selectdate = date;
+                select = date;
                 beforeDate3 = getTime2(date);
                 details_the_project_end_time5.setText("<" + getTime2(date));
-                initViewData3();
             }
         })
 
@@ -569,26 +561,29 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
     //            TODO  项目详情    业务趋势   结束时间
     private void initTime3_Date2() {
         Calendar calendar = Calendar.getInstance();
-        if (selectdate != null) {
-            calendar.setTime(selectdate);
-        }
+        calendar.setTime(select);
+        int selectyear = calendar.get(Calendar.YEAR);
+        int selectmonth = calendar.get(Calendar.MONTH);
+        int selectdayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-        year3 = calendar.get(Calendar.YEAR);
-        month3 = calendar.get(Calendar.MONTH);
-        dayOfMonth3 = calendar.get(Calendar.DAY_OF_MONTH);
+        final Calendar selected = Calendar.getInstance();
+        selected.set(selectyear,selectmonth,selectdayOfMonth+100);
+        select = selected.getTime();
 
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        final Calendar endDate = Calendar.getInstance();
-        selectedDate.set(year3, month3, dayOfMonth3);
-        startDate.set(year3, month3, dayOfMonth3);
-        endDate.set(year3, month3, dayOfMonth3 + 15);
+        startDate.set(year-3, month, dayOfMonth);
+        Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(DetailsTheProjectEndActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                afterDate3 = getTime2(date);
-                details_the_project_end_time6.setText("-" + getTime2(date) + " >");
-                initViewData3();
+                if (select.before(date)) {
+                    ToastUtil.showLongToast(DetailsTheProjectEndActivity.this,"时间间隔不能大于100天");
+                } else {
+                    afterDate3 = getTime2(date);
+                    details_the_project_end_time6.setText("-" + getTime2(date) + " >");
+                    initViewData3();
+                }
             }
         })
 
@@ -644,9 +639,9 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
                         details_the_project_end_tv11.setText("" + detailsBean.getData().getOperation().getInvalidNum());
 
                         List<Integer> integers = detailsBean.getData().getGsonOption().getSeries().get(0).getData();
-                        Log.i("长度","integers:" +  integers.size());
+                        Log.i("长度", "integers:" + integers.size());
                         indexList = detailsBean.getData().getGsonOption().getXAxis().getData();
-                        if(integers.size() != 0){
+                        if (integers.size() != 0) {
                             setData(integers);
                         }
                     }
@@ -765,7 +760,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
                     public void onNext(BusinessBean businessBean) {
                         List<Integer> integers = businessBean.getData().getSeries().get(0).getData();
                         indexList = businessBean.getData().getXAxis().getData();
-                        if(integers.size() != 0){
+                        if (integers.size() != 0) {
                             setData(integers);
                         }
                     }
@@ -781,7 +776,6 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
                     }
                 });
     }
-
 
 
     //TODO 详情页趋势图数据填充
@@ -811,9 +805,9 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
             xAxis.setDrawGridLines(false);
             /*解决左右两端柱形图只显示一半的情况 只有使用CombinedChart时会出现，如果单独使用BarChart不会有这个问题*/
             xAxis.setAxisMinimum(-0.2f);
-            Log.i("长度","values.size()"+values.size());
-            Log.i("长度","list.size()"+list.size());
-            Log.i("长度","indexList.size()"+indexList.size());
+            Log.i("长度", "values.size()" + values.size());
+            Log.i("长度", "list.size()" + list.size());
+            Log.i("长度", "indexList.size()" + indexList.size());
             xAxis.setAxisMaximum(values.size() - 0.5f);
             xAxis.setGranularity(1f);
             xAxis.setTextColor(Color.parseColor("#666666"));
@@ -823,7 +817,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
                 public String getFormattedValue(float value) {
                     if (indexList.size() != 0) {
                         return indexList.get((int) value % indexList.size());
-                    }else {
+                    } else {
                         return "";
                     }
                 }
@@ -831,7 +825,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
 
             int max = 0;
 
-            for (int i = 0;i < list.size();i++){
+            for (int i = 0; i < list.size(); i++) {
                 if (list.get(i) > max) {
                     max = list.get(i);
                 }
@@ -842,7 +836,6 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
 //            axisLeft.setAxisMaximum(max); // 设置最大值
             axisLeft.setAxisLineColor(Color.parseColor("#00000000"));
             axisLeft.setTextColor(Color.parseColor("#999999"));
-
 
 
             List<Entry> lineEntries = new ArrayList<>();
@@ -894,7 +887,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
             combinedData.setData(barData);  // 添加柱形图数据源
             combinedData.setData(lineData); // 添加折线图数据源
             if (indexList.size() > 5) {
-                details_chart.setVisibleXRange(0,5);
+                details_chart.setVisibleXRange(0, 5);
             }
             details_chart.setData(combinedData); // 为组合图设置数据源
 //            combinedChart.setVisibleXRangeMaximum(12);

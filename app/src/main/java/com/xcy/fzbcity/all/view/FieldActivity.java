@@ -6,16 +6,19 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,6 +27,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
@@ -64,7 +69,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 //TODO 同行人员
-public class FieldActivity extends AllActivity implements View.OnClickListener {
+public class FieldActivity extends AppCompatActivity implements View.OnClickListener {
 
     RelativeLayout field_return;
     ImageView field_img;
@@ -107,10 +112,15 @@ public class FieldActivity extends AllActivity implements View.OnClickListener {
     private LinearLayout field_ll;
     //  TODO    图片
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_field);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);      //  TODO    始终竖屏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().setStatusBarColor(Color.parseColor("#ff546da6"));
         init_No_Network();
     }
 
@@ -151,8 +161,6 @@ public class FieldActivity extends AllActivity implements View.OnClickListener {
     }
 
     private void initView() {
-
-        StatusBar.makeStatusBarTransparent(this);
 
         field_return = findViewById(R.id.field_return);
 

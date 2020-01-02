@@ -13,7 +13,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="50dp"
             android:background="@drawable/my_brokerage">
 
             <RelativeLayout
@@ -50,574 +50,581 @@
             android:layout_height="match_parent"
             android:background="#EEEEED">
 
-            <Button
-                android:id="@+id/add_company_btn"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="38dp"
-                android:layout_marginRight="38dp"
-                android:layout_marginBottom="25dp"
-                android:background="@drawable/points_dialog_but"
-                android:text="提交"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
-
             <ScrollView
                 android:layout_width="match_parent"
+                android:fillViewport="true"
                 android:layout_height="match_parent">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <!--                    <LinearLayout-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="1dp"-->
-                    <!--                        android:background="#EEEEEE"></LinearLayout>-->
-
-                    <!--                    <LinearLayout-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="1dp"-->
-                    <!--                        android:background="#EEEEEE"></LinearLayout>-->
-
-                    <!--                    <LinearLayout-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="1dp"-->
-                    <!--                        android:background="#EEEEEE"></LinearLayout>-->
-
-                    <!--                    <LinearLayout-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="1dp"-->
-                    <!--                        android:background="#EEEEEE"></LinearLayout>-->
-
-                    <!--                    <LinearLayout-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="1dp"-->
-                    <!--                        android:background="#EEEEEE"></LinearLayout>-->
-
-                    <!--                    <LinearLayout-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="1dp"-->
-                    <!--                        android:background="#EEEEEE"></LinearLayout>-->
-
-                    <!--                    <LinearLayout-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="1dp"-->
-                    <!--                        android:background="#EEEEEE"></LinearLayout>-->
-
-                    <!--                    <LinearLayout-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="1dp"-->
-                    <!--                        android:background="#EEEEEE"></LinearLayout>-->
-
-
-                    <!--                    <LinearLayout-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="1dp"-->
-                    <!--                        android:background="#EEEEEE"></LinearLayout>-->
-
-                    <!--                    <LinearLayout-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="1dp"-->
-                    <!--                        android:background="#EEEEEE"></LinearLayout>-->
-
-                    <RelativeLayout
+                    android:layout_height="match_parent">
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="#FFFFFF">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="15dp"
-                            android:orientation="horizontal">
+                        <!--                    <LinearLayout-->
+                        <!--                        android:layout_width="match_parent"-->
+                        <!--                        android:layout_height="1dp"-->
+                        <!--                        android:background="#EEEEEE"></LinearLayout>-->
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="所属城市公司"
-                                android:textColor="#ff333333"
-                                android:textSize="15sp" />
+                        <!--                    <LinearLayout-->
+                        <!--                        android:layout_width="match_parent"-->
+                        <!--                        android:layout_height="1dp"-->
+                        <!--                        android:background="#EEEEEE"></LinearLayout>-->
 
-                        </LinearLayout>
+                        <!--                    <LinearLayout-->
+                        <!--                        android:layout_width="match_parent"-->
+                        <!--                        android:layout_height="1dp"-->
+                        <!--                        android:background="#EEEEEE"></LinearLayout>-->
+
+                        <!--                    <LinearLayout-->
+                        <!--                        android:layout_width="match_parent"-->
+                        <!--                        android:layout_height="1dp"-->
+                        <!--                        android:background="#EEEEEE"></LinearLayout>-->
+
+                        <!--                    <LinearLayout-->
+                        <!--                        android:layout_width="match_parent"-->
+                        <!--                        android:layout_height="1dp"-->
+                        <!--                        android:background="#EEEEEE"></LinearLayout>-->
+
+                        <!--                    <LinearLayout-->
+                        <!--                        android:layout_width="match_parent"-->
+                        <!--                        android:layout_height="1dp"-->
+                        <!--                        android:background="#EEEEEE"></LinearLayout>-->
+
+                        <!--                    <LinearLayout-->
+                        <!--                        android:layout_width="match_parent"-->
+                        <!--                        android:layout_height="1dp"-->
+                        <!--                        android:background="#EEEEEE"></LinearLayout>-->
+
+                        <!--                    <LinearLayout-->
+                        <!--                        android:layout_width="match_parent"-->
+                        <!--                        android:layout_height="1dp"-->
+                        <!--                        android:background="#EEEEEE"></LinearLayout>-->
 
 
-                        <TextView
-                            android:id="@+id/add_company_tv1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="15dp"
-                            android:gravity="right"
-                            android:text=""
-                            android:textColor="#ff666666"
-                            android:textSize="15sp" />
-                    </RelativeLayout>
+                        <!--                    <LinearLayout-->
+                        <!--                        android:layout_width="match_parent"-->
+                        <!--                        android:layout_height="1dp"-->
+                        <!--                        android:background="#EEEEEE"></LinearLayout>-->
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="#FFFFFF">
+                        <!--                    <LinearLayout-->
+                        <!--                        android:layout_width="match_parent"-->
+                        <!--                        android:layout_height="1dp"-->
+                        <!--                        android:background="#EEEEEE"></LinearLayout>-->
 
-                        <EditText
-                            android:id="@+id/add_company_et1"
-                            android:layout_width="150dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="15dp"
-                            android:background="#FFFFFF"
-                            android:gravity="right"
-                            android:hint="请输入公司名称"
-                            android:imeOptions="actionNext"
-                            android:singleLine="true"
-                            android:textColor="#ff666666"
-                            android:textSize="15sp" />
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="#FFFFFF">
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="15dp"
-                            android:orientation="horizontal">
-
-                            <TextView
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:text="公司名称"
-                                android:textColor="#ff333333"
-                                android:textSize="15sp" />
+                                android:layout_marginLeft="15dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="所属城市公司"
+                                    android:textColor="#ff333333"
+                                    android:textSize="15sp" />
+
+                            </LinearLayout>
+
 
                             <TextView
+                                android:id="@+id/add_company_tv1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="*"
-                                android:textColor="#AC1E26"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:gravity="right"
+                                android:text=""
+                                android:textColor="#ff666666"
                                 android:textSize="15sp" />
-                        </LinearLayout>
-                    </RelativeLayout>
+                        </RelativeLayout>
 
-                    <RelativeLayout
-                        android:id="@+id/add_company_rl1"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="#FFFFFF">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="#FFFFFF">
 
-                        <ImageView
-                            android:layout_width="8dp"
-                            android:layout_height="15dp"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="15dp"
-                            android:src="@mipmap/next" />
+                            <EditText
+                                android:id="@+id/add_company_et1"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:background="#FFFFFF"
+                                android:gravity="right"
+                                android:hint="请输入公司名称"
+                                android:imeOptions="actionNext"
+                                android:singleLine="true"
+                                android:textColor="#ff666666"
+                                android:textSize="15sp" />
 
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="15dp"
-                            android:orientation="horizontal">
-
-                            <TextView
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:text="所在区域"
-                                android:textColor="#ff333333"
-                                android:textSize="15sp" />
+                                android:layout_marginLeft="15dp"
+                                android:orientation="horizontal">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="*"
-                                android:textColor="#AC1E26"
-                                android:textSize="15sp" />
-                        </LinearLayout>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:text="公司名称"
+                                    android:textColor="#ff333333"
+                                    android:textSize="15sp" />
 
-                        <TextView
-                            android:id="@+id/add_company_tv2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="30dp"
-                            android:gravity="right"
-                            android:hint="省/市/区"
-                            android:textColor="#ff666666"
-                            android:textSize="15sp" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="*"
+                                    android:textColor="#AC1E26"
+                                    android:textSize="15sp" />
+                            </LinearLayout>
+                        </RelativeLayout>
 
-                    </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/add_company_rl1"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="#FFFFFF">
 
-                    <RelativeLayout
-                        android:id="@+id/add_company_rl2"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="#FFFFFF">
-
-                        <ImageView
-                            android:layout_width="8dp"
-                            android:layout_height="15dp"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="15dp"
-                            android:src="@mipmap/next" />
+                            <ImageView
+                                android:layout_width="13dp"
+                                android:layout_height="18dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:src="@mipmap/dingwei" />
 
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="15dp"
-                            android:orientation="horizontal">
-
-                            <TextView
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:text="地图坐标"
-                                android:textColor="#ff333333"
-                                android:textSize="15sp" />
+                                android:layout_marginLeft="15dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:text="所在区域"
+                                    android:textColor="#ff333333"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="*"
+                                    android:textColor="#AC1E26"
+                                    android:textSize="15sp" />
+                            </LinearLayout>
 
                             <TextView
+                                android:id="@+id/add_company_tv2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="*"
-                                android:textColor="#AC1E26"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="35dp"
+                                android:gravity="right"
+                                android:hint="省/市/区"
+                                android:textColor="#ff666666"
                                 android:textSize="15sp" />
-                        </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/add_company_tv3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="100dp"
-                            android:layout_marginRight="30dp"
-                            android:gravity="right"
-                            android:text=""
-                            android:textColor="#ff666666"
-                            android:textSize="15sp" />
-                    </RelativeLayout>
+                        </RelativeLayout>
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="#FFFFFF">
+                        <RelativeLayout
+                            android:visibility="gone"
+                            android:id="@+id/add_company_rl2"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="#FFFFFF">
 
-                        <EditText
-                            android:id="@+id/add_company_et2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="100dp"
-                            android:layout_marginRight="15dp"
-                            android:background="#FFFFFF"
-                            android:gravity="right"
-                            android:hint="请输入详细地址"
-                            android:imeOptions="actionNext"
-                            android:textColor="#ff666666"
-                            android:textSize="15sp" />
+                            <ImageView
+                                android:layout_width="8dp"
+                                android:layout_height="15dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:src="@mipmap/next" />
 
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="15dp"
-                            android:orientation="horizontal">
-
-                            <TextView
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:text="详情地址"
-                                android:textColor="#ff333333"
-                                android:textSize="15sp" />
+                                android:layout_marginLeft="15dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:text="地图坐标"
+                                    android:textColor="#ff333333"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="*"
+                                    android:textColor="#AC1E26"
+                                    android:textSize="15sp" />
+                            </LinearLayout>
 
                             <TextView
+                                android:id="@+id/add_company_tv3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="*"
-                                android:textColor="#AC1E26"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="100dp"
+                                android:layout_marginRight="30dp"
+                                android:gravity="right"
+                                android:text=""
+                                android:textColor="#ff666666"
                                 android:textSize="15sp" />
-                        </LinearLayout>
-                    </RelativeLayout>
+                        </RelativeLayout>
 
-                    <RelativeLayout
-                        android:id="@+id/rl1"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="#FFFFFF">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="#FFFFFF">
 
-                        <EditText
-                            android:id="@+id/add_company_et3"
-                            android:layout_width="150dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="15dp"
-                            android:background="#FFFFFF"
-                            android:gravity="right"
-                            android:hint="请输入姓名"
-                            android:imeOptions="actionNext"
-                            android:singleLine="true"
-                            android:textColor="#ff666666"
-                            android:textSize="15sp" />
+                            <EditText
+                                android:id="@+id/add_company_et2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="100dp"
+                                android:layout_marginRight="15dp"
+                                android:background="#FFFFFF"
+                                android:gravity="right"
+                                android:hint="请输入详细地址"
+                                android:imeOptions="actionNext"
+                                android:textColor="#ff666666"
+                                android:textSize="15sp" />
 
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="15dp"
-                            android:orientation="horizontal">
-
-                            <TextView
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:text="姓名"
-                                android:textColor="#ff333333"
-                                android:textSize="15sp" />
+                                android:layout_marginLeft="15dp"
+                                android:orientation="horizontal">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:text="详情地址"
+                                    android:textColor="#ff333333"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="*"
+                                    android:textColor="#AC1E26"
+                                    android:textSize="15sp" />
+                            </LinearLayout>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rl1"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="#FFFFFF">
+
+                            <EditText
+                                android:id="@+id/add_company_et3"
+                                android:layout_width="150dp"
                                 android:layout_height="wrap_content"
-                                android:visibility="gone"
-                                android:text="*"
-                                android:textColor="#AC1E26"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:background="#FFFFFF"
+                                android:gravity="right"
+                                android:hint="请输入姓名"
+                                android:imeOptions="actionNext"
+                                android:singleLine="true"
+                                android:textColor="#ff666666"
                                 android:textSize="15sp" />
-                        </LinearLayout>
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/rl2"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="#FFFFFF">
-
-                        <EditText
-                            android:id="@+id/add_company_et4"
-                            android:layout_width="150dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="15dp"
-                            android:background="#FFFFFF"
-                            android:digits="0123456789"
-                            android:gravity="right"
-                            android:hint="请输入手机号"
-                            android:imeOptions="actionNext"
-                            android:inputType="number"
-                            android:maxLength="11"
-                            android:singleLine="true"
-                            android:textColor="#ff666666"
-                            android:textSize="15sp" />
 
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="15dp"
-                            android:orientation="horizontal">
-
-                            <TextView
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:text="手机号"
-                                android:textColor="#ff333333"
-                                android:textSize="15sp" />
+                                android:layout_marginLeft="15dp"
+                                android:orientation="horizontal">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:text="姓名"
+                                    android:textColor="#ff333333"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    android:text="*"
+                                    android:textColor="#AC1E26"
+                                    android:textSize="15sp" />
+                            </LinearLayout>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rl2"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="#FFFFFF">
+
+                            <EditText
+                                android:id="@+id/add_company_et4"
+                                android:layout_width="150dp"
                                 android:layout_height="wrap_content"
-                                android:text="*"
-                                android:visibility="gone"
-                                android:textColor="#AC1E26"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:background="#FFFFFF"
+                                android:digits="0123456789"
+                                android:gravity="right"
+                                android:hint="请输入手机号"
+                                android:imeOptions="actionNext"
+                                android:inputType="number"
+                                android:maxLength="11"
+                                android:singleLine="true"
+                                android:textColor="#ff666666"
                                 android:textSize="15sp" />
-                        </LinearLayout>
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/rl3"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:visibility="gone"
-                        android:background="#FFFFFF">
-
-                        <EditText
-                            android:id="@+id/add_company_et5"
-                            android:layout_width="150dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="15dp"
-                            android:background="#FFFFFF"
-                            android:gravity="right"
-                            android:hint="请输入登录账号"
-                            android:imeOptions="actionNext"
-                            android:singleLine="true"
-                            android:textColor="#ff666666"
-                            android:textSize="15sp" />
 
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="15dp"
-                            android:orientation="horizontal">
-
-                            <TextView
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:text="登陆账号"
-                                android:textColor="#ff333333"
-                                android:textSize="15sp" />
+                                android:layout_marginLeft="15dp"
+                                android:orientation="horizontal">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:text="手机号"
+                                    android:textColor="#ff333333"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="*"
+                                    android:visibility="gone"
+                                    android:textColor="#AC1E26"
+                                    android:textSize="15sp" />
+                            </LinearLayout>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rl3"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:visibility="gone"
+                            android:background="#FFFFFF">
+
+                            <EditText
+                                android:id="@+id/add_company_et5"
+                                android:layout_width="150dp"
                                 android:layout_height="wrap_content"
-                                android:text="*"
-                                android:textColor="#AC1E26"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:background="#FFFFFF"
+                                android:gravity="right"
+                                android:hint="请输入登录账号"
+                                android:imeOptions="actionNext"
+                                android:singleLine="true"
+                                android:textColor="#ff666666"
                                 android:textSize="15sp" />
-                        </LinearLayout>
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/rl4"
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="#FFFFFF">
-
-                        <EditText
-                            android:id="@+id/add_company_et6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="15dp"
-                            android:background="#FFFFFF"
-                            android:gravity="right"
-                            android:hint="123456"
-                            android:textColor="#ff666666"
-                            android:textSize="15sp" />
 
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="15dp"
-                            android:orientation="horizontal">
-
-                            <TextView
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:text="登陆密码"
-                                android:textColor="#ff333333"
-                                android:textSize="15sp" />
+                                android:layout_marginLeft="15dp"
+                                android:orientation="horizontal">
 
-                            <TextView
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:text="登陆账号"
+                                    android:textColor="#ff333333"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="*"
+                                    android:textColor="#AC1E26"
+                                    android:textSize="15sp" />
+                            </LinearLayout>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rl4"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="#FFFFFF">
+
+                            <EditText
+                                android:id="@+id/add_company_et6"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="*"
-                                android:textColor="#AC1E26"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:background="#FFFFFF"
+                                android:gravity="right"
+                                android:hint="123456"
+                                android:textColor="#ff666666"
                                 android:textSize="15sp" />
-                        </LinearLayout>
-                    </RelativeLayout>
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="#FFFFFF">
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="15dp"
-                            android:orientation="horizontal">
-
-                            <TextView
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:text="是否合作"
-                                android:textColor="#ff333333"
-                                android:textSize="15sp" />
+                                android:layout_marginLeft="15dp"
+                                android:orientation="horizontal">
 
-                            <TextView
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:text="登陆密码"
+                                    android:textColor="#ff333333"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="*"
+                                    android:textColor="#AC1E26"
+                                    android:textSize="15sp" />
+                            </LinearLayout>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="#FFFFFF">
+
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="*"
-                                android:textColor="#AC1E26"
-                                android:textSize="15sp" />
-                        </LinearLayout>
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="15dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:text="是否合作"
+                                    android:textColor="#ff333333"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="*"
+                                    android:textColor="#AC1E26"
+                                    android:textSize="15sp" />
+                            </LinearLayout>
 
 
-                        <RadioGroup
-                            android:id="@+id/company_rg"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="15dp"
-                            android:orientation="horizontal">
-
-                            <RadioButton
-                                android:id="@+id/add_company_rb1"
+                            <RadioGroup
+                                android:id="@+id/company_rg"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:button="@null"
-                                android:checked="true"
-                                android:drawableLeft="@drawable/checkbox_check_s"
-                                android:text="  未开始" />
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:orientation="horizontal">
 
-                            <RadioButton
-                                android:id="@+id/add_company_rb2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:button="@null"
-                                android:drawableLeft="@drawable/checkbox_check_s"
-                                android:text="  已合作" />
+                                <RadioButton
+                                    android:id="@+id/add_company_rb1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:button="@null"
+                                    android:checked="true"
+                                    android:drawableLeft="@drawable/checkbox_check_s"
+                                    android:text="  未开始" />
 
-                            <RadioButton
-                                android:id="@+id/add_company_rb3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:button="@null"
-                                android:drawableLeft="@drawable/checkbox_check_s"
-                                android:text="  取消合作" />
+                                <RadioButton
+                                    android:id="@+id/add_company_rb2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:button="@null"
+                                    android:drawableLeft="@drawable/checkbox_check_s"
+                                    android:text="  已合作" />
 
-                            <RadioButton
-                                android:id="@+id/add_company_rb4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:button="@null"
-                                android:visibility="gone"
-                                android:drawableLeft="@drawable/checkbox_check_s"
-                                android:text="  倒闭" />
-                        </RadioGroup>
-                    </RelativeLayout>
+                                <RadioButton
+                                    android:id="@+id/add_company_rb3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:button="@null"
+                                    android:drawableLeft="@drawable/checkbox_check_s"
+                                    android:text="  取消合作" />
 
-                </LinearLayout>
+                                <RadioButton
+                                    android:id="@+id/add_company_rb4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:button="@null"
+                                    android:visibility="gone"
+                                    android:drawableLeft="@drawable/checkbox_check_s"
+                                    android:text="  倒闭" />
+                            </RadioGroup>
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/add_company_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="38dp"
+                        android:layout_marginRight="38dp"
+                        android:layout_marginBottom="25dp"
+                        android:background="@drawable/points_dialog_but"
+                        android:text="提交"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp" />
+
+                </RelativeLayout>
             </ScrollView>
         </RelativeLayout>
 

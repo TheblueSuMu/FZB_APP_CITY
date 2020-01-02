@@ -13,7 +13,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="50dp"
             android:background="@drawable/my_brokerage">
 
             <RelativeLayout
@@ -52,552 +52,558 @@
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="80dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <RelativeLayout
-                        android:id="@+id/add_store_rl1"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="#FFFFFF">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="15dp"
-                            android:text="门店ID"
-                            android:textColor="#ff333333"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:id="@+id/add_broker_tv1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="15dp"
-                            android:gravity="right"
-                            android:text=""
-                            android:textColor="#ff666666"
-                            android:textSize="15sp" />
-
-                    </RelativeLayout>
+                android:layout_height="match_parent">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#EEEEEE"></LinearLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/add_broker_rl1"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="#FFFFFF">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="15dp"
-                                android:text="选择经纪公司"
-                                android:textColor="#ff333333"
-                                android:textSize="15sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="*"
-                                android:textColor="#AC1E26"
-                                android:textSize="15sp"></TextView>
-                        </LinearLayout>
-
-
-                        <TextView
-                            android:id="@+id/add_broker_tv2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="30dp"
-                            android:gravity="right"
-                            android:textColor="#ff666666"
-                            android:textSize="15sp" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="15dp"
-                            android:src="@mipmap/next" />
-
-                    </RelativeLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#EEEEEE"></LinearLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/add_store_rl3"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="#FFFFFF">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="15dp"
-                                android:text="门店名称"
-                                android:textColor="#ff333333"
-                                android:textSize="15sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="*"
-                                android:textColor="#AC1E26"
-                                android:textSize="15sp"></TextView>
-                        </LinearLayout>
-
-
-                        <EditText
-                            android:id="@+id/add_broker_et2"
-                            android:layout_width="150dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="15dp"
-                            android:background="#FFFFFF"
-                            android:gravity="right"
-                            android:hint="请输入门店名称"
-                            android:imeOptions="actionNext"
-                            android:singleLine="true"
-                            android:textColor="#ff666666"
-                            android:textSize="15sp" />
-
-                    </RelativeLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#EEEEEE"></LinearLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/add_store_rl2"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="#FFFFFF">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="15dp"
-                                android:text="所在的区域"
-                                android:textColor="#ff333333"
-                                android:textSize="15sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="*"
-                                android:textColor="#AC1E26"
-                                android:textSize="15sp"></TextView>
-                        </LinearLayout>
-
-
-                        <TextView
-                            android:id="@+id/add_broker_et3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="30dp"
-                            android:background="#FFFFFF"
-                            android:gravity="right"
-                            android:text="市/区"
-                            android:textColor="#ff666666"
-                            android:textSize="15sp" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="15dp"
-                            android:src="@mipmap/next" />
-
-                    </RelativeLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#EEEEEE"></LinearLayout>
-                    <RelativeLayout
-                        android:id="@+id/add_store_rl4"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="#FFFFFF">
-
-                        <ImageView
-                            android:layout_width="8dp"
-                            android:layout_height="15dp"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="15dp"
-                            android:src="@mipmap/next" />
-
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="15dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:text="地图坐标"
-                                android:textColor="#ff333333"
-                                android:textSize="15sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="*"
-                                android:textColor="#AC1E26"
-                                android:textSize="15sp" />
-                        </LinearLayout>
-
-                        <TextView
-                            android:id="@+id/add_broker_tv4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="100dp"
-                            android:layout_marginRight="30dp"
-                            android:gravity="right"
-                            android:text=""
-                            android:textColor="#ff666666"
-                            android:textSize="15sp" />
-                    </RelativeLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#EEEEEE"></LinearLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="#FFFFFF">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="15dp"
-                                android:text="详细地址"
-                                android:textColor="#ff333333"
-                                android:textSize="15sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="*"
-                                android:textColor="#AC1E26"
-                                android:textSize="15sp"></TextView>
-                        </LinearLayout>
-
-
-                        <EditText
-                            android:id="@+id/add_broker_et4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="100dp"
-                            android:layout_marginRight="15dp"
-                            android:background="#FFFFFF"
-                            android:gravity="right"
-                            android:hint="请输入详细地址"
-                            android:imeOptions="actionNext"
-                            android:textColor="#ff666666"
-                            android:textSize="15sp" />
-
-                    </RelativeLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#EEEEEE"></LinearLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="#FFFFFF">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="15dp"
-                                android:text="是否合作"
-                                android:textColor="#ff333333"
-                                android:textSize="15sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="*"
-                                android:textColor="#AC1E26"
-                                android:textSize="15sp"></TextView>
-                        </LinearLayout>
-
-
-                        <RadioGroup
-                            android:id="@+id/add_broker_rg"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="15dp"
-                            android:orientation="horizontal">
-
-                            <RadioButton
-                                android:id="@+id/add_broker_rb1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:button="@null"
-                                android:checked="true"
-                                android:drawableLeft="@drawable/checkbox_check_s"
-                                android:text="  未合作" />
-
-                            <RadioButton
-                                android:id="@+id/add_broker_rb2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:button="@null"
-                                android:drawableLeft="@drawable/checkbox_check_s"
-                                android:text="  已合作" />
-
-                            <RadioButton
-                                android:id="@+id/add_broker_rb3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:button="@null"
-                                android:drawableLeft="@drawable/checkbox_check_s"
-                                android:text="  取消合作" />
-
-                            <RadioButton
-                                android:id="@+id/add_broker_rb4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:button="@null"
-                                android:visibility="gone"
-                                android:drawableLeft="@drawable/checkbox_check_s"
-                                android:text="  倒闭" />
-                        </RadioGroup>
-                    </RelativeLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#EEEEEE"></LinearLayout>
-
-
-                    <RelativeLayout
-                        android:id="@+id/add_broker_rl2"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="#FFFFFF"
-                        android:visibility="gone">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="15dp"
-                                android:text="合作状态"
-                                android:textColor="#ff333333"
-                                android:textSize="15sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="*"
-                                android:textColor="#AC1E26"
-                                android:textSize="15sp"></TextView>
-                        </LinearLayout>
-
-
-                        <TextView
-                            android:id="@+id/add_broker_tv3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="30dp"
-                            android:gravity="right"
-                            android:textColor="#ff666666"
-                            android:textSize="15sp" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="15dp"
-                            android:src="@mipmap/next" />
-
-                    </RelativeLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#EEEEEE"></LinearLayout>
-
-                    <LinearLayout
+                        android:id="@+id/ll_ss"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#FFFFFF"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="15dp"
-                            android:text="门头照片"
-                            android:textColor="#ff333333"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
-                            android:text="照片需展示完整门店名称、门框、门牌号"
-                            android:textColor="#ff999999"
-                            android:textSize="12sp" />
-
-                        <ImageView
-                            android:id="@+id/add_broker_img1"
+                        <RelativeLayout
+                            android:id="@+id/add_store_rl1"
                             android:layout_width="match_parent"
-                            android:layout_height="200dp"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginRight="15dp"
-                            android:layout_marginBottom="15dp"
-                            android:scaleType="fitXY"
-                            android:src="@mipmap/bigadd" />
-                    </LinearLayout>
+                            android:layout_height="45dp"
+                            android:background="#FFFFFF">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#EEEEEE"></LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="15dp"
+                                android:text="门店ID"
+                                android:textColor="#ff333333"
+                                android:textSize="15sp" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#FFFFFF"
-                        android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/add_broker_tv1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:gravity="right"
+                                android:text=""
+                                android:textColor="#ff666666"
+                                android:textSize="15sp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#EEEEEE"></LinearLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/add_broker_rl1"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="#FFFFFF">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="15dp"
+                                    android:text="选择经纪公司"
+                                    android:textColor="#ff333333"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="*"
+                                    android:textColor="#AC1E26"
+                                    android:textSize="15sp"></TextView>
+                            </LinearLayout>
+
+
+                            <TextView
+                                android:id="@+id/add_broker_tv2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="30dp"
+                                android:gravity="right"
+                                android:textColor="#ff666666"
+                                android:textSize="15sp" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:src="@mipmap/next" />
+
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#EEEEEE"></LinearLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/add_store_rl3"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="#FFFFFF">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="15dp"
+                                    android:text="门店名称"
+                                    android:textColor="#ff333333"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="*"
+                                    android:textColor="#AC1E26"
+                                    android:textSize="15sp"></TextView>
+                            </LinearLayout>
+
+
+                            <EditText
+                                android:id="@+id/add_broker_et2"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:background="#FFFFFF"
+                                android:gravity="right"
+                                android:hint="请输入门店名称"
+                                android:imeOptions="actionNext"
+                                android:singleLine="true"
+                                android:textColor="#ff666666"
+                                android:textSize="15sp" />
+
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#EEEEEE"></LinearLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/add_store_rl2"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="#FFFFFF">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="15dp"
+                                    android:text="所在的区域"
+                                    android:textColor="#ff333333"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="*"
+                                    android:textColor="#AC1E26"
+                                    android:textSize="15sp"></TextView>
+                            </LinearLayout>
+
+
+                            <TextView
+                                android:id="@+id/add_broker_et3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="35dp"
+                                android:background="#FFFFFF"
+                                android:gravity="right"
+                                android:text="市/区"
+                                android:textColor="#ff666666"
+                                android:textSize="15sp" />
+
+                            <ImageView
+                                android:layout_width="13dp"
+                                android:layout_height="18dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:src="@mipmap/dingwei" />
+
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#EEEEEE"
+                            android:visibility="gone"></LinearLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/add_store_rl4"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="#FFFFFF"
+                            android:visibility="gone">
+
+                            <ImageView
+                                android:layout_width="8dp"
+                                android:layout_height="15dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:src="@mipmap/next" />
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="15dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:text="地图坐标"
+                                    android:textColor="#ff333333"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="*"
+                                    android:textColor="#AC1E26"
+                                    android:textSize="15sp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/add_broker_tv4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="100dp"
+                                android:layout_marginRight="30dp"
+                                android:gravity="right"
+                                android:text=""
+                                android:textColor="#ff666666"
+                                android:textSize="15sp" />
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#EEEEEE"></LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="#FFFFFF">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="15dp"
+                                    android:text="详细地址"
+                                    android:textColor="#ff333333"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="*"
+                                    android:textColor="#AC1E26"
+                                    android:textSize="15sp"></TextView>
+                            </LinearLayout>
+
+
+                            <EditText
+                                android:id="@+id/add_broker_et4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="100dp"
+                                android:layout_marginRight="15dp"
+                                android:background="#FFFFFF"
+                                android:gravity="right"
+                                android:hint="请输入详细地址"
+                                android:imeOptions="actionNext"
+                                android:textColor="#ff666666"
+                                android:textSize="15sp" />
+
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#EEEEEE"></LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="#FFFFFF">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="15dp"
+                                    android:text="是否合作"
+                                    android:textColor="#ff333333"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="*"
+                                    android:textColor="#AC1E26"
+                                    android:textSize="15sp"></TextView>
+                            </LinearLayout>
+
+
+                            <RadioGroup
+                                android:id="@+id/add_broker_rg"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:orientation="horizontal">
+
+                                <RadioButton
+                                    android:id="@+id/add_broker_rb1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:button="@null"
+                                    android:checked="true"
+                                    android:drawableLeft="@drawable/checkbox_check_s"
+                                    android:text="  未合作" />
+
+                                <RadioButton
+                                    android:id="@+id/add_broker_rb2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:button="@null"
+                                    android:drawableLeft="@drawable/checkbox_check_s"
+                                    android:text="  已合作" />
+
+                                <RadioButton
+                                    android:id="@+id/add_broker_rb3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:button="@null"
+                                    android:drawableLeft="@drawable/checkbox_check_s"
+                                    android:text="  取消合作" />
+
+                                <RadioButton
+                                    android:id="@+id/add_broker_rb4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:button="@null"
+                                    android:drawableLeft="@drawable/checkbox_check_s"
+                                    android:text="  倒闭"
+                                    android:visibility="gone" />
+                            </RadioGroup>
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#EEEEEE"></LinearLayout>
+
+
+                        <RelativeLayout
+                            android:id="@+id/add_broker_rl2"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="#FFFFFF"
+                            android:visibility="gone">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="15dp"
+                                    android:text="合作状态"
+                                    android:textColor="#ff333333"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="*"
+                                    android:textColor="#AC1E26"
+                                    android:textSize="15sp"></TextView>
+                            </LinearLayout>
+
+
+                            <TextView
+                                android:id="@+id/add_broker_tv3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="30dp"
+                                android:gravity="right"
+                                android:textColor="#ff666666"
+                                android:textSize="15sp" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:src="@mipmap/next" />
+
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#EEEEEE"></LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="15dp"
-                            android:text="门店照片"
-                            android:textColor="#ff333333"
-                            android:textSize="15sp" />
+                            android:background="#FFFFFF"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="15dp"
+                                android:text="门头照片"
+                                android:textColor="#ff333333"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="10dp"
+                                android:text="照片需展示完整门店名称、门框、门牌号"
+                                android:textColor="#ff999999"
+                                android:textSize="12sp" />
+
+                            <ImageView
+                                android:id="@+id/add_broker_img1"
+                                android:layout_width="match_parent"
+                                android:layout_height="200dp"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginRight="15dp"
+                                android:layout_marginBottom="15dp"
+                                android:scaleType="fitXY"
+                                android:src="@mipmap/bigadd" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#EEEEEE"></LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="15dp"
-                            android:text="可上传门店内景、街景、经纪人合照等照片"
-                            android:textColor="#ff999999"
-                            android:textSize="12sp" />
+                            android:background="#FFFFFF"
+                            android:orientation="vertical">
 
-                        <ImageView
-                            android:id="@+id/add_broker_img2"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_marginLeft="15dp"
-                            android:scaleType="fitXY"
-                            android:src="@mipmap/addimg" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="15dp"
+                                android:text="门店照片"
+                                android:textColor="#ff333333"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="15dp"
+                                android:text="可上传门店内景、街景、经纪人合照等照片"
+                                android:textColor="#ff999999"
+                                android:textSize="12sp" />
+
+                            <ImageView
+                                android:id="@+id/add_broker_img2"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_marginLeft="15dp"
+                                android:scaleType="fitXY"
+                                android:src="@mipmap/addimg" />
+                        </LinearLayout>
+                        <Button
+                            android:layout_below="@+id/ll_ss"
+                            android:id="@+id/add_broker_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginLeft="38dp"
+                            android:layout_marginRight="38dp"
+                            android:layout_marginBottom="25dp"
+                            android:layout_marginTop="35dp"
+                            android:background="@drawable/points_dialog_but"
+                            android:text="提交"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18sp" />
                     </LinearLayout>
-                </LinearLayout>
             </ScrollView>
 
 
-            <Button
-                android:id="@+id/add_broker_btn"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="38dp"
-                android:layout_marginRight="38dp"
-                android:layout_marginBottom="25dp"
-                android:background="@drawable/points_dialog_but"
-                android:text="提交"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
         </RelativeLayout>
 
     </LinearLayout>

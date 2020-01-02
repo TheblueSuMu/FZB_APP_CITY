@@ -1,6 +1,8 @@
 package com.xcy.fzbcity.all.view;
 
 import android.Manifest;
+import android.app.AppOpsManager;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -35,6 +37,7 @@ import com.xcy.fzbcity.all.persente.DividerItemDecoration;
 import com.xcy.fzbcity.all.persente.StatusBar;
 import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.utils.PhoneUtil;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +86,6 @@ public class PhoneActivity extends AppCompatActivity {
     private List<LinkmanBean> list = new ArrayList<>();
     private LinearLayoutManager linearLayoutManager;
     private SuspensionDecoration mDecoration;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +139,7 @@ public class PhoneActivity extends AppCompatActivity {
                 .setmLayoutManager(linearLayoutManager);//设置RecyclerView的LayoutManager
 
         mContactModels = new ArrayList<>();
+
         initClick();
         initViews();
     }
@@ -233,29 +236,29 @@ public class PhoneActivity extends AppCompatActivity {
             mDecoration.setmDatas(list);
 
             phoneAdapter.setItemOnClick(new PhoneAdapter.ItemOnClick() {
-                  @Override
-                  public void itemClick(int position) {
-                      Log.i("数据对比","1客户名"+list.get(position).getCity());
-                      int size = 0;
-                      phoneDtos = phoneAdapter.getList();
-                      all_activity_phone_checkbox_all.setChecked(false);
-                      all_activity_phone_checkbox_all.setText("全选");
-                      for (int i = 0;i < phoneDtos.size();i++){
-                          if (phoneDtos.get(i).isStatus()) {
-                              size++;
-                              all_activity_phone_checkbox_all_number.setText("已选"+size);
-                          }
-                      }
-                      if (size == 0) {
-                          all_activity_phone_checkbox_all_number.setText("已选0");
-                      } else if (size == phoneDtos.size()) {
-                          all_activity_phone_checkbox_all.setChecked(true);
-                          all_activity_phone_checkbox_all.setText("取消全选");
-                          phoneAdapter.setAll("1");
-                          phoneAdapter.notifyDataSetChanged();
-                      }
-                  }
-              }
+                                            @Override
+                                            public void itemClick(int position) {
+                                                Log.i("数据对比","1客户名"+list.get(position).getCity());
+                                                int size = 0;
+                                                phoneDtos = phoneAdapter.getList();
+                                                all_activity_phone_checkbox_all.setChecked(false);
+                                                all_activity_phone_checkbox_all.setText("全选");
+                                                for (int i = 0;i < phoneDtos.size();i++){
+                                                    if (phoneDtos.get(i).isStatus()) {
+                                                        size++;
+                                                        all_activity_phone_checkbox_all_number.setText("已选"+size);
+                                                    }
+                                                }
+                                                if (size == 0) {
+                                                    all_activity_phone_checkbox_all_number.setText("已选0");
+                                                } else if (size == phoneDtos.size()) {
+                                                    all_activity_phone_checkbox_all.setChecked(true);
+                                                    all_activity_phone_checkbox_all.setText("取消全选");
+                                                    phoneAdapter.setAll("1");
+                                                    phoneAdapter.notifyDataSetChanged();
+                                                }
+                                            }
+                                        }
             );
 
 

@@ -1,8 +1,12 @@
 package com.xcy.fzbcity.all.view;
 
+import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -21,6 +25,8 @@ import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.utils.CommonUtil;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -30,7 +36,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 //TODO 用戶基本信息描摹
-public class EssentialInformationActivity extends AllActivity {
+public class EssentialInformationActivity extends AppCompatActivity {
 
     RelativeLayout essential_information_return;
 
@@ -60,10 +66,15 @@ public class EssentialInformationActivity extends AllActivity {
     private String authority = "";
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_essential_information);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);      //  TODO    始终竖屏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().setStatusBarColor(Color.parseColor("#ff546da6"));
         init_No_Network();
     }
 
@@ -101,8 +112,6 @@ public class EssentialInformationActivity extends AllActivity {
     }
 
     private void initView() {
-
-        StatusBar.makeStatusBarTransparent(this);
 
         essential_information_return = findViewById(R.id.essential_information_return);
 

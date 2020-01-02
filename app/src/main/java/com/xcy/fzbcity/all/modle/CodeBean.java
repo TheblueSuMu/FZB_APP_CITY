@@ -50,6 +50,15 @@ public class CodeBean  {
 
         private String phone;
         private String message;
+        private String status;
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
 
         public String getPhone() {
             return phone;

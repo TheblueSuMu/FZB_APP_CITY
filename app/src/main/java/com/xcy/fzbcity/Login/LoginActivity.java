@@ -35,6 +35,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.adapter.PopAdapter;
 import com.xcy.fzbcity.all.api.APKVersionCodeUtils;
@@ -144,9 +145,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
     //  文件保存路径
     private String mSavePath;
     //  版本名称
-    private String mVersion_name= FinalContents.getVersionNumBer();
+    private String mVersion_name = FinalContents.getVersionNumBer();
     //  请求链接
-    private String url ="";
+    private String url = "";
     private TextView fuwu;
     private PopAdapter popAdapter;
     private List<UserSaveBean> xlist;
@@ -154,18 +155,19 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
     private boolean dial = true;
     private RelativeLayout login_relative;
     private LinearLayout login_select;
-
+    private AVLoadingIndicatorView avi;
+    private RelativeLayout avi_login_rl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         editor = getSharedPreferences("data", MODE_PRIVATE).edit();
         pref = getSharedPreferences("data", MODE_PRIVATE);
-        index = pref.getInt("index",0);
+        index = pref.getInt("index", 0);
 
         if (FinalContents.getClean().equals("")) {
 
-        }else {
+        } else {
             editor.clear();
         }
 
@@ -173,17 +175,17 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
         if (networkAvailable) {
             if (FinalContents.getDengLu().equals("")) {
                 initDaown();
-            }else {
+            } else {
                 initfvb();
             }
         } else {
-            ToastUtil.showLongToast(LoginActivity.this,"当前无网络，请检查网络后再进行登录");
+            ToastUtil.showLongToast(LoginActivity.this, "当前无网络，请检查网络后再进行登录");
         }
         initClear();
     }
 
 
-    private void initClear(){
+    private void initClear() {
         NewlyIncreased.setTag("");
         NewlyIncreased.setStartDate("");
         NewlyIncreased.setEndDate("");
@@ -224,6 +226,10 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
         login_iv_user_state = findViewById(R.id.iv_user_state);
         login_iv_login_type = findViewById(R.id.iv_login_type);
 
+        avi = findViewById(R.id.avi_login);
+        avi_login_rl = findViewById(R.id.avi_login_rl);
+
+
         fuwu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -236,9 +242,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
 
         if (index > 0) {
-            if (!pref.getString("user_name"+(index-1), "").equals("")) {
-                for (int i = 0;i < index;i++){
-                    list.add(new UserSaveBean(pref.getString("user_name"+i, ""), pref.getString("user_password"+i, "")));
+            if (!pref.getString("user_name" + (index - 1), "").equals("")) {
+                for (int i = 0; i < index; i++) {
+                    list.add(new UserSaveBean(pref.getString("user_name" + i, ""), pref.getString("user_password" + i, "")));
 //                    Log.i("正在储存","index："+list.get(index-1).getUserName());
                 }
 
@@ -266,7 +272,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
     private void initDengLu() {
         Log.i("登录", "数据：" + pref.getString("DengLu", ""));
         if (pref.getString("denglu", "").equals("经纪人")) {
-            if (pref.getString("user_name"+(index-1), "").equals("")) {
+            if (pref.getString("user_name" + (index - 1), "").equals("")) {
 
             } else {
                 if (pref.getString("login", "").equals("1")) {
@@ -285,7 +291,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                 }
             }
         } else if (pref.getString("denglu", "").equals("销售")) {
-            if (pref.getString("user_name"+(index-1), "").equals("")) {
+            if (pref.getString("user_name" + (index - 1), "").equals("")) {
 
             } else {
                 if (pref.getString("login", "").equals("1")) {
@@ -304,7 +310,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                 }
             }
         } else if (pref.getString("denglu", "").equals("顾问")) {
-            if (pref.getString("user_name"+(index-1), "").equals("")) {
+            if (pref.getString("user_name" + (index - 1), "").equals("")) {
 
             } else {
                 if (pref.getString("login", "").equals("1")) {
@@ -323,7 +329,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                 }
             }
         } else if (pref.getString("denglu", "").equals("团队长")) {
-            if (pref.getString("user_name"+(index-1), "").equals("")) {
+            if (pref.getString("user_name" + (index - 1), "").equals("")) {
 
             } else {
                 if (pref.getString("login", "").equals("1")) {
@@ -342,7 +348,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                 }
             }
         } else if (pref.getString("denglu", "").equals("团助")) {
-            if (pref.getString("user_name"+(index-1), "").equals("")) {
+            if (pref.getString("user_name" + (index - 1), "").equals("")) {
 
             } else {
                 if (pref.getString("login", "").equals("1")) {
@@ -361,7 +367,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                 }
             }
         } else if (pref.getString("denglu", "").equals("专员")) {
-            if (pref.getString("user_name"+(index-1), "").equals("")) {
+            if (pref.getString("user_name" + (index - 1), "").equals("")) {
 
             } else {
                 if (pref.getString("login", "").equals("1")) {
@@ -380,7 +386,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                 }
             }
         } else if (pref.getString("denglu", "").equals("专案")) {
-            if (pref.getString("user_name"+(index-1), "").equals("")) {
+            if (pref.getString("user_name" + (index - 1), "").equals("")) {
 
             } else {
                 if (pref.getString("login", "").equals("1")) {
@@ -399,7 +405,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                 }
             }
         } else if (pref.getString("denglu", "").equals("导购")) {
-            if (pref.getString("user_name"+(index-1), "").equals("")) {
+            if (pref.getString("user_name" + (index - 1), "").equals("")) {
 
             } else {
                 if (pref.getString("login", "").equals("1")) {
@@ -465,6 +471,11 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.tv_user_login:
+                //开始加载动画
+
+                avi.show();
+                avi_login_rl.setVisibility(View.VISIBLE);
+
                 boolean networkAvailable = CommonUtil.isNetworkAvailable(this);
                 if (networkAvailable) {
                     if (type.equals("1")) {
@@ -480,6 +491,8 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                 break;
             case R.id.tv_wechat:
+
+
                 Platform plat = ShareSDK.getPlatform(Wechat.NAME);
                 plat.removeAccount(true); //移除授权状态和本地缓存，下次授权会重新授权
                 plat.SSOSetting(false); //SSO授权，传false默认是客户端授权，没有客户端授权或者不支持客户端授权会跳web授权
@@ -487,9 +500,12 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                     @Override
                     public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
                         login = true;
-                        Log.i("json","授权成功");
+                        Log.i("json", "授权成功");
                         json = new JSONObject(hashMap);
-                        Log.i("json","授权成功"+ json.toString());
+                        Log.i("json", "授权成功" + json.toString());
+                        //开始动画
+                        avi.show();
+                        avi_login_rl.setVisibility(View.VISIBLE);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -502,12 +518,12 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                     @Override
                     public void onError(Platform platform, int i, Throwable throwable) {
                         ToastUtil.showLongToast(LoginActivity.this, "授权失败");
-                        Log.i("json","授权失败"+throwable.getMessage());
+                        Log.i("json", "授权失败" + throwable.getMessage());
                     }
 
                     @Override
                     public void onCancel(Platform platform, int i) {
-                        Log.i("json","授权取消");
+                        Log.i("json", "授权取消");
                         ToastUtil.showLongToast(LoginActivity.this, "授权取消");
                     }
                 });//授权回调监听，监听oncomplete，onerror，oncancel三种状态
@@ -578,9 +594,14 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                     @Override
                     public void onNext(CodeBean codeBean) {
-                        CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(login_tv_get_code, 60000, 1000);
-                        mCountDownTimerUtils.start();
-                        ToastUtil.showLongToast(LoginActivity.this, codeBean.getData().getMessage());
+                        if(codeBean.getData().getStatus().equals("0")){
+                            ToastUtil.showLongToast(LoginActivity.this, codeBean.getData().getMessage());
+                        }else if(codeBean.getData().getStatus().equals("1")){
+                            CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(login_tv_get_code, 60000, 1000);
+                            mCountDownTimerUtils.start();
+                            ToastUtil.showLongToast(LoginActivity.this, codeBean.getData().getMessage());
+                        }
+
                     }
 
                     @Override
@@ -631,8 +652,8 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                             initBroker();
                         } else if (userIdentity.getData().getIdentity().equals("4") || userIdentity.getData().getIdentity().equals("5") || userIdentity.getData().getIdentity().equals("8") || userIdentity.getData().getIdentity().equals("9")) {
                             initExemplary();
-                        }else {
-                            ToastUtil.showLongToast(LoginActivity.this,"无权限登录");
+                        } else {
+                            ToastUtil.showLongToast(LoginActivity.this, "无权限登录");
                         }
 //                        userIdentity.getData().getIdentity().equals("7")|| userIdentity.getData().getIdentity().equals("63") ||
 //                        else if (userIdentity.getData().getIdentity().equals("60") || userIdentity.getData().getIdentity().equals("61") || userIdentity.getData().getIdentity().equals("62") ) {
@@ -643,6 +664,8 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                     @Override
                     public void onError(Throwable e) {
+                        avi.setVisibility(View.GONE);
+                        avi_login_rl.setVisibility(View.GONE);
                         ToastUtil.showLongToast(LoginActivity.this, "请确认您输入的验证码或手机号是否正确");
                         Log.i("wsw", "返回的数据" + e.getMessage());
                     }
@@ -657,7 +680,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
     /**
      * 是否上线
      */
-    private void initOnLine(){
+    private void initOnLine() {
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(FinalContents.getBaseUrl());
         builder.addConverterFactory(GsonConverterFactory.create());
@@ -681,7 +704,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                         } else if (onLineBean.getData().getOnline().equals("0")) {
                             login_relative.setVisibility(View.INVISIBLE);
                             login_select.setVisibility(View.INVISIBLE);
-                        }else {
+                        } else {
                             login_relative.setVisibility(View.INVISIBLE);
                             login_select.setVisibility(View.INVISIBLE);
                         }
@@ -745,8 +768,8 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                             initBroker();
                         } else if (userIdentity.getData().getIdentity().equals("4") || userIdentity.getData().getIdentity().equals("5") || userIdentity.getData().getIdentity().equals("8") || userIdentity.getData().getIdentity().equals("9")) {
                             initExemplary();
-                        }else {
-                            ToastUtil.showLongToast(LoginActivity.this,"无权限登录");
+                        } else {
+                            ToastUtil.showLongToast(LoginActivity.this, "无权限登录");
                         }
 //                        userIdentity.getData().getIdentity().equals("7") || userIdentity.getData().getIdentity().equals("63") ||
 //                        else if (userIdentity.getData().getIdentity().equals("60") || userIdentity.getData().getIdentity().equals("61") || userIdentity.getData().getIdentity().equals("62")) {
@@ -757,6 +780,8 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                     @Override
                     public void onError(Throwable e) {
+                        avi.setVisibility(View.GONE);
+                        avi_login_rl.setVisibility(View.GONE);
                         ToastUtil.showLongToast(LoginActivity.this, "请输入正确的账户或用户名");
                         Log.i("wsw", "返回的数据" + e.getMessage());
                     }
@@ -791,31 +816,34 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                         boolean add = true;
 
                         if (type.equals("1")) {
-                            for (int i = index-4;i < index;i++){
-                                if (pref.getString("user_name"+i, "").equals(userName)) {
+                            for (int i = index - 4; i < index; i++) {
+                                if (pref.getString("user_name" + i, "").equals(userName)) {
                                     add = false;
                                 }
                             }
-                            DataBaseUtil.initAdd(LoginActivity.this,userName,passWord);
+                            DataBaseUtil.initAdd(LoginActivity.this, userName, passWord);
                             List<DataBase> list = DataBaseUtil.initSelect(LoginActivity.this, "");
-                            for (int i = 0; i < list.size(); ++i){
-                                Log.i("MyCL","数据库数据：" + list.get(i).getUserName());
+                            for (int i = 0; i < list.size(); ++i) {
+                                Log.i("MyCL", "数据库数据：" + list.get(i).getUserName());
                             }
                             if (add) {
-                                editor.putString("user_name"+index, userName);
-                                editor.putString("user_password"+index, passWord);
-                                editor.putInt("index", pref.getInt("index",0)+1);
+                                editor.putString("user_name" + index, userName);
+                                editor.putString("user_password" + index, passWord);
+                                editor.putInt("index", pref.getInt("index", 0) + 1);
                                 editor.commit();
-                                Log.i("正在储存","数据："+pref.getString("user_name"+index, ""));
+                                Log.i("正在储存", "数据：" + pref.getString("user_name" + index, ""));
                                 if (index > 5) {
-                                    for (int i = 0;i < index-4;i++){
-                                        editor.remove("user_name"+i);
+                                    for (int i = 0; i < index - 4; i++) {
+                                        editor.remove("user_name" + i);
                                     }
                                     editor.commit();
                                 }
                             }
                         }
 
+//加载动画关闭
+                        avi.hide();
+                        avi_login_rl.setVisibility(View.GONE);
 
                         boolean networkAvailable = CommonUtil.isNetworkAvailable(LoginActivity.this);
                         if (networkAvailable) {
@@ -846,6 +874,11 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                     @Override
                     public void onError(Throwable e) {
+                        //加载动画关闭
+
+                        avi.hide();
+                        avi_login_rl.setVisibility(View.GONE);
+
                         ToastUtil.showLongToast(LoginActivity.this, "您输入的账号或密码有误");
                         Log.i("wsw", "返回的数据" + e.getMessage());
                     }
@@ -880,26 +913,26 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                         if (type.equals("1")) {
                             boolean add = true;
 
-                            for (int i = index-4;i < index;i++){
-                                if (pref.getString("user_name"+i, "").equals(userName)) {
+                            for (int i = index - 4; i < index; i++) {
+                                if (pref.getString("user_name" + i, "").equals(userName)) {
                                     add = false;
                                 }
                             }
-                            DataBaseUtil.initAdd(LoginActivity.this,userName,passWord);
+                            DataBaseUtil.initAdd(LoginActivity.this, userName, passWord);
                             List<DataBase> list = DataBaseUtil.initSelect(LoginActivity.this, "");
-                            for (int i = 0; i < list.size(); ++i){
-                                Log.i("MyCL","数据库数据：" + list.get(i).getUserName());
+                            for (int i = 0; i < list.size(); ++i) {
+                                Log.i("MyCL", "数据库数据：" + list.get(i).getUserName());
                             }
                             if (add) {
 
-                                editor.putString("user_name"+index, userName);
-                                editor.putString("user_password"+index, passWord);
-                                editor.putInt("index", pref.getInt("index",0)+1);
+                                editor.putString("user_name" + index, userName);
+                                editor.putString("user_password" + index, passWord);
+                                editor.putInt("index", pref.getInt("index", 0) + 1);
                                 editor.commit();
-                                Log.i("正在储存","数据："+pref.getString("user_name"+index, ""));
+                                Log.i("正在储存", "数据：" + pref.getString("user_name" + index, ""));
                                 if (index > 5) {
-                                    for (int i = 0;i < index-4;i++){
-                                        editor.remove("user_name"+i);
+                                    for (int i = 0; i < index - 4; i++) {
+                                        editor.remove("user_name" + i);
                                     }
                                     editor.commit();
                                 }
@@ -1029,26 +1062,26 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                         if (type.equals("1")) {
                             boolean add = true;
 
-                            for (int i = index-4;i < index;i++){
-                                if (pref.getString("user_name"+i, "").equals(userName)) {
+                            for (int i = index - 4; i < index; i++) {
+                                if (pref.getString("user_name" + i, "").equals(userName)) {
                                     add = false;
                                 }
                             }
-                            DataBaseUtil.initAdd(LoginActivity.this,userName,passWord);
+                            DataBaseUtil.initAdd(LoginActivity.this, userName, passWord);
                             List<DataBase> list = DataBaseUtil.initSelect(LoginActivity.this, "");
-                            for (int i = 0; i < list.size(); ++i){
-                                Log.i("MyCL","数据库数据：" + list.get(i).getUserName());
+                            for (int i = 0; i < list.size(); ++i) {
+                                Log.i("MyCL", "数据库数据：" + list.get(i).getUserName());
                             }
                             if (add) {
 
-                                editor.putString("user_name"+index, userName);
-                                editor.putString("user_password"+index, passWord);
-                                editor.putInt("index", pref.getInt("index",0)+1);
+                                editor.putString("user_name" + index, userName);
+                                editor.putString("user_password" + index, passWord);
+                                editor.putInt("index", pref.getInt("index", 0) + 1);
                                 editor.commit();
-                                Log.i("正在储存","数据："+pref.getString("user_name"+index, ""));
+                                Log.i("正在储存", "数据：" + pref.getString("user_name" + index, ""));
                                 if (index > 5) {
-                                    for (int i = 0;i < index-4;i++){
-                                        editor.remove("user_name"+i);
+                                    for (int i = 0; i < index - 4; i++) {
+                                        editor.remove("user_name" + i);
                                     }
                                     editor.commit();
                                 }
@@ -1233,7 +1266,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                     List<DataBase> list = DataBaseUtil.initSelect(LoginActivity.this, "");
 
-                    DataBaseUtil.initDelete(LoginActivity.this,list.get(postion).getUserName());
+                    DataBaseUtil.initDelete(LoginActivity.this, list.get(postion).getUserName());
                     p.dismiss();
 //                    Toast.makeText(LoginActivity.this, "相关功能维护中", Toast.LENGTH_SHORT).show();
 //                    if (xlist.size() > 1) {
@@ -1256,8 +1289,8 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
     }
 
-    private void initDaown(){
-        Log.i("查询次数","次数：" +size++);
+    private void initDaown() {
+        Log.i("查询次数", "次数：" + size++);
 
         String versionName = APKVersionCodeUtils.getVerName(this);
         Retrofit.Builder builder = new Retrofit.Builder();
@@ -1266,8 +1299,8 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         final Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        final Observable<AppPackageBean> appPackage = fzbInterface.getAppPackage("android","com.xcy.fzbcity", versionName);
-        Log.i("提示更新","数据："+FinalContents.getBaseUrl()+"commonSelect/appPackage&appType=android&appPackage=com.xcy.fzbcity&appVeriosn="+versionName);
+        final Observable<AppPackageBean> appPackage = fzbInterface.getAppPackage("android", "com.xcy.fzbcity", versionName);
+        Log.i("提示更新", "数据：" + FinalContents.getBaseUrl() + "commonSelect/appPackage&appType=android&appPackage=com.xcy.fzbcity&appVeriosn=" + versionName);
         appPackage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AppPackageBean>() {
@@ -1278,9 +1311,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                     @Override
                     public void onNext(final AppPackageBean appPackageBean) {
-                        if(appPackageBean.getData().getIsUpgrade().equals("0")){
+                        if (appPackageBean.getData().getIsUpgrade().equals("0")) {
                             initfvb();
-                        }else if(appPackageBean.getData().getIsUpgrade().equals("1")){
+                        } else if (appPackageBean.getData().getIsUpgrade().equals("1")) {
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(LoginActivity.this);
                             builder1.setTitle("提示");
                             builder1.setMessage("是否更新当前版本");
@@ -1303,17 +1336,17 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                                 public void onDismiss(DialogInterface dialogInterface) {
                                     if (dial) {
                                         initfvb();
-                                        Log.i("消失","1事件触发");
+                                        Log.i("消失", "1事件触发");
                                     }
-                                    Log.i("消失","事件触发");
+                                    Log.i("消失", "事件触发");
 //                                    initfvb();
                                 }
                             });
                             builder1.show();
-                            Log.i("消失","2事件触发");
+                            Log.i("消失", "2事件触发");
 
 
-                        }else if(appPackageBean.getData().getIsUpgrade().equals("2")){
+                        } else if (appPackageBean.getData().getIsUpgrade().equals("2")) {
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(LoginActivity.this);
                             builder1.setTitle("提示");
                             builder1.setMessage("是否更新当前版本");
@@ -1335,8 +1368,8 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                             builder1.setOnDismissListener(new DialogInterface.OnDismissListener() {
                                 @Override
                                 public void onDismiss(DialogInterface dialogInterface) {
-//                                    AllActivity.exit = true;
-////                                    finish();
+                                    AllActivity.exit = true;
+                                    finish();
                                 }
                             });
                             builder1.show();
@@ -1346,7 +1379,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i("版本更新","错误信息：" + e.getMessage());
+                        Log.i("版本更新", "错误信息：" + e.getMessage());
                     }
 
                     @Override
@@ -1392,14 +1425,14 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try{
-                    if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
+                try {
+                    if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                         String sdPath = Environment.getExternalStorageDirectory() + "/";
 //                      文件保存路径
                         mSavePath = sdPath + "fzbcitydownload";
-                        Log.i("下载","数据："+url);
+                        Log.i("下载", "数据：" + url);
                         File dir = new File(mSavePath);
-                        if (!dir.exists()){
+                        if (!dir.exists()) {
                             dir.mkdir();
                         }
                         // 下载文件
@@ -1413,16 +1446,16 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                         int count = 0;
                         byte[] buffer = new byte[1024];
-                        while (!mIsCancel){
+                        while (!mIsCancel) {
                             int numread = is.read(buffer);
                             count += numread;
                             // 计算进度条的当前位置
-                            mProgress = (int) (((float)count/length) * 100);
+                            mProgress = (int) (((float) count / length) * 100);
                             // 更新进度条
                             mUpdateProgressHandler.sendEmptyMessage(1);
 
                             // 下载完成
-                            if (numread < 0){
+                            if (numread < 0) {
                                 mUpdateProgressHandler.sendEmptyMessage(2);
                                 break;
                             }
@@ -1431,7 +1464,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                         fos.close();
                         is.close();
                     }
-                }catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1441,11 +1474,11 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
     /**
      * 接收消息
      */
-    private Handler mUpdateProgressHandler = new Handler(){
+    private Handler mUpdateProgressHandler = new Handler() {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case 1:
                     // 设置进度条
                     mProgressBar.setProgress(mProgress);
@@ -1456,7 +1489,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                     // 安装 APK 文件
                     installAPK();
             }
-        };
+        }
+
+        ;
     };
 
 
@@ -1528,10 +1563,10 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
         if (login) {
-            Log.i("json","进入数据加载");
+            Log.i("json", "进入数据加载");
             userLoginWithWX();
-        }else {
-            Log.i("json","不进入数据加载");
+        } else {
+            Log.i("json", "不进入数据加载");
         }
     }
 
@@ -1565,7 +1600,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                         } else if (userIdentity.getData().getIdentity().equals("4") || userIdentity.getData().getIdentity().equals("5") || userIdentity.getData().getIdentity().equals("8") || userIdentity.getData().getIdentity().equals("9")) {
                             initExemplary();
                         } else {
-                            ToastUtil.showLongToast(LoginActivity.this,"无权限登录");
+                            ToastUtil.showLongToast(LoginActivity.this, "无权限登录");
                         }
 //                         || userIdentity.getData().getIdentity().equals("7")|| userIdentity.getData().getIdentity().equals("63") ||
 //                        else if (userIdentity.getData().getIdentity().equals("60") || userIdentity.getData().getIdentity().equals("61") || userIdentity.getData().getIdentity().equals("62") ) {
@@ -1575,6 +1610,8 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                     @Override
                     public void onError(Throwable e) {
+                        avi.setVisibility(View.GONE);
+                        avi_login_rl.setVisibility(View.GONE);
                         ToastUtil.showLongToast(LoginActivity.this, "当前微信未绑定");
                         Log.i("wsw", "返回的数据" + e.getMessage());
                     }

@@ -2,14 +2,17 @@ package com.xcy.fzbcity.project_attache.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -36,6 +39,8 @@ import com.xcy.fzbcity.all.utils.ToastUtil;
 import com.xcy.fzbcity.all.view.AllActivity;
 import com.xcy.fzbcity.all.view.TestMapActivity;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -45,7 +50,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 //TODO 添加公司
-public class AddCompanyActivity extends AllActivity implements View.OnClickListener {
+public class AddCompanyActivity extends AppCompatActivity implements View.OnClickListener {
 
     RelativeLayout add_company_return;
 
@@ -95,11 +100,17 @@ public class AddCompanyActivity extends AllActivity implements View.OnClickListe
 
     int isnum = 0;
     private String address;
+    private String pcd;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.project_attache_activity_add_company);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);      //  TODO    始终竖屏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().setStatusBarColor(Color.parseColor("#ff546da6"));
         init_No_Network();
 
     }
@@ -125,7 +136,6 @@ public class AddCompanyActivity extends AllActivity implements View.OnClickListe
     }
 
     private void initView() {
-        StatusBar.makeStatusBarTransparent(this);
 
 
         add_company_return = findViewById(R.id.add_company_return);
@@ -255,10 +265,10 @@ public class AddCompanyActivity extends AllActivity implements View.OnClickListe
                 FinalContents.setMyAddType("公司");
                 finish();
                 break;
+//            case R.id.add_company_rl1:
+////                getAddress();
+//                break;
             case R.id.add_company_rl1:
-                getAddress();
-                break;
-            case R.id.add_company_rl2:
                 boolean locServiceEnable = isLocServiceEnable(AddCompanyActivity.this);
                 if (locServiceEnable == true) {
                     Log.i("MyCL", "定位服务已开启");
@@ -335,7 +345,7 @@ public class AddCompanyActivity extends AllActivity implements View.OnClickListe
 
     private void initdatas2() {
 
-        if (s.equals("") || s1.equals("") || s2.equals("") || s3.equals("") || s4.equals("")) {
+        if (s.equals("") || s1.equals("") || s3.equals("") || s4.equals("")) {
             ToastUtil.showLongToast(AddCompanyActivity.this,"带*号的数据不能为空，请完成填写再提交");
         } else {
 
@@ -393,7 +403,7 @@ public class AddCompanyActivity extends AllActivity implements View.OnClickListe
 
     private void initDatas1() {
 
-        if (s.equals("") || s1.equals("") || s2.equals("") || s3.equals("") || s4.equals("")) {
+        if (s.equals("") || s1.equals("")|| s3.equals("") || s4.equals("")) {
             ToastUtil.showLongToast(AddCompanyActivity.this,"带*号的数据不能为空，请完成填写再提交");
         } else {
 
@@ -495,6 +505,7 @@ public class AddCompanyActivity extends AllActivity implements View.OnClickListe
             getLatitude = data.getStringExtra("getLatitude");
             getLongitude = data.getStringExtra("getLongitude");
             address = data.getStringExtra("address");
+            pcd = data.getStringExtra("pcd");
 
 
             StringBuffer stringBuffer1 = new StringBuffer();
@@ -504,7 +515,7 @@ public class AddCompanyActivity extends AllActivity implements View.OnClickListe
             StringBuffer append2 = stringBuffer2.append(getLongitude);
 
             add_company_et2.setText(address);
-
+            add_company_tv2.setText(pcd);
 //            Retrofit.Builder builder = new Retrofit.Builder();
 //            builder.baseUrl(FinalContents.getBaseUrl());
 //            builder.addConverterFactory(GsonConverterFactory.create());

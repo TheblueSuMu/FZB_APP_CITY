@@ -5,12 +5,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
@@ -19,6 +21,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,7 +33,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
@@ -75,7 +80,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 //TODO 添加门店
-public class AddStoreActivity extends AllActivity implements View.OnClickListener {
+public class AddStoreActivity extends AppCompatActivity implements View.OnClickListener {
 
     RelativeLayout add_broker_return;
     ImageView add_broker_img1;
@@ -141,11 +146,17 @@ public class AddStoreActivity extends AllActivity implements View.OnClickListene
     private String s5;
     private String s6 = "";
     private String address;
+    private String pcd;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.project_attache_activity_add_store);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);      //  TODO    始终竖屏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().setStatusBarColor(Color.parseColor("#ff546da6"));
         init_No_Network();
     }
 
@@ -170,7 +181,6 @@ public class AddStoreActivity extends AllActivity implements View.OnClickListene
     }
 
     private void initView() {
-        StatusBar.makeStatusBarTransparent(this);
 
         add_broker_return = findViewById(R.id.add_broker_return);
         add_broker_img1 = findViewById(R.id.add_broker_img1);
@@ -362,16 +372,16 @@ public class AddStoreActivity extends AllActivity implements View.OnClickListene
                 FinalContents.setMyAddType("公司");
                 startActivity(intent);
                 break;
-            case R.id.add_store_rl2:
-                getAddress();
-                break;
+//            case R.id.add_store_rl2:
+////                getAddress();
+//                break;
             case R.id.add_broker_btn:
                 initDatas();
                 break;
             case R.id.add_broker_rl2:
                 initState();
                 break;
-            case R.id.add_store_rl4:
+            case R.id.add_store_rl2:
                 boolean locServiceEnable = isLocServiceEnable(AddStoreActivity.this);
                 if (locServiceEnable == true) {
                     Log.i("MyCL", "定位服务已开启");
@@ -575,7 +585,7 @@ public class AddStoreActivity extends AllActivity implements View.OnClickListene
             if (add_broker_rb4.isChecked()) {
                 flag = 3;
             }
-            if (s1.equals("") || s2.equals("") || s3.equals("") || s4.equals("") || s5.equals("")) {
+            if (s1.equals("") || s2.equals("") || s3.equals("") || s4.equals("")) {
                 ToastUtil.showLongToast(AddStoreActivity.this, "带*号的数据请填写完整");
             } else {
                 if (add_broker_rl2.getVisibility() == View.VISIBLE) {
@@ -615,7 +625,7 @@ public class AddStoreActivity extends AllActivity implements View.OnClickListene
             } else {
                 myLocation = (getLongitude + "," + getLatitude);
             }
-            if (s1.equals("") || s2.equals("") || s3.equals("") || s4.equals("") || s5.equals("")) {
+            if (s1.equals("") || s2.equals("") || s3.equals("") || s4.equals("")) {
                 Toast.makeText(AddStoreActivity.this, "带*号的数据请填写完整", Toast.LENGTH_SHORT).show();
             } else {
                 if (add_broker_rl2.getVisibility() == View.VISIBLE) {
@@ -905,9 +915,9 @@ public class AddStoreActivity extends AllActivity implements View.OnClickListene
             getLatitude = data.getStringExtra("getLatitude");
             getLongitude = data.getStringExtra("getLongitude");
             address = data.getStringExtra("address");
-
+            pcd = data.getStringExtra("pcd");
             add_broker_et4.setText(address);
-
+            add_broker_et3.setText(pcd);
             StringBuffer stringBuffer1 = new StringBuffer();
             StringBuffer stringBuffer2 = new StringBuffer();
 

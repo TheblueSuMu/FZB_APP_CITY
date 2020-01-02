@@ -1,9 +1,13 @@
 package com.xcy.fzbcity.project_attache.view;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +36,8 @@ import com.xcy.fzbcity.all.view.AllActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -41,7 +47,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 //TODO 添加经纪人
-public class AddBrokerActivity extends AllActivity implements View.OnClickListener {
+public class AddBrokerActivity extends AppCompatActivity implements View.OnClickListener {
 
     RelativeLayout add_store_rl1;
     RelativeLayout add_store_rl2;
@@ -89,10 +95,16 @@ public class AddBrokerActivity extends AllActivity implements View.OnClickListen
     private String isCover;
     private String ifCompanyManageId;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.project_attache_activity_add_broker);
+        setContentView(R.layout.project_side_activity_fill_in_transaction_information);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);      //  TODO    始终竖屏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().setStatusBarColor(Color.parseColor("#ff546da6"));
         init_No_Network();
     }
 
@@ -117,7 +129,6 @@ public class AddBrokerActivity extends AllActivity implements View.OnClickListen
     }
 
     private void initView() {
-        StatusBar.makeStatusBarTransparent(this);
         add_title = findViewById(R.id.add_title);
         add_store_rl1 = findViewById(R.id.add_rl1);
         add_store_rl2 = findViewById(R.id.add_rl2);

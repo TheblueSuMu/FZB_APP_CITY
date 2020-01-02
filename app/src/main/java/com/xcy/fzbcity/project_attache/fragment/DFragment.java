@@ -160,7 +160,6 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
     private String string1;
     private String string2;
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -417,6 +416,18 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
         project_attache_fragment_ll3.setOnClickListener(this);
         project_attache_fragment_ll1.setOnClickListener(this);
 
+        if (FinalContents.getFragmentSS().equals("0")) {
+            mAdapter = new MyFragmentPagerAdapter(Objects.requireNonNull(getActivity()).getSupportFragmentManager());
+            FinalContents.setFragmentSS("1");
+            aList.add(myFragment2);
+            aList.add(myFragment1);
+            aList.add(myFragment3);
+
+            mAdapter.setListfragment(aList);
+            vpager_one.setAdapter(mAdapter);
+            vpager_one.setCurrentItem(0);
+        }
+
         initData();
     }
 
@@ -536,17 +547,7 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
                         NewlyIncreased.setStoreCount(dBean.getData().getStoreCount() + "");
                         NewlyIncreased.setPeopleCount(dBean.getData().getPeopleCount() + "");
 
-                        if (FinalContents.getFragmentSS().equals("0")) {
-                            mAdapter = new MyFragmentPagerAdapter(Objects.requireNonNull(getActivity()).getSupportFragmentManager());
-                            FinalContents.setFragmentSS("1");
-                            aList.add(myFragment2);
-                            aList.add(myFragment1);
-                            aList.add(myFragment3);
 
-                            mAdapter.setListfragment(aList);
-                            vpager_one.setAdapter(mAdapter);
-                            vpager_one.setCurrentItem(0);
-                        }
 //                        tv1_modulebroker.setText(dBean.getData().getStoreCount() + "");
 //                        tv2_modulebroker.setText(dBean.getData().getPeopleCount() + "");
                         tv4_modulebroker.setText(dataMap.getReportNumber() + "");
@@ -580,19 +581,19 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
     private void initTimePickerView1(){
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year, month, dayOfMonth-15);
+        startDate.set(year - 2, month, dayOfMonth);
         final Calendar endDate = Calendar.getInstance();
-        endDate.set(year, month, dayOfMonth+15);
+        endDate.set(year, month, dayOfMonth);
         TimePickerView pvTime = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 time1_modulebroker.setText(getTime2(date));
                 NewlyIncreased.setStartDate(getTime2(date));
-                if (project_attache_fragment_ll2.getVisibility() == View.VISIBLE) {
-                    initDataNum("3", time1_modulebroker.getText().toString(), time2_modulebroker.getText().toString(), "1");
-                } else if (project_attache_fragment_ll4.getVisibility() == View.VISIBLE) {
-                    initDataNum("3", time1_modulebroker.getText().toString(), time2_modulebroker.getText().toString(), "2");
-                }
+//                if (project_attache_fragment_ll2.getVisibility() == View.VISIBLE) {
+//                    initDataNum("3", time1_modulebroker.getText().toString(), time2_modulebroker.getText().toString(), "1");
+//                } else if (project_attache_fragment_ll4.getVisibility() == View.VISIBLE) {
+//                    initDataNum("3", time1_modulebroker.getText().toString(), time2_modulebroker.getText().toString(), "2");
+//                }
             }
         })
                 .setType(new boolean[]{true, true, true, false, false, false}) //年月日时分秒 的显示与否，不设置则默认全部显示

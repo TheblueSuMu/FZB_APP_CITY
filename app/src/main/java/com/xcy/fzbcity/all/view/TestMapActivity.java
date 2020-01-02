@@ -4,16 +4,21 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -30,18 +35,29 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.geocode.GeoCodeResult;
 import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
+import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
+import com.baidu.mapapi.search.poi.PoiCitySearchOption;
+import com.baidu.mapapi.search.poi.PoiDetailResult;
+import com.baidu.mapapi.search.poi.PoiDetailSearchResult;
+import com.baidu.mapapi.search.poi.PoiIndoorResult;
+import com.baidu.mapapi.search.poi.PoiResult;
+import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.xcy.fzbcity.R;
+import com.xcy.fzbcity.all.adapter.TestMapPopwindowAdapter;
 import com.xcy.fzbcity.all.persente.StatusBar;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
-public class TestMapActivity extends AppCompatActivity {
+import java.util.List;
+
+public class TestMapActivity extends AppCompatActivity implements TestMapPopwindowAdapter.OnTestMap {
 
     // 定位相关
     LocationClient mLocClient;
@@ -62,11 +78,28 @@ public class TestMapActivity extends AppCompatActivity {
     private LatLng ll;
     private MyLocationData locData;
 
-    Button map_sendmap_btn;
+    TextView map_sendmap_btn;
 
     RelativeLayout text_map_rl;
+    RelativeLayout test_map_back;
+    RelativeLayout test_map_rl_2;
     ImageView text_map_img;
     private String address;
+    private String pcd;
+
+    EditText test_map_search;
+    int num = 0;
+    private MapStatus mMapStatus;
+    //    private SuggestionSearch mSuggestionSearch;
+    private String province;
+    private PoiSearch mPoiSearch;
+    private List<PoiInfo> allPoi;
+    private RecyclerView recyclerView;
+    private TestMapPopwindowAdapter adapter;
+    private double ssv;
+    private double ssvs;
+    int ifKeyListener = 0;
+    private LatLng ll1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,12 +145,84 @@ public class TestMapActivity extends AppCompatActivity {
             }
         });
 
-        map_sendmap_btn = findViewById(R.id.map_sendmap_btn);
+        test_map_back = findViewById(R.id.test_map_back);
+        map_sendmap_btn = findViewById(R.id.test_map_success);
+        test_map_search = findViewById(R.id.test_map_search);
+        test_map_rl_2 = findViewById(R.id.test_map_rl_2);
+//        mSuggestionSearch = SuggestionSearch.newInstance();
+        mPoiSearch = PoiSearch.newInstance();
+        adapter = new TestMapPopwindowAdapter();
+        adapter.setOnTestMap(this);
+
+        test_map_rl_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                test_map_rl_2.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
+            }
+        });
+
+        recyclerView = findViewById(R.id.test_map_pop_rv_S);
+
+
+        test_map_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                Log.i("经纬度", "beforeTextChanged-s:" + s);
+                Log.i("经纬度", "beforeTextChanged-start:" + start);
+                Log.i("经纬度", "beforeTextChanged-count:" + count);
+                Log.i("经纬度", "beforeTextChanged-after:" + after);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String s1 = s + "";
+                if (s1.equals("")) {
+                    test_map_rl_2.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
+                } else {
+                    test_map_rl_2.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    mPoiSearch.searchInCity(new PoiCitySearchOption()
+                            .city(province) //必填
+                            .keyword(s1 + "") //必填
+                            .pageNum(20));
+                }
+
+                Log.i("经纬度", "onTextChanged-s:" + s);
+                Log.i("经纬度", "onTextChanged-start:" + start);
+                Log.i("经纬度", "onTextChanged-before:" + before);
+                Log.i("经纬度", "onTextChanged-count:" + count);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Log.i("经纬度", "afterTextChanged-s:" + s);
+            }
+        });
 
         map_sendmap_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendMessage();
+            }
+        });
+
+        test_map_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                //纬度
+                intent.putExtra("getLatitude", "");
+                //经度
+                intent.putExtra("getLongitude", "");
+                //地址
+                intent.putExtra("address", "");
+                //省市区
+                intent.putExtra("pcd", "");
+
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
 
@@ -146,6 +251,8 @@ public class TestMapActivity extends AppCompatActivity {
         option.setScanSpan(1000);
         option.setAddrType("all");
         mLocClient.setLocOption(option);
+//        mSuggestionSearch.setOnGetSuggestionResultListener(onGetSuggestionResultListener);
+        mPoiSearch.setOnGetPoiSearchResultListener(poiSearchResultListener);
         //经纬度转地址
         mCoder = GeoCoder.newInstance();
         mSearch = RoutePlanSearch.newInstance();
@@ -193,16 +300,35 @@ public class TestMapActivity extends AppCompatActivity {
 
         mLocClient.start();
 
+
+
     }
 
     OnGetGeoCoderResultListener onGetGeoCoderResultListener = new OnGetGeoCoderResultListener() {
         @Override
         public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
-
+            //地址转经纬度
+            if (null != geoCodeResult && null != geoCodeResult.getLocation()) {
+//                Log.i("地图", "geoCodeResult：" + geoCodeResult);
+//                Log.i("地图", "geoCodeResult.error：" + geoCodeResult.error);
+                if (geoCodeResult == null || geoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
+                    //没有检索到结果
+                    Log.i("地图", "没有检索到结果");
+                    return;
+                } else {
+                    latitude = geoCodeResult.getLocation().latitude;
+                    longitude = geoCodeResult.getLocation().longitude;
+                    la = latitude + "";
+                    lo = longitude + "";
+                    Log.i("经纬度", "la：" + la);
+                    Log.i("经纬度", "lo：" + lo);
+                }
+            }
         }
 
         @Override
         public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
+            //经纬度转地址
             if (reverseGeoCodeResult == null || reverseGeoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
                 //没有找到检索结果
                 Log.i("经纬度", "没有找到检索结果");
@@ -212,31 +338,86 @@ public class TestMapActivity extends AppCompatActivity {
                 address = reverseGeoCodeResult.getAddress();
                 //行政区号
                 int adCode = reverseGeoCodeResult.getCityCode();
+
+                pcd = reverseGeoCodeResult.getAddressDetail().province + "/" + reverseGeoCodeResult.getAddressDetail().city + "/" + reverseGeoCodeResult.getAddressDetail().district;
+
                 Log.i("经纬度", "address：" + address);
+                Log.i("经纬度", "getBusinessCircle：" + reverseGeoCodeResult.getBusinessCircle());
+                Log.i("经纬度", "getSematicDescription：" + reverseGeoCodeResult.getSematicDescription());
+                Log.i("经纬度", "getLocation：" + reverseGeoCodeResult.getLocation());
+                Log.i("经纬度", "getAdcode：" + reverseGeoCodeResult.getAdcode());
+                Log.i("经纬度", "city：" + reverseGeoCodeResult.getAddressDetail().city);
+                Log.i("经纬度", "countryName：" + reverseGeoCodeResult.getAddressDetail().countryName);
+                Log.i("经纬度", "direction：" + reverseGeoCodeResult.getAddressDetail().direction);
+                Log.i("经纬度", "distance：" + reverseGeoCodeResult.getAddressDetail().distance);
+                Log.i("经纬度", "district：" + reverseGeoCodeResult.getAddressDetail().district);
+                Log.i("经纬度", "province：" + reverseGeoCodeResult.getAddressDetail().province);
+                Log.i("经纬度", "street：" + reverseGeoCodeResult.getAddressDetail().street);
+                Log.i("经纬度", "streetNumber：" + reverseGeoCodeResult.getAddressDetail().streetNumber);
+                Log.i("经纬度", "town：" + reverseGeoCodeResult.getAddressDetail().town);
             }
         }
     };
 
-//    //经纬度转地址
-//    OnGetGeoCoderResultListener listener = new OnGetGeoCoderResultListener() {
-//        @Override
-//        public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
-//
-//        }
-//
-//        @Override
-//        public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
-//            if (reverseGeoCodeResult == null || reverseGeoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
-//                //没有找到检索结果
-//                return;
-//            } else {
-//                //详细地址
-//                String address = reverseGeoCodeResult.getAddress();
-////                //行政区号
-////                int adCode = reverseGeoCodeResult. getCityCode();
-//            }
-//        }
-//    };
+    OnGetPoiSearchResultListener poiSearchResultListener = new OnGetPoiSearchResultListener() {
+
+        @Override
+        public void onGetPoiResult(PoiResult poiResult) {
+            Log.i("经纬度", "进入onGetPoiResult:");
+            allPoi = poiResult.getAllPoi();
+
+            if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {
+                for (int i = 0; i < poiResult.getAllPoi().size(); ++i) {
+                    Log.i("经纬度", "getAddress:" + poiResult.getAllPoi().get(i).getAddress());
+                    Log.i("经纬度", "getArea:" + poiResult.getAllPoi().get(i).getArea());
+                    Log.i("经纬度", "getName:" + poiResult.getAllPoi().get(i).getName());
+                    Log.i("经纬度", "getLocation:" + poiResult.getAllPoi().get(i).getLocation());
+
+                    //name(area)
+                    //address
+                    Log.i("经纬度", "++++++++++++++++++++++++++++++++++++++++++++++++" + i + "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                }
+
+                LinearLayoutManager manager = new LinearLayoutManager(TestMapActivity.this);
+                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(manager);
+                adapter.setAllPoi(allPoi);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            } else {
+                test_map_rl_2.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
+            }
+
+        }
+
+        @Override
+        public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
+            Log.i("经纬度", "进入onGetPoiDetailResult");
+        }
+
+        @Override
+        public void onGetPoiDetailResult(PoiDetailSearchResult poiDetailSearchResult) {
+            Log.i("经纬度", "进入onGetPoiDetailResult");
+
+        }
+
+        @Override
+        public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
+            Log.i("经纬度", "进入onGetPoiIndoorResult");
+        }
+    };
+
+    @Override
+    public void TestMap(int position) {
+
+        Log.i("经纬度","坐标+名称：" + allPoi.get(position).getAddress() + "+" + allPoi.get(position).getLocation());
+        ifKeyListener = 1;
+        ssvs = allPoi.get(position).getLocation().latitude;
+        ssv = allPoi.get(position).getLocation().longitude;
+        test_map_rl_2.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+    }
 
     /**
      * 定位SDK监听函数
@@ -269,6 +450,8 @@ public class TestMapActivity extends AppCompatActivity {
 
             if (isFirstLoc) {
                 isFirstLoc = false;
+                province = mlocation.getProvince();
+                Log.i("经纬度", " mlocation.getProvince():" + mlocation.getProvince());
                 if (lo.equals("") || la.equals("")) {
                     ll = new LatLng(location.getLatitude(),
                             location.getLongitude());
@@ -279,6 +462,14 @@ public class TestMapActivity extends AppCompatActivity {
 
                 MapStatus.Builder builder = new MapStatus.Builder();
                 builder.target(ll).zoom(20.0f);
+                mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+            }
+            if (ifKeyListener == 1) {
+                ifKeyListener = 0;
+                ll1 = new LatLng(ssvs,
+                        ssv);
+                MapStatus.Builder builder = new MapStatus.Builder();
+                builder.target(ll1).zoom(18.0f);
                 mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
             }
         }
@@ -311,6 +502,7 @@ public class TestMapActivity extends AppCompatActivity {
         // 关闭定位图层
         mBaiduMap.setMyLocationEnabled(false);
         mMapView.onDestroy();
+        mPoiSearch.destroy();
         mMapView = null;
 //        mCoder.destroy();
 
@@ -340,6 +532,8 @@ public class TestMapActivity extends AppCompatActivity {
             intent.putExtra("getLongitude", longitude + "");
             //地址
             intent.putExtra("address", address + "");
+            //省市区
+            intent.putExtra("pcd", pcd + "");
 
             setResult(RESULT_OK, intent);
             finish();

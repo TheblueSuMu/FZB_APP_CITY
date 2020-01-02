@@ -1,6 +1,8 @@
 package com.tuacy.fuzzysearchlibrary;
 
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
 import android.widget.Filter;
 import android.widget.Filterable;
 
@@ -10,12 +12,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class FuzzySearchBaseAdapter<ITEM extends IFuzzySearchItem, VH extends RecyclerView.ViewHolder>
-	extends RecyclerView.Adapter<VH> implements Filterable {
+		extends RecyclerView.Adapter<VH> implements Filterable {
 
 	private   FuzzySearchFilter mFilter;
 	private   List<ITEM>        mBackDataList;
 	protected List<ITEM>        mDataList;
 	private   IFuzzySearchRule  mIFuzzySearchRule;
+	RecyclerView recyclerView;
+	protected int count = 0;
+
+	public int getCount() {
+		return count;
+	}
+
+	public RecyclerView getRecyclerView() {
+		return recyclerView;
+	}
+
+	public void setRecyclerView(RecyclerView recyclerView) {
+		this.recyclerView = recyclerView;
+	}
 
 	public FuzzySearchBaseAdapter(IFuzzySearchRule rule) {
 		this(rule, null);
@@ -34,6 +50,9 @@ public abstract class FuzzySearchBaseAdapter<ITEM extends IFuzzySearchItem, VH e
 		mDataList = dataList;
 	}
 
+	public List<ITEM> getmDataList() {
+		return mDataList;
+	}
 
 	@Override
 	public int getItemCount() {
@@ -47,6 +66,8 @@ public abstract class FuzzySearchBaseAdapter<ITEM extends IFuzzySearchItem, VH e
 		}
 		return mFilter;
 	}
+
+
 
 	private class FuzzySearchFilter extends Filter {
 
@@ -69,6 +90,8 @@ public abstract class FuzzySearchBaseAdapter<ITEM extends IFuzzySearchItem, VH e
 			}
 			result.values = filterList;
 			result.count = filterList.size();
+			count = filterList.size();
+			Log.i("可长可长了", "可长可长了"+result.count);
 			return result;
 		}
 

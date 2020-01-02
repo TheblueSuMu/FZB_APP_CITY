@@ -385,19 +385,18 @@ public class CompanyDetailsActivity extends AllActivity implements View.OnClickL
     private void initTime1_Date1() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year, month, dayOfMonth - 15);
-        final Calendar endDate = Calendar.getInstance();
-        endDate.set(year, month, dayOfMonth + 15);
+        startDate.set(year-3, month, dayOfMonth);
+Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(CompanyDetailsActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 company_details_tv4.setText(getTime2(date));
                 NewlyIncreased.setStartDate(getTime2(date));
-                if (project_attache_ll2.getVisibility() == View.VISIBLE) {
-                    initDataNum("3", company_details_tv4.getText().toString(), company_details_tv5.getText().toString(), "1");
-                } else if (project_attache_ll4.getVisibility() == View.VISIBLE) {
-                    initDataNum("3", company_details_tv4.getText().toString(), company_details_tv5.getText().toString(), "2");
-                }
+//                if (project_attache_ll2.getVisibility() == View.VISIBLE) {
+//                    initDataNum("3", company_details_tv4.getText().toString(), company_details_tv5.getText().toString(), "1");
+//                } else if (project_attache_ll4.getVisibility() == View.VISIBLE) {
+//                    initDataNum("3", company_details_tv4.getText().toString(), company_details_tv5.getText().toString(), "2");
+//                }
             }
         })
                 .setType(new boolean[]{true, true, true, false, false, false}) //年月日时分秒 的显示与否，不设置则默认全部显示
@@ -415,9 +414,8 @@ public class CompanyDetailsActivity extends AllActivity implements View.OnClickL
     private void initTime1_Date2() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year, month, dayOfMonth - 15);
-        final Calendar endDate = Calendar.getInstance();
-        endDate.set(year, month, dayOfMonth + 15);
+        startDate.set(year-3, month, dayOfMonth);
+Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(CompanyDetailsActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -445,15 +443,14 @@ public class CompanyDetailsActivity extends AllActivity implements View.OnClickL
     private void initTime2_Date1() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year, month, dayOfMonth - 15);
-        final Calendar endDate = Calendar.getInstance();
-        endDate.set(year, month, dayOfMonth + 15);
+        startDate.set(year-3, month, dayOfMonth);
+Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(CompanyDetailsActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 company_details_tv8.setText(getTime2(date));
                 NewlyIncreased.setYJstartDate(getTime2(date));
-                initFinanceNum("3", company_details_tv8.getText().toString(), company_details_tv9.getText().toString());
+//                initFinanceNum("3", company_details_tv8.getText().toString(), company_details_tv9.getText().toString());
             }
         })
                 .setType(new boolean[]{true, true, true, false, false, false}) //年月日时分秒 的显示与否，不设置则默认全部显示
@@ -471,9 +468,8 @@ public class CompanyDetailsActivity extends AllActivity implements View.OnClickL
     private void initTime2_Date2() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year, month, dayOfMonth - 15);
-        final Calendar endDate = Calendar.getInstance();
-        endDate.set(year, month, dayOfMonth + 15);
+        startDate.set(year-3, month, dayOfMonth);
+Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(CompanyDetailsActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {

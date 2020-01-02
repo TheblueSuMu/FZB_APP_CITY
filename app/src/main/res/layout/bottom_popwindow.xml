@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/report_shape"
         android:text="保存图片"
-        android:textColor="#666666"
+        android:textColor="#334485"
         android:textStyle="bold" /> 
      
     <Button
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/report_shape"
         android:text="取消"
-        android:textColor="#334485"
+        android:textColor="#666666"
         android:layout_marginBottom="5dp"
         android:textStyle="bold" />
 </LinearLayout>
