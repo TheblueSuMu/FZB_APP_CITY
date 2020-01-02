@@ -100,6 +100,8 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
     private double ssvs;
     int ifKeyListener = 0;
     private LatLng ll1;
+    private String xq;
+    private String qy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +110,8 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
 
         la = getIntent().getStringExtra("La");
         lo = getIntent().getStringExtra("Lo");
+        qy = getIntent().getStringExtra("qy");
+        xq = getIntent().getStringExtra("xq");
 
 
         if (ContextCompat.checkSelfPermission(TestMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
@@ -211,18 +215,34 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
         test_map_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                //纬度
-                intent.putExtra("getLatitude", "");
-                //经度
-                intent.putExtra("getLongitude", "");
-                //地址
-                intent.putExtra("address", "");
-                //省市区
-                intent.putExtra("pcd", "");
+                if(xq.equals("") || qy.equals("")){
+                    Intent intent = new Intent();
+                    //纬度
+                    intent.putExtra("getLatitude", "");
+                    //经度
+                    intent.putExtra("getLongitude", "");
+                    //地址
+                    intent.putExtra("address", "");
+                    //省市区
+                    intent.putExtra("pcd", "");
 
-                setResult(RESULT_OK, intent);
-                finish();
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }else {
+                    Intent intent = new Intent();
+                    //纬度
+                    intent.putExtra("getLatitude", la);
+                    //经度
+                    intent.putExtra("getLongitude", lo);
+                    //地址
+                    intent.putExtra("address", xq);
+                    //省市区
+                    intent.putExtra("pcd", qy);
+
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+
             }
         });
 
@@ -417,6 +437,28 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
         ssv = allPoi.get(position).getLocation().longitude;
         test_map_rl_2.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
+        mBaiduMap.clear();
+        mBaiduMap = mMapView.getMap();
+        //定义Maker坐标点
+        LatLng point = new LatLng(allPoi.get(position).getLocation().latitude, allPoi.get(position).getLocation().longitude);
+        //构建Marker图标
+        BitmapDescriptor bitmap = BitmapDescriptorFactory
+                .fromResource(R.drawable.icon_marka);
+        //构建MarkerOption，用于在地图上添加Marker
+        OverlayOptions option = new MarkerOptions()
+                .position(point)
+                .icon(bitmap);
+        //在地图上添加Marker，并显示
+        mBaiduMap.addOverlay(option);
+        latitude = allPoi.get(position).getLocation().latitude;
+        longitude =  allPoi.get(position).getLocation().longitude;
+        //经纬度转地址
+        mCoder.reverseGeoCode(new ReverseGeoCodeOption()
+                .location(point)
+                // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
+                .radius(500));
+
+        latLng1 = allPoi.get(position).getLocation();
     }
 
     /**
@@ -434,13 +476,13 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
 
             if (lo.equals("") || la.equals("")) {
                 locData = new MyLocationData.Builder()
-                        .accuracy(mlocation.getRadius())
+                        .accuracy(0)//mlocation.getRadius()：有精度圈    0：无精度圈
                         // 此处设置开发者获取到的方向信息，顺时针0-360
                         .direction(100).latitude(mlocation.getLatitude())
                         .longitude(mlocation.getLongitude()).build();
             } else {
                 locData = new MyLocationData.Builder()
-                        .accuracy(mlocation.getRadius())
+                        .accuracy(0)//mlocation.getRadius()：有精度圈    0：无精度圈
                         // 此处设置开发者获取到的方向信息，顺时针0-360
                         .direction(100).latitude(Double.parseDouble(la))
                         .longitude(Double.parseDouble(lo)).build();

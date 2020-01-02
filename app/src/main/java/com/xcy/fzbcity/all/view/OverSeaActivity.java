@@ -101,7 +101,7 @@ public class OverSeaActivity extends AllActivity implements View.OnClickListener
     private ScrollView scrollView;
     private EditText search;
     private LinearLayout back;
-//    private ImageView report;
+    //    private ImageView report;
     FrameLayout oversea_fl;
     private String projectLabel = "";
 
@@ -114,8 +114,7 @@ public class OverSeaActivity extends AllActivity implements View.OnClickListener
     HouseTypeFragment houseTypeFragment;
     ScreeningFragment screeningFragment;
 
-    FragmentManager manager;
-    FragmentTransaction transaction;
+
     private List<NationBean.DataBean> nationlist;
     private List<ImgData.DataBean> imglist;
     private List<ImgData.DataBean> imagelist;
@@ -139,6 +138,7 @@ public class OverSeaActivity extends AllActivity implements View.OnClickListener
     private String s = "";
     int isstart = 0;
     //    private DemoApplication application;
+    private int selecttype = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,7 +203,7 @@ public class OverSeaActivity extends AllActivity implements View.OnClickListener
         if (FinalContents.getCityID().equals(FinalContents.getOldCityId())) {
             if (FinalContents.getIdentity().equals("63")) {
 
-            }else if (FinalContents.getIdentity().equals("7")) {
+            } else if (FinalContents.getIdentity().equals("7")) {
 
             } else {
                 int sensortype = event.sensor.getType();
@@ -270,7 +270,7 @@ public class OverSeaActivity extends AllActivity implements View.OnClickListener
 //            oversea_rb_2s.setText("城市");
 //            state.setText("城市");
 //            seview.setVisibility(View.VISIBLE);
-            inithot();
+        inithot();
 //        }
     }
 
@@ -305,7 +305,7 @@ public class OverSeaActivity extends AllActivity implements View.OnClickListener
             public void onClick(View view) {
                 CityContents.setCityType("1");
                 FinalContents.setIfCityType("1");
-                Intent intent = new Intent(OverSeaActivity.this,CityWideActivity.class);
+                Intent intent = new Intent(OverSeaActivity.this, CityWideActivity.class);
                 startActivity(intent);
             }
         });
@@ -314,7 +314,7 @@ public class OverSeaActivity extends AllActivity implements View.OnClickListener
             public void onClick(View view) {
                 CityContents.setCityType("2");
                 FinalContents.setIfCityType("2");
-                Intent intent = new Intent(OverSeaActivity.this,CityWideActivity.class);
+                Intent intent = new Intent(OverSeaActivity.this, CityWideActivity.class);
                 startActivity(intent);
             }
         });
@@ -399,13 +399,12 @@ public class OverSeaActivity extends AllActivity implements View.OnClickListener
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
 
-                if(isstart == 0){
+                if (isstart == 0) {
                     isstart = 1;
                     s = search.getText().toString();
                     inithot();
                     isstart = 0;
                 }
-
 
 
                 return false;
@@ -437,8 +436,8 @@ public class OverSeaActivity extends AllActivity implements View.OnClickListener
 
         scrollView = findViewById(R.id.oversea_scroll);
 
-        manager = getSupportFragmentManager();
-        transaction = manager.beginTransaction();
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.oversea_fl, comprehensiveFragment);
         transaction.commit();
 
@@ -472,25 +471,6 @@ public class OverSeaActivity extends AllActivity implements View.OnClickListener
             }
         });
 
-        oversea_rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                manager = getSupportFragmentManager();
-                transaction = manager.beginTransaction();
-                if (oversea_rb_1.isChecked() == true) {
-                    transaction.replace(R.id.oversea_fl, comprehensiveFragment);
-                } else if (oversea_rb_2s.isChecked() == true) {
-                    transaction.replace(R.id.oversea_fl, countryFragment);
-                } else if (oversea_rb_3.isChecked() == true) {
-                    transaction.replace(R.id.oversea_fl, priceFragment);
-                } else if (oversea_rb_4.isChecked() == true) {
-                    transaction.replace(R.id.oversea_fl, houseTypeFragment);
-                } else if (oversea_rb_5.isChecked() == true) {
-                    transaction.replace(R.id.oversea_fl, screeningFragment);
-                }
-                transaction.commit();
-            }
-        });
 
         initProjectLabel();
         sort.setOnClickListener(this);
@@ -498,6 +478,12 @@ public class OverSeaActivity extends AllActivity implements View.OnClickListener
         state.setOnClickListener(this);
         price.setOnClickListener(this);
         house_type.setOnClickListener(this);
+        oversea_rb_1.setOnClickListener(this);
+        oversea_rb_2s.setOnClickListener(this);
+        oversea_rb_3.setOnClickListener(this);
+        oversea_rb_4.setOnClickListener(this);
+        oversea_rb_5.setOnClickListener(this);
+
     }
 
 
@@ -505,38 +491,91 @@ public class OverSeaActivity extends AllActivity implements View.OnClickListener
     @SingleClick(1000)
     @Override
     public void onClick(View view) {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
         switch (view.getId()) {
             case R.id.overseas_sort:
 //                report.setVisibility(View.GONE);
                 oversea_rb_1.setChecked(true);
+                transaction.replace(R.id.oversea_fl, comprehensiveFragment);
+                selecttype = 1;
                 oversea_ll.setVisibility(View.VISIBLE);
                 scrollView.setOnClickListener(null);
                 break;
             case R.id.overseas_screen:
 //                report.setVisibility(View.GONE);
                 oversea_rb_5.setChecked(true);
+                transaction.replace(R.id.oversea_fl, screeningFragment);
+                selecttype = 5;
                 oversea_ll.setVisibility(View.VISIBLE);
                 scrollView.setOnClickListener(null);
                 break;
             case R.id.overseas_state:
 //                report.setVisibility(View.GONE);
                 oversea_rb_2s.setChecked(true);
+                transaction.replace(R.id.oversea_fl, countryFragment);
+                selecttype = 2;
                 oversea_ll.setVisibility(View.VISIBLE);
                 scrollView.setOnClickListener(null);
                 break;
             case R.id.overseas_price:
 //                report.setVisibility(View.GONE);
                 oversea_rb_3.setChecked(true);
+                transaction.replace(R.id.oversea_fl, priceFragment);
+                selecttype = 3;
                 oversea_ll.setVisibility(View.VISIBLE);
                 scrollView.setOnClickListener(null);
                 break;
             case R.id.overseas_house_type:
 //                report.setVisibility(View.GONE);
                 oversea_rb_4.setChecked(true);
+                transaction.replace(R.id.oversea_fl, houseTypeFragment);
+                selecttype = 4;
                 oversea_ll.setVisibility(View.VISIBLE);
                 scrollView.setOnClickListener(null);
                 break;
+            case R.id.oversea_rb_1:
+                if (selecttype != 1) {
+                    transaction.replace(R.id.oversea_fl, comprehensiveFragment);
+                    selecttype = 1;
+                }else {
+                    oversea_ll.setVisibility(View.GONE);
+                }
+                break;
+            case R.id.oversea_rb_2s:
+                if (selecttype != 2) {
+                    transaction.replace(R.id.oversea_fl, countryFragment);
+                    selecttype = 2;
+                }else {
+                    oversea_ll.setVisibility(View.GONE);
+                }
+                break;
+            case R.id.oversea_rb_3:
+                if (selecttype != 3) {
+                    transaction.replace(R.id.oversea_fl, priceFragment);
+                    selecttype = 3;
+                }else {
+                    oversea_ll.setVisibility(View.GONE);
+                }
+                break;
+            case R.id.oversea_rb_4:
+                if (selecttype != 4) {
+                    transaction.replace(R.id.oversea_fl, houseTypeFragment);
+                    selecttype = 4;
+                }else {
+                    oversea_ll.setVisibility(View.GONE);
+                }
+                break;
+            case R.id.oversea_rb_5:
+                if (selecttype != 5) {
+                    transaction.replace(R.id.oversea_fl, screeningFragment);
+                    selecttype = 5;
+                }else {
+                    oversea_ll.setVisibility(View.GONE);
+                }
+                break;
         }
+        transaction.commit();
     }
 
     private void initProjectLabel() {
@@ -546,7 +585,7 @@ public class OverSeaActivity extends AllActivity implements View.OnClickListener
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<LabelBean> nationBean = fzbInterface.getLabel(FinalContents.getProjectType(),FinalContents.getUserID(),"1");
+        Observable<LabelBean> nationBean = fzbInterface.getLabel(FinalContents.getProjectType(), FinalContents.getUserID(), "1");
         nationBean.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<LabelBean>() {
@@ -678,10 +717,10 @@ public class OverSeaActivity extends AllActivity implements View.OnClickListener
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Log.i("轮播图","FinalContents.getUserID()：" + FinalContents.getUserID());
-        Log.i("轮播图","FinalContents.getCityID()：" + FinalContents.getCityID());
-        Log.i("轮播图","FinalContents.getProjectType()：" + FinalContents.getProjectType());
-        Log.i("轮播图","arrposid：" + arrposid);
+        Log.i("轮播图", "FinalContents.getUserID()：" + FinalContents.getUserID());
+        Log.i("轮播图", "FinalContents.getCityID()：" + FinalContents.getCityID());
+        Log.i("轮播图", "FinalContents.getProjectType()：" + FinalContents.getProjectType());
+        Log.i("轮播图", "arrposid：" + arrposid);
         Observable<ImgData> userMessage = fzbInterface.getBannerList(FinalContents.getUserID(), FinalContents.getCityID(), FinalContents.getProjectType(), arrposid);
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -720,7 +759,7 @@ public class OverSeaActivity extends AllActivity implements View.OnClickListener
                                             startActivity(intent);
                                         }
                                     });
-                        }else {
+                        } else {
                             banner_img.setVisibility(View.VISIBLE);
                             banner.setVisibility(View.GONE);
                         }
@@ -773,7 +812,7 @@ public class OverSeaActivity extends AllActivity implements View.OnClickListener
                             IssueAdapter recyclerAdapter = new IssueAdapter(imagelist);
                             issueRv.setAdapter(recyclerAdapter);
                             recyclerAdapter.notifyDataSetChanged();
-                        }else {
+                        } else {
                             oversea_linear_issue.setVisibility(View.GONE);
                             issueRv.setVisibility(View.GONE);
                         }
@@ -804,7 +843,7 @@ public class OverSeaActivity extends AllActivity implements View.OnClickListener
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<HotBean> userMessage = fzbInterface.getList(FinalContents.getUserID(), FinalContents.getCityID(), FinalContents.getComprehensiveSorting(), FinalContents.getProjectLabel(), "1","", FinalContents.getNation(), FinalContents.getProjectPriceStart(), FinalContents.getProjectPriceEnd(), FinalContents.getApartment(), FinalContents.getAreaSection(), FinalContents.getFfProjectTrait(), FinalContents.getProcuctType(), FinalContents.getFitmentState(),s,"1000");
+        Observable<HotBean> userMessage = fzbInterface.getList(FinalContents.getUserID(), FinalContents.getCityID(), FinalContents.getComprehensiveSorting(), FinalContents.getProjectLabel(), "1", "", FinalContents.getNation(), FinalContents.getProjectPriceStart(), FinalContents.getProjectPriceEnd(), FinalContents.getApartment(), FinalContents.getAreaSection(), FinalContents.getFfProjectTrait(), FinalContents.getProcuctType(), FinalContents.getFitmentState(), s, "1000");
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<HotBean>() {

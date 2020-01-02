@@ -389,6 +389,8 @@ public class AddStoreActivity extends AppCompatActivity implements View.OnClickL
                     Intent intent = new Intent(AddStoreActivity.this, TestMapActivity.class);
                     intent.putExtra("La", getLatitude);
                     intent.putExtra("Lo", getLongitude);
+                    intent.putExtra("qy",add_broker_et3.getText().toString());
+                    intent.putExtra("xq",add_broker_et4.getText().toString());
                     startActivityForResult(intent, 1);
                 } else {
                     Log.i("MyCL", "定位服务未开启");

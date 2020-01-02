@@ -276,6 +276,8 @@ public class AddCompanyActivity extends AppCompatActivity implements View.OnClic
                     Intent intent = new Intent(AddCompanyActivity.this, TestMapActivity.class);
                     intent.putExtra("La",getLatitude);
                     intent.putExtra("Lo",getLongitude);
+                    intent.putExtra("qy",add_company_tv2.getText().toString());
+                    intent.putExtra("xq",add_company_et2.getText().toString());
                     startActivityForResult(intent, 1);
                 } else {
                     Log.i("MyCL", "定位服务未开启");
