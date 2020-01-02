@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -157,6 +158,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
     private LinearLayout login_select;
     private AVLoadingIndicatorView avi;
     private RelativeLayout avi_login_rl;
+    private CheckBox login_select_password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -225,10 +227,25 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
         login_iv_user_state = findViewById(R.id.iv_user_state);
         login_iv_login_type = findViewById(R.id.iv_login_type);
-
+        login_select_password = findViewById(R.id.login_select_password);
         avi = findViewById(R.id.avi_login);
         avi_login_rl = findViewById(R.id.avi_login_rl);
 
+
+        login_select_password.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if(isChecked){
+                    //选择状态 显示明文--设置为可见的密码
+                    login_et_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    login_et_password.setSelection(login_et_password.getText().length());
+                } else {
+                    //默认状态显示密码--设置文本
+                    login_et_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    login_et_password.setSelection(login_et_password.getText().length());
+                }
+            }
+        });
 
         fuwu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -270,7 +287,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
     }
 
     private void initDengLu() {
-        Log.i("登录", "数据：" + pref.getString("DengLu", ""));
+        Log.i("登录", "数据：" + pref.getString("dengLu", ""));
         if (pref.getString("denglu", "").equals("经纪人")) {
             if (pref.getString("user_name" + (index - 1), "").equals("")) {
 
@@ -853,9 +870,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                             FinalContents.setOldCityId(loginUserBean.getData().getCityId());
                             FinalContents.setCityName(loginUserBean.getData().getCity());
                             FinalContents.setIdentity(loginUserBean.getData().getIdentity());
-                            editor.putString("denglu", "经纪人");
-                            editor.commit();
                             Log.i("登录", "数据中：" + pref.getString("denglu", ""));
+                            editor.putString("denglu", "经纪人");
+                            editor.putString("login", "1");
                             editor.putString("userID", FinalContents.getUserID());
                             editor.putString("cityID", FinalContents.getCityID());
                             editor.putString("cityname", FinalContents.getCityName());
@@ -950,9 +967,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                                 FinalContents.setOldCityId(userBean.getData().getCityId());
                                 FinalContents.setCityName(userBean.getData().getCity());
                                 FinalContents.setIdentity(userBean.getData().getIdentity());
-                                editor.putString("denglu", "专员");
-                                editor.commit();
                                 Log.i("登录", "数据中：" + pref.getString("denglu", ""));
+                                editor.putString("login", "1");
+                                editor.putString("denglu", "专员");
                                 editor.putString("userID", FinalContents.getUserID());
                                 editor.putString("cityID", FinalContents.getCityID());
                                 editor.putString("cityname", FinalContents.getCityName());
@@ -970,9 +987,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                                 FinalContents.setOldCityId(userBean.getData().getCityId());
                                 FinalContents.setCityName(userBean.getData().getCity());
                                 FinalContents.setIdentity(userBean.getData().getIdentity());
-                                editor.putString("denglu", "专案");
-                                editor.commit();
                                 Log.i("登录", "数据中：" + pref.getString("denglu", ""));
+                                editor.putString("login", "1");
+                                editor.putString("denglu", "专案");
                                 editor.putString("userID", FinalContents.getUserID());
                                 editor.putString("cityID", FinalContents.getCityID());
                                 editor.putString("cityname", FinalContents.getCityName());
@@ -989,9 +1006,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                                 FinalContents.setOldCityId(userBean.getData().getCityId());
                                 FinalContents.setCityName(userBean.getData().getCity());
                                 FinalContents.setIdentity(userBean.getData().getIdentity());
-                                editor.putString("denglu", "导购");
-                                editor.commit();
                                 Log.i("登录", "数据中：" + pref.getString("denglu", ""));
+                                editor.putString("login", "1");
+                                editor.putString("denglu", "导购");
                                 editor.putString("userID", FinalContents.getUserID());
                                 editor.putString("cityID", FinalContents.getCityID());
                                 editor.putString("cityname", FinalContents.getCityName());
@@ -1009,9 +1026,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                                 FinalContents.setCityName(userBean.getData().getCity());
                                 FinalContents.setIdentity(userBean.getData().getIdentity());
                                 FinalContents.setXSName(userBean.getData().getName());
-                                editor.putString("denglu", "团助");
-                                editor.commit();
                                 Log.i("登录", "数据中：" + pref.getString("denglu", ""));
+                                editor.putString("login", "1");
+                                editor.putString("denglu", "团助");
                                 editor.putString("userID", FinalContents.getUserID());
                                 editor.putString("cityID", FinalContents.getCityID());
                                 editor.putString("cityname", FinalContents.getCityName());
@@ -1100,9 +1117,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                                 FinalContents.setCityName(userBean.getData().getCity());
                                 FinalContents.setIdentity(userBean.getData().getIdentity());
                                 FinalContents.setUserName(userBean.getData().getName());
-                                editor.putString("denglu", "团队长");
-                                editor.commit();
                                 Log.i("登录", "数据中：" + pref.getString("denglu", ""));
+                                editor.putString("login", "1");
+                                editor.putString("denglu", "团队长");
                                 editor.putString("userID", FinalContents.getUserID());
                                 editor.putString("cityID", FinalContents.getCityID());
                                 editor.putString("cityname", FinalContents.getCityName());
@@ -1119,9 +1136,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                                 FinalContents.setOldCityId(userBean.getData().getCityId());
                                 FinalContents.setCityName(userBean.getData().getCity());
                                 FinalContents.setIdentity(userBean.getData().getIdentity());
-                                editor.putString("denglu", "顾问");
-                                editor.commit();
                                 Log.i("登录", "数据中：" + pref.getString("denglu", ""));
+                                editor.putString("login", "1");
+                                editor.putString("denglu", "顾问");
                                 editor.putString("userID", FinalContents.getUserID());
                                 editor.putString("cityID", FinalContents.getCityID());
                                 editor.putString("cityname", FinalContents.getCityName());
@@ -1142,9 +1159,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                                 FinalContents.setXSTeamName(userBean.getData().getLayerTeamVo().getTeamLeader().getParent().getName());
                                 FinalContents.setUserName(userBean.getData().getName());
                                 FinalContents.setParentName(userBean.getData().getLayerTeamVo().getTeamLeader().getParent().getName());
-                                editor.putString("denglu", "销售");
-                                editor.commit();
                                 Log.i("登录", "数据中：" + pref.getString("denglu", ""));
+                                editor.putString("login", "1");
+                                editor.putString("denglu", "销售");
                                 editor.putString("userID", FinalContents.getUserID());
                                 editor.putString("cityID", FinalContents.getCityID());
                                 editor.putString("cityname", FinalContents.getCityName());

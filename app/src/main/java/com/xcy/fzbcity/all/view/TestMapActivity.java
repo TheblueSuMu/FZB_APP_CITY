@@ -577,7 +577,7 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
-        ToastUtil.showToast(TestMapActivity.this, "请选择坐标并且发送");
+        ToastUtil.showToast(TestMapActivity.this, "请选择坐标");
         Log.i("键", "点击了回退键");
 
     }

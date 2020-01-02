@@ -437,7 +437,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
                 details_the_project_end_time1.setText("<" + getTime2(date));
                 beforeDate1 = getTime2(date);
                 NewlyIncreased.setStartDate(getTime2(date));
-                initViewData2();
+//                initViewData2();
             }
         })
 

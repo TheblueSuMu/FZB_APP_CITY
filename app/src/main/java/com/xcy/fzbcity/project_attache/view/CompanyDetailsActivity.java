@@ -385,8 +385,8 @@ public class CompanyDetailsActivity extends AllActivity implements View.OnClickL
     private void initTime1_Date1() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year-3, month, dayOfMonth);
-Calendar endDate = Calendar.getInstance();
+        startDate.set(year - 3, month, dayOfMonth);
+        Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(CompanyDetailsActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -414,8 +414,8 @@ Calendar endDate = Calendar.getInstance();
     private void initTime1_Date2() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year-3, month, dayOfMonth);
-Calendar endDate = Calendar.getInstance();
+        startDate.set(year - 3, month, dayOfMonth);
+        Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(CompanyDetailsActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -443,8 +443,8 @@ Calendar endDate = Calendar.getInstance();
     private void initTime2_Date1() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year-3, month, dayOfMonth);
-Calendar endDate = Calendar.getInstance();
+        startDate.set(year - 3, month, dayOfMonth);
+        Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(CompanyDetailsActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -468,8 +468,8 @@ Calendar endDate = Calendar.getInstance();
     private void initTime2_Date2() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year-3, month, dayOfMonth);
-Calendar endDate = Calendar.getInstance();
+        startDate.set(year - 3, month, dayOfMonth);
+        Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(CompanyDetailsActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -639,7 +639,7 @@ Calendar endDate = Calendar.getInstance();
 //                        TODO 近七天活动度
                         integers = companyDetailsBean.getData().getGsonOption().getSeries().get(0).getData();
                         indexList = companyDetailsBean.getData().getGsonOption().getXAxis().getData();
-                        if(integers.size() != 0){
+                        if (integers.size() != 0) {
                             setData(integers);
                         }
 
@@ -884,9 +884,9 @@ Calendar endDate = Calendar.getInstance();
             xAxis.setDrawGridLines(false);
             /*解决左右两端柱形图只显示一半的情况 只有使用CombinedChart时会出现，如果单独使用BarChart不会有这个问题*/
             xAxis.setAxisMinimum(-0.2f);
-            Log.i("长度","values.size()"+values.size());
-            Log.i("长度","list.size()"+list.size());
-            Log.i("长度","indexList.size()"+indexList.size());
+            Log.i("长度", "values.size()" + values.size());
+            Log.i("长度", "list.size()" + list.size());
+            Log.i("长度", "indexList.size()" + indexList.size());
             xAxis.setAxisMaximum(values.size() - 0.5f);
             xAxis.setGranularity(1f);
             xAxis.setTextColor(Color.parseColor("#666666"));
@@ -896,7 +896,7 @@ Calendar endDate = Calendar.getInstance();
                 public String getFormattedValue(float value) {
                     if (indexList.size() != 0) {
                         return indexList.get((int) value % indexList.size());
-                    }else {
+                    } else {
                         return "";
                     }
                 }
@@ -904,7 +904,7 @@ Calendar endDate = Calendar.getInstance();
 
             int max = 0;
 
-            for (int i = 0;i < list.size();i++){
+            for (int i = 0; i < list.size(); i++) {
                 if (list.get(i) > max) {
                     max = list.get(i);
                 }
@@ -967,7 +967,7 @@ Calendar endDate = Calendar.getInstance();
             combinedData.setData(barData);  // 添加柱形图数据源
             combinedData.setData(lineData); // 添加折线图数据源
             if (indexList.size() > 5) {
-                combinedChart.setVisibleXRange(0,5);
+                combinedChart.setVisibleXRange(0, 5);
             }
             combinedChart.setData(combinedData); // 为组合图设置数据源
 //            combinedChart.setVisibleXRangeMaximum(12);

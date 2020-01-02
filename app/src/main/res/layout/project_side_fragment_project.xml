@@ -72,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <FrameLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -83,8 +83,14 @@
                         app:indicator_drawable_selected="@drawable/banner_back"
                         />
 
+                    <ImageView
+                        android:id="@+id/home_banner_img"
+                        android:src="@mipmap/banner_img"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"/>
 
-                </FrameLayout>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:orientation="horizontal"

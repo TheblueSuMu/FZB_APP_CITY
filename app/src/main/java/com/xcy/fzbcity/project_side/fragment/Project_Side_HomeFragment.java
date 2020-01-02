@@ -352,9 +352,8 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
     private void initTimePickerView1(){
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year, month, dayOfMonth-15);
-        final Calendar endDate = Calendar.getInstance();
-        endDate.set(year, month, dayOfMonth+15);
+        startDate.set(year - 3, month, dayOfMonth);
+        Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -362,7 +361,7 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
                 beforeDate = getTime2(date);
                 NewlyIncreased.setStartDate(getTime2(date));
                 NewlyIncreased.setYJstartDate(getTime2(date));
-                initViewData();
+//                initViewData();
             }
         })
 
@@ -381,9 +380,8 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
     private void initTimePickerView2(){
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year, month, dayOfMonth-15);
-        final Calendar endDate = Calendar.getInstance();
-        endDate.set(year, month, dayOfMonth+15);
+        startDate.set(year - 3, month, dayOfMonth);
+        Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {

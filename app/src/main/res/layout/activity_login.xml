@@ -2,11 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
         android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -130,6 +131,22 @@
                         android:inputType="textPassword"
                         android:paddingLeft="10dp"
                         android:textSize="12sp" />
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
+
+                        <CheckBox
+                            android:id="@+id/login_select_password"
+                            android:button="@null"
+                            android:checked="false"
+                            android:background="@drawable/login_select"
+                            android:layout_width="20dp"
+                            android:layout_height="15dp"/>
+
+                    </FrameLayout>
+
                 </LinearLayout>
 
                 <View
@@ -352,6 +369,7 @@
 
             </RelativeLayout>
         </LinearLayout>
+
 
     </LinearLayout>
 

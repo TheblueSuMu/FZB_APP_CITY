@@ -116,7 +116,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
     private Vibrator vibrator;
     private DemoApplication application;
     private ImageView all_no_information;
-
+    private ImageView home_banner_no;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -207,7 +207,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
 
         recyclerView = view.findViewById(R.id.home_recycler_vertical);
         all_no_information = view.findViewById(R.id.all_no_information_h);
-
+        home_banner_no = view.findViewById(R.id.home_banner_no);
         banner = view.findViewById(R.id.home_banner);
 
         layout = view.findViewById(R.id.home_srl);
@@ -519,6 +519,8 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                     public void onNext(ImgData imgData) {
                         imglist = imgData.getData();
                         if (imglist.size() != 0) {
+                            banner.setVisibility(View.VISIBLE);
+                            home_banner_no.setVisibility(View.GONE);
                             for (int i = 0; i < imglist.size(); i++) {
                                 list_path.add(FinalContents.getImageUrl() + imglist.get(i).getCoverImg());
                                 list_title.add(imglist.get(i).getTitle());
@@ -558,11 +560,16 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                             banner.start();
 
 
+                        }else {
+                            banner.setVisibility(View.GONE);
+                            home_banner_no.setVisibility(View.VISIBLE);
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        banner.setVisibility(View.GONE);
+                        home_banner_no.setVisibility(View.VISIBLE);
                         Log.i("列表数据获取错误", "错误" + e);
                     }
 
