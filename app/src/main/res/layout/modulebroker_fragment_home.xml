@@ -218,7 +218,7 @@
                         android:textColor="#ff333333"
                         android:textSize="15sp" />
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
@@ -232,7 +232,16 @@
                             app:marquee_count="2"
                             app:marquee_textSize="11sp" />
 
-                    </LinearLayout>
+                        <TextView
+                            android:id="@+id/side_message_no"
+                            android:layout_marginTop="8dp"
+                            android:text="暂无新闻头条哦！"
+                            android:textSize="15sp"
+                            android:textColor="#000"
+                            android:visibility="gone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </RelativeLayout>
 
                 </LinearLayout>
 

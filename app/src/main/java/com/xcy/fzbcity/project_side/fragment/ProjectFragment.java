@@ -117,6 +117,9 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
     private DemoApplication application;
     private ImageView all_no_information;
     private ImageView home_banner_img;
+
+    TextView side_message_no_2;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -209,6 +212,7 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
 
         layout = view.findViewById(R.id.home_srl);
         tvBanner2 =  view.findViewById(R.id.tv_banner2);
+        side_message_no_2 =  view.findViewById(R.id.side_message_no_2);
 
         textView1 = view.findViewById(R.id.home_item_sojourn);
         textView2 = view.findViewById(R.id.home_item_overseas);
@@ -444,37 +448,46 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
                     public void onNext(MessageBean2 messageBean) {
                         MessageBean2.DataBean dataBean = messageBean.getData();
                         messagelist = dataBean.getRows();
-
-                        for (int i = 0; i < messagelist.size(); i++){
-                            if (messagelist.get(i).getType().equals("0")) {
-                                messagelist2.add(new Bean(R.mipmap.give,messagelist.get(i).getTitle()));
-                            }else if (messagelist.get(i).getType().equals("2")){
-                                messagelist2.add(new Bean(R.mipmap.lodger,messagelist.get(i).getTitle()));
-                            }else if (messagelist.get(i).getType().equals("5")){
-                                messagelist2.add(new Bean(R.mipmap.goodnews,messagelist.get(i).getTitle()));
-                            }
-                        }
-
-
-                        TextBannerAdapter textBannerAdapter = new TextBannerAdapter(messagelist2, view.getContext());
-                        tvBanner2.setAdapter(textBannerAdapter);
-
-                        textBannerAdapter.setOnItemClickListener(new TextBannerAdapter.OnItemClickLisenter() {
-                            @Override
-                            public void onItemClick(int postion) {
-                                if (messagelist.get(postion).getType().equals("0")) {
-                                    listterner.process("0"); // 3.1 执行回调
-                                }else if (messagelist.get(postion).getType().equals("2")){
-                                    listterner.process("2"); // 3.1 执行回调
-                                }else if (messagelist.get(postion).getType().equals("5")){
-                                    listterner.process("5"); // 3.1 执行回调
+                        if(messagelist.size() == 0){
+                            tvBanner2.setVisibility(View.GONE);
+                            side_message_no_2.setVisibility(View.VISIBLE);
+                        }else {
+                            tvBanner2.setVisibility(View.VISIBLE);
+                            side_message_no_2.setVisibility(View.GONE);
+                            for (int i = 0; i < messagelist.size(); i++){
+                                if (messagelist.get(i).getType().equals("0")) {
+                                    messagelist2.add(new Bean(R.mipmap.give,messagelist.get(i).getTitle()));
+                                }else if (messagelist.get(i).getType().equals("2")){
+                                    messagelist2.add(new Bean(R.mipmap.lodger,messagelist.get(i).getTitle()));
+                                }else if (messagelist.get(i).getType().equals("5")){
+                                    messagelist2.add(new Bean(R.mipmap.goodnews,messagelist.get(i).getTitle()));
                                 }
                             }
-                        });
+
+
+                            TextBannerAdapter textBannerAdapter = new TextBannerAdapter(messagelist2, view.getContext());
+                            tvBanner2.setAdapter(textBannerAdapter);
+
+                            textBannerAdapter.setOnItemClickListener(new TextBannerAdapter.OnItemClickLisenter() {
+                                @Override
+                                public void onItemClick(int postion) {
+                                    if (messagelist.get(postion).getType().equals("0")) {
+                                        listterner.process("0"); // 3.1 执行回调
+                                    }else if (messagelist.get(postion).getType().equals("2")){
+                                        listterner.process("2"); // 3.1 执行回调
+                                    }else if (messagelist.get(postion).getType().equals("5")){
+                                        listterner.process("5"); // 3.1 执行回调
+                                    }
+                                }
+                            });
+                        }
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        tvBanner2.setVisibility(View.GONE);
+                        side_message_no_2.setVisibility(View.VISIBLE);
                         Log.i("文字轮播列表数据获取错误","错误"+e);
                     }
 
