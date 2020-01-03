@@ -38,8 +38,8 @@ public class FinalContents {
 //    static String ImageUrl = "http://admin.fangzuobiao.com:88";
 
 //    static String AdminUrl = "http://admin.fangzuobiao.com:88";
-    static String AdminUrl = "http://city.fangzuobiao.com:88";
-//    static String AdminUrl = "http://yanshi.fangzuobiao.com:88";
+//    static String AdminUrl = "http://city.fangzuobiao.com:88";
+    static String AdminUrl = "http://yanshi.fangzuobiao.com:88";
 //    static String AdminUrl = "http://sojo.fangzuobiao.com:88";
 //    static String AdminUrl = "http://test.fangzuobiao.com:88";
 
