@@ -270,7 +270,7 @@ public class CompanyDetailsActivity extends AllActivity implements View.OnClickL
         month = calendar.get(Calendar.MONTH);
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-        string1 = String.format(Locale.getDefault(), "%d.%02d.%02d", year, month + 1, dayOfMonth - 1);
+        string1 = String.format(Locale.getDefault(), "%d.%02d.%02d", year, month + 1, dayOfMonth);
         string2 = String.format(Locale.getDefault(), "%d.%02d.%02d", year, month + 1, dayOfMonth);
         company_details_tv4.setText(string1);
         company_details_tv5.setText(string2);

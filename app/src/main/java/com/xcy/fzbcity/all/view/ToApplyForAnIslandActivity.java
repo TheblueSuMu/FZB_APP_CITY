@@ -100,6 +100,7 @@ public class ToApplyForAnIslandActivity extends AllActivity implements View.OnCl
             "android.permission.READ_EXTERNAL_STORAGE",
             "android.permission.WRITE_EXTERNAL_STORAGE"};
     private File file;
+    private boolean enabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,10 +207,12 @@ public class ToApplyForAnIslandActivity extends AllActivity implements View.OnCl
                 break;
 // TODO 請選擇性別
             case R.id.to_apply_for_an_island_rl1:
-                List<String> list = new ArrayList<>();
-                list.add("男");
-                list.add("女");
-                initSelect(list, to_apply_for_an_island_tv2);
+                if(enabled){
+                    List<String> list = new ArrayList<>();
+                    list.add("男");
+                    list.add("女");
+                    initSelect(list, to_apply_for_an_island_tv2);
+                }
                 break;
 // TODO 客戶基本信息描摹
             case R.id.to_apply_for_an_island_rl2:
@@ -271,7 +274,9 @@ public class ToApplyForAnIslandActivity extends AllActivity implements View.OnCl
                 break;
             //TODO 图片
             case R.id.to_apply_for_an_island_img:
-                initAlot();
+                if(enabled){
+                    initAlot();
+                }
                 break;
         }
 
@@ -404,6 +409,17 @@ public class ToApplyForAnIslandActivity extends AllActivity implements View.OnCl
 
                     @Override
                     public void onNext(LandBean landBean) {
+
+                        if (landBean.getData().getAuditStatus().equals("0")) {
+                            to_apply_for_an_island_et1.setEnabled(true);
+                            to_apply_for_an_island_et2.setEnabled(true);
+                            enabled = true;
+                        } else if (landBean.getData().getAuditStatus().equals("1") || landBean.getData().getAuditStatus().equals("3")) {
+                            to_apply_for_an_island_et1.setEnabled(false);
+                            to_apply_for_an_island_et2.setEnabled(false);
+                            enabled = false;
+                        }
+
                         to_apply_for_an_island_tv1.setText(landBean.getData().getFfServerNewspaperPreparation().getCustomerName());
                         to_apply_for_an_island_tv2.setText(landBean.getData().getGender());
                         to_apply_for_an_island_et1.setText(landBean.getData().getIdNumber());

@@ -36,6 +36,7 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.adapter.FieldAdapter;
 import com.xcy.fzbcity.all.adapter.FieldBeanListAdapter;
+import com.xcy.fzbcity.all.api.CityContents;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.api.ProjectProgressApi;
 import com.xcy.fzbcity.all.database.FieldBean;
@@ -125,7 +126,7 @@ public class ToApplyForAnlsland2Activity extends AllActivity implements View.OnC
     int ifnum2 = 0;
     int ifnum3 = 0;
     private String fieldbeanlist;
-
+    private boolean enabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,32 +204,38 @@ public class ToApplyForAnlsland2Activity extends AllActivity implements View.OnC
         switch (view.getId()) {
             //            TODO 添加同行人员
             case R.id.to_apply_for_an_island2_img2:
-                ProjectProgressApi.setIndex(999999);
-                ProjectProgressApi.setFieldBean(new FieldBean());
-                ProjectProgressApi.setChongfu("重复");
-                Intent intent = new Intent(ToApplyForAnlsland2Activity.this, FieldActivity.class);
-                startActivity(intent);
+                    ProjectProgressApi.setIndex(999999);
+                    ProjectProgressApi.setFieldBean(new FieldBean());
+                    ProjectProgressApi.setChongfu("重复");
+                    Intent intent = new Intent(ToApplyForAnlsland2Activity.this, FieldActivity.class);
+                    startActivity(intent);
                 break;
             //            TODO 选择路线
             case R.id.to_apply_for_an_island2_rl1:
-                if (ifnum1 == 0) {
-                    ifnum1 = 1;
-                    initGetLandLine();
-                    ifnum1 = 0;
+                if(enabled){
+                    if (ifnum1 == 0) {
+                        ifnum1 = 1;
+                        initGetLandLine();
+                        ifnum1 = 0;
+                    }
                 }
                 break;
             //            TODO 登岛时间
             case R.id.to_apply_for_an_island2_rl2:
-                if (ifnum2 == 0) {
-                    ifnum2 = 1;
-                    initGetLandLineTime();
-                    ifnum2 = 0;
+                if(enabled){
+                    if (ifnum2 == 0) {
+                        ifnum2 = 1;
+                        initGetLandLineTime();
+                        ifnum2 = 0;
+                    }
                 }
                 break;
             //            TODO 添加图片
             case R.id.to_apply_for_an_island2_rl3:
-                ProjectProgressApi.setChongfu("重复");
-                initAlot();
+                if(enabled){
+                    ProjectProgressApi.setChongfu("重复");
+                    initAlot();
+                }
                 break;
             //            TODO 完成
             case R.id.to_apply_for_an_island2_btn:
@@ -578,6 +585,17 @@ public class ToApplyForAnlsland2Activity extends AllActivity implements View.OnC
 
                     @Override
                     public void onNext(LandBean landBean) {
+
+
+                        if (landBean.getData().getAuditStatus().equals("0")) {
+                            enabled = true;
+                            CityContents.setEnabled(true);
+                        } else if (landBean.getData().getAuditStatus().equals("1") || landBean.getData().getAuditStatus().equals("3")) {
+                            enabled = false;
+                            CityContents.setEnabled(false);
+                        }
+
+
                         ProjectProgressApi.setID(landBean.getData().getId());
 
                         getlandLine.setText(landBean.getData().getRoute());

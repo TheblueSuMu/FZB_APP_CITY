@@ -287,6 +287,7 @@ public class MyClientAddActivity extends AllActivity implements View.OnClickList
                         if (addNum == 0) {
                             addNum = 1;
                             initData();
+                            addNum = 0;
                         }
                     }
                 }
@@ -495,7 +496,17 @@ public class MyClientAddActivity extends AllActivity implements View.OnClickList
                 builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
                 Retrofit build = builder.build();
                 MyService fzbInterface = build.create(MyService.class);
-                Observable<AddClientBean> addClient = fzbInterface.getAddClient(client_add_name_et.getText().toString(), imgUrl, name1, client_add_photo_et_1.getText().toString(), name2, client_add_photo_et_2.getText().toString(), name3, client_add_photo_et_3.getText().toString(), FinalContents.getUserID());
+                Log.i("返回数据","1:" + client_add_name_et.getText().toString());
+                Log.i("返回数据","2:" + imgUrl);
+                Log.i("返回数据","3:" + name1);
+                Log.i("返回数据","4:" + client_add_photo_et_1.getText().toString());
+                Log.i("返回数据","5:" + name2);
+                Log.i("返回数据","6:" + client_add_photo_et_2.getText().toString());
+                Log.i("返回数据","7:" + name3);
+                Log.i("返回数据","8:" + client_add_photo_et_3.getText().toString());
+                Log.i("返回数据","9:" + FinalContents.getUserID());
+                Observable<AddClientBean> addClient = fzbInterface.getAddClient(client_add_name_et.getText().toString(), imgUrl, name1, client_add_photo_et_1.getText().toString()
+                        , name2, client_add_photo_et_2.getText().toString(), name3, client_add_photo_et_3.getText().toString(), FinalContents.getUserID());
                 addClient.subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Observer<AddClientBean>() {
@@ -507,12 +518,12 @@ public class MyClientAddActivity extends AllActivity implements View.OnClickList
                             @Override
                             public void onNext(AddClientBean addClientBean) {
                                 String msg = addClientBean.getMsg();
-                                if (msg.equals("成功")) {
-                                    ToastUtil.showToast(MyClientAddActivity.this, "添加客户成功");
+                                if (addClientBean.getData().getStatus().equals("1")) {
+                                    ToastUtil.showToast(MyClientAddActivity.this, addClientBean.getData().getMessage());
                                     CityContents.setAddClient("1");
                                     finish();
                                 } else {
-                                    ToastUtil.showToast(MyClientAddActivity.this, "添加客户失败");
+                                    ToastUtil.showToast(MyClientAddActivity.this, addClientBean.getData().getMessage());
                                 }
                             }
 
@@ -550,12 +561,13 @@ public class MyClientAddActivity extends AllActivity implements View.OnClickList
                             @Override
                             public void onNext(AddClientBean addClientBean) {
                                 String msg = addClientBean.getMsg();
-                                if (msg.equals("成功")) {
-                                    ToastUtil.showToast(MyClientAddActivity.this, "添加客户成功");
+                                Log.i("返回数据", "数据：" + addClientBean.getData());
+                                if (addClientBean.getData().getStatus().equals("1")) {
+                                    ToastUtil.showToast(MyClientAddActivity.this, addClientBean.getData().getMessage());
                                     CityContents.setAddClient("1");
                                     finish();
                                 } else {
-                                    ToastUtil.showToast(MyClientAddActivity.this, "添加客户失败");
+                                    ToastUtil.showToast(MyClientAddActivity.this, addClientBean.getData().getMessage());
                                 }
                             }
 
@@ -581,6 +593,17 @@ public class MyClientAddActivity extends AllActivity implements View.OnClickList
                 builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
                 Retrofit build = builder.build();
                 MyService fzbInterface = build.create(MyService.class);
+
+                Log.i("返回数据","1:" + client_add_name_et.getText().toString());
+                Log.i("返回数据","2:" + imgUrl);
+                Log.i("返回数据","3:" + name1);
+                Log.i("返回数据","4:" + client_add_photo_et_1.getText().toString());
+                Log.i("返回数据","5:" + name2);
+                Log.i("返回数据","6:" + client_add_photo_et_2.getText().toString());
+                Log.i("返回数据","7:" + name3);
+                Log.i("返回数据","8:" + client_add_photo_et_3.getText().toString());
+                Log.i("返回数据","9:" + FinalContents.getUserID());
+
                 Observable<AddClientBean> addClient = fzbInterface.getAddClient(client_add_name_et.getText().toString(), imgUrl, name1, client_add_photo_et_1.getText().toString(), name2, client_add_photo_et_2.getText().toString(), name3, client_add_photo_et_3.getText().toString(), FinalContents.getUserID());
                 addClient.subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -593,12 +616,13 @@ public class MyClientAddActivity extends AllActivity implements View.OnClickList
                             @Override
                             public void onNext(AddClientBean addClientBean) {
                                 String msg = addClientBean.getMsg();
-                                if (msg.equals("成功")) {
-                                    ToastUtil.showToast(MyClientAddActivity.this, "添加客户成功");
+                                Log.i("返回数据", "数据：" + addClientBean.getData());
+                                if (addClientBean.getData().getStatus().equals("1")) {
+                                    ToastUtil.showToast(MyClientAddActivity.this, addClientBean.getData().getMessage());
                                     CityContents.setAddClient("1");
                                     finish();
                                 } else {
-                                    ToastUtil.showToast(MyClientAddActivity.this, "添加客户失败");
+                                    ToastUtil.showToast(MyClientAddActivity.this, addClientBean.getData().getMessage());
                                 }
                             }
 

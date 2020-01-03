@@ -305,7 +305,7 @@ public class PhoneActivity extends AppCompatActivity {
                     @Override
                     public void onNext(AddPhoneBean addPhoneBean) {
                         String msg = addPhoneBean.getData().getMessage();
-                        if (msg.equals("添加成功")) {
+                        if (addPhoneBean.getData().getStatus().equals("1")) {
                             Toast.makeText(PhoneActivity.this, addPhoneBean.getData().getMessage(), Toast.LENGTH_SHORT).show();
                             CityContents.setAddClient("1");
                             finish();
