@@ -55,7 +55,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 //TODO 意见反馈
-public class FeedbackActivity extends AllActivity{
+public class FeedbackActivity extends AllActivity {
 
     RelativeLayout feedback_return;
     EditText feedback_editText;
@@ -105,7 +105,7 @@ public class FeedbackActivity extends AllActivity{
                     startActivity(getIntent());
                 }
             });
-            ToastUtil.showToast(this,"当前无网络，请检查网络后再进行登录");
+            ToastUtil.showToast(this, "当前无网络，请检查网络后再进行登录");
         }
     }
 
@@ -319,7 +319,7 @@ public class FeedbackActivity extends AllActivity{
                         RequestBody requestBody = RequestBody.create(MediaType.parse("image/png"), san);
 
                         MultipartBody.Part part = MultipartBody.Part.createFormData("file", san.getName(), requestBody);
-
+                        Log.i("获取", "FinalContents.getUserID():" + FinalContents.getUserID());
                         Observable<AddPhotoBean> addPhoto = fzbInterface.getAddPhoto(FinalContents.getUserID(), "tp", part);
                         addPhoto.subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())

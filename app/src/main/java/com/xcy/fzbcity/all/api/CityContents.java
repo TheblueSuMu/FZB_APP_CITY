@@ -25,6 +25,16 @@ public class CityContents {
 
     static String Store = "";
 
+    static boolean Enabled = true;
+
+    public static boolean isEnabled() {
+        return Enabled;
+    }
+
+    public static void setEnabled(boolean enabled) {
+        Enabled = enabled;
+    }
+
     public static String getStore() {
         return Store;
     }
