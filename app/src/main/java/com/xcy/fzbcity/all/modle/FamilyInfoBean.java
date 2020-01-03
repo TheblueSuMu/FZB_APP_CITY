@@ -1,10 +1,13 @@
 package com.xcy.fzbcity.all.modle;
 
+import java.util.List;
+
 public class FamilyInfoBean {
+
     /**
      * code : 1
      * msg : 成功
-     * data : {"id":"b56125f47155474dbe1feaa9366d9ee7","remarks":"","createBy":"","createDate":"2019-06-16 11:04:03","updateBy":"","updateDate":"2019-12-07 15:55:46","project":{"id":"ef3f647c7e3643bc882c9fc365634a1a","remarks":"","createBy":"","createDate":"","updateBy":"","updateDate":"","projectName":"丽江时光","developer":"","houseCompany":"","cityCompany":"","projectType":"","cityType":"","showroom":"1","attache":"","cooperationState":"","onlineState":"","belongsArea":"","address":"云南省丽江市古城区金山北路","location":"100.281021,26.884087","totalBuildings":"","hot":"","sort":"","remark":"","province":"","city":"","region":"","forwardingAmount":"","reportAmount":"","nation":"","hotSort":"","projectImg":"","projectListImg":"","buildingImg":"","browseNum":"","awardRules":"","commissionRules":"","searchName":"","collectionNum":"","productTypeId":"","productTypeSize":"","amountIncentiveId":"","cityName":"","haveInformation":"","projectTypeName":"","isgroup":"","groupNum":"","developerId":"","onlineAuditState":"","applyBy":"","applyDate":"","auditBy":"","auditDate":"","reason":""},"familyName":"A","productType":"1","room":"1","hall":"1","toilet":"1","apartment":"","familyArea":"50","familyOrientation":"南","getHouseRate":"","modelHouse":"1","floorPlan":"/fangfang/userfiles/3c37d25396a940f9b784b4c180f7db37/attachment//ff/server/ffServerFamilyInfomation/2019/6/1573524426482.jpg","modelHouseChart":"","familySlideImgList":"","average":"10000","total":"100.00","downpayment":"40.00","percentage":"40","loan":"60.00","monthly":"3000","years":"20","interest":"1.23","title":"啊手动阀手动阀","text":"啊手动阀手动阀手动阀手动阀","isText":"1","isShow":"1","build":"17栋,19栋","saleStatus":"在售"}
+     * data : {"id":"c96692cf1684446288a47facf082f119","remarks":"","createBy":"","createDate":"2019-08-02 11:08:27","updateBy":"","updateDate":"2019-08-02 11:12:34","filterField":"","project":{"id":"8e0eab6116414b609d4ce5b87d55e6e5","remarks":"","createBy":"","createDate":"","updateBy":"","updateDate":"","filterField":"","projectName":"碧桂园城市之光","developer":"","houseCompany":"","cityCompany":"","projectType":"","cityType":"","showroom":"1","attache":"","cooperationState":"","onlineState":"","belongsArea":"","address":"广东省惠州市大亚湾新澳大道36号","location":"114.534076,22.731596","totalBuildings":"","hot":"","sort":"","remark":"","province":"","city":"","region":"","forwardingAmount":"","reportAmount":"","nation":"","hotSort":"","projectImg":"","projectListImg":"","buildingImg":"","browseNum":"","awardRules":"","commissionRules":"","searchName":"","collectionNum":"","productTypeId":"","productTypeSize":"","amountIncentiveId":"","cityName":"","haveInformation":"","projectTypeName":"","isgroup":"","groupNum":"","developerId":"","onlineAuditState":"","applyBy":"","applyDate":"","auditBy":"","auditDate":"","reason":""},"familyName":"81㎡","productType":"1","room":"2","hall":"2","toilet":"1","apartment":"","familyArea":"81","familyOrientation":"东南","getHouseRate":"81","modelHouse":"1","floorPlan":"/fangfang/userfiles/3c37d25396a940f9b784b4c180f7db37/attachment//ff/server/ffServerFamilyInfomation/2019/8/1573524426524.png","modelHouseChart":"","familySlideImgList":["/fangfang/userfiles/3c37d25396a940f9b784b4c180f7db37/attachment//ff/server/ffServerFamilyInfomation/2019/8/1573524426524.png"],"average":"","total":"","downpayment":"","percentage":"","loan":"","monthly":"","years":"","interest":"","title":"","text":"","isText":"0","isShow":"0","build":"5栋,6栋","saleStatus":"在售"}
      */
 
     private String code;
@@ -37,39 +40,40 @@ public class FamilyInfoBean {
 
     public static class DataBean {
         /**
-         * id : b56125f47155474dbe1feaa9366d9ee7
+         * id : c96692cf1684446288a47facf082f119
          * remarks :
          * createBy :
-         * createDate : 2019-06-16 11:04:03
+         * createDate : 2019-08-02 11:08:27
          * updateBy :
-         * updateDate : 2019-12-07 15:55:46
-         * project : {"id":"ef3f647c7e3643bc882c9fc365634a1a","remarks":"","createBy":"","createDate":"","updateBy":"","updateDate":"","projectName":"丽江时光","developer":"","houseCompany":"","cityCompany":"","projectType":"","cityType":"","showroom":"1","attache":"","cooperationState":"","onlineState":"","belongsArea":"","address":"云南省丽江市古城区金山北路","location":"100.281021,26.884087","totalBuildings":"","hot":"","sort":"","remark":"","province":"","city":"","region":"","forwardingAmount":"","reportAmount":"","nation":"","hotSort":"","projectImg":"","projectListImg":"","buildingImg":"","browseNum":"","awardRules":"","commissionRules":"","searchName":"","collectionNum":"","productTypeId":"","productTypeSize":"","amountIncentiveId":"","cityName":"","haveInformation":"","projectTypeName":"","isgroup":"","groupNum":"","developerId":"","onlineAuditState":"","applyBy":"","applyDate":"","auditBy":"","auditDate":"","reason":""}
-         * familyName : A
+         * updateDate : 2019-08-02 11:12:34
+         * filterField :
+         * project : {"id":"8e0eab6116414b609d4ce5b87d55e6e5","remarks":"","createBy":"","createDate":"","updateBy":"","updateDate":"","filterField":"","projectName":"碧桂园城市之光","developer":"","houseCompany":"","cityCompany":"","projectType":"","cityType":"","showroom":"1","attache":"","cooperationState":"","onlineState":"","belongsArea":"","address":"广东省惠州市大亚湾新澳大道36号","location":"114.534076,22.731596","totalBuildings":"","hot":"","sort":"","remark":"","province":"","city":"","region":"","forwardingAmount":"","reportAmount":"","nation":"","hotSort":"","projectImg":"","projectListImg":"","buildingImg":"","browseNum":"","awardRules":"","commissionRules":"","searchName":"","collectionNum":"","productTypeId":"","productTypeSize":"","amountIncentiveId":"","cityName":"","haveInformation":"","projectTypeName":"","isgroup":"","groupNum":"","developerId":"","onlineAuditState":"","applyBy":"","applyDate":"","auditBy":"","auditDate":"","reason":""}
+         * familyName : 81㎡
          * productType : 1
-         * room : 1
-         * hall : 1
+         * room : 2
+         * hall : 2
          * toilet : 1
          * apartment :
-         * familyArea : 50
-         * familyOrientation : 南
-         * getHouseRate :
+         * familyArea : 81
+         * familyOrientation : 东南
+         * getHouseRate : 81
          * modelHouse : 1
-         * floorPlan : /fangfang/userfiles/3c37d25396a940f9b784b4c180f7db37/attachment//ff/server/ffServerFamilyInfomation/2019/6/1573524426482.jpg
+         * floorPlan : /fangfang/userfiles/3c37d25396a940f9b784b4c180f7db37/attachment//ff/server/ffServerFamilyInfomation/2019/8/1573524426524.png
          * modelHouseChart :
-         * familySlideImgList :
-         * average : 10000
-         * total : 100.00
-         * downpayment : 40.00
-         * percentage : 40
-         * loan : 60.00
-         * monthly : 3000
-         * years : 20
-         * interest : 1.23
-         * title : 啊手动阀手动阀
-         * text : 啊手动阀手动阀手动阀手动阀
-         * isText : 1
-         * isShow : 1
-         * build : 17栋,19栋
+         * familySlideImgList : ["/fangfang/userfiles/3c37d25396a940f9b784b4c180f7db37/attachment//ff/server/ffServerFamilyInfomation/2019/8/1573524426524.png"]
+         * average :
+         * total :
+         * downpayment :
+         * percentage :
+         * loan :
+         * monthly :
+         * years :
+         * interest :
+         * title :
+         * text :
+         * isText : 0
+         * isShow : 0
+         * build : 5栋,6栋
          * saleStatus : 在售
          */
 
@@ -79,6 +83,7 @@ public class FamilyInfoBean {
         private String createDate;
         private String updateBy;
         private String updateDate;
+        private String filterField;
         private ProjectBean project;
         private String familyName;
         private String productType;
@@ -92,7 +97,6 @@ public class FamilyInfoBean {
         private String modelHouse;
         private String floorPlan;
         private String modelHouseChart;
-        private String familySlideImgList;
         private String average;
         private String total;
         private String downpayment;
@@ -107,6 +111,7 @@ public class FamilyInfoBean {
         private String isShow;
         private String build;
         private String saleStatus;
+        private List<String> familySlideImgList;
 
         public String getId() {
             return id;
@@ -154,6 +159,14 @@ public class FamilyInfoBean {
 
         public void setUpdateDate(String updateDate) {
             this.updateDate = updateDate;
+        }
+
+        public String getFilterField() {
+            return filterField;
+        }
+
+        public void setFilterField(String filterField) {
+            this.filterField = filterField;
         }
 
         public ProjectBean getProject() {
@@ -258,14 +271,6 @@ public class FamilyInfoBean {
 
         public void setModelHouseChart(String modelHouseChart) {
             this.modelHouseChart = modelHouseChart;
-        }
-
-        public String getFamilySlideImgList() {
-            return familySlideImgList;
-        }
-
-        public void setFamilySlideImgList(String familySlideImgList) {
-            this.familySlideImgList = familySlideImgList;
         }
 
         public String getAverage() {
@@ -380,15 +385,24 @@ public class FamilyInfoBean {
             this.saleStatus = saleStatus;
         }
 
+        public List<String> getFamilySlideImgList() {
+            return familySlideImgList;
+        }
+
+        public void setFamilySlideImgList(List<String> familySlideImgList) {
+            this.familySlideImgList = familySlideImgList;
+        }
+
         public static class ProjectBean {
             /**
-             * id : ef3f647c7e3643bc882c9fc365634a1a
+             * id : 8e0eab6116414b609d4ce5b87d55e6e5
              * remarks :
              * createBy :
              * createDate :
              * updateBy :
              * updateDate :
-             * projectName : 丽江时光
+             * filterField :
+             * projectName : 碧桂园城市之光
              * developer :
              * houseCompany :
              * cityCompany :
@@ -399,8 +413,8 @@ public class FamilyInfoBean {
              * cooperationState :
              * onlineState :
              * belongsArea :
-             * address : 云南省丽江市古城区金山北路
-             * location : 100.281021,26.884087
+             * address : 广东省惠州市大亚湾新澳大道36号
+             * location : 114.534076,22.731596
              * totalBuildings :
              * hot :
              * sort :
@@ -443,6 +457,7 @@ public class FamilyInfoBean {
             private String createDate;
             private String updateBy;
             private String updateDate;
+            private String filterField;
             private String projectName;
             private String developer;
             private String houseCompany;
@@ -537,6 +552,14 @@ public class FamilyInfoBean {
 
             public void setUpdateDate(String updateDate) {
                 this.updateDate = updateDate;
+            }
+
+            public String getFilterField() {
+                return filterField;
+            }
+
+            public void setFilterField(String filterField) {
+                this.filterField = filterField;
             }
 
             public String getProjectName() {

@@ -126,6 +126,7 @@ public class AnalysisActivity extends AllActivity implements GradationScrollView
             }
         }
     };
+    private String bigPhotoimg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -337,12 +338,19 @@ public class AnalysisActivity extends AllActivity implements GradationScrollView
                             showChart(getPieData());
                         }
 
+                        if (familyInfoBean.getData().getFamilySlideImgList().size() != 0) {
+                            bigPhotoimg = familyInfoBean.getData().getFamilySlideImgList().get(0);
+                            for (int i = 1;i < familyInfoBean.getData().getFamilySlideImgList().size();i++){
+                                bigPhotoimg = bigPhotoimg + "|" + familyInfoBean.getData().getFamilySlideImgList().get(i) ;
+                            }
+                        }
+
                         all_activity_analysis_backImage.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 Intent intent = new Intent(AnalysisActivity.this, BigPhotoActivity.class);
                                 intent.putExtra("index", 0);
-                                intent.putExtra("bigPhotoimg", familyInfoBean.getData().getFloorPlan());// -1  -1  -1
+                                intent.putExtra("bigPhotoimg", bigPhotoimg);// -1  -1  -1
                                 startActivity(intent);
                             }
                         });         //      TODO    进入图片轮播图
