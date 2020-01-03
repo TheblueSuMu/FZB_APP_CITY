@@ -508,7 +508,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                 break;
             case R.id.tv_wechat:
-
+                //开始动画
+                avi.show();
+                avi_login_rl.setVisibility(View.VISIBLE);
 
                 Platform plat = ShareSDK.getPlatform(Wechat.NAME);
                 plat.removeAccount(true); //移除授权状态和本地缓存，下次授权会重新授权
@@ -520,9 +522,6 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                         Log.i("json", "授权成功");
                         json = new JSONObject(hashMap);
                         Log.i("json", "授权成功" + json.toString());
-                        //开始动画
-                        avi.show();
-                        avi_login_rl.setVisibility(View.VISIBLE);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -530,6 +529,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                                 onResume();
                             }
                         });
+
                     }
 
                     @Override
