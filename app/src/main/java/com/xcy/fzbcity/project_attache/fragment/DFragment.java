@@ -312,7 +312,7 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
         string1 = String.format(Locale.getDefault(), "%d.%02d.%02d", year, month + 1, dayOfMonth);
-        string2 = String.format(Locale.getDefault(), "%d.%02d.%02d", year, month + 1, dayOfMonth+1);
+        string2 = String.format(Locale.getDefault(), "%d.%02d.%02d", year, month + 1, dayOfMonth);
         time1_modulebroker.setText(string1);
         time2_modulebroker.setText(string2);
 
@@ -581,7 +581,7 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
     private void initTimePickerView1(){
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year - 2, month, dayOfMonth);
+        startDate.set(year - 3, month, dayOfMonth);
         final Calendar endDate = Calendar.getInstance();
         endDate.set(year, month, dayOfMonth);
         TimePickerView pvTime = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {

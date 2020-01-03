@@ -315,7 +315,7 @@ public class StoreDetailsActivity extends AllActivity implements View.OnClickLis
         month = calendar.get(Calendar.MONTH) + 1;
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-        string1 = String.format(Locale.getDefault(), "%d.%02d.%02d", year, month, dayOfMonth - 1);
+        string1 = String.format(Locale.getDefault(), "%d.%02d.%02d", year, month, dayOfMonth);
         string2 = String.format(Locale.getDefault(), "%d.%02d.%02d", year, month, dayOfMonth);
         store_details_tv4.setText(string1);
         store_details_tv5.setText(string2);

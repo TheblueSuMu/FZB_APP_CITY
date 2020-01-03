@@ -681,6 +681,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                     @Override
                     public void onError(Throwable e) {
+                        avi.hide();
                         avi.setVisibility(View.GONE);
                         avi_login_rl.setVisibility(View.GONE);
                         ToastUtil.showLongToast(LoginActivity.this, "请确认您输入的验证码或手机号是否正确");
@@ -797,6 +798,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                     @Override
                     public void onError(Throwable e) {
+                        avi.hide();
                         avi.setVisibility(View.GONE);
                         avi_login_rl.setVisibility(View.GONE);
                         ToastUtil.showLongToast(LoginActivity.this, "请输入正确的账户或用户名");
@@ -860,6 +862,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
 //加载动画关闭
                         avi.hide();
+                        avi.setVisibility(View.GONE);
                         avi_login_rl.setVisibility(View.GONE);
 
                         boolean networkAvailable = CommonUtil.isNetworkAvailable(LoginActivity.this);
@@ -894,6 +897,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                         //加载动画关闭
 
                         avi.hide();
+                        avi.setVisibility(View.GONE);
                         avi_login_rl.setVisibility(View.GONE);
 
                         ToastUtil.showLongToast(LoginActivity.this, "您输入的账号或密码有误");
@@ -1627,6 +1631,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                     @Override
                     public void onError(Throwable e) {
+                        avi.hide();
                         avi.setVisibility(View.GONE);
                         avi_login_rl.setVisibility(View.GONE);
                         ToastUtil.showLongToast(LoginActivity.this, "当前微信未绑定");
