@@ -100,7 +100,7 @@ public class TheProjectEndCommissionAdapter extends RecyclerView.Adapter<TheProj
                         holder.the_project_end_tv8.setVisibility(View.GONE);     //      TODO    无需退还
                     } else {
                         holder.the_project_end_tv8.setVisibility(View.VISIBLE);     //      TODO    需退还
-                        holder.the_project_end_tv8.setText("需退还：" + rowsBeanList.get(position).getReturnedMoney());
+                        holder.the_project_end_tv8.setText("需退还：¥" + rowsBeanList.get(position).getReturnedMoney());
                     }
                 } else if (rowsBeanList.get(position).getMoneyStatus() == 1) {      //      TODO    调单
                     holder.the_project_end_img.setVisibility(View.VISIBLE);
@@ -140,7 +140,7 @@ public class TheProjectEndCommissionAdapter extends RecyclerView.Adapter<TheProj
                         }
                         holder.the_project_end_tv4.setVisibility(View.GONE);
                         holder.the_project_end_tv8.setVisibility(View.VISIBLE);     //      TODO    需退还
-                        holder.the_project_end_tv8.setText("需退还：" + rowsBeanList.get(position).getReturnedMoney());
+                        holder.the_project_end_tv8.setText("需退还：¥" + rowsBeanList.get(position).getReturnedMoney());
                     }
                 } else if (rowsBeanList.get(position).getMoneyStatus() == 2) {      //      TODO    退单
                     holder.the_project_end_img.setVisibility(View.VISIBLE);
@@ -149,7 +149,7 @@ public class TheProjectEndCommissionAdapter extends RecyclerView.Adapter<TheProj
                         holder.the_project_end_tv8.setVisibility(View.GONE);     //      TODO    无需退还
                     } else {
                         holder.the_project_end_tv8.setVisibility(View.VISIBLE);     //      TODO    需退还
-                        holder.the_project_end_tv8.setText("需退还：" + rowsBeanList.get(position).getReturnedMoney());
+                        holder.the_project_end_tv8.setText("需退还：¥" + rowsBeanList.get(position).getReturnedMoney());
                     }
                     holder.the_project_end_tv2.setVisibility(View.GONE);
                     holder.the_project_end_tv3.setVisibility(View.GONE);
@@ -172,7 +172,7 @@ public class TheProjectEndCommissionAdapter extends RecyclerView.Adapter<TheProj
                         holder.the_project_end_tv6.setVisibility(View.GONE);
                         holder.the_project_end_tv7.setVisibility(View.GONE);
                         holder.the_project_end_tv8.setVisibility(View.VISIBLE);     //      TODO    需退还
-                        holder.the_project_end_tv8.setText("需退还：" + rowsBeanList.get(position).getReturnedMoney());
+                        holder.the_project_end_tv8.setText("需退还：¥" + rowsBeanList.get(position).getReturnedMoney());
                     }
                 } else if (rowsBeanList.get(position).getMoneyStatus() == 1) {      //      TODO    调单
                     holder.the_project_end_img.setVisibility(View.VISIBLE);
@@ -183,7 +183,7 @@ public class TheProjectEndCommissionAdapter extends RecyclerView.Adapter<TheProj
                         holder.the_project_end_tv6.setVisibility(View.GONE);
                         holder.the_project_end_tv7.setVisibility(View.GONE);
                         holder.the_project_end_tv8.setVisibility(View.VISIBLE);     //      TODO    需退还
-                        holder.the_project_end_tv8.setText("需退还：" + rowsBeanList.get(position).getReturnedMoney());
+                        holder.the_project_end_tv8.setText("需退还：¥" + rowsBeanList.get(position).getReturnedMoney());
                     }
                 } else if (rowsBeanList.get(position).getMoneyStatus() == 2) {      //      TODO    退单
                     holder.the_project_end_img.setVisibility(View.VISIBLE);
@@ -194,7 +194,7 @@ public class TheProjectEndCommissionAdapter extends RecyclerView.Adapter<TheProj
                         holder.the_project_end_tv6.setVisibility(View.GONE);
                         holder.the_project_end_tv7.setVisibility(View.GONE);
                         holder.the_project_end_tv8.setVisibility(View.VISIBLE);     //      TODO    需退还
-                        holder.the_project_end_tv8.setText("需退还：" + rowsBeanList.get(position).getReturnedMoney());
+                        holder.the_project_end_tv8.setText("需退还：¥" + rowsBeanList.get(position).getReturnedMoney());
                     }
                     holder.the_project_end_tv2.setVisibility(View.GONE);
                     holder.the_project_end_tv3.setVisibility(View.GONE);

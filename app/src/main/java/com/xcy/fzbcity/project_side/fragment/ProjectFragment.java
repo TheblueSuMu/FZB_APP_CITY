@@ -40,10 +40,12 @@ import com.stx.xmarqueeview.XMarqueeView;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.adapter.RecyclerAdapter;
 import com.xcy.fzbcity.all.adapter.TextBannerAdapter;
+import com.xcy.fzbcity.all.adapter.TextBannerAdapter_S;
 import com.xcy.fzbcity.all.api.CityContents;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.application.DemoApplication;
 import com.xcy.fzbcity.all.modle.Bean;
+import com.xcy.fzbcity.all.modle.Bean_S;
 import com.xcy.fzbcity.all.modle.CityBean;
 import com.xcy.fzbcity.all.modle.HotBean;
 import com.xcy.fzbcity.all.modle.ImgData;
@@ -89,8 +91,10 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
     private TextView city;
     //文字轮播数据
     List<Bean> messagelist2 = new ArrayList<>();
+    List<Bean_S> messagelist2_S = new ArrayList<>();
 
     private XMarqueeView tvBanner2;
+    private XMarqueeView tvBanner2_S;
     private SwipeRefreshLayout layout;
     private LinearLayout textView1;
     private LinearLayout textView2;
@@ -162,10 +166,10 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
 
                     if (SharItOff.getShar().equals("隐")) {
                         SharItOff.setShar("显");
-                        ToastUtil.showLongToast(getContext(),"佣金已显示，如需隐藏请摇动");
+                        ToastUtil.showLongToast(getContext(), "佣金已显示，如需隐藏请摇动");
                     } else if (SharItOff.getShar().equals("显")) {
                         SharItOff.setShar("隐");
-                        ToastUtil.showLongToast(getContext(),"佣金已隐藏，如需显示请摇动");
+                        ToastUtil.showLongToast(getContext(), "佣金已隐藏，如需显示请摇动");
                     }
                     initHotList();
 
@@ -201,7 +205,7 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
     }
 
     //命名区域
-    private void fvbId(View view){
+    private void fvbId(View view) {
         application = (DemoApplication) getActivity().getApplication();
 
 
@@ -211,8 +215,9 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
         banner = view.findViewById(R.id.home_banner);
 
         layout = view.findViewById(R.id.home_srl);
-        tvBanner2 =  view.findViewById(R.id.tv_banner2);
-        side_message_no_2 =  view.findViewById(R.id.side_message_no_2);
+        tvBanner2 = view.findViewById(R.id.tv_banner2);
+        tvBanner2_S = view.findViewById(R.id.tv_banner2_S_2);
+        side_message_no_2 = view.findViewById(R.id.side_message_no_2);
 
         textView1 = view.findViewById(R.id.home_item_sojourn);
         textView2 = view.findViewById(R.id.home_item_overseas);
@@ -246,7 +251,7 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
     @Override
     public void onClick(View view) {
         if (hotlist.size() != 0) {
-            if(view.getId() == R.id.project_city_selector){
+            if (view.getId() == R.id.project_city_selector) {
                 showPickerView();
             } else if (view.getId() == R.id.home_search) {
 //                Intent intent = new Intent(view.getContext(), SearchInterfaceActivity.class);
@@ -261,7 +266,7 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
                 FinalContents.setIfCityType("2");
                 Intent intent = new Intent(view.getContext(), CityWideActivity.class);
                 startActivity(intent);
-            }else if (view.getId() == R.id.home_item_overseas) {
+            } else if (view.getId() == R.id.home_item_overseas) {
 //                FinalContents.setProjectType("2");
 //                Intent intent = new Intent(view.getContext(), OverSeaActivity.class);
 //                startActivity(intent);
@@ -269,12 +274,12 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
                 FinalContents.setIfCityType("");
                 Intent intent_overseas = new Intent(view.getContext(), MapHouseActivity.class);
                 startActivity(intent_overseas);
-            }else if (view.getId() == R.id.home_item_brokerage) {
+            } else if (view.getId() == R.id.home_item_brokerage) {
 //                Intent intent = new Intent(view.getContext(), MyProjectActivity.class);
 //                startActivity(intent);
                 Intent intent = new Intent(getContext(), MyProjectActivity.class);
                 startActivity(intent);
-            }else if (view.getId() == R.id.home_item_client) {
+            } else if (view.getId() == R.id.home_item_client) {
 //                FinalContents.setProjectType("1");
 //                Intent intent = new Intent(view.getContext(), OverSeaActivity.class);
 //                startActivity(intent);
@@ -288,8 +293,8 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
 //                intent.putExtra("client","1");
 //                startActivity(intent);
             }
-        }else {
-            if(view.getId() == R.id.project_city_selector){
+        } else {
+            if (view.getId() == R.id.project_city_selector) {
                 showPickerView();
             }
         }
@@ -332,7 +337,7 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
                                 if (!citylist.get(options1).getId().equals(FinalContents.getOldCityId())) {
                                     FinalContents.setCityIs("不是当前城市");
                                     SharItOff.setShar("隐");
-                                }else {
+                                } else {
                                     FinalContents.setCityIs("");
                                 }
                                 city.setText(list.get(options1));
@@ -352,7 +357,7 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i("城市列表","获取："+e.getMessage());
+                        Log.i("城市列表", "获取：" + e.getMessage());
                     }
 
                     @Override
@@ -363,7 +368,6 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
     }
 
 
-
     private void initHotList() {
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(FinalContents.getBaseUrl());
@@ -371,7 +375,7 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<HotBean> userMessage = fzbInterface.getHotList(FinalContents.getUserID(),FinalContents.getCityID(),"1","1000");
+        Observable<HotBean> userMessage = fzbInterface.getHotList(FinalContents.getUserID(), FinalContents.getCityID(), "1", "1000");
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<HotBean>() {
@@ -399,14 +403,13 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
                                 recyclerView.setNestedScrollingEnabled(false);
                                 recyclerView.setAdapter(recyclerAdapter);
                                 recyclerAdapter.notifyDataSetChanged();
-                            }else {
+                            } else {
                                 all_no_information.setVisibility(View.VISIBLE);
                                 recyclerView.setVisibility(View.GONE);
                             }
 
 
-
-                        }else {
+                        } else {
                             recyclerView.setVisibility(View.GONE);
                             all_no_information.setVisibility(View.VISIBLE);
                         }
@@ -416,7 +419,7 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
                     public void onError(Throwable e) {
                         recyclerView.setVisibility(View.GONE);
                         all_no_information.setVisibility(View.VISIBLE);
-                        Log.i("列表数据获取错误","错误"+e);
+                        Log.i("列表数据获取错误", "错误" + e);
                     }
 
                     @Override
@@ -427,14 +430,14 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
     }
 
     //文字轮播
-    private void tvBanner(){
+    private void tvBanner() {
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(FinalContents.getBaseUrl());
         builder.addConverterFactory(GsonConverterFactory.create());
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<MessageBean2> userMessage = fzbInterface.getMessageTextList(FinalContents.getUserID(),FinalContents.getCityID(),"");
+        Observable<MessageBean2> userMessage = fzbInterface.getMessageTextList(FinalContents.getUserID(), FinalContents.getCityID(), "");
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<MessageBean2>() {
@@ -448,38 +451,141 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
                     public void onNext(MessageBean2 messageBean) {
                         MessageBean2.DataBean dataBean = messageBean.getData();
                         messagelist = dataBean.getRows();
-                        if(messagelist.size() == 0){
-                            tvBanner2.setVisibility(View.GONE);
-                            side_message_no_2.setVisibility(View.VISIBLE);
-                        }else {
+                        if (messagelist.size() == 0) {
                             tvBanner2.setVisibility(View.VISIBLE);
+                            tvBanner2_S.setVisibility(View.VISIBLE);
                             side_message_no_2.setVisibility(View.GONE);
-                            for (int i = 0; i < messagelist.size(); i++){
-                                if (messagelist.get(i).getType().equals("0")) {
-                                    messagelist2.add(new Bean(R.mipmap.give,messagelist.get(i).getTitle()));
-                                }else if (messagelist.get(i).getType().equals("2")){
-                                    messagelist2.add(new Bean(R.mipmap.lodger,messagelist.get(i).getTitle()));
-                                }else if (messagelist.get(i).getType().equals("5")){
-                                    messagelist2.add(new Bean(R.mipmap.goodnews,messagelist.get(i).getTitle()));
-                                }
-                            }
 
+                            messagelist2.add(new Bean(R.mipmap.no_information, "暂无数据"));
+                            messagelist2.add(new Bean(R.mipmap.no_information, "暂无数据"));
+                            messagelist2.add(new Bean(R.mipmap.no_information, "暂无数据"));
 
                             TextBannerAdapter textBannerAdapter = new TextBannerAdapter(messagelist2, view.getContext());
                             tvBanner2.setAdapter(textBannerAdapter);
 
+                            //TODO 第二行
+
+                            messagelist2_S.add(new Bean_S(R.mipmap.no_information, "暂无数据"));
+                            messagelist2_S.add(new Bean_S(R.mipmap.no_information, "暂无数据"));
+                            messagelist2_S.add(new Bean_S(R.mipmap.no_information, "暂无数据"));
+
+                            TextBannerAdapter_S textBannerAdapter_s = new TextBannerAdapter_S(messagelist2_S, view.getContext());
+                            tvBanner2_S.setAdapter(textBannerAdapter_s);
+
+
+                        } else if (messagelist.size() == 1) {
+
+                            Log.i("文字轮播","messagelist.size() == 1");
+
+                            tvBanner2.setVisibility(View.VISIBLE);
+                            tvBanner2_S.setVisibility(View.INVISIBLE);
+                            side_message_no_2.setVisibility(View.GONE);
+                            tvBanner2.stopFlipping();
+                            for (int i = 0; i < messagelist.size(); i++) {
+                                if (messagelist.get(i).getType().equals("0")) {
+                                    messagelist2.add(new Bean(R.mipmap.give, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("2")) {
+                                    messagelist2.add(new Bean(R.mipmap.lodger, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("5")) {
+                                    messagelist2.add(new Bean(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                }
+                            }
+                            TextBannerAdapter textBannerAdapter = new TextBannerAdapter(messagelist2, view.getContext());
+                            tvBanner2.setAdapter(textBannerAdapter);
                             textBannerAdapter.setOnItemClickListener(new TextBannerAdapter.OnItemClickLisenter() {
                                 @Override
                                 public void onItemClick(int postion) {
                                     if (messagelist.get(postion).getType().equals("0")) {
                                         listterner.process("0"); // 3.1 执行回调
-                                    }else if (messagelist.get(postion).getType().equals("2")){
+                                    } else if (messagelist.get(postion).getType().equals("2")) {
                                         listterner.process("2"); // 3.1 执行回调
-                                    }else if (messagelist.get(postion).getType().equals("5")){
+                                    } else if (messagelist.get(postion).getType().equals("5")) {
                                         listterner.process("5"); // 3.1 执行回调
                                     }
                                 }
                             });
+
+                        } else {
+                            Log.i("文字轮播","else");
+
+                            tvBanner2.setVisibility(View.VISIBLE);
+                            tvBanner2_S.setVisibility(View.VISIBLE);
+                            side_message_no_2.setVisibility(View.GONE);
+                            if(messagelist.size() == 2){
+                                tvBanner2.stopFlipping();
+                                tvBanner2_S.stopFlipping();
+                            }else {
+                                tvBanner2.startFlipping();
+                                tvBanner2_S.startFlipping();
+                            }
+                            //TODO 第一行
+                            for (int i = 0; i < messagelist.size(); i++) {
+                                if (messagelist.get(i).getType().equals("0")) {
+                                    messagelist2.add(new Bean(R.mipmap.give, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("2")) {
+                                    messagelist2.add(new Bean(R.mipmap.lodger, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("5")) {
+                                    messagelist2.add(new Bean(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                }
+                            }
+                            TextBannerAdapter textBannerAdapter = new TextBannerAdapter(messagelist2, view.getContext());
+                            tvBanner2.setAdapter(textBannerAdapter);
+                            textBannerAdapter.setOnItemClickListener(new TextBannerAdapter.OnItemClickLisenter() {
+                                @Override
+                                public void onItemClick(int postion) {
+                                    if (messagelist.get(postion).getType().equals("0")) {
+                                        listterner.process("0"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion).getType().equals("2")) {
+                                        listterner.process("2"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion).getType().equals("5")) {
+                                        listterner.process("5"); // 3.1 执行回调
+                                    }
+                                }
+                            });
+
+                            for (int i = 0; i < messagelist2.size(); ++i){
+                                Log.i("文字轮播","第一行：" + messagelist2.get(i).getName());
+                            }
+
+                            //TODO 第二行
+                            int numSize = 0;
+                            for (int i = 1; i < messagelist.size(); ++i) {
+                                if (messagelist.get(i).getType().equals("0")) {
+                                    messagelist2_S.add(new Bean_S(R.mipmap.give, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("2")) {
+                                    messagelist2_S.add(new Bean_S(R.mipmap.lodger, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("5")) {
+                                    messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                }
+                                numSize = i;
+                            }
+//                            if(numSize == messagelist.size()){
+                            if (messagelist.get(0).getType().equals("0")) {
+                                messagelist2_S.add(new Bean_S(R.mipmap.give, messagelist.get(0).getTitle()));
+                            } else if (messagelist.get(0).getType().equals("2")) {
+                                messagelist2_S.add(new Bean_S(R.mipmap.lodger, messagelist.get(0).getTitle()));
+                            } else if (messagelist.get(0).getType().equals("5")) {
+                                messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(0).getTitle()));
+                            }
+//                            }
+                            TextBannerAdapter_S textBannerAdapter_s = new TextBannerAdapter_S(messagelist2_S, view.getContext());
+                            tvBanner2_S.setAdapter(textBannerAdapter_s);
+                            textBannerAdapter_s.setOnItemClickListener(new TextBannerAdapter_S.OnItemClickLisenter() {
+                                @Override
+                                public void onItemClick(int postion) {
+                                    if (messagelist.get(postion).getType().equals("0")) {
+                                        listterner.process("0"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion).getType().equals("2")) {
+                                        listterner.process("2"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion).getType().equals("5")) {
+                                        listterner.process("5"); // 3.1 执行回调
+                                    }
+                                }
+                            });
+                            Log.i("文字轮播","*********************************************************************");
+                            for (int i = 0; i < messagelist2_S.size(); ++i){
+                                Log.i("文字轮播","第二行：" + messagelist2_S.get(i).getName());
+                            }
                         }
 
                     }
@@ -487,8 +593,9 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
                     @Override
                     public void onError(Throwable e) {
                         tvBanner2.setVisibility(View.GONE);
+                        tvBanner2_S.setVisibility(View.GONE);
                         side_message_no_2.setVisibility(View.VISIBLE);
-                        Log.i("文字轮播列表数据获取错误","错误"+e);
+                        Log.i("文字轮播列表数据获取错误", "错误" + e);
                     }
 
                     @Override
@@ -511,7 +618,7 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<ImgData> userMessage = fzbInterface.getBannerList(FinalContents.getUserID(),FinalContents.getCityID(),projectType,arrposid);
+        Observable<ImgData> userMessage = fzbInterface.getBannerList(FinalContents.getUserID(), FinalContents.getCityID(), projectType, arrposid);
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ImgData>() {
@@ -562,7 +669,7 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
                                     startActivity(intent);
                                 }
                             });
-                        }else {
+                        } else {
                             home_banner_img.setVisibility(View.VISIBLE);
                             banner.setVisibility(View.GONE);
                         }
@@ -572,7 +679,7 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
                     public void onError(Throwable e) {
                         home_banner_img.setVisibility(View.VISIBLE);
                         banner.setVisibility(View.GONE);
-                        Log.i("列表数据获取错误","错误"+e);
+                        Log.i("列表数据获取错误", "错误" + e);
                     }
 
                     @Override
@@ -619,9 +726,9 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        if(activity instanceof FragmentInteraction) {
-            listterner = (FragmentInteraction)activity; // 2.2 获取到宿主activity并赋值
-        } else{
+        if (activity instanceof FragmentInteraction) {
+            listterner = (FragmentInteraction) activity; // 2.2 获取到宿主activity并赋值
+        } else {
             throw new IllegalArgumentException("activity must implements FragmentInteraction");
         }
     }

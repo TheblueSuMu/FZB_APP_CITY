@@ -141,10 +141,10 @@ public class PurchaseNoticeActivity extends AllActivity implements View.OnClickL
                     public void onNext(HouseBean houseBean) {
                         houseDataData = houseBean.getData();
                         if (houseDataData.getPropertyHouseList().size() >= 1) {
-                            title.setText(houseDataData.getPropertyHouseList().get(0).getTitle());
-                            time.setText(houseDataData.getPropertyHouseList().get(0).getCreateDate());
-                            content.setText("       " + houseDataData.getPropertyHouseList().get(0).getContent());
-                            talkToolId = houseDataData.getPropertyHouseList().get(0).getId();
+                            title.setText(houseDataData.getPropertyHouseList().get(1).getTitle());
+                            time.setText(houseDataData.getPropertyHouseList().get(1).getCreateDate());
+                            content.setText("       " + houseDataData.getPropertyHouseList().get(1).getContent());
+                            talkToolId = houseDataData.getPropertyHouseList().get(1).getId();
                         } else {
                             title.setText("");
                             time.setText("");
@@ -176,10 +176,10 @@ public class PurchaseNoticeActivity extends AllActivity implements View.OnClickL
             notice_l2.setVisibility(View.INVISIBLE);
             notice_l3.setVisibility(View.INVISIBLE);
             if (houseDataData.getPropertyHouseList().size() >= 1) {
-                title.setText(houseDataData.getPropertyHouseList().get(0).getTitle());
-                time.setText(houseDataData.getPropertyHouseList().get(0).getCreateDate());
-                content.setText("       " + houseDataData.getPropertyHouseList().get(0).getContent());
-                talkToolId = houseDataData.getPropertyHouseList().get(0).getId();
+                title.setText(houseDataData.getPropertyHouseList().get(1).getTitle());
+                time.setText(houseDataData.getPropertyHouseList().get(1).getCreateDate());
+                content.setText("       " + houseDataData.getPropertyHouseList().get(1).getContent());
+                talkToolId = houseDataData.getPropertyHouseList().get(1).getId();
             } else {
                 title.setText("");
                 time.setText("");
@@ -192,10 +192,10 @@ public class PurchaseNoticeActivity extends AllActivity implements View.OnClickL
             notice_l2.setVisibility(View.VISIBLE);
             notice_l3.setVisibility(View.INVISIBLE);
             if (houseDataData.getPropertyHouseList().size() >= 2) {
-                title.setText(houseDataData.getPropertyHouseList().get(1).getTitle());
-                time.setText(houseDataData.getPropertyHouseList().get(1).getCreateDate());
-                content.setText("       " + houseDataData.getPropertyHouseList().get(1).getContent());
-                talkToolId = houseDataData.getPropertyHouseList().get(1).getId();
+                title.setText(houseDataData.getPropertyHouseList().get(0).getTitle());
+                time.setText(houseDataData.getPropertyHouseList().get(0).getCreateDate());
+                content.setText("       " + houseDataData.getPropertyHouseList().get(0).getContent());
+                talkToolId = houseDataData.getPropertyHouseList().get(0).getId();
             } else {
                 title.setText("");
                 time.setText("");

@@ -1515,8 +1515,8 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                                         }
                                         if (tabName.equals(tab.getText().toString())) {
                                             indexList = projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthList();
-                                            if(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(0).getMonthPriceList().size() != 0){
-                                                setData(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(0).getMonthPriceList());
+                                            if(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthPriceList().size() != 0){
+                                                setData(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthPriceList());
                                             }
                                         }
                                     }
@@ -1552,8 +1552,8 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                                         }
                                         if (tabName.equals(tab.getText().toString())) {
                                             indexList = projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthList();
-                                            if(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(0).getMonthPriceList().size() != 0){
-                                                setData(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(0).getMonthPriceList());
+                                            if(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthPriceList().size() != 0){
+                                                setData(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthPriceList());
                                             }
                                         }
                                     }

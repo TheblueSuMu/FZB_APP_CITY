@@ -1,15 +1,15 @@
 package com.xcy.fzbcity.all.modle;
 
-public class Bean {
+public class Bean_S {
 
     public Integer pic;
     public String name;
 
-    public Bean(String name) {
+    public Bean_S(String name) {
         this.name = name;
     }
 
-    public Bean(Integer pic, String name) {
+    public Bean_S(Integer pic, String name) {
         this.pic = pic;
         this.name = name;
     }

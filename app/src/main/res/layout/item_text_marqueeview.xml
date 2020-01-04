@@ -8,8 +8,10 @@
         android:paddingTop="3dp"
         android:id="@+id/imagebanner"
         android:src="@mipmap/goodnews"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"/>
+        android:layout_width="40dp"
+        android:scaleType="fitXY"
+        android:layout_gravity="center_vertical"
+        android:layout_height="15dp"/>
 
     <TextView
         android:gravity="center_vertical"
