@@ -10,10 +10,11 @@ import com.stx.xmarqueeview.XMarqueeView;
 import com.stx.xmarqueeview.XMarqueeViewAdapter;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.modle.Bean;
+import com.xcy.fzbcity.all.modle.Bean_S;
 
 import java.util.List;
 
-public class TextBannerAdapter extends XMarqueeViewAdapter<Bean> {
+public class TextBannerAdapter_S extends XMarqueeViewAdapter<Bean_S> {
     private Context mContext;
     private OnItemClickLisenter onItemClickLisenter;
 
@@ -25,7 +26,7 @@ public class TextBannerAdapter extends XMarqueeViewAdapter<Bean> {
         this.onItemClickLisenter = onItemClickListener;
     }
 
-    public TextBannerAdapter(List<Bean> datas, Context context) {
+    public TextBannerAdapter_S(List<Bean_S> datas, Context context) {
         super(datas);
         mContext = context;
     }
@@ -47,7 +48,7 @@ public class TextBannerAdapter extends XMarqueeViewAdapter<Bean> {
         }else {
             image.setVisibility(View.VISIBLE);
             image.setImageResource(mDatas.get(position).getPic());
-        }
+        };
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

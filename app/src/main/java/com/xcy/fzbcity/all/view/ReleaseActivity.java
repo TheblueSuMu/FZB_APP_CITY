@@ -25,23 +25,30 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 
+import com.huantansheng.easyphotos.EasyPhotos;
+import com.huantansheng.easyphotos.callback.SelectCallback;
+import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.adapter.GridViewAdapter;
 import com.xcy.fzbcity.all.api.Connector;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.modle.AddPhotoBean;
+import com.xcy.fzbcity.all.modle.AddPhotoBeanS;
 import com.xcy.fzbcity.all.modle.DiscussBean;
 import com.xcy.fzbcity.all.persente.SingleClick;
 import com.xcy.fzbcity.all.persente.StatusBar;
 import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.utils.CommonUtil;
+import com.xcy.fzbcity.all.utils.GlideEngine;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +88,8 @@ public class ReleaseActivity extends AllActivity implements View.OnClickListener
 
     int isPhoto = 0;
     private File file;
-
+    private List<File> fileList = new ArrayList<>();
+    private List<MultipartBody.Part> parts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,9 +188,101 @@ public class ReleaseActivity extends AllActivity implements View.OnClickListener
 
                                     }
                                 } else if (i == 1) {
-                                    Intent getAlbum = new Intent(Intent.ACTION_GET_CONTENT);
-                                    getAlbum.setType(IMAGE_TYPE);
-                                    startActivityForResult(getAlbum, IMAGE_CODE);
+//                                    Intent getAlbum = new Intent(Intent.ACTION_GET_CONTENT);
+//                                    getAlbum.setType(IMAGE_TYPE);
+//                                    startActivityForResult(getAlbum, IMAGE_CODE);
+
+                                    EasyPhotos.createAlbum(ReleaseActivity.this, false, GlideEngine.getInstance())//参数说明：上下文，是否显示相机按钮，[配置Glide为图片加载引擎](https://github.com/HuanTanSheng/EasyPhotos/wiki/12-%E9%85%8D%E7%BD%AEImageEngine%EF%BC%8C%E6%94%AF%E6%8C%81%E6%89%80%E6%9C%89%E5%9B%BE%E7%89%87%E5%8A%A0%E8%BD%BD%E5%BA%93)
+                                            .setCount(9)//参数说明：最大可选数，默认1
+                                            .start(new SelectCallback() {
+                                                @Override
+                                                public void onResult(ArrayList<Photo> photos, boolean isOriginal) {
+                                                    Log.i("url", "图片");
+                                                    try {
+                                                        Uri url = photos.get(0).uri;
+                                                        String s = url.toString();
+                                                        File file = uri2File(url);
+                                                        fileList.clear();
+                                                        for (int i = 0; i < photos.size(); i++) {
+                                                            Uri uri = photos.get(i).uri;
+                                                            File filel = uri2File(uri);
+                                                            fileList.add(filel);
+                                                        }
+
+                                                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                                                        Cursor cursor = ReleaseActivity.this.getContentResolver().query(url, filePathColumn, null, null, null);
+                                                        cursor.moveToFirst();
+                                                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                                                        String picPath = cursor.getString(columnIndex);
+                                                        //转码
+                                                        String encode = URLEncoder.encode(picPath, "utf-8");
+                                                        cursor.close();
+                                                        if (picPath.equals("")) return;
+                                                        Log.e("123", "onActivityResult: 路径:--" + encode);
+                                                        //上传图片
+//                        addimg(encode, file);
+                                                        Log.i("url", "图片：" + s + ".png");
+
+                                                        MultipartBody.Builder mbuilder = new MultipartBody.Builder();
+                                                        mbuilder.setType(MultipartBody.FORM);
+                                                        for (int i = 0; i < fileList.size(); i++) {
+                                                            mbuilder.addFormDataPart("files", fileList.get(i).getName(), RequestBody.create(MediaType.parse("image/*"), fileList.get(i)));
+                                                        }
+                                                        parts = mbuilder.build().parts();
+
+                                                        Log.i("批量选择相册","进入前");
+
+                                                        Retrofit.Builder builder = new Retrofit.Builder();
+                                                        builder.baseUrl(FinalContents.getBaseUrl());
+                                                        builder.addConverterFactory(GsonConverterFactory.create());
+                                                        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+                                                        Retrofit build = builder.build();
+                                                        MyService fzbInterface = build.create(MyService.class);
+                                                        final Observable<AddPhotoBeanS> addPhoto = fzbInterface.getAddPhotoS(FinalContents.getUserID(), "zhuanyuan", parts);
+                                                        addPhoto.subscribeOn(Schedulers.io())
+                                                                .observeOn(AndroidSchedulers.mainThread())
+                                                                .subscribe(new Observer<AddPhotoBeanS>() {
+                                                                    @Override
+                                                                    public void onSubscribe(Disposable d) {
+                                                                        Log.i("批量选择相册","onSubscribe");
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onNext(AddPhotoBeanS addPhotoBean) {
+                                                                        Log.i("批量选择相册","图片地址");
+                                                                        for (int i = 0; i < addPhotoBean.getData().size(); ++i){
+                                                                            Log.i("批量选择相册","图片地址：" + addPhotoBean.getData().get(i).getUrl());
+                                                                            if (stringBuffer.length() == 0) {
+                                                                                stringBuffer.append(addPhotoBean.getData().get(i).getUrl());
+                                                                            } else {
+                                                                                stringBuffer.append("|" + addPhotoBean.getData().get(i).getUrl());
+                                                                            }
+                                                                            mDatas.add(addPhotoBean.getData().get(i).getUrl());
+                                                                            adapter.notifyDataSetChanged();
+                                                                        }
+
+
+                                                                        Log.i("图片上传", "数据上传" + addPhotoBean.getData().get(0).getUrl());
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onError(Throwable e) {
+                                                                        Log.i("批量选择相册","经济圈发布图片上传错误信息：" + e.getMessage());
+                                                                        Log.i("MyCL", "经济圈发布图片上传错误信息：" + e.getMessage());
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onComplete() {
+
+                                                                    }
+                                                                });
+
+                                                    } catch (UnsupportedEncodingException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            });
+
                                 }
                             }
                         });
@@ -265,110 +365,6 @@ public class ReleaseActivity extends AllActivity implements View.OnClickListener
             case R.id.release_fb:
                 initData();
                 break;
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//TODO  获取相册图片地址
-        i++;
-        if (resultCode != RESULT_OK) {        //此处的 RESULT_OK 是系统自定义得一个常量
-            Log.e("MyCL", "ActivityResult resultCode error");
-            return;
-        }
-        bm = null;
-        //外界的程序访问ContentProvider所提供数据 可以通过ContentResolver接口
-
-        ContentResolver resolver = getContentResolver();
-
-
-        //此处的用于判断接收的Activity是不是你想要的那个
-
-        if (requestCode == IMAGE_CODE) {
-
-            try {
-
-                Uri originalUri = data.getData();        //获得图片的uri
-
-                Log.i("MyCL", "图片uri" + originalUri);
-                bm = MediaStore.Images.Media.getBitmap(resolver, originalUri);        //显得到bitmap图片
-                long l = System.currentTimeMillis();
-//TODO bitmap图片转换成file类型的 start
-                final File san = saveFile(bm, "" + l + ".png");
-                Log.i("MyCL", "Uri图片转换成file类型的：" + san);
-
-                new Thread() {
-                    @Override
-                    public void run() {
-
-                        Retrofit.Builder builder = new Retrofit.Builder();
-                        builder.baseUrl(FinalContents.getBaseUrl());
-                        builder.addConverterFactory(GsonConverterFactory.create());
-                        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
-                        Retrofit build = builder.build();
-                        MyService fzbInterface = build.create(MyService.class);
-
-                        RequestBody requestBody = RequestBody.create(MediaType.parse("image/png"), san);
-
-                        MultipartBody.Part part = MultipartBody.Part.createFormData("file", san.getName(), requestBody);
-
-                        Observable<AddPhotoBean> addPhoto = fzbInterface.getAddPhoto(FinalContents.getUserID(), "release", part);
-                        Log.i("MyCL", "addPhoto：" + addPhoto.toString());
-                        addPhoto.subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Observer<AddPhotoBean>() {
-                                    @Override
-                                    public void onSubscribe(Disposable d) {
-
-                                    }
-
-                                    @Override
-                                    public void onNext(AddPhotoBean addPhotoBean) {
-                                        if (stringBuffer.length() == 0) {
-                                            stringBuffer.append(addPhotoBean.getData().getUrl());
-                                        } else {
-                                            stringBuffer.append("|" + addPhotoBean.getData().getUrl());
-                                        }
-                                        Log.i("MyCL", "解析完成后图片路径：" + stringBuffer.toString());
-                                        mDatas.add(addPhotoBean.getData().getUrl());
-                                        adapter.notifyDataSetChanged();
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-                                        Log.i("MyCL", "经济圈发布图片上传错误信息：" + e.getMessage());
-                                    }
-
-                                    @Override
-                                    public void onComplete() {
-
-                                    }
-                                });
-                    }
-                }.start();
-////TODO bitmap图片转换成file类型的 end
-                String[] proj = {MediaStore.Images.Media.DATA};
-
-
-                //好像是android多媒体数据库的封装接口，具体的看Android文档
-
-                Cursor cursor = managedQuery(originalUri, proj, null, null, null);
-
-                //按我个人理解 这个是获得用户选择的图片的索引值
-
-                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-
-                //将光标移至开头 ，这个很重要，不小心很容易引起越界
-
-                cursor.moveToFirst();
-
-                //最后根据索引值获取图片路径
-
-                String path = cursor.getString(column_index);
-            } catch (IOException e) {
-                Log.e("MyCL", e.toString());
-            }
-
         }
     }
 

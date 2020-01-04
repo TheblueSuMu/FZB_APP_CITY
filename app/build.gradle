@@ -176,4 +176,7 @@ dependencies {
 
     //批量选择图片
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.4'
+
+    implementation 'com.github.HuanTanSheng:EasyPhotos:3.0.3' //androidx版本，支持android 10，永久维护
+
 }

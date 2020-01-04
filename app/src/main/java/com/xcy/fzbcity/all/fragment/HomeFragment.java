@@ -39,10 +39,12 @@ import com.stx.xmarqueeview.XMarqueeView;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.adapter.RecyclerAdapter;
 import com.xcy.fzbcity.all.adapter.TextBannerAdapter;
+import com.xcy.fzbcity.all.adapter.TextBannerAdapter_S;
 import com.xcy.fzbcity.all.api.CityContents;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.application.DemoApplication;
 import com.xcy.fzbcity.all.modle.Bean;
+import com.xcy.fzbcity.all.modle.Bean_S;
 import com.xcy.fzbcity.all.modle.CityBean;
 import com.xcy.fzbcity.all.modle.HotBean;
 import com.xcy.fzbcity.all.modle.ImgData;
@@ -89,6 +91,8 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
     private TextView city;
     //文字轮播数据
     List<Bean> messagelist2 = new ArrayList<>();
+    List<Bean_S> messagelist2_S = new ArrayList<>();
+    private XMarqueeView tvBanner2_S;
 
     private XMarqueeView tvBanner2;
     private SwipeRefreshLayout layout;
@@ -215,6 +219,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
 
         layout = view.findViewById(R.id.home_srl);
         tvBanner2 = view.findViewById(R.id.tv_banner2);
+        tvBanner2_S = view.findViewById(R.id.tv_banner2_S);
 
         textView1 = view.findViewById(R.id.home_item_sojourn);
         textView2 = view.findViewById(R.id.home_item_overseas);
@@ -456,11 +461,35 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                         MessageBean2.DataBean dataBean = messageBean.getData();
                         messagelist = dataBean.getRows();
                         if (messagelist.size() == 0) {
-                            tvBanner2.setVisibility(View.GONE);
-                            side_message_no.setVisibility(View.VISIBLE);
-                        } else {
                             tvBanner2.setVisibility(View.VISIBLE);
+                            tvBanner2_S.setVisibility(View.VISIBLE);
                             side_message_no.setVisibility(View.GONE);
+
+                            messagelist2.add(new Bean(R.mipmap.no_information, "暂无数据"));
+                            messagelist2.add(new Bean(R.mipmap.no_information, "暂无数据"));
+                            messagelist2.add(new Bean(R.mipmap.no_information, "暂无数据"));
+
+                            TextBannerAdapter textBannerAdapter = new TextBannerAdapter(messagelist2, view.getContext());
+                            tvBanner2.setAdapter(textBannerAdapter);
+
+                            //TODO 第二行
+
+                            messagelist2_S.add(new Bean_S(R.mipmap.no_information, "暂无数据"));
+                            messagelist2_S.add(new Bean_S(R.mipmap.no_information, "暂无数据"));
+                            messagelist2_S.add(new Bean_S(R.mipmap.no_information, "暂无数据"));
+
+                            TextBannerAdapter_S textBannerAdapter_s = new TextBannerAdapter_S(messagelist2_S, view.getContext());
+                            tvBanner2_S.setAdapter(textBannerAdapter_s);
+
+
+                        } else if (messagelist.size() == 1) {
+
+                            Log.i("文字轮播","messagelist.size() == 1");
+
+                            tvBanner2.setVisibility(View.VISIBLE);
+                            tvBanner2_S.setVisibility(View.INVISIBLE);
+                            side_message_no.setVisibility(View.GONE);
+                            tvBanner2.stopFlipping();
                             for (int i = 0; i < messagelist.size(); i++) {
                                 if (messagelist.get(i).getType().equals("0")) {
                                     messagelist2.add(new Bean(R.mipmap.give, messagelist.get(i).getTitle()));
@@ -470,10 +499,8 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                     messagelist2.add(new Bean(R.mipmap.goodnews, messagelist.get(i).getTitle()));
                                 }
                             }
-
                             TextBannerAdapter textBannerAdapter = new TextBannerAdapter(messagelist2, view.getContext());
                             tvBanner2.setAdapter(textBannerAdapter);
-
                             textBannerAdapter.setOnItemClickListener(new TextBannerAdapter.OnItemClickLisenter() {
                                 @Override
                                 public void onItemClick(int postion) {
@@ -486,14 +513,96 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                     }
                                 }
                             });
-                        }
 
+                        } else {
+                            Log.i("文字轮播","else");
+
+                            tvBanner2.setVisibility(View.VISIBLE);
+                            tvBanner2_S.setVisibility(View.VISIBLE);
+                            side_message_no.setVisibility(View.GONE);
+                            if(messagelist.size() == 2){
+                                tvBanner2.stopFlipping();
+                                tvBanner2_S.stopFlipping();
+                            }else {
+                                tvBanner2.startFlipping();
+                                tvBanner2_S.startFlipping();
+                            }
+                            //TODO 第一行
+                            for (int i = 0; i < messagelist.size(); i++) {
+                                if (messagelist.get(i).getType().equals("0")) {
+                                    messagelist2.add(new Bean(R.mipmap.give, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("2")) {
+                                    messagelist2.add(new Bean(R.mipmap.lodger, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("5")) {
+                                    messagelist2.add(new Bean(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                }
+                            }
+                            TextBannerAdapter textBannerAdapter = new TextBannerAdapter(messagelist2, view.getContext());
+                            tvBanner2.setAdapter(textBannerAdapter);
+                            textBannerAdapter.setOnItemClickListener(new TextBannerAdapter.OnItemClickLisenter() {
+                                @Override
+                                public void onItemClick(int postion) {
+                                    if (messagelist.get(postion).getType().equals("0")) {
+                                        listterner.process("0"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion).getType().equals("2")) {
+                                        listterner.process("2"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion).getType().equals("5")) {
+                                        listterner.process("5"); // 3.1 执行回调
+                                    }
+                                }
+                            });
+
+                            for (int i = 0; i < messagelist2.size(); ++i){
+                                Log.i("文字轮播","第一行：" + messagelist2.get(i).getName());
+                            }
+
+                            //TODO 第二行
+                            int numSize = 0;
+                            for (int i = 1; i < messagelist.size(); ++i) {
+                                if (messagelist.get(i).getType().equals("0")) {
+                                    messagelist2_S.add(new Bean_S(R.mipmap.give, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("2")) {
+                                    messagelist2_S.add(new Bean_S(R.mipmap.lodger, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("5")) {
+                                    messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                }
+                                numSize = i;
+                            }
+//                            if(numSize == messagelist.size()){
+                            if (messagelist.get(0).getType().equals("0")) {
+                                messagelist2_S.add(new Bean_S(R.mipmap.give, messagelist.get(0).getTitle()));
+                            } else if (messagelist.get(0).getType().equals("2")) {
+                                messagelist2_S.add(new Bean_S(R.mipmap.lodger, messagelist.get(0).getTitle()));
+                            } else if (messagelist.get(0).getType().equals("5")) {
+                                messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(0).getTitle()));
+                            }
+//                            }
+                            TextBannerAdapter_S textBannerAdapter_s = new TextBannerAdapter_S(messagelist2_S, view.getContext());
+                            tvBanner2_S.setAdapter(textBannerAdapter_s);
+                            textBannerAdapter_s.setOnItemClickListener(new TextBannerAdapter_S.OnItemClickLisenter() {
+                                @Override
+                                public void onItemClick(int postion) {
+                                    if (messagelist.get(postion).getType().equals("0")) {
+                                        listterner.process("0"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion).getType().equals("2")) {
+                                        listterner.process("2"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion).getType().equals("5")) {
+                                        listterner.process("5"); // 3.1 执行回调
+                                    }
+                                }
+                            });
+                            Log.i("文字轮播","*********************************************************************");
+                            for (int i = 0; i < messagelist2_S.size(); ++i){
+                                Log.i("文字轮播","第二行：" + messagelist2_S.get(i).getName());
+                            }
+                        }
 
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         tvBanner2.setVisibility(View.GONE);
+                        tvBanner2_S.setVisibility(View.GONE);
                         side_message_no.setVisibility(View.VISIBLE);
                         Log.i("列表数据获取错误", "错误" + e);
                     }
