@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
@@ -217,7 +217,7 @@ public class Captain_Team_AddAConsultantActivity extends AllActivity implements 
 //                TODO 确定
             case R.id.add_aconsultant_btn:
                 if (!MatcherUtils.isMobile(add_aconsultant_et3.getText().toString())) {
-                    Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(this, "请输入正确的手机号");
                     return;
                 } else {
                     initData();
@@ -275,7 +275,7 @@ public class Captain_Team_AddAConsultantActivity extends AllActivity implements 
                             //      展示
                             pvOptions.show();
                         }else {
-                            Toast.makeText(Captain_Team_AddAConsultantActivity.this, "暂无团队长", Toast.LENGTH_SHORT).show();
+                            ToastUtil.showToast(Captain_Team_AddAConsultantActivity.this, "暂无团队长");
                         }
                         ifnum1 = 0;
                     }
@@ -343,7 +343,7 @@ public class Captain_Team_AddAConsultantActivity extends AllActivity implements 
                                 //      展示
                                 pvOptions.show();
                             }else {
-                                Toast.makeText(Captain_Team_AddAConsultantActivity.this, "当前团队长暂无销售", Toast.LENGTH_SHORT).show();
+                                ToastUtil.showToast(Captain_Team_AddAConsultantActivity.this, "当前团队长暂无销售");
                             }
 
                             ifnum2 = 0;
@@ -558,7 +558,7 @@ public class Captain_Team_AddAConsultantActivity extends AllActivity implements 
             }
         } else {
             if (add_aconsultant_et1.getText().toString().equals("") || add_aconsultant_et3.getText().toString().equals("") || add_aconsultant_et4.getText().toString().equals("") || add_aconsultant_tv1.getText().toString().equals("") || add_aconsultant_tv2.getText().toString().equals("") || add_aconsultant_tv3.getText().toString().equals("")) {
-                Toast.makeText(Captain_Team_AddAConsultantActivity.this, "请把数据填充完整再提交", Toast.LENGTH_SHORT).show();
+                ToastUtil.showToast(Captain_Team_AddAConsultantActivity.this, "请把数据填充完整再提交");
             } else {
                 if (txt.getVisibility() == View.VISIBLE) {
                     loginFlag = "0";

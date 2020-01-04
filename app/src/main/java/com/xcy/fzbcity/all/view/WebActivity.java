@@ -22,7 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
@@ -68,16 +68,16 @@ public class WebActivity extends AllActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SAVE_BEGIN:
-                    Toast.makeText(WebActivity.this, "开始保存图片...", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(WebActivity.this, "开始保存图片...");
 //                    mSaveBtn.setClickable(false);
                     break;
                 case SAVE_SUCCESS:
-                    Toast.makeText(WebActivity.this, "图片保存成功,请到相册查找...", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(WebActivity.this, "图片保存成功,请到相册查找...");
                     num = 1;
 //                    mSaveBtn.setClickable(true);
                     break;
                 case SAVE_FAILURE:
-                    Toast.makeText(WebActivity.this, "图片保存失败,请稍后再试...", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(WebActivity.this, "图片保存失败,请稍后再试...");
 //                    mSaveBtn.setClickable(true);
                     break;
             }

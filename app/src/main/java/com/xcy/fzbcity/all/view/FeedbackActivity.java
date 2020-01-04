@@ -19,7 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -234,7 +234,7 @@ public class FeedbackActivity extends AllActivity {
                 message = feedback_editText.getText().toString();
 
                 if (message.equals("")) {
-                    Toast.makeText(FeedbackActivity.this, "原因不能为空", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(FeedbackActivity.this, "原因不能为空");
                 } else {
                     Retrofit.Builder builder = new Retrofit.Builder();
                     builder.baseUrl(FinalContents.getBaseUrl());

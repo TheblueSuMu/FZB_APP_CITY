@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.annotation.Nullable;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -237,7 +237,7 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
                     try {
                         String totalCacheSize = CleanDataUtils.getTotalCacheSize(getActivity());
                         CleanDataUtils.clearAllCache(getActivity());
-                        Toast.makeText(getActivity(), "清理缓存成功,共清理了" + totalCacheSize + "内存", Toast.LENGTH_SHORT).show();
+                        ToastUtil.showToast(getActivity(), "清理缓存成功,共清理了" + totalCacheSize + "内存");
                         my_tv_huancun.setText("0 M");
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -247,7 +247,7 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
             builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    Toast.makeText(getActivity(), "取消清理", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(getActivity(), "取消清理");
                 }
             });
             AlertDialog show = builder.show();

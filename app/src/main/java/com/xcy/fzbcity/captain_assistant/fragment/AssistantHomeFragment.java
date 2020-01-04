@@ -154,10 +154,10 @@ public class AssistantHomeFragment extends Fragment implements View.OnClickListe
 //
 //                if (SharItOff.getShar().equals("隐")) {
 //                    SharItOff.setShar("显");
-//                    Toast.makeText(application, "佣金已显示，如需隐藏请摇动", Toast.LENGTH_SHORT).show();
+//                    ToastUtil.showToast(application, "佣金已显示，如需隐藏请摇动");
 //                } else if (SharItOff.getShar().equals("显")) {
 //                    SharItOff.setShar("隐");
-//                    Toast.makeText(application, "佣金已隐藏，如需显示请摇动", Toast.LENGTH_SHORT).show();
+//                    ToastUtil.showToast(application, "佣金已隐藏，如需显示请摇动");
 //                }
 //                Log.i("MyCL","摇一摇");
 //                initHotList();

@@ -16,7 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -69,15 +69,15 @@ public class TotalFragment extends AllFragment implements TotalAdapter.EPinLun, 
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SAVE_BEGIN:
-                    Toast.makeText(getContext(), "开始保存图片...", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(getContext(), "开始保存图片...");
 //                    mSaveBtn.setClickable(false);
                     break;
                 case SAVE_SUCCESS:
-                    Toast.makeText(getContext(), "图片保存成功,请到相册查找...", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(getContext(), "图片保存成功,请到相册查找...");
 //                    mSaveBtn.setClickable(true);
                     break;
                 case SAVE_FAILURE:
-                    Toast.makeText(getContext(), "图片保存失败,请稍后再试...", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(getContext(), "图片保存失败,请稍后再试...");
 //                    mSaveBtn.setClickable(true);
                     break;
             }
@@ -227,7 +227,7 @@ public class TotalFragment extends AllFragment implements TotalAdapter.EPinLun, 
                 }).start();
             }
         }
-        Toast.makeText(getContext(), "复制成功", Toast.LENGTH_SHORT).show();
+        ToastUtil.showToast(getContext(), "复制成功");
         num = 0;
     }
 

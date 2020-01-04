@@ -22,7 +22,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -426,7 +426,7 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
         initselect();
         if (whethe) {
             if (FinalContents.getCommissionId().equals("")) {
-                Toast.makeText(FillInTransactionInformationActivity.this, "请选择佣金", Toast.LENGTH_SHORT).show();
+                ToastUtil.showToast(FillInTransactionInformationActivity.this, "请选择佣金");
                 ifnum6 = 0;
                 return;
             } else {

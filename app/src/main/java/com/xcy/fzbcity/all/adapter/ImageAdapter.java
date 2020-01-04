@@ -10,16 +10,13 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.api.FinalContents;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 import com.xcy.fzbcity.all.view.BigPhotoActivity;
 
 import java.io.File;
@@ -54,16 +52,16 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SAVE_BEGIN:
-                    Toast.makeText(context, "开始保存图片...", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(context, "开始保存图片...");
 //                    mSaveBtn.setClickable(false);
                     break;
                 case SAVE_SUCCESS:
-                    Toast.makeText(context, "图片保存成功,请到相册查找...", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(context, "图片保存成功,请到相册查找...");
                     num = 1;
 //                    mSaveBtn.setClickable(true);
                     break;
                 case SAVE_FAILURE:
-                    Toast.makeText(context, "图片保存失败,请稍后再试...", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(context, "图片保存失败,请稍后再试...");
 //                    mSaveBtn.setClickable(true);
                     break;
             }

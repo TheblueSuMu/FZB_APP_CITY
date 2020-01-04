@@ -48,19 +48,19 @@ public class TalktoolRecycler extends RecyclerView.Adapter<TalktoolRecycler.View
             @Override
             public void onClick(View view) {
                 if (commissionlist.get(position).getType().equals("0")) {
-//                    Toast.makeText(context, "跳转到项目卖点", Toast.LENGTH_SHORT).show();
+//                    ToastUtil.showToast(context, "跳转到项目卖点");
                     Intent intent = new Intent(context, ProjectSellingPointsnActivity.class);
                     context.startActivity(intent);
                 }else if (commissionlist.get(position).getType().equals("1")) {
-//                    Toast.makeText(context, "跳转到项目海报", Toast.LENGTH_SHORT).show();
+//                    ToastUtil.showToast(context, "跳转到项目海报");
                     Intent intent = new Intent(context, ProjectPointsActivity.class);
                     context.startActivity(intent);
                 }else if (commissionlist.get(position).getType().equals("2")) {
-//                    Toast.makeText(context, "跳转到项目视频", Toast.LENGTH_SHORT).show();
+//                    ToastUtil.showToast(context, "跳转到项目视频");
                     Intent intent = new Intent(context, ProjectVideoActivity.class);
                     context.startActivity(intent);
                 }else if (commissionlist.get(position).getType().equals("3")) {
-//                    Toast.makeText(context, "跳转到购房需知", Toast.LENGTH_SHORT).show();
+//                    ToastUtil.showToast(context, "跳转到购房需知");
                     Intent intent = new Intent(context, PurchaseNoticeActivity.class);
                     context.startActivity(intent);
                 }

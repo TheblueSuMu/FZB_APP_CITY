@@ -8,7 +8,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
@@ -103,7 +103,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             @Override
             public void run() {
                 Looper.prepare();
-                Toast.makeText(mContext, "很抱歉,程序出现异常,即将退出,请重新登录", Toast.LENGTH_LONG).show();
+                ToastUtil.showToast(mContext, "很抱歉,程序出现异常,即将退出,请重新登录");
                 Looper.loop();
             }
         }.start();

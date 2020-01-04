@@ -530,6 +530,7 @@ public class MyClientAddActivity extends AllActivity implements View.OnClickList
                             @Override
                             public void onError(Throwable e) {
                                 Log.i("MyCL", "我的客户添加客户错误信息：" + e.getMessage());
+                                ToastUtil.showToast(MyClientAddActivity.this, "");
                             }
 
                             @Override

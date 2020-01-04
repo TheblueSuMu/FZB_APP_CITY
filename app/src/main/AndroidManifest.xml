@@ -216,14 +216,14 @@
 
         <!--TODO 专员-->
         <activity android:name="com.xcy.fzbcity.project_attache.view.Project_Attache_MainActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan"/>       <!--TODO 专员 主页-->
-        <activity android:name="com.xcy.fzbcity.project_attache.view.AddBrokerActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan"/>       <!--TODO 专员 添加经纪人-->
-        <activity android:name="com.xcy.fzbcity.project_attache.view.AddCompanyActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan"/>       <!--TODO 专员 添加经纪公司-->
+        <activity android:name="com.xcy.fzbcity.project_attache.view.AddBrokerActivity" android:launchMode="singleTop" android:windowSoftInputMode="stateVisible|adjustResize"/>       <!--TODO 专员 添加经纪人-->
+        <activity android:name="com.xcy.fzbcity.project_attache.view.AddCompanyActivity" android:launchMode="singleTop" android:windowSoftInputMode="stateVisible|adjustResize"/>       <!--TODO 专员 添加经纪公司-->
         <activity android:name="com.xcy.fzbcity.project_attache.view.BrokersListActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan"/>       <!--TODO 专员 经纪人列表-->
         <activity android:name="com.xcy.fzbcity.project_attache.view.CommissionActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan"/>       <!--TODO 专员 佣金-->
         <activity android:name="com.xcy.fzbcity.project_attache.view.CompanyDetailsActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan"/>       <!--TODO 专员 门店详情-->
         <activity android:name="com.xcy.fzbcity.project_attache.view.StoreListActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan"/>       <!--TODO 专员 公司列表-->
         <activity android:name="com.xcy.fzbcity.project_attache.view.BrokerActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan"/>       <!--TODO 专员 经纪人详情-->
-        <activity android:name="com.xcy.fzbcity.project_attache.view.AddStoreActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan"/>       <!--TODO 专员 添加门店-->
+        <activity android:name="com.xcy.fzbcity.project_attache.view.AddStoreActivity" android:launchMode="singleTop" android:windowSoftInputMode="stateVisible|adjustResize"/>       <!--TODO 专员 添加门店-->
         <activity android:name="com.xcy.fzbcity.project_attache.view.ContentActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan"/>       <!--TODO 专员 添加-->
         <activity android:name="com.xcy.fzbcity.project_attache.view.StoreDetailsActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan"/>       <!--TODO 专员 公司详情-->
         <activity android:name="com.xcy.fzbcity.project_attache.view.ClockStoresActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 门店打卡 start -->

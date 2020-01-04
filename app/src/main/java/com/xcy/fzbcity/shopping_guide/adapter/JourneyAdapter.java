@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -127,7 +127,7 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
                                     @SuppressLint("WrongConstant")
                                     @Override
                                     public void onNext(JourneyBean journeyBean) {
-                                        Toast.makeText(context, ""+journeyBean.getData().getMsg(), Toast.LENGTH_SHORT).show();
+                                        ToastUtil.showToast(context, ""+journeyBean.getData().getMsg());
                                         if (journeyBean.getData().getMsg().equals("成功完成")) {
                                             holder.item_journey_fulfill.setText("已完成");
                                             holder.item_journey_fulfill.setBackgroundResource(R.drawable.dg_shapes);
@@ -148,7 +148,7 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
                                     }
                                 });
                     } else if (listData.get(position).getIsComplete() == 1) {
-                        Toast.makeText(context, "已完成", Toast.LENGTH_SHORT).show();
+                        ToastUtil.showToast(context, "已完成");
                     }
                 }
             });

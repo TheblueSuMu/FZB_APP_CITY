@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -316,7 +316,7 @@ public class Captain_Team_BatchModifyingActivity extends AllActivity {
 
                     @Override
                     public void onNext(final LevelBean levelBean) {
-                        Toast.makeText(Captain_Team_BatchModifyingActivity.this, levelBean.getData().getMessage(), Toast.LENGTH_SHORT).show();
+                        ToastUtil.showToast(Captain_Team_BatchModifyingActivity.this, levelBean.getData().getMessage());
                         finish();
                     }
 

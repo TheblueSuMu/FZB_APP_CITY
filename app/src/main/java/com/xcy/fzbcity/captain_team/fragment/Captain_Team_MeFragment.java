@@ -274,7 +274,7 @@ public class Captain_Team_MeFragment extends AllFragment implements View.OnClick
             builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-//                    Toast.makeText(getActivity(), "取消清理", Toast.LENGTH_SHORT).show();
+//                    ToastUtil.showToast(getActivity(), "取消清理");
                 }
             });
             AlertDialog show = builder.show();

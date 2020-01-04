@@ -15,11 +15,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.IBinder;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -30,7 +28,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -50,15 +47,12 @@ import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.modle.AddPhotoBean;
 import com.xcy.fzbcity.all.modle.AddStoreBean;
 import com.xcy.fzbcity.all.modle.AddStoreNumBean;
-import com.xcy.fzbcity.all.modle.ChangeAddress;
 import com.xcy.fzbcity.all.modle.StoreChangeBean;
 import com.xcy.fzbcity.all.persente.OkHttpPost;
 import com.xcy.fzbcity.all.persente.SingleClick;
-import com.xcy.fzbcity.all.persente.StatusBar;
 import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.utils.CommonUtil;
 import com.xcy.fzbcity.all.utils.ToastUtil;
-import com.xcy.fzbcity.all.view.AllActivity;
 import com.xcy.fzbcity.all.view.TestMapActivity;
 
 import java.io.BufferedOutputStream;
@@ -351,9 +345,8 @@ public class AddStoreActivity extends AppCompatActivity implements View.OnClickL
     @SingleClick(1000)
     @Override
     public void onClick(View view) {
-
+        hideInput();
         switch (view.getId()) {
-
             case R.id.add_broker_return:
                 FinalContents.setStoreChange("");
                 FinalContents.setMyAddType("");
@@ -628,11 +621,11 @@ public class AddStoreActivity extends AppCompatActivity implements View.OnClickL
                 myLocation = (getLongitude + "," + getLatitude);
             }
             if (s1.equals("") || s2.equals("") || s3.equals("") || s4.equals("")) {
-                Toast.makeText(AddStoreActivity.this, "带*号的数据请填写完整", Toast.LENGTH_SHORT).show();
+                ToastUtil.showToast(AddStoreActivity.this, "带*号的数据请填写完整");
             } else {
                 if (add_broker_rl2.getVisibility() == View.VISIBLE) {
                     if (s6.equals("")) {
-                        Toast.makeText(AddStoreActivity.this, "带*号的数据请填写完整", Toast.LENGTH_SHORT).show();
+                        ToastUtil.showToast(AddStoreActivity.this, "带*号的数据请填写完整");
                     } else {
                         initAddData2();
                     }
@@ -1061,58 +1054,14 @@ public class AddStoreActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            View v = getCurrentFocus();
-            if (isShouldHideKeyboard(v, ev)) {
-                boolean res = hideKeyboard(v.getWindowToken());
-                if (res) {
-                    //隐藏了输入法，则不再分发事件
-                    return true;
-                }
-            }
-        }
-        return super.dispatchTouchEvent(ev);
-    }
-
     /**
-     * 根据EditText所在坐标和用户点击的坐标相对比，来判断是否隐藏键盘，因为当用户点击EditText时则不能隐藏
-     *
-     * @param v
-     * @param event
-     * @return
+     * 隐藏键盘
      */
-    private boolean isShouldHideKeyboard(View v, MotionEvent event) {
-        if (v != null && (v instanceof EditText)) {
-            int[] l = {0, 0};
-            v.getLocationInWindow(l);
-            int left = l[0],
-                    top = l[1],
-                    bottom = top + v.getHeight(),
-                    right = left + v.getWidth();
-            if (event.getX() > left && event.getX() < right
-                    && event.getY() > top && event.getY() < bottom) {
-                // 点击EditText的事件，忽略它。
-                return false;
-            } else {
-                return true;
-            }
+    protected void hideInput() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        View v = getWindow().peekDecorView();
+        if (null != v) {
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
-        // 如果焦点不是EditText则忽略，这个发生在视图刚绘制完，第一个焦点不在EditText上，和用户用轨迹球选择其他的焦点
-        return false;
-    }
-
-    /**
-     * 获取InputMethodManager，隐藏软键盘
-     *
-     * @param token
-     */
-    private boolean hideKeyboard(IBinder token) {
-        if (token != null) {
-            InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            return im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
-        }
-        return false;
     }
 }

@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -54,16 +54,16 @@ public class PhotoFragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SAVE_BEGIN:
-                    Toast.makeText(getContext(), "开始保存图片...", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(getContext(), "开始保存图片...");
 //                    mSaveBtn.setClickable(false);
                     break;
                 case SAVE_SUCCESS:
-                    Toast.makeText(getContext(), "图片保存成功,请到相册查找...", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(getContext(), "图片保存成功,请到相册查找...");
                     num = 1;
 //                    mSaveBtn.setClickable(true);
                     break;
                 case SAVE_FAILURE:
-                    Toast.makeText(getContext(), "图片保存失败,请稍后再试...", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(getContext(), "图片保存失败,请稍后再试...");
 //                    mSaveBtn.setClickable(true);
                     break;
             }
@@ -99,7 +99,7 @@ public class PhotoFragment extends Fragment {
         mPhotoView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-//                Toast.makeText(container.getContext(), "长按事件", Toast.LENGTH_SHORT).show();
+//                ToastUtil.showToast(container.getContext(), "长按事件");
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 View myView = LayoutInflater.from(getContext()).inflate(R.layout.bottom_popwindow, null);

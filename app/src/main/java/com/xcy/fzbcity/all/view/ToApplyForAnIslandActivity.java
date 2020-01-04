@@ -25,7 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -237,7 +237,7 @@ public class ToApplyForAnIslandActivity extends AllActivity implements View.OnCl
                                         ProjectProgressApi.setPassportimg(imgUrl);        //      TODO    身份证或护照 照片
                                         startActivity(intent);
                                     } else {
-                                        Toast.makeText(this, "请输入护照编号", Toast.LENGTH_SHORT).show();
+                                        ToastUtil.showToast(this, "请输入护照编号");
                                     }
                                 } else if (FinalContents.getProjectType().equals("3")) {
                                     //  TODO 旅居

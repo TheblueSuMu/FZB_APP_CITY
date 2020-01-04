@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -172,7 +172,7 @@ public class ClientParticularsActivity extends AllActivity implements View.OnCli
                                         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
-                                                Toast.makeText(ClientParticularsActivity.this, "取消拨打电话", Toast.LENGTH_SHORT).show();
+                                                ToastUtil.showToast(ClientParticularsActivity.this, "取消拨打电话");
                                             }
                                         });
                                         builder.show();

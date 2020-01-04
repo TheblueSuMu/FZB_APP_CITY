@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,7 +45,7 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsAdapter.
             public void onClick(View view) {
                 String phone = list.get(position).getSpecialPhone();
                 if (phone.equals("")) {
-                    Toast.makeText(context, "暂无电话信息，无法拨打", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(context, "暂无电话信息，无法拨打");
                 } else {
                     Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));//跳转到拨号界面，同时传递电话号码
                     context.startActivity(dialIntent);

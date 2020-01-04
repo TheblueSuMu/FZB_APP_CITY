@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -152,7 +152,7 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Cont
                         @Override
                         public void onClick(View v) {
                             if (listData.get(FinID).getShopownerPhone().equals("")) {
-                                Toast.makeText(holder.itemView.getContext(), "暂无电话信息，无法拨打", Toast.LENGTH_SHORT).show();
+                                ToastUtil.showToast(holder.itemView.getContext(), "暂无电话信息，无法拨打");
                             } else {
                                 Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + listData.get(FinID).getAttachePhone()));//跳转到拨号界面，同时传递电话号码
                                 holder.itemView.getContext().startActivity(dialIntent);
@@ -166,7 +166,7 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Cont
                         @Override
                         public void onClick(View v) {
                             if (listData.get(FinID).getShopownerPhone().equals("")) {
-                                Toast.makeText(holder.itemView.getContext(), "暂无电话信息，无法拨打", Toast.LENGTH_SHORT).show();
+                                ToastUtil.showToast(holder.itemView.getContext(), "暂无电话信息，无法拨打");
                             } else {
                                 Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + listData.get(FinID).getShopownerPhone()));//跳转到拨号界面，同时传递电话号码
                                 holder.itemView.getContext().startActivity(dialIntent);
@@ -206,7 +206,7 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Cont
                         @Override
                         public void onClick(View v) {
                             if (listData.get(FinID).getShopownerPhone().equals("")) {
-                                Toast.makeText(holder.itemView.getContext(), "暂无电话信息，无法拨打", Toast.LENGTH_SHORT).show();
+                                ToastUtil.showToast(holder.itemView.getContext(), "暂无电话信息，无法拨打");
                             } else {
                                 Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + listData.get(FinID).getShopownerPhone()));//跳转到拨号界面，同时传递电话号码
                                 holder.itemView.getContext().startActivity(dialIntent);

@@ -164,7 +164,7 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
             } else {
                 initCityData();//城市名字 + ID
             }
-//            Toast.makeText(TestMapActivity.this, "已开启定位权限", Toast.LENGTH_LONG).show();
+//            ToastUtil.showToast(TestMapActivity.this, "已开启定位权限", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -506,7 +506,7 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
 //        mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyItem>() {
 //            @Override
 //            public boolean onClusterClick(Cluster<MyItem> cluster) {
-//                Toast.makeText(MainActivity.this, "有" + cluster.getSize() + "个点", Toast.LENGTH_SHORT).show();
+//                ToastUtil.showToast(MainActivity.this, "有" + cluster.getSize() + "个点");
 //                return false;
 //            }
 //        });
@@ -951,7 +951,7 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
         pop_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(MapHouseActivity.this, "路线", Toast.LENGTH_SHORT).show();
+//                ToastUtil.showToast(MapHouseActivity.this, "路线");
                 //定义起终点坐标（天安门和百度大厦）
                 LatLng startPoint = new LatLng(ll.latitude, ll.longitude);
                 LatLng endPoint = new LatLng(item1.getPosition().latitude, item1.getPosition().longitude);

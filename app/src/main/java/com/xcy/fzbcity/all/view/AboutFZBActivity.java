@@ -152,7 +152,7 @@ public class AboutFZBActivity extends AllActivity implements View.OnClickListene
                 break;
 //                TODO 检测版本
             case R.id.fzb_jc:
-//                Toast.makeText(AboutFZBActivity.this, "已是最新版本", Toast.LENGTH_SHORT).show();
+//                ToastUtil.showToast(AboutFZBActivity.this, "已是最新版本");
                 initDaown();
 //                showDownloadDialog();
                 break;
@@ -184,7 +184,7 @@ public class AboutFZBActivity extends AllActivity implements View.OnClickListene
 
                     @Override
                     public void onNext(final AppPackageBean appPackageBean) {
-//                        Toast.makeText(AboutFZBActivity.this, appPackageBean.getData().getComment(), Toast.LENGTH_SHORT).show();
+//                        ToastUtil.showToast(AboutFZBActivity.this, appPackageBean.getData().getComment());
                         panduan = appPackageBean.getData().getIsUpgrade();
                         if (appPackageBean.getData().getIsUpgrade().equals("0")) {
                             ToastUtil.showToast(AboutFZBActivity.this,"当前版本已是最新版本");

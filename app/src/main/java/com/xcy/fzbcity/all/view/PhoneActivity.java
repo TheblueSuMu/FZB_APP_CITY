@@ -13,7 +13,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -306,11 +306,11 @@ public class PhoneActivity extends AppCompatActivity {
                     public void onNext(AddPhoneBean addPhoneBean) {
                         String msg = addPhoneBean.getData().getMessage();
                         if (addPhoneBean.getData().getStatus().equals("1")) {
-                            Toast.makeText(PhoneActivity.this, addPhoneBean.getData().getMessage(), Toast.LENGTH_SHORT).show();
+                            ToastUtil.showToast(PhoneActivity.this, addPhoneBean.getData().getMessage());
                             CityContents.setAddClient("1");
                             finish();
                         } else {
-                            Toast.makeText(PhoneActivity.this, addPhoneBean.getData().getMessage(), Toast.LENGTH_SHORT).show();
+                            ToastUtil.showToast(PhoneActivity.this, addPhoneBean.getData().getMessage());
                         }
                     }
 

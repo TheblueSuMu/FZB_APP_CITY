@@ -294,7 +294,7 @@ public class MapActivity extends AllActivity implements View.OnClickListener {
                 overlay.addToMap();
                 overlay.zoomToSpan();
             } else {
-//                Toast.makeText(MapActivity.this, "没有找到相应的建筑物", Toast.LENGTH_SHORT).show();
+//                ToastUtil.showToast(MapActivity.this, "没有找到相应的建筑物");
             }
             mPoiSearch.destroy();
         }

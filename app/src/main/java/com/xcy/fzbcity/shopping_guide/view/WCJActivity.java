@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -215,7 +215,7 @@ public class WCJActivity extends AllActivity {
             public void onClick(View view) {
                 message = feedback_editText.getText().toString();
                 if (message.equals("")) {
-                    Toast.makeText(WCJActivity.this, "未成交原因必须填写", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(WCJActivity.this, "未成交原因必须填写");
                 } else {
 
 

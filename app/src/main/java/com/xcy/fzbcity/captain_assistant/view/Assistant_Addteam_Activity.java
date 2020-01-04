@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -177,7 +177,7 @@ public class Assistant_Addteam_Activity extends AppCompatActivity implements Vie
 //                TODO 确定
             case R.id.add_team_btn:
                 if (!MatcherUtils.isMobile(add_aconsultant_et3.getText().toString())) {
-                    Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(this, "请输入正确的手机号");
                     return;
                 } else {
                     initData();

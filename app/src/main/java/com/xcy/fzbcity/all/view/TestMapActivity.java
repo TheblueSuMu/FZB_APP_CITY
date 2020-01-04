@@ -119,7 +119,7 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
             ActivityCompat.requestPermissions(TestMapActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         } else {
 //            initMap();
-//            Toast.makeText(TestMapActivity.this, "已开启定位权限", Toast.LENGTH_LONG).show();
+//            ToastUtil.showToast(TestMapActivity.this, "已开启定位权限", Toast.LENGTH_LONG).show();
         }
 
 

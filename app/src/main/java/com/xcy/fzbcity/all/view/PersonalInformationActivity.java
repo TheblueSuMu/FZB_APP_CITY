@@ -514,7 +514,7 @@ public class PersonalInformationActivity extends AllActivity implements View.OnC
             case R.id.personal_rl_6:
                 intent = new Intent(this, ToLoginActivity.class);
                 startActivity(intent);
-//                Toast.makeText(PersonalInformationActivity.this, "暂无功能", Toast.LENGTH_SHORT).show();
+//                ToastUtil.showToast(PersonalInformationActivity.this, "暂无功能");
                 break;
         }
     }

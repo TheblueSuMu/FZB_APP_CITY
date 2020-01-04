@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -200,7 +200,7 @@ public class Broker_MainActivity extends AllActivity implements View.OnClickList
                 break;
             case R.id.button_backup:
                 if (FinalContents.getCityID().equals(FinalContents.getOldCityId())) {
-                    Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(this, "");
                 }else {
                     Intent intent = new Intent(Broker_MainActivity.this, ReportActivity.class);
                     startActivity(intent);
@@ -245,7 +245,7 @@ public class Broker_MainActivity extends AllActivity implements View.OnClickList
                     startActivity(getIntent());
                 }
             });
-            Toast.makeText(this, "当前无网络，请检查网络后再进行登录", Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(this, "当前无网络，请检查网络后再进行登录");
         }
     }
 

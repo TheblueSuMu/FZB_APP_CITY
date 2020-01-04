@@ -17,7 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -74,15 +74,15 @@ public class BuildingDynamicActivity extends AllActivity implements Dynamic2Adap
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SAVE_BEGIN:
-                    Toast.makeText(BuildingDynamicActivity.this, "开始保存图片...", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(BuildingDynamicActivity.this, "开始保存图片...");
 //                    mSaveBtn.setClickable(false);
                     break;
                 case SAVE_SUCCESS:
-                    Toast.makeText(BuildingDynamicActivity.this, "图片保存成功,请到相册查找...", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(BuildingDynamicActivity.this, "图片保存成功,请到相册查找...");
 //                    mSaveBtn.setClickable(true);
                     break;
                 case SAVE_FAILURE:
-                    Toast.makeText(BuildingDynamicActivity.this, "图片保存失败,请稍后再试...", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(BuildingDynamicActivity.this, "图片保存失败,请稍后再试...");
 //                    mSaveBtn.setClickable(true);
                     break;
             }

@@ -335,7 +335,7 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
             //TODO 已开启定位权限
             Log.i("MyCL", "已开启定位权限");
 //            initMap();
-//            Toast.makeText(ClockStoresActivity.this, "已开启定位权限", Toast.LENGTH_LONG).show();
+//            ToastUtil.showToast(ClockStoresActivity.this, "已开启定位权限", Toast.LENGTH_LONG).show();
             ifnum = 1;
             mLocClient = new LocationClient(this);
             mLocClient.registerLocationListener(myListener);

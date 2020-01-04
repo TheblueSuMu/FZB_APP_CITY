@@ -7,10 +7,8 @@ import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
@@ -22,25 +20,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.lljjcoder.citypickerview.widget.CityPicker;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.database.AddCompanyBean;
-import com.xcy.fzbcity.all.modle.ChangeAddress;
 import com.xcy.fzbcity.all.modle.ComapnyManage;
 import com.xcy.fzbcity.all.persente.SingleClick;
-import com.xcy.fzbcity.all.persente.StatusBar;
 import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.utils.CommonUtil;
 import com.xcy.fzbcity.all.utils.MatcherUtils;
 import com.xcy.fzbcity.all.utils.ToastUtil;
-import com.xcy.fzbcity.all.view.AllActivity;
 import com.xcy.fzbcity.all.view.TestMapActivity;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -255,7 +250,7 @@ public class AddCompanyActivity extends AppCompatActivity implements View.OnClic
     @SingleClick(1000)
     @Override
     public void onClick(View view) {
-
+        hideInput();
         switch (view.getId()) {
             case R.id.add_company_return:
                 FinalContents.setStoreChange("");
@@ -554,62 +549,18 @@ public class AddCompanyActivity extends AppCompatActivity implements View.OnClic
 //                        }
 //                    });
         }
-
         isnum = 0;
-
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            View v = getCurrentFocus();
-            if (isShouldHideKeyboard(v, ev)) {
-                boolean res=hideKeyboard(v.getWindowToken());
-                if(res){
-                    //隐藏了输入法，则不再分发事件
-                    return true;
-                }
-            }
-        }
-        return super.dispatchTouchEvent(ev);
     }
 
     /**
-     * 根据EditText所在坐标和用户点击的坐标相对比，来判断是否隐藏键盘，因为当用户点击EditText时则不能隐藏
-     *
-     * @param v
-     * @param event
-     * @return
+     * 隐藏键盘
      */
-    private boolean isShouldHideKeyboard(View v, MotionEvent event) {
-        if (v != null && (v instanceof EditText)) {
-            int[] l = {0, 0};
-            v.getLocationInWindow(l);
-            int left = l[0],
-                    top = l[1],
-                    bottom = top + v.getHeight(),
-                    right = left + v.getWidth();
-            if (event.getX() > left && event.getX() < right
-                    && event.getY() > top && event.getY() < bottom) {
-                // 点击EditText的事件，忽略它。
-                return false;
-            } else {
-                return true;
-            }
+    protected void hideInput() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        View v = getWindow().peekDecorView();
+        if (null != v) {
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
-        // 如果焦点不是EditText则忽略，这个发生在视图刚绘制完，第一个焦点不在EditText上，和用户用轨迹球选择其他的焦点
-        return false;
     }
 
-    /**
-     * 获取InputMethodManager，隐藏软键盘
-     * @param token
-     */
-    private boolean hideKeyboard(IBinder token) {
-        if (token != null) {
-            InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            return im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
-        }
-        return false;
-    }
 }

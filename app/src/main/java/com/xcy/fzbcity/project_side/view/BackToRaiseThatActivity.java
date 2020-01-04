@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
@@ -90,7 +90,7 @@ public class BackToRaiseThatActivity extends AllActivity {
                     Log.i("退筹", "：" + FinalContents.getPreparationId() + "：中间：" + FinalContents.getUserID());
                     message = back_to_raise_that_et.getText().toString();
                     if (message.equals("")) {
-                        Toast.makeText(BackToRaiseThatActivity.this, "请填写退筹说明内容", Toast.LENGTH_SHORT).show();
+                        ToastUtil.showToast(BackToRaiseThatActivity.this, "请填写退筹说明内容");
                         ifnum1 = 0;
                         return;
                     } else {

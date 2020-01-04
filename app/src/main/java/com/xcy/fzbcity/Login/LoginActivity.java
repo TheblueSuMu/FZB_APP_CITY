@@ -1289,7 +1289,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                     DataBaseUtil.initDelete(LoginActivity.this, list.get(postion).getUserName());
                     p.dismiss();
-//                    Toast.makeText(LoginActivity.this, "相关功能维护中", Toast.LENGTH_SHORT).show();
+//                    ToastUtil.showToast(LoginActivity.this, "相关功能维护中");
 //                    if (xlist.size() > 1) {
 //                        for (int i = 0;i < index;i++){
 //                            if (xlist.get(postion).getUserName().equals(pref.getString("user_name"+i, ""))) {
@@ -1299,7 +1299,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 //                                xlist.remove(postion);
 //                                popAdapter.notifyItemRemoved(postion);
 //                                popAdapter.notifyDataSetChanged();
-//                                Toast.makeText(LoginActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
+//                                ToastUtil.showToast(LoginActivity.this, "删除成功");
 //                                return;
 //                            }
 //                        }

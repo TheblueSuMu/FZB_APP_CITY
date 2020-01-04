@@ -490,22 +490,25 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#EEEEEE"></LinearLayout>
+                            android:background="#EEEEEE"/>
+
+                        <Button
+                            android:id="@+id/add_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginTop="40dp"
+                            android:layout_marginLeft="38dp"
+                            android:layout_marginRight="38dp"
+                            android:layout_marginBottom="25dp"
+                            android:background="@drawable/points_dialog_but"
+                            android:text="提交"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18sp" />
 
                     </LinearLayout>
 
-                    <Button
-                        android:id="@+id/add_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="38dp"
-                        android:layout_marginRight="38dp"
-                        android:layout_marginBottom="25dp"
-                        android:background="@drawable/points_dialog_but"
-                        android:text="提交"
-                        android:textColor="#FFFFFF"
-                        android:textSize="18sp" />
+
 
                 </RelativeLayout>
 

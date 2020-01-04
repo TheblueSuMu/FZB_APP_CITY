@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import com.google.gson.Gson;
 import com.xcy.fzbcity.R;
@@ -102,7 +102,7 @@ public class SexActivity extends AllActivity implements View.OnClickListener {
                 Gson gson = new Gson();
                 NickNameBean nickNameBean = gson.fromJson(data, NickNameBean.class);
                 NickNameBean.DataBean data1 = nickNameBean.getData();
-                Toast.makeText(SexActivity.this, data1.getMessage(), Toast.LENGTH_SHORT).show();
+                ToastUtil.showToast(SexActivity.this, data1.getMessage());
 
                 intent = new Intent(SexActivity.this, PersonalInformationActivity.class);
                 startActivity(intent);

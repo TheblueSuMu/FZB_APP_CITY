@@ -193,7 +193,7 @@ public class Captain_Team_CommissionLevelActivity extends AllActivity implements
 //                                    public void onClick(DialogInterface dialog, int which) {
 //
 //                                        if (edit.getText().toString().equals("")) {
-//                                            Toast.makeText(Captain_Team_CommissionLevelActivity.this, "数值不能为空", Toast.LENGTH_SHORT).show();
+//                                            ToastUtil.showToast(Captain_Team_CommissionLevelActivity.this, "数值不能为空");
 //                                        } else {
 //                                            initDataAdd(commissionLevelSelectBean.getData().get(postion).getId(), edit.getText().toString());
 //                                        }
@@ -203,7 +203,7 @@ public class Captain_Team_CommissionLevelActivity extends AllActivity implements
 //                                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 //                                    @Override
 //                                    public void onClick(DialogInterface dialog, int which) {
-//                                        Toast.makeText(Captain_Team_CommissionLevelActivity.this, "您已取消修改佣金比例", Toast.LENGTH_SHORT).show();
+//                                        ToastUtil.showToast(Captain_Team_CommissionLevelActivity.this, "您已取消修改佣金比例");
 //                                    }
 //                                });
 //                                builder.setCancelable(true);    //设置按钮是否可以按返回键取消,false则不可以取消
@@ -350,7 +350,7 @@ public class Captain_Team_CommissionLevelActivity extends AllActivity implements
 //                                    @Override
 //                                    public void onClick(DialogInterface dialog, int which) {
 //                                        if (edit.getText().toString().equals("")) {
-//                                            Toast.makeText(Captain_Team_CommissionLevelActivity.this, "数值不能为空", Toast.LENGTH_SHORT).show();
+//                                            ToastUtil.showToast(Captain_Team_CommissionLevelActivity.this, "数值不能为空");
 //                                        } else {
 //                                            initDataAdd(commissionLevelSelectBean.getData().get(postion).getId(), edit.getText().toString());
 //                                        }
@@ -359,7 +359,7 @@ public class Captain_Team_CommissionLevelActivity extends AllActivity implements
 //                                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 //                                    @Override
 //                                    public void onClick(DialogInterface dialog, int which) {
-//                                        Toast.makeText(Captain_Team_CommissionLevelActivity.this, "您已取消修改佣金比例", Toast.LENGTH_SHORT).show();
+//                                        ToastUtil.showToast(Captain_Team_CommissionLevelActivity.this, "您已取消修改佣金比例");
 //                                    }
 //                                });
 //                                builder.setCancelable(true);    //设置按钮是否可以按返回键取消,false则不可以取消

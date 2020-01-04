@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -16,6 +17,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
@@ -26,18 +30,14 @@ import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.database.AddBrokerBean;
 import com.xcy.fzbcity.all.database.BrokerChangeBean;
 import com.xcy.fzbcity.all.persente.SingleClick;
-import com.xcy.fzbcity.all.persente.StatusBar;
 import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.utils.CommonUtil;
 import com.xcy.fzbcity.all.utils.MatcherUtils;
 import com.xcy.fzbcity.all.utils.ToastUtil;
-import com.xcy.fzbcity.all.view.AllActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -237,7 +237,7 @@ public class AddBrokerActivity extends AppCompatActivity implements View.OnClick
     @SingleClick(1000)
     @Override
     public void onClick(View view) {
-
+        hideInput();
         switch (view.getId()) {
             case R.id.add_return:
                 FinalContents.setAddtype1("");
@@ -457,5 +457,16 @@ public class AddBrokerActivity extends AppCompatActivity implements View.OnClick
             add_rb2.setChecked(true);
         }
 
+    }
+
+    /**
+     * 隐藏键盘
+     */
+    protected void hideInput() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        View v = getWindow().peekDecorView();
+        if (null != v) {
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
     }
 }
