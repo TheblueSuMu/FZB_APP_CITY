@@ -61,7 +61,7 @@ public class BannerPagerAdapter  extends PagerAdapter {
     }
     @Override
     public int getCount() {
-        return 500000;
+        return 500000000;
     }
 
     @Override

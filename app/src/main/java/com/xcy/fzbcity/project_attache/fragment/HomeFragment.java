@@ -59,7 +59,6 @@ import com.xcy.fzbcity.all.utils.ToastUtil;
 import com.xcy.fzbcity.all.view.CityWideActivity;
 import com.xcy.fzbcity.all.view.MapHouseActivity;
 import com.xcy.fzbcity.all.view.OverSeaActivity;
-import com.xcy.fzbcity.all.view.SearchInterfaceActivity;
 import com.xcy.fzbcity.all.view.WebViewActivity;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -167,10 +166,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
 
                     if (SharItOff.getShar().equals("隐")) {
                         SharItOff.setShar("显");
-                        ToastUtil.showLongToast(getContext(),"佣金已显示，如需隐藏请摇动");
+                        ToastUtil.showLongToast(getContext(), "佣金已显示，如需隐藏请摇动");
                     } else if (SharItOff.getShar().equals("显")) {
                         SharItOff.setShar("隐");
-                        ToastUtil.showLongToast(getContext(),"佣金已隐藏，如需显示请摇动");
+                        ToastUtil.showLongToast(getContext(), "佣金已隐藏，如需显示请摇动");
                     }
                     Log.i("MyCL", "摇一摇");
                     initHotList();
@@ -266,7 +265,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
 //                startActivity(intent_sojourn);
                 CityContents.setCityType("2");
                 FinalContents.setIfCityType("2");
-                Intent intent = new Intent(view.getContext(),CityWideActivity.class);
+                Intent intent = new Intent(view.getContext(), CityWideActivity.class);
                 startActivity(intent);
             } else if (view.getId() == R.id.home_item_overseas) {
 //                FinalContents.setProjectType("2");
@@ -340,7 +339,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                 if (!citylist.get(options1).getId().equals(FinalContents.getOldCityId())) {
                                     FinalContents.setCityIs("不是当前城市");
                                     SharItOff.setShar("隐");
-                                }else {
+                                } else {
                                     FinalContents.setCityIs("");
                                 }
                                 city.setText(list.get(options1));
@@ -458,6 +457,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                             tvBanner2_S.setVisibility(View.VISIBLE);
                             side_message_no_1.setVisibility(View.GONE);
 
+
                             messagelist2.add(new Bean(R.mipmap.no_information, "暂无数据"));
                             messagelist2.add(new Bean(R.mipmap.no_information, "暂无数据"));
                             messagelist2.add(new Bean(R.mipmap.no_information, "暂无数据"));
@@ -477,12 +477,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
 
                         } else if (messagelist.size() == 1) {
 
-                            Log.i("文字轮播","messagelist.size() == 1");
+                            Log.i("文字轮播", "messagelist.size() == 1");
 
                             tvBanner2.setVisibility(View.VISIBLE);
                             tvBanner2_S.setVisibility(View.INVISIBLE);
                             side_message_no_1.setVisibility(View.GONE);
-                            tvBanner2.stopFlipping();
+                            tvBanner2.setFlipInterval(500000000);
+                            tvBanner2_S.setFlipInterval(500000000);
                             for (int i = 0; i < messagelist.size(); i++) {
                                 if (messagelist.get(i).getType().equals("0")) {
                                     messagelist2.add(new Bean(R.mipmap.give, messagelist.get(i).getTitle()));
@@ -508,17 +509,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                             });
 
                         } else {
-                            Log.i("文字轮播","else");
+                            Log.i("文字轮播", "else");
 
                             tvBanner2.setVisibility(View.VISIBLE);
                             tvBanner2_S.setVisibility(View.VISIBLE);
                             side_message_no_1.setVisibility(View.GONE);
-                            if(messagelist.size() == 2){
-                                tvBanner2.stopFlipping();
-                                tvBanner2_S.stopFlipping();
-                            }else {
-                                tvBanner2.startFlipping();
-                                tvBanner2_S.startFlipping();
+                            if (messagelist.size() == 2) {
+                                tvBanner2.setFlipInterval(500000000);
+                                tvBanner2_S.setFlipInterval(500000000);
+                            } else {
+
                             }
                             //TODO 第一行
                             for (int i = 0; i < messagelist.size(); i++) {
@@ -545,8 +545,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                 }
                             });
 
-                            for (int i = 0; i < messagelist2.size(); ++i){
-                                Log.i("文字轮播","第一行：" + messagelist2.get(i).getName());
+                            for (int i = 0; i < messagelist2.size(); ++i) {
+                                Log.i("文字轮播", "第一行：" + messagelist2.get(i).getName());
                             }
 
                             //TODO 第二行
@@ -584,9 +584,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                     }
                                 }
                             });
-                            Log.i("文字轮播","*********************************************************************");
-                            for (int i = 0; i < messagelist2_S.size(); ++i){
-                                Log.i("文字轮播","第二行：" + messagelist2_S.get(i).getName());
+                            Log.i("文字轮播", "*********************************************************************");
+                            for (int i = 0; i < messagelist2_S.size(); ++i) {
+                                Log.i("文字轮播", "第二行：" + messagelist2_S.get(i).getName());
                             }
                         }
 
@@ -672,7 +672,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                     startActivity(intent);
                                 }
                             });
-                        }else {
+                        } else {
                             banner.setVisibility(View.GONE);
                             home_banner_attache.setVisibility(View.VISIBLE);
                         }

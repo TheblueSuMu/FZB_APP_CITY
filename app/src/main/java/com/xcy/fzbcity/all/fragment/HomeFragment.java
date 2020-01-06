@@ -58,9 +58,7 @@ import com.xcy.fzbcity.all.utils.ToastUtil;
 import com.xcy.fzbcity.all.view.CityWideActivity;
 import com.xcy.fzbcity.all.view.MapHouseActivity;
 import com.xcy.fzbcity.all.view.MyBrokerageActivity;
-import com.xcy.fzbcity.all.view.MyClientActivity;
 import com.xcy.fzbcity.all.view.OverSeaActivity;
-import com.xcy.fzbcity.all.view.SearchInterfaceActivity;
 import com.xcy.fzbcity.all.view.WebViewActivity;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -465,6 +463,8 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                             tvBanner2_S.setVisibility(View.VISIBLE);
                             side_message_no.setVisibility(View.GONE);
 
+
+
                             messagelist2.add(new Bean(R.mipmap.no_information, "暂无数据"));
                             messagelist2.add(new Bean(R.mipmap.no_information, "暂无数据"));
                             messagelist2.add(new Bean(R.mipmap.no_information, "暂无数据"));
@@ -489,7 +489,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                             tvBanner2.setVisibility(View.VISIBLE);
                             tvBanner2_S.setVisibility(View.INVISIBLE);
                             side_message_no.setVisibility(View.GONE);
-                            tvBanner2.stopFlipping();
+                            tvBanner2.setFlipInterval(500000000);
                             for (int i = 0; i < messagelist.size(); i++) {
                                 if (messagelist.get(i).getType().equals("0")) {
                                     messagelist2.add(new Bean(R.mipmap.give, messagelist.get(i).getTitle()));
@@ -521,11 +521,9 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                             tvBanner2_S.setVisibility(View.VISIBLE);
                             side_message_no.setVisibility(View.GONE);
                             if(messagelist.size() == 2){
-                                tvBanner2.stopFlipping();
-                                tvBanner2_S.stopFlipping();
+                                tvBanner2.setFlipInterval(500000000);tvBanner2_S.setFlipInterval(500000000);
                             }else {
-                                tvBanner2.startFlipping();
-                                tvBanner2_S.startFlipping();
+
                             }
                             //TODO 第一行
                             for (int i = 0; i < messagelist.size(); i++) {
