@@ -283,12 +283,18 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
 
             @Override
             public void onMapClick(LatLng latLng) {
-                String s = latLng.toString();
+
+            }
+
+            @Override
+            public boolean onMapPoiClick(MapPoi mapPoi) {
+
+                String s = mapPoi.getPosition().toString();
                 Log.i("地图", "latLng：" + s);
                 mBaiduMap.clear();
                 mBaiduMap = mMapView.getMap();
                 //定义Maker坐标点
-                LatLng point = new LatLng(latLng.latitude, latLng.longitude);
+                LatLng point = new LatLng(mapPoi.getPosition().latitude, mapPoi.getPosition().longitude);
                 //构建Marker图标
                 BitmapDescriptor bitmap = BitmapDescriptorFactory
                         .fromResource(R.drawable.icon_marka);
@@ -298,19 +304,16 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
                         .icon(bitmap);
                 //在地图上添加Marker，并显示
                 mBaiduMap.addOverlay(option);
-                latitude = latLng.latitude;
-                longitude = latLng.longitude;
+                latitude = mapPoi.getPosition().latitude;
+                longitude = mapPoi.getPosition().longitude;
                 //经纬度转地址
                 mCoder.reverseGeoCode(new ReverseGeoCodeOption()
                         .location(point)
                         // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
                         .radius(500));
 
-                latLng1 = latLng;
-            }
+                latLng1 = mapPoi.getPosition();
 
-            @Override
-            public boolean onMapPoiClick(MapPoi mapPoi) {
                 return false;
             }
         };
