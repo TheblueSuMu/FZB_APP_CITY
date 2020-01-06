@@ -140,15 +140,23 @@ public class PurchaseNoticeActivity extends AllActivity implements View.OnClickL
                     @Override
                     public void onNext(HouseBean houseBean) {
                         houseDataData = houseBean.getData();
-                        if (houseDataData.getPropertyHouseList().size() >= 1) {
-                            title.setText(houseDataData.getPropertyHouseList().get(2).getTitle());
-                            time.setText(houseDataData.getPropertyHouseList().get(2).getCreateDate());
-                            content.setText("       " + houseDataData.getPropertyHouseList().get(2).getContent());
-                            talkToolId = houseDataData.getPropertyHouseList().get(2).getId();
-                        } else {
-                            title.setText("");
-                            time.setText("");
-                            content.setText("");
+                        Log.i("购房须知","长度：" + houseDataData.getPropertyHouseList().size());
+                        for (int i = 0; i < houseDataData.getPropertyHouseList().size(); ++i){
+                            Log.i("购房须知","getType：" + houseDataData.getPropertyHouseList().get(i).getType());
+                            if(houseDataData.getPropertyHouseList().get(i).getType().equals("置业流程")){//置业流程
+                                Log.i("购房须知","getTitle：" + houseDataData.getPropertyHouseList().get(i).getTitle());
+                                if(houseDataData.getPropertyHouseList().get(i).getTitle().equals("")){
+                                    title.setText("");
+                                    time.setText("");
+                                    content.setText("");
+                                }else {
+                                    title.setText(houseDataData.getPropertyHouseList().get(i).getTitle());
+                                    time.setText(houseDataData.getPropertyHouseList().get(i).getCreateDate());
+                                    content.setText("       " + houseDataData.getPropertyHouseList().get(i).getContent());
+                                    talkToolId = houseDataData.getPropertyHouseList().get(i).getId();
+                                    break;
+                                }
+                            }
                         }
                     }
 
@@ -175,15 +183,20 @@ public class PurchaseNoticeActivity extends AllActivity implements View.OnClickL
             notice_l1.setVisibility(View.VISIBLE);
             notice_l2.setVisibility(View.INVISIBLE);
             notice_l3.setVisibility(View.INVISIBLE);
-            if (houseDataData.getPropertyHouseList().size() >= 1) {
-                title.setText(houseDataData.getPropertyHouseList().get(2).getTitle());
-                time.setText(houseDataData.getPropertyHouseList().get(2).getCreateDate());
-                content.setText("       " + houseDataData.getPropertyHouseList().get(2).getContent());
-                talkToolId = houseDataData.getPropertyHouseList().get(2).getId();
-            } else {
-                title.setText("");
-                time.setText("");
-                content.setText("");
+            for (int i = 0; i < houseDataData.getPropertyHouseList().size(); ++i){
+                if(houseDataData.getPropertyHouseList().get(i).getType().equals("置业流程")){//置业流程
+                    if(houseDataData.getPropertyHouseList().get(i).getTitle().equals("")){
+                        title.setText("");
+                        time.setText("");
+                        content.setText("");
+                    }else {
+                        title.setText(houseDataData.getPropertyHouseList().get(i).getTitle());
+                        time.setText(houseDataData.getPropertyHouseList().get(i).getCreateDate());
+                        content.setText("       " + houseDataData.getPropertyHouseList().get(i).getContent());
+                        talkToolId = houseDataData.getPropertyHouseList().get(i).getId();
+                        break;
+                    }
+                }
             }
 
         } else if (id == R.id.notice_t2) {
@@ -191,15 +204,20 @@ public class PurchaseNoticeActivity extends AllActivity implements View.OnClickL
             notice_l1.setVisibility(View.INVISIBLE);
             notice_l2.setVisibility(View.VISIBLE);
             notice_l3.setVisibility(View.INVISIBLE);
-            if (houseDataData.getPropertyHouseList().size() >= 2) {
-                title.setText(houseDataData.getPropertyHouseList().get(1).getTitle());
-                time.setText(houseDataData.getPropertyHouseList().get(1).getCreateDate());
-                content.setText("       " + houseDataData.getPropertyHouseList().get(1).getContent());
-                talkToolId = houseDataData.getPropertyHouseList().get(1).getId();
-            } else {
-                title.setText("");
-                time.setText("");
-                content.setText("");
+            for (int i = 0; i < houseDataData.getPropertyHouseList().size(); ++i){
+                if(houseDataData.getPropertyHouseList().get(i).getType().equals("城市介绍")){//城市介绍
+                    if(houseDataData.getPropertyHouseList().get(i).getTitle().equals("")){
+                        title.setText("");
+                        time.setText("");
+                        content.setText("");
+                    }else {
+                        title.setText(houseDataData.getPropertyHouseList().get(i).getTitle());
+                        time.setText(houseDataData.getPropertyHouseList().get(i).getCreateDate());
+                        content.setText("       " + houseDataData.getPropertyHouseList().get(i).getContent());
+                        talkToolId = houseDataData.getPropertyHouseList().get(i).getId();
+                        break;
+                    }
+                }
             }
 
         } else if (id == R.id.notice_t3) {
@@ -207,15 +225,20 @@ public class PurchaseNoticeActivity extends AllActivity implements View.OnClickL
             notice_l1.setVisibility(View.INVISIBLE);
             notice_l2.setVisibility(View.INVISIBLE);
             notice_l3.setVisibility(View.VISIBLE);
-            if (houseDataData.getPropertyHouseList().size() >= 3) {
-                title.setText(houseDataData.getPropertyHouseList().get(0).getTitle());
-                time.setText(houseDataData.getPropertyHouseList().get(0).getCreateDate());
-                content.setText("       " + houseDataData.getPropertyHouseList().get(0).getContent());
-                talkToolId = houseDataData.getPropertyHouseList().get(0).getId();
-            } else {
-                title.setText("");
-                time.setText("");
-                content.setText("");
+            for (int i = 0; i < houseDataData.getPropertyHouseList().size(); ++i){
+                if(houseDataData.getPropertyHouseList().get(i).getType().equals("房企介绍")){//房企介绍
+                    if(houseDataData.getPropertyHouseList().get(i).getTitle().equals("")){
+                        title.setText("");
+                        time.setText("");
+                        content.setText("");
+                    }else {
+                        title.setText(houseDataData.getPropertyHouseList().get(i).getTitle());
+                        time.setText(houseDataData.getPropertyHouseList().get(i).getCreateDate());
+                        content.setText("       " + houseDataData.getPropertyHouseList().get(i).getContent());
+                        talkToolId = houseDataData.getPropertyHouseList().get(i).getId();
+                        break;
+                    }
+                }
             }
 
         } else if (id == R.id.notice_btn) {
