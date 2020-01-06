@@ -82,7 +82,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <GridView
+                <com.xcy.fzbcity.all.utils.MyGridView
                     android:id="@+id/gv_test"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

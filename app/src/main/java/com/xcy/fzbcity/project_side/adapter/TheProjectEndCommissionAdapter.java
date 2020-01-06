@@ -67,7 +67,7 @@ public class TheProjectEndCommissionAdapter extends RecyclerView.Adapter<TheProj
             holder.the_project_end_tv5.setVisibility(View.GONE);
         } else {
             holder.the_project_end_tv5.setVisibility(View.VISIBLE);
-            holder.the_project_end_tv5.setText("秒结：￥" + rowsBeanList.get(position).getSecondsAmount() + "");
+            holder.the_project_end_tv5.setText("秒结：¥" + rowsBeanList.get(position).getSecondsAmount() + "");
         }
 
         if (rowsBeanList.get(position).getTotalAmount().equals("") || rowsBeanList.get(position).getTotalAmount().equals("0") || rowsBeanList.get(position).getTotalAmount().equals("0.00")) {
