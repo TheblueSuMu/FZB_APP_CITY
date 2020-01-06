@@ -2,6 +2,7 @@ package com.xcy.fzbcity.all.view;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -42,17 +43,31 @@ public class AllActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_all);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);      //  TODO    始终竖屏
+
+        if (!this.isTaskRoot()) {
+            Intent mainIntent = getIntent();
+            String action = mainIntent.getAction();
+            if (mainIntent.hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(action)) {
+                finish();
+                return;
+            }
+        }
+
         initView();
 
 
+    }
+
+    @Override
+    public boolean moveTaskToBack(boolean nonRoot) {
+        return super.moveTaskToBack(true);
     }
 
     private void initView() {
         StatusBar.makeStatusBarTransparent(this);
 
 
-
-        Log.i("MyCL","进入initView");
+        Log.i("MyCL", "进入initView");
         if (Build.VERSION.SDK_INT >= 23) {
             //检测是否有写的权限
             int permission = ActivityCompat.checkSelfPermission(AllActivity.this, "android.permission.WRITE_EXTERNAL_STORAGE");
@@ -97,7 +112,6 @@ public class AllActivity extends AppCompatActivity {
         }
 
 
-
     }
 
     @Override
@@ -111,7 +125,7 @@ public class AllActivity extends AppCompatActivity {
                             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//用户同意权限,执行我们的操作
                             } else {//用户拒绝之后,当然我们也可以弹出一个窗口,直接跳转到系统设置页面
                                 //                            ToastUtil.showLongToast(AllActivity.this, "未开启定位权限,请手动到设置去开启权限");
-                                Log.i("权限获取","未开启定位权限,请手动到设置去开启权限");
+                                Log.i("权限获取", "未开启定位权限,请手动到设置去开启权限");
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -121,8 +135,8 @@ public class AllActivity extends AppCompatActivity {
                         try {
                             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//用户同意权限,执行我们的操作
                             } else {//用户拒绝之后,当然我们也可以弹出一个窗口,直接跳转到系统设置页面
-    //                            ToastUtil.showLongToast(AllActivity.this, "未开启相机权限,请手动到设置去开启相机权限");
-                                Log.i("权限获取","未开启相机权限,请手动到设置去开启相机权限");
+                                //                            ToastUtil.showLongToast(AllActivity.this, "未开启相机权限,请手动到设置去开启相机权限");
+                                Log.i("权限获取", "未开启相机权限,请手动到设置去开启相机权限");
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -132,8 +146,8 @@ public class AllActivity extends AppCompatActivity {
                         try {
                             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//用户同意权限,执行我们的操作
                             } else {//用户拒绝之后,当然我们也可以弹出一个窗口,直接跳转到系统设置页面
-    //                            ToastUtil.showLongToast(AllActivity.this, "未开启存储权限,请手动到设置去开启权限");
-                                Log.i("权限获取","未开启存储权限,请手动到设置去开启权限");
+                                //                            ToastUtil.showLongToast(AllActivity.this, "未开启存储权限,请手动到设置去开启权限");
+                                Log.i("权限获取", "未开启存储权限,请手动到设置去开启权限");
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -143,8 +157,8 @@ public class AllActivity extends AppCompatActivity {
                         try {
                             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//用户同意权限,执行我们的操作
                             } else {//用户拒绝之后,当然我们也可以弹出一个窗口,直接跳转到系统设置页面
-    //                            ToastUtil.showLongToast(AllActivity.this, "未开启读取通讯录权限,请手动到设置去开启读取通讯录权限");
-                                Log.i("权限获取","未开启读取通讯录权限,请手动到设置去开启读取通讯录权限");
+                                //                            ToastUtil.showLongToast(AllActivity.this, "未开启读取通讯录权限,请手动到设置去开启读取通讯录权限");
+                                Log.i("权限获取", "未开启读取通讯录权限,请手动到设置去开启读取通讯录权限");
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -185,8 +199,8 @@ public class AllActivity extends AppCompatActivity {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
             if (isShouldHideKeyboard(v, ev)) {
-                boolean res=hideKeyboard(v.getWindowToken());
-                if(res){
+                boolean res = hideKeyboard(v.getWindowToken());
+                if (res) {
                     //隐藏了输入法，则不再分发事件
                     return true;
                 }
@@ -224,6 +238,7 @@ public class AllActivity extends AppCompatActivity {
 
     /**
      * 获取InputMethodManager，隐藏软键盘
+     *
      * @param token
      */
     private boolean hideKeyboard(IBinder token) {
