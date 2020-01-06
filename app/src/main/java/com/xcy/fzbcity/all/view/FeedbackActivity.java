@@ -200,8 +200,9 @@ public class FeedbackActivity extends AllActivity {
 //                                    getAlbum.setType(IMAGE_TYPE);
 //                                    startActivityForResult(getAlbum, IMAGE_CODE);
                                     Log.i("url", "图片");
+                                    int size = 9 - mDatas.size();
                                     EasyPhotos.createAlbum(FeedbackActivity.this, false, GlideEngine.getInstance())//参数说明：上下文，是否显示相机按钮，[配置Glide为图片加载引擎](https://github.com/HuanTanSheng/EasyPhotos/wiki/12-%E9%85%8D%E7%BD%AEImageEngine%EF%BC%8C%E6%94%AF%E6%8C%81%E6%89%80%E6%9C%89%E5%9B%BE%E7%89%87%E5%8A%A0%E8%BD%BD%E5%BA%93)
-                                            .setCount(9)//参数说明：最大可选数，默认1
+                                            .setCount(size)//参数说明：最大可选数，默认1
                                             .start(new SelectCallback() {
                                                 @Override
                                                 public void onResult(ArrayList<Photo> photos, boolean isOriginal) {
