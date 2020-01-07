@@ -972,14 +972,22 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                         share.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                FinalContents.showShare(projectDetailsBean.getData().getProjectListVo().getProjectName(), FinalContents.getAdminUrl() + "/?userId=" + FinalContents.getUserID() + "&id=" + FinalContents.getProjectID()+"&type=1", projectDetailsBean.getData().getProjectListVo().getProductFeature(), FinalContents.getImageUrl() + projectDetailsBean.getData().getProjectListVo().getProjectImg(), FinalContents.getAdminUrl() + "/?userId=" + FinalContents.getUserID() + "&id=" + FinalContents.getProjectID()+"&type=1", ProjectDetails.this);
+                                com.xcy.fzb.all.utils.Item_Share.initDaown( ProjectDetails.this,projectDetailsBean.getData().getProjectListVo().getProjectName(),
+                                        FinalContents.getAdminUrl() + "/?userId=" + FinalContents.getUserID() + "&id=" + FinalContents.getProjectID()+"&type=1",
+                                        projectDetailsBean.getData().getProjectListVo().getProductFeature(), FinalContents.getImageUrl() + projectDetailsBean.getData().
+                                                getProjectListVo().getProjectImg(), FinalContents.getAdminUrl() + "/?userId=" + FinalContents.getUserID() + "&id=" +
+                                                FinalContents.getProjectID()+"&type=1");
                             }
                         });
 
                         project_details_share_all.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                FinalContents.showShare(projectDetailsBean.getData().getProjectListVo().getProjectName(), FinalContents.getAdminUrl() + "/?userId=" + FinalContents.getUserID() + "&id=" + FinalContents.getProjectID()+"&type=1", projectDetailsBean.getData().getProjectListVo().getProductFeature(), FinalContents.getImageUrl() + projectDetailsBean.getData().getProjectListVo().getProjectImg(), FinalContents.getAdminUrl() + "/?userId=" + FinalContents.getUserID() + "&id=" + FinalContents.getProjectID()+"&type=1", ProjectDetails.this);
+                                com.xcy.fzb.all.utils.Item_Share.initDaown( ProjectDetails.this,projectDetailsBean.getData().getProjectListVo().getProjectName(),
+                                        FinalContents.getAdminUrl() + "/?userId=" + FinalContents.getUserID() + "&id=" +
+                                                FinalContents.getProjectID()+"&type=1", projectDetailsBean.getData().getProjectListVo().getProductFeature(),
+                                        FinalContents.getImageUrl() + projectDetailsBean.getData().getProjectListVo().getProjectImg(), FinalContents.getAdminUrl()
+                                                + "/?userId=" + FinalContents.getUserID() + "&id=" + FinalContents.getProjectID()+"&type=1");
                             }
                         });
 

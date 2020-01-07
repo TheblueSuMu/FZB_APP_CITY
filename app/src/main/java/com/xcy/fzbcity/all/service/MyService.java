@@ -838,4 +838,9 @@ public interface MyService {
     //我的界面/打卡记录
     @POST("commissionerSelect/myDate")
     Observable<MyDataStoreBean> getMyDataStore(@Query("userId") String userId);
+
+    //分享记录
+    @POST("commonUpdate/shareLogSave")
+    Observable<ShareLogSaveBean> getShareLogSave(@Query("shareType") String shareType,@Query("projectId") String projectId,@Query("userId") String userId);
+
 }

@@ -141,8 +141,10 @@ public class WebViewActivity extends AllActivity {
                                 public void onClick(View view) {
                                     Log.i("轮播图详情数据","点击分享");
                                     Log.i("轮播图详情数据","图片"+FinalContents.getImageUrl()+newsDetailsBean.getData().getShareImg());
+                                    com.xcy.fzb.all.utils.Item_Share.initDaown(WebViewActivity.this,newsDetailsBean.getData().getTitle(),FinalContents.getAdminUrl()+"/NewsSharing?userId="+FinalContents.getUserID()+
+                                                    "&id="+FinalContents.getNewID(),newsDetailsBean.getData().getProject().getProjectName(),FinalContents.getImageUrl()+newsDetailsBean.getData().getShareImg(),
+                                            FinalContents.getAdminUrl()+"/NewsSharing?userId="+FinalContents.getUserID()+"&id="+FinalContents.getNewID());
 
-                                    FinalContents.showShare(newsDetailsBean.getData().getTitle(),FinalContents.getAdminUrl()+"/NewsSharing?userId="+FinalContents.getUserID()+"&id="+FinalContents.getNewID(),newsDetailsBean.getData().getProject().getProjectName(),FinalContents.getImageUrl()+newsDetailsBean.getData().getShareImg(),FinalContents.getAdminUrl()+"/NewsSharing?userId="+FinalContents.getUserID()+"&id="+FinalContents.getNewID(),WebViewActivity.this);
                                 }
                             });
                             web_call.setOnClickListener(new View.OnClickListener() {

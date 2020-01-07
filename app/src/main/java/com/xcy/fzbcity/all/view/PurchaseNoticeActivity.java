@@ -65,7 +65,7 @@ public class PurchaseNoticeActivity extends AllActivity implements View.OnClickL
 
     }
 
-    private void init_No_Network(){
+    private void init_No_Network() {
         boolean networkAvailable = CommonUtil.isNetworkAvailable(this);
         if (networkAvailable) {
             initView();
@@ -140,16 +140,16 @@ public class PurchaseNoticeActivity extends AllActivity implements View.OnClickL
                     @Override
                     public void onNext(HouseBean houseBean) {
                         houseDataData = houseBean.getData();
-                        Log.i("购房须知","长度：" + houseDataData.getPropertyHouseList().size());
-                        for (int i = 0; i < houseDataData.getPropertyHouseList().size(); ++i){
-                            Log.i("购房须知","getType：" + houseDataData.getPropertyHouseList().get(i).getType());
-                            if(houseDataData.getPropertyHouseList().get(i).getType().equals("置业流程")){//置业流程
-                                Log.i("购房须知","getTitle：" + houseDataData.getPropertyHouseList().get(i).getTitle());
-                                if(houseDataData.getPropertyHouseList().get(i).getTitle().equals("")){
+                        Log.i("购房须知", "长度：" + houseDataData.getPropertyHouseList().size());
+                        for (int i = 0; i < houseDataData.getPropertyHouseList().size(); ++i) {
+                            Log.i("购房须知", "getType：" + houseDataData.getPropertyHouseList().get(i).getType());
+                            if (houseDataData.getPropertyHouseList().get(i).getType().equals("置业流程")) {//置业流程
+                                Log.i("购房须知", "getTitle：" + houseDataData.getPropertyHouseList().get(i).getTitle());
+                                if (houseDataData.getPropertyHouseList().get(i).getTitle().equals("")) {
                                     title.setText("");
                                     time.setText("");
                                     content.setText("");
-                                }else {
+                                } else {
                                     title.setText(houseDataData.getPropertyHouseList().get(i).getTitle());
                                     time.setText(houseDataData.getPropertyHouseList().get(i).getCreateDate());
                                     content.setText("       " + houseDataData.getPropertyHouseList().get(i).getContent());
@@ -183,13 +183,13 @@ public class PurchaseNoticeActivity extends AllActivity implements View.OnClickL
             notice_l1.setVisibility(View.VISIBLE);
             notice_l2.setVisibility(View.INVISIBLE);
             notice_l3.setVisibility(View.INVISIBLE);
-            for (int i = 0; i < houseDataData.getPropertyHouseList().size(); ++i){
-                if(houseDataData.getPropertyHouseList().get(i).getType().equals("置业流程")){//置业流程
-                    if(houseDataData.getPropertyHouseList().get(i).getTitle().equals("")){
+            for (int i = 0; i < houseDataData.getPropertyHouseList().size(); ++i) {
+                if (houseDataData.getPropertyHouseList().get(i).getType().equals("置业流程")) {//置业流程
+                    if (houseDataData.getPropertyHouseList().get(i).getTitle().equals("")) {
                         title.setText("");
                         time.setText("");
                         content.setText("");
-                    }else {
+                    } else {
                         title.setText(houseDataData.getPropertyHouseList().get(i).getTitle());
                         time.setText(houseDataData.getPropertyHouseList().get(i).getCreateDate());
                         content.setText("       " + houseDataData.getPropertyHouseList().get(i).getContent());
@@ -204,13 +204,13 @@ public class PurchaseNoticeActivity extends AllActivity implements View.OnClickL
             notice_l1.setVisibility(View.INVISIBLE);
             notice_l2.setVisibility(View.VISIBLE);
             notice_l3.setVisibility(View.INVISIBLE);
-            for (int i = 0; i < houseDataData.getPropertyHouseList().size(); ++i){
-                if(houseDataData.getPropertyHouseList().get(i).getType().equals("城市介绍")){//城市介绍
-                    if(houseDataData.getPropertyHouseList().get(i).getTitle().equals("")){
+            for (int i = 0; i < houseDataData.getPropertyHouseList().size(); ++i) {
+                if (houseDataData.getPropertyHouseList().get(i).getType().equals("城市介绍")) {//城市介绍
+                    if (houseDataData.getPropertyHouseList().get(i).getTitle().equals("")) {
                         title.setText("");
                         time.setText("");
                         content.setText("");
-                    }else {
+                    } else {
                         title.setText(houseDataData.getPropertyHouseList().get(i).getTitle());
                         time.setText(houseDataData.getPropertyHouseList().get(i).getCreateDate());
                         content.setText("       " + houseDataData.getPropertyHouseList().get(i).getContent());
@@ -225,13 +225,13 @@ public class PurchaseNoticeActivity extends AllActivity implements View.OnClickL
             notice_l1.setVisibility(View.INVISIBLE);
             notice_l2.setVisibility(View.INVISIBLE);
             notice_l3.setVisibility(View.VISIBLE);
-            for (int i = 0; i < houseDataData.getPropertyHouseList().size(); ++i){
-                if(houseDataData.getPropertyHouseList().get(i).getType().equals("房企介绍")){//房企介绍
-                    if(houseDataData.getPropertyHouseList().get(i).getTitle().equals("")){
+            for (int i = 0; i < houseDataData.getPropertyHouseList().size(); ++i) {
+                if (houseDataData.getPropertyHouseList().get(i).getType().equals("房企介绍")) {//房企介绍
+                    if (houseDataData.getPropertyHouseList().get(i).getTitle().equals("")) {
                         title.setText("");
                         time.setText("");
                         content.setText("");
-                    }else {
+                    } else {
                         title.setText(houseDataData.getPropertyHouseList().get(i).getTitle());
                         time.setText(houseDataData.getPropertyHouseList().get(i).getCreateDate());
                         content.setText("       " + houseDataData.getPropertyHouseList().get(i).getContent());
@@ -242,7 +242,9 @@ public class PurchaseNoticeActivity extends AllActivity implements View.OnClickL
             }
 
         } else if (id == R.id.notice_btn) {
-            FinalContents.showShare(title.getText().toString(), FinalContents.getAdminUrl()+"/sellingPoint?" + "&userId=" + FinalContents.getUserID() + "&talkToolId=" + talkToolId, content.getText().toString(), FinalContents.getImageUrl() + houseDataData.getPropertyHouseList().get(0).getShareIcon(), FinalContents.getAdminUrl()+"/sellingPoint?" + "&userId=" + FinalContents.getUserID() + "&talkToolId=" + talkToolId, this);
+            com.xcy.fzb.all.utils.Item_Share.initDaown(this, title.getText().toString(), FinalContents.getAdminUrl() + "/sellingPoint?" + "&userId=" + FinalContents.getUserID() + "&talkToolId=" + talkToolId, content.getText().toString(),
+                    FinalContents.getImageUrl() + houseDataData.getPropertyHouseList().get(0).getShareIcon(), FinalContents.getAdminUrl() + "/sellingPoint?" + "&userId=" + FinalContents.getUserID() + "&talkToolId=" + talkToolId
+            );
         }
     }
 

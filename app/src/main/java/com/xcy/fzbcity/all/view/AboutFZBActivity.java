@@ -148,7 +148,10 @@ public class AboutFZBActivity extends AllActivity implements View.OnClickListene
                 break;
 //                TODO 分享
             case R.id.fzb_fx:
-                FinalContents.showShare("房app下载", FinalContents.getAdminUrl()+"/fangfang/static/down/index.html", "app下载", FinalContents.getImageUrl()+"/fangfang/static/common/images/logo.png", FinalContents.getAdminUrl()+"/fangfang/static/down/index.html", AboutFZBActivity.this);
+//                FinalContents.showShare("房app下载", FinalContents.getAdminUrl()+"/fangfang/static/down/index.html", "app下载",
+//                        FinalContents.getImageUrl()+"/fangfang/static/common/images/logo.png", FinalContents.getAdminUrl()+"/fangfang/static/down/index.html", AboutFZBActivity.this);
+                com.xcy.fzb.all.utils.Item_Share.initDaown(AboutFZBActivity.this,"房app下载", FinalContents.getAdminUrl()+"/fangfang/static/down/index.html", "app下载",
+                        FinalContents.getImageUrl()+"/fangfang/static/common/images/logo.png", FinalContents.getAdminUrl()+"/fangfang/static/down/index.html");
                 break;
 //                TODO 检测版本
             case R.id.fzb_jc:

@@ -34,7 +34,7 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.project_points_item,
-                parent,false);
+                parent, false);
         ViewHolder holder = new ViewHolder(view);
         context = parent.getContext();
         return holder;
@@ -43,22 +43,24 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
-        Glide.with(context).load(FinalContents.getImageUrl()+rows.get(position).getImg()).into(holder.project_points_img);
+        Glide.with(context).load(FinalContents.getImageUrl() + rows.get(position).getImg()).into(holder.project_points_img);
         holder.project_points_title.setText(rows.get(position).getTitle());
         holder.project_points_message.setText(rows.get(position).getContent());
-        Log.i("xxcl","我从这里走过"+rows.get(position).getTitle());
+        Log.i("xxcl", "我从这里走过" + rows.get(position).getTitle());
         holder.project_points_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FinalContents.showShare(rows.get(position).getTitle(),FinalContents.getAdminUrl()+"/sellingPoint?"+"&userId="+FinalContents.getUserID()+"&talkToolId="+rows.get(position).getId(),rows.get(position).getContent(),FinalContents.getImageUrl()+rows.get(position).getImg(),FinalContents.getAdminUrl()+"/sellingPoint?"+"&userId="+FinalContents.getUserID()+"&talkToolId="+rows.get(position).getId(),context);
+                com.xcy.fzb.all.utils.Item_Share.initDaown(context, rows.get(position).getTitle(), FinalContents.getAdminUrl() + "/sellingPoint?" + "&userId=" + FinalContents.getUserID() + "&talkToolId=" +
+                        rows.get(position).getId(), rows.get(position).getContent(), FinalContents.getImageUrl() + rows.get(position).getImg(), FinalContents.getAdminUrl() +
+                        "/sellingPoint?" + "&userId=" + FinalContents.getUserID() + "&talkToolId=" + rows.get(position).getId());
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, WebActivity.class);
-                intent.putExtra("webUrl",FinalContents.getAdminUrl()+"/sellingPoint?"+"&userId="+FinalContents.getUserID()+"&talkToolId="+rows.get(position).getId());
-                intent.putExtra("title","海报详情");
+                intent.putExtra("webUrl", FinalContents.getAdminUrl() + "/sellingPoint?" + "&userId=" + FinalContents.getUserID() + "&talkToolId=" + rows.get(position).getId());
+                intent.putExtra("title", "海报详情");
                 FinalContents.setTalkToolId(rows.get(position).getId());
                 context.startActivity(intent);
             }

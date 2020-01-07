@@ -4,8 +4,12 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
+import com.xcy.fzbcity.all.modle.ShareLogSaveBean;
+import com.xcy.fzbcity.all.service.MyService;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -13,8 +17,21 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.wechat.favorite.WechatFavorite;
+import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.moments.WechatMoments;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * 创建：Sun
@@ -24,7 +41,7 @@ public class FinalContents {
     public static final String SP_FILE_NAME = "fzb";
     public static final String SP_LOGIN_NAME = "fzbLogin";
 
-//    static String ImageUrl = "http://192.168.0.128:8081";
+    //    static String ImageUrl = "http://192.168.0.128:8081";
 //    static String ImageUrl = "http://39.98.173.250:8081";
 //    static String ImageUrl = "http://test.fangzuobiao.com:88";
     static String ImageUrl = "http://yanshi.fangzuobiao.com:88";
@@ -37,7 +54,7 @@ public class FinalContents {
 //    static String ImageUrl = "http://39.98.224.67:8080";
 //    static String ImageUrl = "http://admin.fangzuobiao.com:88";
 
-//    static String AdminUrl = "http://admin.fangzuobiao.com:88";
+    //    static String AdminUrl = "http://admin.fangzuobiao.com:88";
 //    static String AdminUrl = "http://city.fangzuobiao.com:88";
     static String AdminUrl = "http://yanshi.fangzuobiao.com:88";
 //    static String AdminUrl = "http://sojo.fangzuobiao.com:88";
@@ -59,7 +76,7 @@ public class FinalContents {
         ImageUrl = imageUrl;
     }
 
-//    static String BaseUrl = "http://192.168.0.128:8081/fangfang/app/v1/";
+    //    static String BaseUrl = "http://192.168.0.128:8081/fangfang/app/v1/";
 //    static String BaseUrl = "http://39.98.173.250:8081/fangfang/app/v1/";
 //    static String BaseUrl = "http://test.fangzuobiao.com:88/fangfang/app/v1/";
     static String BaseUrl = "http://yanshi.fangzuobiao.com:88/fangfang/app/v1/";
@@ -182,7 +199,7 @@ public class FinalContents {
 
     static String Details = "";
 
-    static String JJrID ="";
+    static String JJrID = "";
 
     static int Index = -1;
     static String ManageFlag = "";
@@ -522,6 +539,7 @@ public class FinalContents {
     public static String getZyHome() {
         return zyHome;
     }
+
     public static void setZyHome(String zyHome) {
         FinalContents.zyHome = zyHome;
     }
@@ -589,6 +607,7 @@ public class FinalContents {
     public static void setImage2(String image2) {
         Image2 = image2;
     }
+
     public static String getStoreChange() {
         return StoreChange;
     }
@@ -693,6 +712,7 @@ public class FinalContents {
     public static void setRouteTimeId(String routeTimeId) {
         FinalContents.routeTimeId = routeTimeId;
     }
+
     public static String getIdentity() {
         return identity;
     }
@@ -1036,11 +1056,12 @@ public class FinalContents {
         FinalContents.cityID = cityID;
     }
 
-    public static void showShare(String title, String titleUrl, String text, String imagePath, String url, Context context) {
+    public static void showShare(String platform,String title, String titleUrl, String text, String imagePath, String url, Context context) {
         OnekeyShare oks = new OnekeyShare();
         //关闭sso授权
         oks.disableSSOWhenAuthorize();
 
+        oks.setPlatform(platform);
         // title标题，微信、QQ和QQ空间等平台使用
         oks.setTitle(title);
         // titleUrl QQ和QQ空间跳转链接
@@ -1054,17 +1075,71 @@ public class FinalContents {
             Bitmap bmp = BitmapFactory.decodeResource(res, R.mipmap.logo_garden);
             oks.setImageData(bmp);
         }else if(imagePath != null){
-//            Bitmap bitmap = returnBitMap(imagePath);
-//            byte[] bytes = bitmap2Bytes(bitmap, 32);
-//            Bitmap bitmap2 = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
             oks.setImageUrl(imagePath); //网络地址
         }else if (imagePath.equals("") || imagePath == null ){
             oks.setImageUrl(FinalContents.getImageUrl()+"/fangfang/static/common/images/logo.png");
         }
+        oks.setCallback(new PlatformActionListener() {
+            @Override
+            public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                // TODO 分享成功后的操作或者提示
+                if (platform.equals(WechatMoments.NAME)) {
+                    initShare("微信朋友圈");
+                } else if (platform.equals(Wechat.NAME)) {
+                    initShare("微信朋友");
+                }else if (platform.equals(WechatFavorite.NAME)){
+                    initShare("微信收藏");
+                }
+            }
+
+            @Override
+            public void onError(Platform platform, int i, Throwable throwable) {
+                // TODO 失败，打印throwable为错误码
+            }
+
+            @Override
+            public void onCancel(Platform platform, int i) {
+                // TODO 分享取消操作
+            }
+        });
         // url在微信、微博，Facebook等平台中使用
         oks.setUrl(url);
         // 启动分享GUI
         oks.show(context);
+
+
+    }
+
+    public static void initShare(String shareType){
+        Retrofit.Builder builder = new Retrofit.Builder();
+        builder.baseUrl(FinalContents.getBaseUrl());
+        builder.addConverterFactory(GsonConverterFactory.create());
+        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+        Retrofit build = builder.build();
+        MyService fzbInterface = build.create(MyService.class);
+        Observable<ShareLogSaveBean> clientFragment = fzbInterface.getShareLogSave(shareType,FinalContents.getProjectID(),FinalContents.getUserID());
+        clientFragment.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ShareLogSaveBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(ShareLogSaveBean shareLogSaveBean) {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("分享", "分享记录错误信息" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     /**
@@ -1094,6 +1169,7 @@ public class FinalContents {
 
     /**
      * Bitmap转换成byte[]并且进行压缩,压缩到不大于maxkb
+     *
      * @param bitmap
      * @param maxkb
      * @return
@@ -1102,7 +1178,7 @@ public class FinalContents {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);
         int options = 100;
-        while (output.toByteArray().length > maxkb&& options != 10) {
+        while (output.toByteArray().length > maxkb && options != 10) {
             output.reset(); //清空output
             bitmap.compress(Bitmap.CompressFormat.JPEG, options, output);//这里压缩options%，把压缩后的数据存放到output中
             options -= 10;

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/btn_take_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/report_shape"
+        android:textColor="#334485"
+        android:paddingBottom="30dp"
+        android:textStyle="bold">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:text="分享至:"
+            android:textColor="#ff111111"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/item_share_1"
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@mipmap/weixin" />
+                <TextView
+                    android:layout_marginTop="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="微信好友"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="#ff111111"
+                    android:textSize="11sp"
+                    />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/item_share_2"
+                android:layout_marginLeft="43dp"
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@mipmap/pengyouquan" />
+                <TextView
+                    android:layout_marginTop="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="朋友圈"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="#ff111111"
+                    android:textSize="11sp"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/item_share_3"
+                android:layout_marginLeft="43dp"
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@mipmap/shouchang" />
+                <TextView
+                    android:layout_marginTop="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="微信收藏"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="#ff111111"
+                    android:textSize="11sp"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+     
+     
+
+    <Button
+        android:id="@+id/item_share_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/report_shape"
+        android:text="取消"
+        android:textColor="#666666"
+        android:textStyle="bold" />
+
+</LinearLayout>

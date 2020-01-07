@@ -58,7 +58,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder>{
         holder.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FinalContents.showShare(rows.get(position).getTitle(),FinalContents.getAdminUrl()+"/VideoSharing?"+"&userId="+FinalContents.getUserID()+"&talkToolId="+rows.get(position).getId(),rows.get(position).getContent(),FinalContents.getImageUrl()+rows.get(position).getShareIcon(),FinalContents.getAdminUrl()+"/VideoSharing?"+"&userId="+FinalContents.getUserID()+"&talkToolId="+rows.get(position).getId(),context);
+                com.xcy.fzb.all.utils.Item_Share.initDaown(context,rows.get(position).getTitle(),FinalContents.getAdminUrl()+"/VideoSharing?"+"&userId="+FinalContents.getUserID()+"&talkToolId="+
+                        rows.get(position).getId(),rows.get(position).getContent(),FinalContents.getImageUrl()+rows.get(position).getShareIcon(),FinalContents.getAdminUrl()+"/VideoShar" +
+                        "ing?"+"&userId="+FinalContents.getUserID()+"&talkToolId="+rows.get(position).getId());
             }
         });
     }
