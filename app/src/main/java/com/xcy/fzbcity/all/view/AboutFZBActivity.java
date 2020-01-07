@@ -210,13 +210,13 @@ public class AboutFZBActivity extends AllActivity implements View.OnClickListene
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(AboutFZBActivity.this);
                             builder1.setTitle("提示");
                             builder1.setMessage("是否更新当前版本");
-                            builder1.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            /*builder1.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     AllActivity.exit = true;
                                     finish();
                                 }
-                            });
+                            });*/
                             builder1.setPositiveButton("更新", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

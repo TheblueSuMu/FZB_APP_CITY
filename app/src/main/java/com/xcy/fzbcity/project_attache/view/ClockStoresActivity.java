@@ -182,6 +182,8 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
     private int hour;
     private int second;
     private long l;
+    private long timeStamp;
+    private long createTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -394,7 +396,7 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
 //                            confirm_the_visit_gv.setVisibility(View.GONE);
 //                            store_details_img_btn.setVisibility(View.GONE);
 //                        } else {
-                            initDataS();
+                        initDataS();
 //                        }
 
                     }
@@ -487,8 +489,11 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
                 store_details_img_btn_tv1.setVisibility(View.VISIBLE);
                 store_details_img_btn_tv2.setVisibility(View.VISIBLE);
                 store_details_img_btn_tv1.setText("出店打卡");
-                long timeStamp = System.currentTimeMillis();//获取时间戳
-                long createTime = data.getRows().get(0).getCreateTime();
+                //获取时间戳
+                timeStamp = System.currentTimeMillis();
+                //最后一个出店打卡时间戳
+                createTime = data.getRows().get(data.getRows().size() - 1).getCreateTime();
+                //时间戳差
                 l = timeStamp - createTime;
                 StartTime();
                 Glide.with(ClockStoresActivity.this).load(R.mipmap.dakabeijing).into(store_details_img_btn);//出店打卡
@@ -688,7 +693,7 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
 
                     @Override
                     public void onError(Throwable throwable) {
-                        ToastUtil.showLongToast(ClockStoresActivity.this,"数据异常请联系管理员");
+                        ToastUtil.showLongToast(ClockStoresActivity.this, "数据异常请联系管理员");
                         Log.i("MyCL", "门店打卡错误信息：" + throwable.getMessage());
                     }
 

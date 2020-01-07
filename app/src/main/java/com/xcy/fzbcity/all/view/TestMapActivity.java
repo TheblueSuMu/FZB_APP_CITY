@@ -291,7 +291,7 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
                 LatLng point = new LatLng(latLng.latitude, latLng.longitude);
                 //构建Marker图标
                 BitmapDescriptor bitmap = BitmapDescriptorFactory
-                        .fromResource(R.drawable.icon_marka);
+                        .fromResource(R.mipmap.pin_red2x);
                 //构建MarkerOption，用于在地图上添加Marker
                 OverlayOptions option = new MarkerOptions()
                         .position(point)
@@ -320,7 +320,7 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
                 LatLng point = new LatLng(mapPoi.getPosition().latitude, mapPoi.getPosition().longitude);
                 //构建Marker图标
                 BitmapDescriptor bitmap = BitmapDescriptorFactory
-                        .fromResource(R.drawable.icon_marka);
+                        .fromResource(R.mipmap.pin_red2x);
                 //构建MarkerOption，用于在地图上添加Marker
                 OverlayOptions option = new MarkerOptions()
                         .position(point)
@@ -469,7 +469,7 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
         LatLng point = new LatLng(allPoi.get(position).getLocation().latitude, allPoi.get(position).getLocation().longitude);
         //构建Marker图标
         BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.drawable.icon_marka);
+                .fromResource(R.mipmap.pin_red2x);
         //构建MarkerOption，用于在地图上添加Marker
         OverlayOptions option = new MarkerOptions()
                 .position(point)
