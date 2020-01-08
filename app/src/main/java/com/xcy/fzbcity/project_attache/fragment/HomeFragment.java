@@ -223,7 +223,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
         textView2 = view.findViewById(R.id.home_item_overseas);
         textView3 = view.findViewById(R.id.home_item_client);
         textView4 = view.findViewById(R.id.home_item_brokerage);
-        city = view.findViewById(R.id.home_city_selector);
+        city = view.findViewById(R.id.attache_home_city_selector);
         side_message_no_1 = view.findViewById(R.id.side_message_no_1);
 
         city.setText(FinalContents.getCityName());

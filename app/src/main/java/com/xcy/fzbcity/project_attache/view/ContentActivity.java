@@ -52,6 +52,9 @@ public class ContentActivity extends AllActivity {
         content_ll1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                content_ll2.setClickable(false);
+                content_ll3.setClickable(false);
+                content_ll4.setClickable(false);
                 intent = new Intent(ContentActivity.this, AddCompanyActivity.class);
                 startActivity(intent);
                 finish();
@@ -60,6 +63,9 @@ public class ContentActivity extends AllActivity {
         content_ll2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                content_ll1.setClickable(false);
+                content_ll3.setClickable(false);
+                content_ll4.setClickable(false);
                 intent = new Intent(ContentActivity.this, AddStoreActivity.class);
                 FinalContents.setStoreChange("");
                 startActivity(intent);
@@ -70,6 +76,9 @@ public class ContentActivity extends AllActivity {
         content_ll3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                content_ll2.setClickable(false);
+                content_ll1.setClickable(false);
+                content_ll4.setClickable(false);
                 intent = new Intent(ContentActivity.this, AddBrokerActivity.class);
                 startActivity(intent);
                 finish();
@@ -79,6 +88,9 @@ public class ContentActivity extends AllActivity {
             @Override
             public void onClick(View view) {
 //                CityContents.setStore("1");
+                content_ll2.setClickable(false);
+                content_ll1.setClickable(false);
+                content_ll3.setClickable(false);
                 intent = new Intent(ContentActivity.this, StoreListActivity.class);
                 FinalContents.setCompanyId("");
                 FinalContents.setMyAddType("");

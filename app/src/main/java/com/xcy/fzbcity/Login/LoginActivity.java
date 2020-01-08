@@ -159,6 +159,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
     private AVLoadingIndicatorView avi;
     private RelativeLayout avi_login_rl;
     private CheckBox login_select_password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

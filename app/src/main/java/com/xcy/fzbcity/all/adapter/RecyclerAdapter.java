@@ -65,7 +65,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        Glide.with(context).load(FinalContents.getImageUrl() + beanList.get(position).getProjectImg()).into(holder.imageAvatar);
+        Glide.with(holder.itemView.getContext()).load(FinalContents.getImageUrl() + beanList.get(position).getProjectImg()).into(holder.imageAvatar);
         holder.nameText.setText("[" + beanList.get(position).getArea() + "]" + beanList.get(position).getProjectName());
 
         String ids = beanList.get(position).getProductFeature();//从pd里取出字符串
@@ -206,7 +206,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
             //注意这里可能需要import com.example.lenovo.myrecyclerview.R; 才能使用R.id
-            imageAvatar = itemView.findViewById(R.id.ImageView);
+            imageAvatar = itemView.findViewById(R.id.ImageView_S);
             nameText = (TextView) itemView.findViewById(R.id.TextViewName);
             tagView = itemView.findViewById(R.id.tagView);
             chick = (TextView) itemView.findViewById(R.id.chick);

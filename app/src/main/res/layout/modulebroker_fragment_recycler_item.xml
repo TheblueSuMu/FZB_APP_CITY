@@ -16,7 +16,7 @@
         android:layout_marginLeft="15dp">
 
         <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/ImageView"
+            android:id="@+id/ImageView_S"
             android:layout_width="130dp"
             android:layout_height="100dp"
             android:layout_margin="5dp"
@@ -53,7 +53,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="2dp"
-            android:layout_toRightOf="@id/ImageView"
+            android:layout_toRightOf="@id/ImageView_S"
             android:text=""
             android:textColor="#ff111111"
             android:textSize="15sp" />
@@ -65,7 +65,7 @@
             android:layout_below="@id/TextViewName"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_toRightOf="@id/ImageView"
+            android:layout_toRightOf="@id/ImageView_S"
             android:text="标签"
             android:textColor="#ff8296aa"
             app:container_background_color="#fff"
@@ -88,7 +88,7 @@
             android:layout_below="@id/tagView"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_toRightOf="@id/ImageView">
+            android:layout_toRightOf="@id/ImageView_S">
 
             <TextView
                 android:id="@+id/chick"
@@ -135,7 +135,7 @@
             android:layout_below="@id/www"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
-            android:layout_toRightOf="@id/ImageView">
+            android:layout_toRightOf="@id/ImageView_S">
 
             <TextView
                 android:id="@+id/price"
