@@ -36,6 +36,7 @@ import com.xcy.fzbcity.all.persente.SingleClick;
 import com.xcy.fzbcity.all.persente.StatusBar;
 import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.utils.CommonUtil;
+import com.xcy.fzbcity.all.utils.Item_Share;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import java.io.ByteArrayOutputStream;
@@ -150,7 +151,7 @@ public class AboutFZBActivity extends AllActivity implements View.OnClickListene
             case R.id.fzb_fx:
 //                FinalContents.showShare("房app下载", FinalContents.getAdminUrl()+"/fangfang/static/down/index.html", "app下载",
 //                        FinalContents.getImageUrl()+"/fangfang/static/common/images/logo.png", FinalContents.getAdminUrl()+"/fangfang/static/down/index.html", AboutFZBActivity.this);
-                com.xcy.fzb.all.utils.Item_Share.initDaown(AboutFZBActivity.this,"房app下载", FinalContents.getAdminUrl()+"/fangfang/static/down/index.html", "app下载",
+                Item_Share.initDaown(AboutFZBActivity.this,"房app下载", FinalContents.getAdminUrl()+"/fangfang/static/down/index.html", "app下载",
                         FinalContents.getImageUrl()+"/fangfang/static/common/images/logo.png", FinalContents.getAdminUrl()+"/fangfang/static/down/index.html");
                 break;
 //                TODO 检测版本

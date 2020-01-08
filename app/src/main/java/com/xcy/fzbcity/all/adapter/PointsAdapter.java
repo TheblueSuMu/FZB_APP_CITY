@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.modle.SellingPointsBean;
+import com.xcy.fzbcity.all.utils.Item_Share;
 import com.xcy.fzbcity.all.view.WebActivity;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
         holder.project_points_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                com.xcy.fzb.all.utils.Item_Share.initDaown(context, rows.get(position).getTitle(), FinalContents.getAdminUrl() + "/sellingPoint?" + "&userId=" + FinalContents.getUserID() + "&talkToolId=" +
+                Item_Share.initDaown(context, rows.get(position).getTitle(), FinalContents.getAdminUrl() + "/sellingPoint?" + "&userId=" + FinalContents.getUserID() + "&talkToolId=" +
                         rows.get(position).getId(), rows.get(position).getContent(), FinalContents.getImageUrl() + rows.get(position).getImg(), FinalContents.getAdminUrl() +
                         "/sellingPoint?" + "&userId=" + FinalContents.getUserID() + "&talkToolId=" + rows.get(position).getId());
             }

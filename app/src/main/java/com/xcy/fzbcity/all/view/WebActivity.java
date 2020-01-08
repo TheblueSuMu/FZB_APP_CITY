@@ -2,7 +2,6 @@ package com.xcy.fzbcity.all.view;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,7 +21,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
@@ -31,6 +29,7 @@ import com.xcy.fzbcity.all.modle.ProjectTalkToolShareBean;
 import com.xcy.fzbcity.all.persente.StatusBar;
 import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.utils.CommonUtil;
+import com.xcy.fzbcity.all.utils.Item_Share;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import java.io.File;
@@ -197,7 +196,7 @@ public class WebActivity extends AllActivity {
                         share.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                com.xcy.fzb.all.utils.Item_Share.initDaown(WebActivity.this,projectTalkToolShareBean.getData().getTalkToolInfo().getTitle(), webUrl, titleUrl,
+                                Item_Share.initDaown(WebActivity.this,projectTalkToolShareBean.getData().getTalkToolInfo().getTitle(), webUrl, titleUrl,
                                         FinalContents.getImageUrl() + projectTalkToolShareBean.getData().getTalkToolInfo().getShareIcon(), webUrl);
                             }
                         });

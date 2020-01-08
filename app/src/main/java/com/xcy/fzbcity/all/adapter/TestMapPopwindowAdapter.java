@@ -5,13 +5,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.xcy.fzbcity.R;
 
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class TestMapPopwindowAdapter extends RecyclerView.Adapter<TestMapPopwindowAdapter.TestMapPopwindowViewHolder> {
 
@@ -39,14 +39,26 @@ public class TestMapPopwindowAdapter extends RecyclerView.Adapter<TestMapPopwind
     @Override
     public void onBindViewHolder(@NonNull TestMapPopwindowViewHolder holder, final int position) {
 
-        if(allPoi.get(position).getName().equals("") || allPoi.get(position).getArea().equals("")){
+        if (allPoi.get(position).getName().equals("")) {
             holder.textView1.setText(allPoi.get(position).getAddress());
-        }else {
-            holder.textView1.setText(allPoi.get(position).getName() + "(" + allPoi.get(position).getArea() + ")");
+        } else {
+            if (allPoi.get(position).getArea().equals("")) {
+                holder.textView1.setText(allPoi.get(position).getName());
+            } else {
+                holder.textView1.setText(allPoi.get(position).getName() + "(" + allPoi.get(position).getArea() + ")");
+            }
         }
-        if(allPoi.get(position).getAddress().equals("")){
-            holder.textView2.setText(allPoi.get(position).getName() + "(" + allPoi.get(position).getArea() + ")");
-        }else {
+        if (allPoi.get(position).getAddress().equals("")) {
+            if (allPoi.get(position).getName().equals("")) {
+                holder.textView1.setText(allPoi.get(position).getAddress());
+            } else {
+                if (allPoi.get(position).getArea().equals("")) {
+                    holder.textView1.setText(allPoi.get(position).getName());
+                } else {
+                    holder.textView2.setText(allPoi.get(position).getName() + "(" + allPoi.get(position).getArea() + ")");
+                }
+            }
+        } else {
             holder.textView2.setText(allPoi.get(position).getAddress());
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {

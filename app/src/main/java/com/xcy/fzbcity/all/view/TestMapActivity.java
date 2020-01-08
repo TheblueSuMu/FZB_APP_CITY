@@ -423,7 +423,6 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
                     //address
                     Log.i("经纬度", "++++++++++++++++++++++++++++++++++++++++++++++++" + i + "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                 }
-
                 LinearLayoutManager manager = new LinearLayoutManager(TestMapActivity.this);
                 manager.setOrientation(LinearLayoutManager.VERTICAL);
                 recyclerView.setLayoutManager(manager);

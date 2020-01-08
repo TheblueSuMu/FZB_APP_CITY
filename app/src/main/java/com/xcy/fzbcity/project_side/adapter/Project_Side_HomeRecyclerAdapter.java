@@ -213,7 +213,7 @@ public class Project_Side_HomeRecyclerAdapter extends RecyclerView.Adapter<Proje
         public ViewHolder(View itemView) {
             super(itemView);
             //注意这里可能需要import com.example.lenovo.myrecyclerview.R; 才能使用R.id
-            imageAvatar =  itemView.findViewById(R.id.ImageView);
+            imageAvatar =  itemView.findViewById(R.id.ImageView_S);
             nameText = (TextView) itemView.findViewById(R.id.TextViewName);
             tagView =  itemView.findViewById(R.id.tagView);
             chick = (TextView) itemView.findViewById(R.id.chick);

@@ -33,14 +33,14 @@ public class TextBannerAdapter_S extends XMarqueeViewAdapter<Bean_S> {
     @Override
     public View onCreateView(XMarqueeView parent) {
         //跑马灯单个显示条目布局，自定义
-        return LayoutInflater.from(parent.getContext()).inflate(R.layout.item_text_marqueeview, null);
+        return LayoutInflater.from(parent.getContext()).inflate(R.layout.item_text_marqueeview_s, null);
     }
 
     @Override
     public void onBindView(View parent, View view, final int position) {
         //布局内容填充
-        TextView text = (TextView) view.findViewById(R.id.textbanner);
-        ImageView image =  view.findViewById(R.id.imagebanner);
+        TextView text = (TextView) view.findViewById(R.id.textbanner_s);
+        ImageView image =  view.findViewById(R.id.imagebanner_s);
         text.setText(mDatas.get(position).getName());
         if(mDatas.get(position).getPic() == R.mipmap.no_information){
             image.setVisibility(View.GONE);
