@@ -22,6 +22,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.xcy.fzbcity.all.utils.Item_Share;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -197,7 +199,7 @@ public class WebActivity extends AllActivity {
                         share.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                com.xcy.fzb.all.utils.Item_Share.initDaown(WebActivity.this,projectTalkToolShareBean.getData().getTalkToolInfo().getTitle(), webUrl, titleUrl,
+                                Item_Share.initDaown(WebActivity.this,projectTalkToolShareBean.getData().getTalkToolInfo().getTitle(), webUrl, titleUrl,
                                         FinalContents.getImageUrl() + projectTalkToolShareBean.getData().getTalkToolInfo().getShareIcon(), webUrl);
                             }
                         });

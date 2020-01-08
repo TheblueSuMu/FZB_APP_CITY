@@ -39,14 +39,26 @@ public class TestMapPopwindowAdapter extends RecyclerView.Adapter<TestMapPopwind
     @Override
     public void onBindViewHolder(@NonNull TestMapPopwindowViewHolder holder, final int position) {
 
-        if(allPoi.get(position).getName().equals("") || allPoi.get(position).getArea().equals("")){
+        if (allPoi.get(position).getName().equals("")) {
             holder.textView1.setText(allPoi.get(position).getAddress());
-        }else {
-            holder.textView1.setText(allPoi.get(position).getName() + "(" + allPoi.get(position).getArea() + ")");
+        } else {
+            if (allPoi.get(position).getArea().equals("")) {
+                holder.textView1.setText(allPoi.get(position).getName());
+            } else {
+                holder.textView1.setText(allPoi.get(position).getName() + "(" + allPoi.get(position).getArea() + ")");
+            }
         }
-        if(allPoi.get(position).getAddress().equals("")){
-            holder.textView2.setText(allPoi.get(position).getName() + "(" + allPoi.get(position).getArea() + ")");
-        }else {
+        if (allPoi.get(position).getAddress().equals("")) {
+            if (allPoi.get(position).getName().equals("")) {
+                holder.textView1.setText(allPoi.get(position).getAddress());
+            } else {
+                if (allPoi.get(position).getArea().equals("")) {
+                    holder.textView1.setText(allPoi.get(position).getName());
+                } else {
+                    holder.textView2.setText(allPoi.get(position).getName() + "(" + allPoi.get(position).getArea() + ")");
+                }
+            }
+        } else {
             holder.textView2.setText(allPoi.get(position).getAddress());
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {

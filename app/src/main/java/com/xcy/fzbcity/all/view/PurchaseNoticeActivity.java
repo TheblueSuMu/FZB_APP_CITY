@@ -22,6 +22,7 @@ import com.xcy.fzbcity.all.persente.SingleClick;
 import com.xcy.fzbcity.all.persente.StatusBar;
 import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.utils.CommonUtil;
+import com.xcy.fzbcity.all.utils.Item_Share;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import io.reactivex.Observable;
@@ -242,7 +243,7 @@ public class PurchaseNoticeActivity extends AllActivity implements View.OnClickL
             }
 
         } else if (id == R.id.notice_btn) {
-            com.xcy.fzb.all.utils.Item_Share.initDaown(this, title.getText().toString(), FinalContents.getAdminUrl() + "/sellingPoint?" + "&userId=" + FinalContents.getUserID() + "&talkToolId=" + talkToolId, content.getText().toString(),
+            Item_Share.initDaown(this, title.getText().toString(), FinalContents.getAdminUrl() + "/sellingPoint?" + "&userId=" + FinalContents.getUserID() + "&talkToolId=" + talkToolId, content.getText().toString(),
                     FinalContents.getImageUrl() + houseDataData.getPropertyHouseList().get(0).getShareIcon(), FinalContents.getAdminUrl() + "/sellingPoint?" + "&userId=" + FinalContents.getUserID() + "&talkToolId=" + talkToolId
             );
         }

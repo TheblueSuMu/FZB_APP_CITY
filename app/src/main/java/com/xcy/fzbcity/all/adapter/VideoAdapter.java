@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.modle.SellingPointsBean;
+import com.xcy.fzbcity.all.utils.Item_Share;
 
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder>{
         holder.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                com.xcy.fzb.all.utils.Item_Share.initDaown(context,rows.get(position).getTitle(),FinalContents.getAdminUrl()+"/VideoSharing?"+"&userId="+FinalContents.getUserID()+"&talkToolId="+
+                Item_Share.initDaown(context,rows.get(position).getTitle(),FinalContents.getAdminUrl()+"/VideoSharing?"+"&userId="+FinalContents.getUserID()+"&talkToolId="+
                         rows.get(position).getId(),rows.get(position).getContent(),FinalContents.getImageUrl()+rows.get(position).getShareIcon(),FinalContents.getAdminUrl()+"/VideoShar" +
                         "ing?"+"&userId="+FinalContents.getUserID()+"&talkToolId="+rows.get(position).getId());
             }

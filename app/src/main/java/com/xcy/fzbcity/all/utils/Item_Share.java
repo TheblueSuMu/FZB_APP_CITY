@@ -1,4 +1,4 @@
-package com.xcy.fzb.all.utils;
+package com.xcy.fzbcity.all.utils;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,16 +8,13 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.api.FinalContents;
-import com.xcy.fzbcity.all.view.AboutFZBActivity;
 
 import cn.sharesdk.wechat.favorite.WechatFavorite;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
-import cn.sharesdk.wechat.utils.WechatClientNotExistException;
 
 public class Item_Share {
 

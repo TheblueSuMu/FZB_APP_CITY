@@ -61,6 +61,7 @@ import com.xcy.fzbcity.all.persente.StatusBar;
 import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.utils.CommonUtil;
 import com.xcy.fzbcity.all.utils.DetailsData;
+import com.xcy.fzbcity.all.utils.Item_Share;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -972,7 +973,7 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                         share.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                com.xcy.fzb.all.utils.Item_Share.initDaown( ProjectDetails.this,projectDetailsBean.getData().getProjectListVo().getProjectName(),
+                                Item_Share.initDaown( ProjectDetails.this,projectDetailsBean.getData().getProjectListVo().getProjectName(),
                                         FinalContents.getAdminUrl() + "/?userId=" + FinalContents.getUserID() + "&id=" + FinalContents.getProjectID()+"&type=1",
                                         projectDetailsBean.getData().getProjectListVo().getProductFeature(), FinalContents.getImageUrl() + projectDetailsBean.getData().
                                                 getProjectListVo().getProjectImg(), FinalContents.getAdminUrl() + "/?userId=" + FinalContents.getUserID() + "&id=" +
@@ -983,7 +984,7 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                         project_details_share_all.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                com.xcy.fzb.all.utils.Item_Share.initDaown( ProjectDetails.this,projectDetailsBean.getData().getProjectListVo().getProjectName(),
+                                Item_Share.initDaown( ProjectDetails.this,projectDetailsBean.getData().getProjectListVo().getProjectName(),
                                         FinalContents.getAdminUrl() + "/?userId=" + FinalContents.getUserID() + "&id=" +
                                                 FinalContents.getProjectID()+"&type=1", projectDetailsBean.getData().getProjectListVo().getProductFeature(),
                                         FinalContents.getImageUrl() + projectDetailsBean.getData().getProjectListVo().getProjectImg(), FinalContents.getAdminUrl()

@@ -180,18 +180,7 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String s1 = s + "";
-                if (s1.equals("")) {
-                    test_map_rl_2.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.GONE);
-                } else {
-                    test_map_rl_2.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    mPoiSearch.searchInCity(new PoiCitySearchOption()
-                            .city(province) //必填
-                            .keyword(s1 + "") //必填
-                            .pageNum(20));
-                }
+
 
                 Log.i("经纬度", "onTextChanged-s:" + s);
                 Log.i("经纬度", "onTextChanged-start:" + start);
@@ -201,6 +190,20 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
 
             @Override
             public void afterTextChanged(Editable s) {
+                String s1 = s + "";
+                if (s1.equals("")) {
+                    test_map_rl_2.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
+                } else {
+                    Log.i("经纬度", "province:" + province);
+                    Log.i("经纬度", "s1:" + s1);
+                    test_map_rl_2.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    mPoiSearch.searchInCity(new PoiCitySearchOption()
+                            .city(province) //必填
+                            .keyword(s1 + "") //必填
+                            .pageNum(20));
+                }
                 Log.i("经纬度", "afterTextChanged-s:" + s);
             }
         });
