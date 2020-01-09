@@ -68,16 +68,30 @@ public class MineFragment extends Fragment implements TotalAdapter.EPinLun, Tota
     private static final int SAVE_SUCCESS = 0;//保存图片成功
     private static final int SAVE_FAILURE = 1;//保存图片失败
     private static final int SAVE_BEGIN = 2;//开始保存图片
+    int countNum1 = 0;
+    int countNum2 = 0;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SAVE_BEGIN:
-                    ToastUtil.showToast(getContext(), "开始保存图片...");
+                    if(countNum1 == 0){
+                        ToastUtil.showToast(getContext(), "开始保存图片...");
+                        countNum1++;
+                    }
+                    if(countNum1 == a.length){
+                        countNum1 = 0;
+                    }
 //                    mSaveBtn.setClickable(false);
                     break;
                 case SAVE_SUCCESS:
-                    ToastUtil.showToast(getContext(), "图片保存成功,请到相册查找...");
+                    if(countNum2 == 0){
+                        ToastUtil.showToast(getContext(), "图片保存成功,请到相册查找...");
+                        countNum2++;
+                    }
+                    if(countNum1 == a.length){
+                        countNum2 = 0;
+                    }
 //                    mSaveBtn.setClickable(true);
                     break;
                 case SAVE_FAILURE:
@@ -93,6 +107,7 @@ public class MineFragment extends Fragment implements TotalAdapter.EPinLun, Tota
     private String url;
     private ImageView all_no_information;
     private PtrClassicFrameLayout mine_ptrclass;
+    private String[] a;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -212,7 +227,7 @@ public class MineFragment extends Fragment implements TotalAdapter.EPinLun, Tota
 
         }else {
             String UrlImage = hotlist.get(position).getImgUrl();
-            final String[] a = hotlist.get(position).getImgUrl().split("[|]");
+            a = hotlist.get(position).getImgUrl().split("[|]");
             for (int i = 0; i < a.length; i++) {
                 Log.i("分割图片", "图片：" + a[i]);
                 final int finalI = i;
