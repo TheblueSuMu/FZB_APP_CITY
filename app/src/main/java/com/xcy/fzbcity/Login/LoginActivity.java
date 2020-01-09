@@ -492,6 +492,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                 //开始加载动画
 
                 avi.show();
+                avi.setVisibility(View.VISIBLE);
                 avi_login_rl.setVisibility(View.VISIBLE);
 
                 boolean networkAvailable = CommonUtil.isNetworkAvailable(this);
@@ -511,6 +512,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
             case R.id.tv_wechat:
                 //开始动画
                 avi.show();
+                avi.setVisibility(View.VISIBLE);
                 avi_login_rl.setVisibility(View.VISIBLE);
 
                 Platform plat = ShareSDK.getPlatform(Wechat.NAME);
@@ -672,6 +674,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                             initExemplary();
                         } else {
                             ToastUtil.showLongToast(LoginActivity.this, "无权限登录");
+                            avi.hide();
+                            avi.setVisibility(View.GONE);
+                            avi_login_rl.setVisibility(View.GONE);
                         }
 //                        userIdentity.getData().getIdentity().equals("7")|| userIdentity.getData().getIdentity().equals("63") ||
 //                        else if (userIdentity.getData().getIdentity().equals("60") || userIdentity.getData().getIdentity().equals("61") || userIdentity.getData().getIdentity().equals("62") ) {
@@ -789,6 +794,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                             initExemplary();
                         } else {
                             ToastUtil.showLongToast(LoginActivity.this, "无权限登录");
+                            avi.hide();
+                            avi.setVisibility(View.GONE);
+                            avi_login_rl.setVisibility(View.GONE);
                         }
 //                        userIdentity.getData().getIdentity().equals("7") || userIdentity.getData().getIdentity().equals("63") ||
 //                        else if (userIdentity.getData().getIdentity().equals("60") || userIdentity.getData().getIdentity().equals("61") || userIdentity.getData().getIdentity().equals("62")) {
@@ -799,10 +807,10 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                     @Override
                     public void onError(Throwable e) {
+                        ToastUtil.showLongToast(LoginActivity.this, "请输入正确的账户或用户名");
                         avi.hide();
                         avi.setVisibility(View.GONE);
                         avi_login_rl.setVisibility(View.GONE);
-                        ToastUtil.showLongToast(LoginActivity.this, "请输入正确的账户或用户名");
                         Log.i("wsw", "返回的数据" + e.getMessage());
                     }
 
@@ -1623,6 +1631,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                             initExemplary();
                         } else {
                             ToastUtil.showLongToast(LoginActivity.this, "无权限登录");
+                            avi.hide();
+                            avi.setVisibility(View.GONE);
+                            avi_login_rl.setVisibility(View.GONE);
                         }
 //                         || userIdentity.getData().getIdentity().equals("7")|| userIdentity.getData().getIdentity().equals("63") ||
 //                        else if (userIdentity.getData().getIdentity().equals("60") || userIdentity.getData().getIdentity().equals("61") || userIdentity.getData().getIdentity().equals("62") ) {
