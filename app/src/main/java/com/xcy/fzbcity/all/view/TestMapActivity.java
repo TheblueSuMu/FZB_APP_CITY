@@ -52,6 +52,7 @@ import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.adapter.TestMapPopwindowAdapter;
+import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.persente.StatusBar;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
@@ -172,20 +173,20 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
         test_map_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                Log.i("经纬度", "beforeTextChanged-s:" + s);
-                Log.i("经纬度", "beforeTextChanged-start:" + start);
-                Log.i("经纬度", "beforeTextChanged-count:" + count);
-                Log.i("经纬度", "beforeTextChanged-after:" + after);
+//                Log.i("经纬度", "beforeTextChanged-s:" + s);
+//                Log.i("经纬度", "beforeTextChanged-start:" + start);
+//                Log.i("经纬度", "beforeTextChanged-count:" + count);
+//                Log.i("经纬度", "beforeTextChanged-after:" + after);
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
 
-                Log.i("经纬度", "onTextChanged-s:" + s);
-                Log.i("经纬度", "onTextChanged-start:" + start);
-                Log.i("经纬度", "onTextChanged-before:" + before);
-                Log.i("经纬度", "onTextChanged-count:" + count);
+//                Log.i("经纬度", "onTextChanged-s:" + s);
+//                Log.i("经纬度", "onTextChanged-start:" + start);
+//                Log.i("经纬度", "onTextChanged-before:" + before);
+//                Log.i("经纬度", "onTextChanged-count:" + count);
             }
 
             @Override
@@ -195,16 +196,17 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
                     test_map_rl_2.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.GONE);
                 } else {
-                    Log.i("经纬度", "province:" + province);
+                    Log.i("经纬度", "province:" + FinalContents.getCityName());
                     Log.i("经纬度", "s1:" + s1);
                     test_map_rl_2.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.VISIBLE);
                     mPoiSearch.searchInCity(new PoiCitySearchOption()
-                            .city(province) //必填
+                            .city(FinalContents.getCityName()) //必填
                             .keyword(s1 + "") //必填
-                            .pageNum(20));
+                            .pageNum(0)
+                            .pageCapacity(20));
                 }
-                Log.i("经纬度", "afterTextChanged-s:" + s);
+//                Log.i("经纬度", "afterTextChanged-s:" + s);
             }
         });
 
@@ -218,7 +220,7 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
         test_map_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(xq.equals("") || qy.equals("")){
+                if (xq.equals("") || qy.equals("")) {
                     Intent intent = new Intent();
                     //纬度
                     intent.putExtra("getLatitude", "");
@@ -231,7 +233,7 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
 
                     setResult(RESULT_OK, intent);
                     finish();
-                }else {
+                } else {
                     Intent intent = new Intent();
                     //纬度
                     intent.putExtra("getLatitude", la);
@@ -350,7 +352,6 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
         mLocClient.start();
 
 
-
     }
 
     OnGetGeoCoderResultListener onGetGeoCoderResultListener = new OnGetGeoCoderResultListener() {
@@ -412,7 +413,7 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
 
         @Override
         public void onGetPoiResult(PoiResult poiResult) {
-            Log.i("经纬度", "进入onGetPoiResult:");
+//            Log.i("经纬度", "进入onGetPoiResult:");
             allPoi = poiResult.getAllPoi();
 
             if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {
@@ -433,6 +434,7 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             } else {
+                Log.i("经纬度", "没有检索到数据");
                 test_map_rl_2.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.GONE);
             }
@@ -459,7 +461,7 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
     @Override
     public void TestMap(int position) {
 
-        Log.i("经纬度","坐标+名称：" + allPoi.get(position).getAddress() + "+" + allPoi.get(position).getLocation());
+        Log.i("经纬度", "坐标+名称：" + allPoi.get(position).getAddress() + "+" + allPoi.get(position).getLocation());
         ifKeyListener = 1;
         ssvs = allPoi.get(position).getLocation().latitude;
         ssv = allPoi.get(position).getLocation().longitude;
@@ -479,7 +481,7 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
         //在地图上添加Marker，并显示
         mBaiduMap.addOverlay(option);
         latitude = allPoi.get(position).getLocation().latitude;
-        longitude =  allPoi.get(position).getLocation().longitude;
+        longitude = allPoi.get(position).getLocation().longitude;
         //经纬度转地址
         mCoder.reverseGeoCode(new ReverseGeoCodeOption()
                 .location(point)
@@ -521,7 +523,7 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
             if (isFirstLoc) {
                 isFirstLoc = false;
                 province = mlocation.getProvince();
-                Log.i("经纬度", " mlocation.getProvince():" + mlocation.getProvince());
+//                Log.i("经纬度", " mlocation.getProvince():" + mlocation.getProvince());
                 if (lo.equals("") || la.equals("")) {
                     ll = new LatLng(location.getLatitude(),
                             location.getLongitude());
