@@ -128,7 +128,7 @@ public class AboutFZBActivity extends AllActivity implements View.OnClickListene
         About_Version_NumBer = findViewById(R.id.About_Version_NumBer);
 
         About_Version_NumBer.setText("当前版本" + FinalContents.getVersionNumBer());
-
+        Log.i("二维码","网址：" + FinalContents.getImageUrl() + "/fangfang/static/down/appTwoCode.png");
         Glide.with(AboutFZBActivity.this).load(FinalContents.getImageUrl() + "/fangfang/static/down/appTwoCode.png").into(fzb_img);
 
         fzb_return.setOnClickListener(this);

@@ -237,6 +237,7 @@ public class DynamicFragment extends Fragment {
                                     Intent intent = new Intent(getContext(), MessageCommentActivity.class);
                                     intent.putExtra("headPortrait", list.get(position).getCreateBy().getPhoto());
                                     intent.putExtra("title", list.get(position).getCreateBy().getName());
+                                    intent.putExtra("time", list.get(position).getCreateDate());
                                     intent.putExtra("message", list.get(position).getContent());
                                     intent.putExtra("img", list.get(position).getImgUrl());
                                     intent.putExtra("isLike", list.get(position).getIsLike());

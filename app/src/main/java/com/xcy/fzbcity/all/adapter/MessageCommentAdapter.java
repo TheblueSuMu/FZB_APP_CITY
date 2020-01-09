@@ -1,5 +1,6 @@
 package com.xcy.fzbcity.all.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.xcy.fzbcity.R;
+import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.modle.DynamicDetailsBean;
 
 import java.util.List;
@@ -34,10 +36,9 @@ public class MessageCommentAdapter extends RecyclerView.Adapter<MessageCommentAd
 
     @Override
     public void onBindViewHolder(@NonNull MessageCommentViewHolder holder, int position) {
-
-        Glide.with(holder.itemView.getContext()).load(commentList.get(position).getUser().getPhoto()).into(holder.item_economic_img);
-        holder.item_economic_name.setText(commentList.get(position).getCreateDate() + "");
-        holder.item_economic_time.setText(commentList.get(position).getUser().getName() + "");
+        Glide.with(holder.itemView.getContext()).load(FinalContents.getImageUrl() + commentList.get(position).getUser().getPhoto()).into(holder.item_economic_img);
+        holder.item_economic_name.setText(commentList.get(position).getUser().getName() + "");
+        holder.item_economic_time.setText(commentList.get(position).getCreateDate() + "");
         holder.item_economic_message.setText(commentList.get(position).getComment() + "");
 
 
