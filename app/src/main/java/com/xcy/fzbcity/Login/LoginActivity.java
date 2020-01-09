@@ -1206,6 +1206,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
     }
 
     private void iii() {
+        login_select_password.setVisibility(View.GONE);
         login_et_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
         login_tv_username.setText("手机号");
         login_tv_password.setText("验证码");
@@ -1219,6 +1220,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
     }
 
     private void ccc() {
+        login_select_password.setVisibility(View.VISIBLE);
         login_et_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
         login_tv_username.setText("账号");
         login_tv_password.setText("密码");
