@@ -77,8 +77,8 @@ public class MineFragment extends Fragment implements TotalAdapter.EPinLun, Tota
                 case SAVE_BEGIN:
                     if(countNum1 == 0){
                         ToastUtil.showToast(getContext(), "开始保存图片...");
-                        countNum1++;
                     }
+                    countNum1++;
                     if(countNum1 == a.length){
                         countNum1 = 0;
                     }
@@ -87,9 +87,9 @@ public class MineFragment extends Fragment implements TotalAdapter.EPinLun, Tota
                 case SAVE_SUCCESS:
                     if(countNum2 == 0){
                         ToastUtil.showToast(getContext(), "图片保存成功,请到相册查找...");
-                        countNum2++;
                     }
-                    if(countNum1 == a.length){
+                    countNum2++;
+                    if(countNum2 == a.length){
                         countNum2 = 0;
                     }
 //                    mSaveBtn.setClickable(true);
