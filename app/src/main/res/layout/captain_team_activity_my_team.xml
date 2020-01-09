@@ -264,7 +264,7 @@
                                             android:id="@+id/project_attache_ll2"
                                             android:layout_width="match_parent"
                                             android:layout_height="3dp"
-                                            android:layout_marginTop="4dp"
+                                            android:layout_marginTop="10dp"
                                             android:background="@drawable/project_attache_s"
                                             android:orientation="horizontal"/>
                                     </LinearLayout>
@@ -288,7 +288,7 @@
                                             android:id="@+id/project_attache_ll4"
                                             android:layout_width="match_parent"
                                             android:layout_height="3dp"
-                                            android:layout_marginTop="4dp"
+                                            android:layout_marginTop="10dp"
                                             android:background="@drawable/project_attache_s"
                                             android:orientation="horizontal"
                                             android:visibility="invisible"/>
