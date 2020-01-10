@@ -182,27 +182,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/project_details_salestatus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="20dp"
-                        android:background="@drawable/project_salestatus_back"
-                        android:paddingLeft="2dp"
-                        android:paddingTop="1dp"
-                        android:paddingBottom="1dp"
-                        android:text="销售"
-                        android:textColor="#ffac1e26"
-                        android:textSize="10sp" />
 
                     <co.lujun.androidtagview.TagContainerLayout
                         android:id="@+id/project_details_productfeature"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="4dp"
-                        android:layout_toRightOf="@id/project_details_salestatus"
+                        android:layout_marginLeft="20dp"
                         android:textColor="#ff8296aa"
                         app:container_background_color="#fff"
                         app:container_border_color="#fff"
@@ -216,6 +202,20 @@
                         app:tag_text_size="10sp"
                         app:tag_theme="pure_teal"
                         app:tag_vertical_padding="3dp" />
+
+                    <TextView
+                        android:id="@+id/project_details_salestatus"
+                        android:layout_width="30dp"
+                        android:layout_height="16dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/project_salestatus_back"
+                        android:gravity="center_horizontal"
+                        android:paddingLeft="2dp"
+                        android:paddingTop="1dp"
+                        android:paddingBottom="1dp"
+                        android:text="销售"
+                        android:textColor="#ffac1e26"
+                        android:textSize="10sp" />
 
                 </RelativeLayout>
 

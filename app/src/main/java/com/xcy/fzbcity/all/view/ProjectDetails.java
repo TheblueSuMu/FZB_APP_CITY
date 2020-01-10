@@ -1003,7 +1003,17 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
 
                         //地图
                         String ids = projectDetailsBeanData.getProjectListVo().getLocation();//从pd里取出字符串
-                        List tags = Arrays.asList(ids.split(","));//根据逗号分隔转化为list
+                       List tags = Arrays.asList(ids.split(","));//根据逗号分隔转化为list
+List tag = new ArrayList();
+if (tags.size() > 4) {
+    for (int i = 0;i < 4;i++){
+        tag.add(tags.get(i));
+    }
+}else {
+    for (int i = 0;i < tags.size();i++){
+        tag.add(tags.get(i));
+    }
+}
                         double d = Double.parseDouble(tags.get(0).toString());
                         double o = Double.parseDouble(tags.get(1).toString());
                         if (!projectDetailsBeanData.getProjectListVo().getSalesOfficeLocation().equals("")) {
@@ -1033,7 +1043,9 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                         }
 
                         String ids2 = projectDetailsBeanData.getProjectListVo().getProductFeature();//从pd里取出字符串
+                        ids2 = "在售," + ids2;
                         List tags2 = Arrays.asList(ids2.split(","));//根据逗号分隔转化为list
+
                         if (projectDetailsBeanData.getProjectListVo().getProductFeature().equals("")) {
                             productfeature.setVisibility(View.GONE);
                         } else {
@@ -1334,7 +1346,17 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                             } else {
                                 linear6.setVisibility(View.VISIBLE);
                                 String ids = houseDataData.getPropertyHouseList().get(0).getContent();//从pd里取出字符串
-                                List tags = Arrays.asList(ids.split(","));//根据逗号分隔转化为list
+                               List tags = Arrays.asList(ids.split(","));//根据逗号分隔转化为list
+List tag = new ArrayList();
+if (tags.size() > 4) {
+    for (int i = 0;i < 4;i++){
+        tag.add(tags.get(i));
+    }
+}else {
+    for (int i = 0;i < tags.size();i++){
+        tag.add(tags.get(i));
+    }
+}
 
                                 repast_content.setTheme(ColorFactory.NONE);
                                 repast_content.setTags(tags);

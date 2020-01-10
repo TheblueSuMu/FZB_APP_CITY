@@ -24,6 +24,7 @@ import com.xcy.fzbcity.all.modle.SideHomeBean;
 import com.xcy.fzbcity.all.persente.SharItOff;
 import com.xcy.fzbcity.project_side.view.DetailsTheProjectEndActivity;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,11 +43,11 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
         this.project = project;
     }
 
-    public interface  OnItemClickLisenter{
+    public interface OnItemClickLisenter {
         void onItemClick(int postion);
     }
 
-    public void setOnItemClickListener(OnItemClickLisenter onItemClickListener){
+    public void setOnItemClickListener(OnItemClickLisenter onItemClickListener) {
         this.onItemClickLisenter = onItemClickListener;
     }
 
@@ -58,7 +59,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.side_fragment_recycler_item, parent,false);
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.side_fragment_recycler_item, parent, false);
         context = parent.getContext();
         return new ViewHolder(view);
     }
@@ -68,47 +69,57 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         Glide.with(context).load(FinalContents.getImageUrl() + beanList.get(position).getProjectImg()).into(holder.imageAvatar);
         holder.nameText.setText("[" + beanList.get(position).getArea() + "]" + beanList.get(position).getProjectName());
-        holder.item_project_location.setText("项目地址："+beanList.get(position).getDetailAddress());
+        holder.item_project_location.setText("项目地址：" + beanList.get(position).getDetailAddress());
 
         if (beanList.get(position).getOnlineState().equals("0")) {
             holder.item_OnlineState.setVisibility(View.VISIBLE);
-        } else if (beanList.get(position).getOnlineState().equals("1")){
+        } else if (beanList.get(position).getOnlineState().equals("1")) {
             holder.item_OnlineState.setVisibility(View.GONE);
         }
 
         if (beanList.get(position).getIsgroup().equals("1")) {
             holder.group_booking.setVisibility(View.VISIBLE);
-            holder.group_booking.setText(beanList.get(position).getGroupNum()+"个团火热报名中...");
-        }else {
+            holder.group_booking.setText(beanList.get(position).getGroupNum() + "个团火热报名中...");
+        } else {
             holder.group_booking.setVisibility(View.GONE);
         }
 
-        holder.chick.setText(Html.fromHtml("报备(" + "<font color='#A52A2A'>" + beanList.get(position).getReportAmount() + "</font>"+")"));
-        holder.attention.setText(Html.fromHtml("关注(" + "<font color='#A52A2A'>" + beanList.get(position).getBrowseNum() + "</font>"+")"));
-        holder.collect.setText(Html.fromHtml("收藏(" + "<font color='#A52A2A'>" + beanList.get(position).getCollectionNum() + "</font>"+")"));
-        holder.transmit.setText(Html.fromHtml("转发(" + "<font color='#A52A2A'>" + beanList.get(position).getForwardingAmount() + "</font>"+")"));
+        holder.chick.setText(Html.fromHtml("报备(" + "<font color='#A52A2A'>" + beanList.get(position).getReportAmount() + "</font>" + ")"));
+        holder.attention.setText(Html.fromHtml("关注(" + "<font color='#A52A2A'>" + beanList.get(position).getBrowseNum() + "</font>" + ")"));
+        holder.collect.setText(Html.fromHtml("收藏(" + "<font color='#A52A2A'>" + beanList.get(position).getCollectionNum() + "</font>" + ")"));
+        holder.transmit.setText(Html.fromHtml("转发(" + "<font color='#A52A2A'>" + beanList.get(position).getForwardingAmount() + "</font>" + ")"));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (CityContents.getOneKey().equals("一键成交")) {
-                    if (onItemClickLisenter != null){
+                    if (onItemClickLisenter != null) {
                         onItemClickLisenter.onItemClick(position);
                     }
-                }else {
+                } else {
                     if (FinalContents.getMessageIssueNum().equals("1")) {
-                        if (onItemClickLisenter != null){
+                        if (onItemClickLisenter != null) {
                             onItemClickLisenter.onItemClick(position);
                         }
                     } else {
                         if (project.equals("1")) {
-                            if (onItemClickLisenter != null){
+                            if (onItemClickLisenter != null) {
                                 onItemClickLisenter.onItemClick(position);
                             }
-                        }else {
+                        } else {
                             FinalContents.setProjectID(beanList.get(position).getProjectId());
                             String ids = beanList.get(position).getLocation();//从pd里取出字符串
                             List tags = Arrays.asList(ids.split(","));//根据逗号分隔转化为list
+                            List tag = new ArrayList();
+                            if (tags.size() > 4) {
+                                for (int i = 0; i < 4; i++) {
+                                    tag.add(tags.get(i));
+                                }
+                            } else {
+                                for (int i = 0; i < tags.size(); i++) {
+                                    tag.add(tags.get(i));
+                                }
+                            }
                             double d = Double.parseDouble(tags.get(0).toString());
                             double o = Double.parseDouble(tags.get(1).toString());
                             FinalContents.setD(d);
@@ -145,7 +156,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
             super(itemView);
             //注意这里可能需要import com.example.lenovo.myrecyclerview.R; 才能使用R.id
             item_project_location = itemView.findViewById(R.id.item_project_location);
-            imageAvatar =  itemView.findViewById(R.id.ImageView);
+            imageAvatar = itemView.findViewById(R.id.ImageView);
             nameText = (TextView) itemView.findViewById(R.id.TextViewName);
             chick = (TextView) itemView.findViewById(R.id.chick);
             attention = (TextView) itemView.findViewById(R.id.attention);

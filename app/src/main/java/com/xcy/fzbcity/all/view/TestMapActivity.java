@@ -172,25 +172,11 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-
-                Log.i("经纬度", "onTextChanged-s_2:" + s);
-                Log.i("经纬度", "onTextChanged-start_2:" + start);
-                Log.i("经纬度", "onTextChanged-before_2:" + before);
-                Log.i("经纬度", "onTextChanged-count:_2" + count);
-                Log.i("经纬度", "-----------------------------beforeTextChanged-s_2-----------------------------------");
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                Log.i("经纬度", "beforeTextChanged-s_1:" + s);
-                Log.i("经纬度", "beforeTextChanged-start_1:" + start);
-                Log.i("经纬度", "beforeTextChanged-count_1:" + count);
-                Log.i("经纬度", "beforeTextChanged-after_1:" + after);
-                Log.i("经纬度", "-----------------------------beforeTextChanged-s_1-----------------------------------");
             }
-
-
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -301,6 +287,7 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
                 BitmapDescriptor bitmap = BitmapDescriptorFactory
                         .fromResource(R.mipmap.pin_red2x);
                 //构建MarkerOption，用于在地图上添加Marker
+                Log.i("经纬度","onMapClick_point:" + point);
                 OverlayOptions option = new MarkerOptions()
                         .position(point)
                         .icon(bitmap);
@@ -338,10 +325,11 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
                 latitude = mapPoi.getPosition().latitude;
                 longitude = mapPoi.getPosition().longitude;
                 //经纬度转地址
+                Log.i("经纬度","onMapPoiClick_point:" + point);
                 mCoder.reverseGeoCode(new ReverseGeoCodeOption()
                         .location(point)
                         // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
-                        .radius(500));
+                        .radius(900));
 
                 latLng1 = mapPoi.getPosition();
 
@@ -382,6 +370,7 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
         @Override
         public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
             //经纬度转地址
+            Log.i("经纬度", "经纬度转地址");
             if (reverseGeoCodeResult == null || reverseGeoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
                 //没有找到检索结果
                 Log.i("经纬度", "没有找到检索结果");
@@ -391,23 +380,15 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
                 address = reverseGeoCodeResult.getAddress();
                 //行政区号
                 int adCode = reverseGeoCodeResult.getCityCode();
-
+                
                 pcd = reverseGeoCodeResult.getAddressDetail().province + "/" + reverseGeoCodeResult.getAddressDetail().city + "/" + reverseGeoCodeResult.getAddressDetail().district;
-
                 Log.i("经纬度", "address：" + address);
-                Log.i("经纬度", "getBusinessCircle：" + reverseGeoCodeResult.getBusinessCircle());
-                Log.i("经纬度", "getSematicDescription：" + reverseGeoCodeResult.getSematicDescription());
                 Log.i("经纬度", "getLocation：" + reverseGeoCodeResult.getLocation());
-                Log.i("经纬度", "getAdcode：" + reverseGeoCodeResult.getAdcode());
                 Log.i("经纬度", "city：" + reverseGeoCodeResult.getAddressDetail().city);
                 Log.i("经纬度", "countryName：" + reverseGeoCodeResult.getAddressDetail().countryName);
-                Log.i("经纬度", "direction：" + reverseGeoCodeResult.getAddressDetail().direction);
-                Log.i("经纬度", "distance：" + reverseGeoCodeResult.getAddressDetail().distance);
                 Log.i("经纬度", "district：" + reverseGeoCodeResult.getAddressDetail().district);
                 Log.i("经纬度", "province：" + reverseGeoCodeResult.getAddressDetail().province);
-                Log.i("经纬度", "street：" + reverseGeoCodeResult.getAddressDetail().street);
-                Log.i("经纬度", "streetNumber：" + reverseGeoCodeResult.getAddressDetail().streetNumber);
-                Log.i("经纬度", "town：" + reverseGeoCodeResult.getAddressDetail().town);
+
             }
         }
     };
@@ -600,18 +581,23 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
         if (latitude == 0 || longitude == 0) {
             ToastUtil.showToast(TestMapActivity.this, "请选择定位");
         } else {
-            Intent intent = new Intent();
-            //纬度
-            intent.putExtra("getLatitude", latitude + "");
-            //经度
-            intent.putExtra("getLongitude", longitude + "");
-            //地址
-            intent.putExtra("address", address + "");
-            //省市区
-            intent.putExtra("pcd", pcd + "");
+            if(address.equals("") || pcd.equals("")){
+                ToastUtil.showToast(TestMapActivity.this, "请重新选择定位");
+            }else {
+                Intent intent = new Intent();
+                //纬度
+                intent.putExtra("getLatitude", latitude + "");
+                //经度
+                intent.putExtra("getLongitude", longitude + "");
+                //地址
+                intent.putExtra("address", address + "");
+                //省市区
+                intent.putExtra("pcd", pcd + "");
 
-            setResult(RESULT_OK, intent);
-            finish();
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+
         }
 
 

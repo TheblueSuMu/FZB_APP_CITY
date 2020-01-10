@@ -662,6 +662,16 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
 
                                     String ids = rows2.get(i).getProductFeature();//从pd里取出字符串
                                     List tags = Arrays.asList(ids.split(","));//根据逗号分隔转化为list
+                                    List tag = new ArrayList();
+                                    if (tags.size() > 4) {
+                                        for (int s = 0; s < 4; s++) {
+                                            tag.add(tags.get(s));
+                                        }
+                                    } else {
+                                        for (int s = 0; s < tags.size(); s++) {
+                                            tag.add(tags.get(s));
+                                        }
+                                    }
                                     isName = rows2.get(i).getProjectName() + rows2.get(i).getProductUnitPrice() + rows2.get(i).getMonetaryUnit();
                                     if (rows2.get(i).getProductFeature().equals("")) {
                                         tagView.setVisibility(View.GONE);
@@ -1170,6 +1180,7 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
         public void onReceivePoi(BDLocation poiLocation) {
         }
     }
+
     OnGetGeoCoderResultListener listenerS = new OnGetGeoCoderResultListener() {
 
         @Override

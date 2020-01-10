@@ -577,7 +577,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
         TimePickerView pvTime = new TimePickerBuilder(DetailsTheProjectEndActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                if (select.before(date)) {
+                if (select.after(date)) {
                     ToastUtil.showLongToast(DetailsTheProjectEndActivity.this,"时间间隔不能大于100天");
                 } else {
                     afterDate3 = getTime2(date);

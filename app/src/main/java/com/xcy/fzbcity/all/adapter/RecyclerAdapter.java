@@ -22,6 +22,7 @@ import com.xcy.fzbcity.all.modle.HotBean;
 import com.xcy.fzbcity.all.persente.SharItOff;
 import com.xcy.fzbcity.all.view.ProjectDetails;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -70,6 +71,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         String ids = beanList.get(position).getProductFeature();//从pd里取出字符串
         List tags = Arrays.asList(ids.split(","));//根据逗号分隔转化为list
+        List tag = new ArrayList();
+        if (tags.size() > 4) {
+            for (int i = 0; i < 4; i++) {
+                tag.add(tags.get(i));
+            }
+        } else {
+            for (int i = 0; i < tags.size(); i++) {
+                tag.add(tags.get(i));
+            }
+        }
 
         Log.i("2222", "标签" + beanList.get(position).getProductFeature());
 
@@ -78,7 +89,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         } else {
             holder.tagView.setVisibility(View.VISIBLE);
             holder.tagView.setTheme(ColorFactory.NONE);
-            holder.tagView.setTags(tags);
+            holder.tagView.setTags(tag);
         }
 
 //        if(FinalContents.getZyHome().equals("1")){
@@ -88,7 +99,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 //            holder.group_booking.setVisibility(View.VISIBLE);
 //            holder.group_booking.setText(beanList.get(position).getGroupNum() + "个团火热报名中...");
 //        } else {
-            holder.group_booking.setVisibility(View.GONE);
+        holder.group_booking.setVisibility(View.GONE);
 //        }
 //        }
 
@@ -101,13 +112,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         if (beanList.get(position).getProjectType().equals("2")) {
             holder.price.setText(beanList.get(position).getReferenceToatlPrice());
             holder.price_money.setText(beanList.get(position).getReferenceToatlUnit());
-            Log.i("列表","海外数据1"+beanList.get(position).getReferenceToatlPrice());
-            Log.i("列表","海外数据2"+beanList.get(position).getReferenceToatlUnit());
+            Log.i("列表", "海外数据1" + beanList.get(position).getReferenceToatlPrice());
+            Log.i("列表", "海外数据2" + beanList.get(position).getReferenceToatlUnit());
             if (beanList.get(position).getReferenceToatlPrice().equals("") || beanList.get(position).getReferenceToatlPrice().equals("0")) {
                 holder.price.setVisibility(View.GONE);
                 holder.price_money.setVisibility(View.GONE);
                 holder.item_view.setVisibility(View.GONE);
-            }else {
+            } else {
                 holder.price.setVisibility(View.VISIBLE);
                 holder.price_money.setVisibility(View.VISIBLE);
                 holder.item_view.setVisibility(View.VISIBLE);
@@ -115,33 +126,32 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         } else if (beanList.get(position).getProjectType().equals("3")) {
             holder.price.setText(beanList.get(position).getProductUnitPrice());
             holder.price_money.setText(beanList.get(position).getMonetaryUnit());
-            Log.i("列表","旅居数据1"+beanList.get(position).getProductUnitPrice());
-            Log.i("列表","旅居数据2"+beanList.get(position).getMonetaryUnit());
+            Log.i("列表", "旅居数据1" + beanList.get(position).getProductUnitPrice());
+            Log.i("列表", "旅居数据2" + beanList.get(position).getMonetaryUnit());
             if (beanList.get(position).getProductUnitPrice().equals("") || beanList.get(position).getProductUnitPrice().equals("0")) {
                 holder.price.setVisibility(View.GONE);
                 holder.price_money.setVisibility(View.GONE);
                 holder.item_view.setVisibility(View.GONE);
-            }else {
+            } else {
                 holder.price.setVisibility(View.VISIBLE);
                 holder.price_money.setVisibility(View.VISIBLE);
                 holder.item_view.setVisibility(View.VISIBLE);
             }
-        }else if (beanList.get(position).getProjectType().equals("1")) {
+        } else if (beanList.get(position).getProjectType().equals("1")) {
             holder.price.setText(beanList.get(position).getProductUnitPrice());
             holder.price_money.setText(beanList.get(position).getMonetaryUnit());
-            Log.i("列表","城市数据1"+beanList.get(position).getProductUnitPrice());
-            Log.i("列表","城市数据2"+beanList.get(position).getMonetaryUnit());
+            Log.i("列表", "城市数据1" + beanList.get(position).getProductUnitPrice());
+            Log.i("列表", "城市数据2" + beanList.get(position).getMonetaryUnit());
             if (beanList.get(position).getProductUnitPrice().equals("") || beanList.get(position).getProductUnitPrice().equals("0")) {
                 holder.price.setVisibility(View.GONE);
                 holder.price_money.setVisibility(View.GONE);
                 holder.item_view.setVisibility(View.GONE);
-            }else {
+            } else {
                 holder.price.setVisibility(View.VISIBLE);
                 holder.price_money.setVisibility(View.VISIBLE);
                 holder.item_view.setVisibility(View.VISIBLE);
             }
         }
-
 
 
         holder.square.setText(beanList.get(position).getAreaInterval());
