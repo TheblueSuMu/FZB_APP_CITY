@@ -27,6 +27,7 @@ import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.database.LikeNumBean;
 import com.xcy.fzbcity.all.modle.CommentBean;
 import com.xcy.fzbcity.all.modle.DynamicDetailsBean;
+import com.xcy.fzbcity.all.persente.MyLinearLayoutManager;
 import com.xcy.fzbcity.all.persente.SingleClick;
 import com.xcy.fzbcity.all.persente.StatusBar;
 import com.xcy.fzbcity.all.service.MyService;
@@ -257,13 +258,15 @@ public class MessageCommentActivity extends AllActivity implements View.OnClickL
 
                     @Override
                     public void onNext(DynamicDetailsBean dynamicDetailsBean) {
-                        LinearLayoutManager manager = new LinearLayoutManager(MessageCommentActivity.this);
+                        MyLinearLayoutManager manager = new MyLinearLayoutManager(MessageCommentActivity.this);
+                        manager.setScrollEnabled(false);
                         manager.setOrientation(LinearLayoutManager.VERTICAL);
                         comment_rv.setLayoutManager(manager);
 
                         commentList = dynamicDetailsBean.getData().getCommentList();
                         particulars_xiao_pinglun.setText("全部" + commentList.size() + "条评论");
                         adapter = new MessageCommentAdapter();
+                        comment_rv.setNestedScrollingEnabled(false);
                         adapter.setCommentList(commentList);
                         comment_rv.setAdapter(adapter);
 

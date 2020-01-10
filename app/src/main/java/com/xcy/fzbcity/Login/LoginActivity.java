@@ -644,10 +644,14 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
         userName = login_et_username.getText().toString();
         passWord = login_et_password.getText().toString();
         if (userName.equals("")) {
+            avi.setVisibility(View.GONE);
+            avi_login_rl.setVisibility(View.GONE);
             ToastUtil.showLongToast(this, "请输入手机号");
             return;
         }
         if (passWord.equals("")) {
+            avi.setVisibility(View.GONE);
+            avi_login_rl.setVisibility(View.GONE);
             ToastUtil.showLongToast(this, "请输入验证码");
             return;
         }
@@ -753,16 +757,22 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
         userName = login_et_username.getText().toString();
         passWord = login_et_password.getText().toString();
         if (userName.equals("")) {
+            avi.setVisibility(View.GONE);
+            avi_login_rl.setVisibility(View.GONE);
             ToastUtil.showLongToast(this, "请输入账号");
             return;
         }
         if (passWord.equals("")) {
+            avi.setVisibility(View.GONE);
+            avi_login_rl.setVisibility(View.GONE);
             ToastUtil.showLongToast(this, "请输入密码");
             return;
         }
         if (checkBoxed.isChecked()) {
             initlogin();
         } else {
+            avi.setVisibility(View.GONE);
+            avi_login_rl.setVisibility(View.GONE);
             ToastUtil.showLongToast(this, "请同意服务条款后进行登录");
         }
     }

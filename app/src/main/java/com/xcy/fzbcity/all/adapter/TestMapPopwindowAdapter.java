@@ -50,10 +50,10 @@ public class TestMapPopwindowAdapter extends RecyclerView.Adapter<TestMapPopwind
         }
         if (allPoi.get(position).getAddress().equals("")) {
             if (allPoi.get(position).getName().equals("")) {
-                holder.textView1.setText(allPoi.get(position).getAddress());
+                holder.textView2.setText(allPoi.get(position).getAddress());
             } else {
                 if (allPoi.get(position).getArea().equals("")) {
-                    holder.textView1.setText(allPoi.get(position).getName());
+                    holder.textView2.setText(allPoi.get(position).getName());
                 } else {
                     holder.textView2.setText(allPoi.get(position).getName() + "(" + allPoi.get(position).getArea() + ")");
                 }

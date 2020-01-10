@@ -8,9 +8,11 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -261,6 +263,13 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
             builder1.setView(inflate);
             final AlertDialog show = builder1.show();
             show.getWindow().setBackgroundDrawableResource(R.drawable.report_shape);
+
+            WindowManager m = getActivity().getWindowManager();
+            Display d = m.getDefaultDisplay();
+            WindowManager.LayoutParams attributes = show.getWindow().getAttributes();
+            attributes.width = (int)(d.getWidth() - 200);
+            show.getWindow().setAttributes(attributes);
+
             TextView report_binding_title = inflate.findViewById(R.id.report_binding_title);
             TextView report_binding_confirm_tv = inflate.findViewById(R.id.report_binding_confirm_tv);
             TextView report_binding_cancel_tv = inflate.findViewById(R.id.report_binding_cancel_tv);

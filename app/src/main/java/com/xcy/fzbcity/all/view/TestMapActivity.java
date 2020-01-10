@@ -168,26 +168,29 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
         });
 
         recyclerView = findViewById(R.id.test_map_pop_rv_S);
-
-
         test_map_search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                Log.i("经纬度", "beforeTextChanged-s:" + s);
-//                Log.i("经纬度", "beforeTextChanged-start:" + start);
-//                Log.i("经纬度", "beforeTextChanged-count:" + count);
-//                Log.i("经纬度", "beforeTextChanged-after:" + after);
-            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
 
-//                Log.i("经纬度", "onTextChanged-s:" + s);
-//                Log.i("经纬度", "onTextChanged-start:" + start);
-//                Log.i("经纬度", "onTextChanged-before:" + before);
-//                Log.i("经纬度", "onTextChanged-count:" + count);
+                Log.i("经纬度", "onTextChanged-s_2:" + s);
+                Log.i("经纬度", "onTextChanged-start_2:" + start);
+                Log.i("经纬度", "onTextChanged-before_2:" + before);
+                Log.i("经纬度", "onTextChanged-count:_2" + count);
+                Log.i("经纬度", "-----------------------------beforeTextChanged-s_2-----------------------------------");
             }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                Log.i("经纬度", "beforeTextChanged-s_1:" + s);
+                Log.i("经纬度", "beforeTextChanged-start_1:" + start);
+                Log.i("经纬度", "beforeTextChanged-count_1:" + count);
+                Log.i("经纬度", "beforeTextChanged-after_1:" + after);
+                Log.i("经纬度", "-----------------------------beforeTextChanged-s_1-----------------------------------");
+            }
+
+
 
             @Override
             public void afterTextChanged(Editable s) {

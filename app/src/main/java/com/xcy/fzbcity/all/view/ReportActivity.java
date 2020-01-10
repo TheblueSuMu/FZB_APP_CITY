@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -192,10 +194,10 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
 
     private void initView() {
         if (CityContents.getIsReport().equals("")) {
-            Log.i("数据","1走一走:"+FinalContents.getProjectType());
+            Log.i("数据", "1走一走:" + FinalContents.getProjectType());
             FinalContents.setProjectType("");
         }
-        Log.i("数据","2走一走:"+FinalContents.getProjectType());
+        Log.i("数据", "2走一走:" + FinalContents.getProjectType());
         CityContents.setAddClient("");
         StatusBar.makeStatusBarTransparent(this);
         report_linear = findViewById(R.id.report_linear);
@@ -415,11 +417,11 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
 
     }
 
-    private void initTimePickerView1(){
+    private void initTimePickerView1() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
         final Calendar endDate = Calendar.getInstance();
-        endDate.set(year+3, month, dayOfMonth);
+        endDate.set(year + 3, month, dayOfMonth);
         TimePickerView pvTime = new TimePickerBuilder(ReportActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -432,17 +434,17 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
                 .isCenterLabel(false)
                 .setDate(selectedDate)
                 .setLineSpacingMultiplier(1.5f)
-                .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
+                .setTextXOffset(-10, 0, 10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
                 .setRangDate(startDate, endDate)
                 .build();
         pvTime.show();
     }
 
-    private void initTimePickerView2(){
+    private void initTimePickerView2() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
         final Calendar endDate = Calendar.getInstance();
-        endDate.set(year+3, month, dayOfMonth);
+        endDate.set(year + 3, month, dayOfMonth);
         TimePickerView pvTime = new TimePickerBuilder(ReportActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -455,7 +457,7 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
                 .isCenterLabel(false)
                 .setDate(selectedDate)
                 .setLineSpacingMultiplier(1.5f)
-                .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
+                .setTextXOffset(-10, 0, 10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
                 .setRangDate(startDate, endDate)
                 .build();
         pvTime.show();
@@ -877,12 +879,12 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
                                     Log.i("判断", "4");
                                     Log.i("判断", "判断走了");
                                     report_associating_inputing_rv.setVisibility(View.VISIBLE);
-                                }else {
+                                } else {
                                     Log.i("判断", "a");
                                     report_associating_inputing_rv.setVisibility(View.GONE);
                                     Log.i("判断", "判断走零陵");
                                 }
-                            }else {
+                            } else {
                                 Log.i("判断", "b");
                                 report_associating_inputing_rv.setVisibility(View.GONE);
                             }
@@ -890,13 +892,12 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
                             Log.i("判断", "c");
                             report_associating_inputing_rv.setVisibility(View.GONE);
                         }
-                    }else {
+                    } else {
                         Log.i("判断", "d");
                         report_associating_inputing_rv.setVisibility(View.GONE);
                     }
                 }
             });
-
 
 
             fuzzySearchAdapter.setItemOnClick(new FuzzySearchAdapter.ItemOnClick() {
@@ -920,7 +921,7 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
                     report_associating_inputing_rv.setVisibility(View.GONE);
                 }
             });
-        }else{
+        } else {
             report_associating_inputing_rv.setVisibility(View.GONE);
         }
     }
@@ -979,6 +980,14 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(ReportActivity.this);
                             View inflate = LayoutInflater.from(ReportActivity.this).inflate(R.layout.binding_report, null, false);
                             builder1.setView(inflate);
+                            final AlertDialog show = builder1.show();
+                            show.getWindow().setBackgroundDrawableResource(R.drawable.report_shape);
+
+                            WindowManager m = getWindowManager();
+                            Display d = m.getDefaultDisplay();
+                            WindowManager.LayoutParams attributes = show.getWindow().getAttributes();
+                            attributes.width = (int) (d.getWidth() - 200);
+                            show.getWindow().setAttributes(attributes);
                             TextView report_binding_title = inflate.findViewById(R.id.report_binding_title);
                             TextView report_binding_confirm_tv = inflate.findViewById(R.id.report_binding_confirm_tv);
                             TextView report_binding_cancel_tv = inflate.findViewById(R.id.report_binding_cancel_tv);
@@ -987,7 +996,6 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
                             report_binding_title.setText(changePhoneBean.getData().getMessage());//内容
                             report_binding_confirm_tv.setText("前去看看");
                             report_binding_cancel_tv.setText("我知道了");
-                            final AlertDialog show = builder1.show();
                             report_binding_cancel.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -1011,6 +1019,14 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(ReportActivity.this);
                             View inflate = LayoutInflater.from(ReportActivity.this).inflate(R.layout.binding_report, null, false);
                             builder1.setView(inflate);
+                            final AlertDialog show = builder1.show();
+                            show.getWindow().setBackgroundDrawableResource(R.drawable.report_shape);
+
+                            WindowManager m = getWindowManager();
+                            Display d = m.getDefaultDisplay();
+                            WindowManager.LayoutParams attributes = show.getWindow().getAttributes();
+                            attributes.width = (int)(d.getWidth() - 200);
+                            show.getWindow().setAttributes(attributes);
                             TextView report_binding_title = inflate.findViewById(R.id.report_binding_title);
                             RelativeLayout report_binding_cancel = inflate.findViewById(R.id.report_binding_cancel);
                             TextView report_binding_cancel_tv = inflate.findViewById(R.id.report_binding_cancel_tv);
@@ -1020,7 +1036,6 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
                             report_binding_confirm.setVisibility(View.GONE);
                             report_binding_confirm_LinearLayout.setVisibility(View.GONE);
                             report_binding_cancel_tv.setText("我知道了");
-                            final AlertDialog show = builder1.show();
                             report_binding_cancel.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -1034,6 +1049,14 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(ReportActivity.this);
                             View inflate = LayoutInflater.from(ReportActivity.this).inflate(R.layout.binding_report, null, false);
                             builder1.setView(inflate);
+                            final AlertDialog show = builder1.show();
+                            show.getWindow().setBackgroundDrawableResource(R.drawable.report_shape);
+
+                            WindowManager m = getWindowManager();
+                            Display d = m.getDefaultDisplay();
+                            WindowManager.LayoutParams attributes = show.getWindow().getAttributes();
+                            attributes.width = (int)(d.getWidth() - 200);
+                            show.getWindow().setAttributes(attributes);
                             TextView report_binding_title = inflate.findViewById(R.id.report_binding_title);
                             TextView report_binding_confirm_tv = inflate.findViewById(R.id.report_binding_confirm_tv);
                             TextView report_binding_cancel_tv = inflate.findViewById(R.id.report_binding_cancel_tv);
@@ -1042,7 +1065,6 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
                             report_binding_title.setText(changePhoneBean.getData().getMessage());//内容
                             report_binding_confirm_tv.setText("前去致电");
                             report_binding_cancel_tv.setText("我知道了");
-                            final AlertDialog show = builder1.show();
                             report_binding_cancel.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -1144,25 +1166,25 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i("报备","恢复");
+        Log.i("报备", "恢复");
         if (FinalContents.getProjectName().equals("")) {
         } else {
             initIdNumber();
             if (FinalContents.getProjectType().equals("1")) {
                 report_issure.setVisibility(View.GONE);
-            } else if (FinalContents.getProjectType().equals("2") || FinalContents.getProjectType().equals("3")){
+            } else if (FinalContents.getProjectType().equals("2") || FinalContents.getProjectType().equals("3")) {
                 report_issure.setVisibility(View.VISIBLE);
             } else {
                 report_issure.setVisibility(View.GONE);
             }
             if (FinalContents.getCustomerID().equals("")) {
                 report_associating_inputing_rv.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 report_associating_inputing_rv.setVisibility(View.GONE);
             }
             if (FinalContents.getProjectID().equals("")) {
                 report_associating_inputing_rv.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 report_associating_inputing_rv.setVisibility(View.GONE);
             }
         }
@@ -1178,7 +1200,7 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
         if (FinalContents.isChecked2()) {
             if (FinalContents.getProjectType().equals("1")) {
                 report_issure.setVisibility(View.GONE);
-            } else if (FinalContents.getProjectType().equals("2") || FinalContents.getProjectType().equals("3")){
+            } else if (FinalContents.getProjectType().equals("2") || FinalContents.getProjectType().equals("3")) {
                 report_issure.setVisibility(View.VISIBLE);
             } else {
                 report_issure.setVisibility(View.GONE);
@@ -1194,7 +1216,7 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
     protected void onDestroy() {
         super.onDestroy();
         if (CityContents.getIsReport().equals("")) {
-            Log.i("数据","1走一走:"+FinalContents.getProjectType());
+            Log.i("数据", "1走一走:" + FinalContents.getProjectType());
             FinalContents.setProjectType("");
             FinalContents.setProjectName("");
             FinalContents.setGuideRuleId("");

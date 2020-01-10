@@ -8,9 +8,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -165,6 +167,13 @@ public class MeFragment extends Fragment implements View.OnClickListener, SwipeR
                 View inflate = LayoutInflater.from(getActivity()).inflate(R.layout.binding_report, null, false);
                 builder1.setView(inflate);
                 final AlertDialog show1 = builder1.show();
+                show1.getWindow().setBackgroundDrawableResource(R.drawable.report_shape);
+
+                WindowManager m = getActivity().getWindowManager();
+                Display d = m.getDefaultDisplay();
+                WindowManager.LayoutParams attributes = show1.getWindow().getAttributes();
+                attributes.width = (int)(d.getWidth() - 200);
+                show1.getWindow().setAttributes(attributes);
                 show1.getWindow().setBackgroundDrawableResource(R.drawable.report_shape);
                 TextView report_binding_title = inflate.findViewById(R.id.report_binding_title);
                 TextView report_binding_confirm_tv = inflate.findViewById(R.id.report_binding_confirm_tv);

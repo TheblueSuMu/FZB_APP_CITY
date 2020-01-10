@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.xcy.fzbcity.all.persente.MyLinearLayoutManager;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -325,11 +327,13 @@ public class EconomicCircleParticularsActivity extends AllActivity implements Vi
     @SuppressLint("WrongConstant")
     private void initLinear() {
         particulars_xiao_size.setText("全部" + commentList.size() + "条评论");
-        LinearLayoutManager manager = new LinearLayoutManager(EconomicCircleParticularsActivity.this);
+        MyLinearLayoutManager manager = new MyLinearLayoutManager(EconomicCircleParticularsActivity.this);
+        manager.setScrollEnabled(false);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         particulars_rv_comment.setLayoutManager(manager);
 //        TODO 适配器
         adapter = new CommentListAdapter();
+        particulars_rv_comment.setNestedScrollingEnabled(false);
         adapter.setCommentList(commentList);
         particulars_rv_comment.setAdapter(adapter);
         whehter = true;
