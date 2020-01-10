@@ -159,6 +159,8 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
     private int year;
     private int month;
     private int dayOfMonth;
+    private Date select;
+    private Date endselect;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -393,6 +395,9 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
         month = calendar.get(Calendar.MONTH);
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
+        select = calendar.getTime();
+        endselect = calendar.getTime();
+
 
         String string = String.format(Locale.getDefault(), "%d.%02d.%02d", year, month + 1, dayOfMonth);
         String string1 = String.format(Locale.getDefault(), "%d.%02d.%02d", year, month + 1, dayOfMonth + 1);
@@ -425,6 +430,7 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
         TimePickerView pvTime = new TimePickerBuilder(ReportActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
+                select = date;
                 timeStart = getTime2(date);
                 report_start.setText("<" + getTime2(date));
             }
@@ -448,8 +454,13 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
         TimePickerView pvTime = new TimePickerBuilder(ReportActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                timeEnd = getTime2(date);
-                report_end.setText("-" + getTime2(date) + " >");
+                if (select.after(date)) {
+                    ToastUtil.showLongToast(ReportActivity.this,"开始时间不能大于结束时间");
+                } else {
+                    endselect = date;
+                    timeEnd = getTime2(date);
+                    report_end.setText("-" + getTime2(date) + " >");
+                }
             }
         })
                 .setType(new boolean[]{true, true, true, false, false, false}) //年月日时分秒 的显示与否，不设置则默认全部显示
@@ -784,6 +795,11 @@ public class ReportActivity extends AllActivity implements View.OnClickListener 
                 eventUrl = url + "&areaSection=" + areaSection + "&ffProjectTrait=" + ffProjectTrait + "&procuctType=" + procuctType + "&fitmentState=" + fitmentState;
 
                 Log.i("楼盘特色", "数据：" + ffProjectTrait);
+
+                if (select.after(endselect)) {
+                    ToastUtil.showLongToast(ReportActivity.this,"开始时间不能大于结束时间");
+                    return;
+                }
 
                 if (report_linear.getVisibility() == View.VISIBLE) {
                     if (IDcard.getText().length() == 18) {
