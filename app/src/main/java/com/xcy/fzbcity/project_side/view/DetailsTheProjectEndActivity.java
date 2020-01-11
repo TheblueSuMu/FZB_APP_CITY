@@ -3,7 +3,6 @@ package com.xcy.fzbcity.project_side.view;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -21,9 +20,6 @@ import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.CombinedChart;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -33,11 +29,7 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IFillFormatter;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.api.CityContents;
@@ -56,7 +48,6 @@ import com.xcy.fzbcity.all.utils.ToastUtil;
 import com.xcy.fzbcity.all.view.AllActivity;
 import com.xcy.fzbcity.all.view.MapActivity;
 import com.xcy.fzbcity.all.view.ProjectDetails;
-import com.xcy.fzbcity.all.view.ReportActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -1146,6 +1137,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
                 } else if (details_the_project_end_rb4.isChecked() == true) {
                     type1 = "3";
                     NewlyIncreased.setTag("3");
+                    initViewData2();
                     details_the_project_end_time_ll1.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -1184,6 +1176,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
                 } else if (details_the_project_end_rb4.isChecked() == true) {
                     type1 = "3";
                     NewlyIncreased.setTag("3");
+                    initViewData2();
                     details_the_project_end_time_ll1.setVisibility(View.VISIBLE);
                 }
                 break;
