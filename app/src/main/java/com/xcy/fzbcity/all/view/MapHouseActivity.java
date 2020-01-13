@@ -239,6 +239,8 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
                                                     ifKeyListener = 1;
                                                 }
                                             }
+                                        }else {
+                                            ToastUtil.showLongToast(MapHouseActivity.this,"搜索暂无结果");
                                         }
                                     }
                                 } else if (ifMG == 1) {//公司
@@ -255,6 +257,8 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
                                                     ifKeyListener = 1;
                                                 }
                                             }
+                                        }else {
+                                            ToastUtil.showLongToast(MapHouseActivity.this,"搜索暂无结果");
                                         }
                                     }
                                 }
@@ -272,6 +276,8 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
                                                 ifKeyListener = 1;
                                             }
                                         }
+                                    }else {
+                                        ToastUtil.showLongToast(MapHouseActivity.this,"搜索暂无结果");
                                     }
                                 }
                             }

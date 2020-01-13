@@ -38,6 +38,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.api.CityContents;
@@ -568,13 +569,13 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
 
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year-3, month, dayOfMonth);
+        startDate.set(year - 3, month, dayOfMonth);
         Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(DetailsTheProjectEndActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 if (select.after(date)) {
-                    ToastUtil.showLongToast(DetailsTheProjectEndActivity.this,"时间间隔不能大于100天");
+                    ToastUtil.showLongToast(DetailsTheProjectEndActivity.this, "时间间隔不能大于100天");
                 } else {
 
                     endselect = date;
@@ -740,7 +741,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
     //TODO 详情页趋势数据赋值
     private void initViewData3() {
         if (select.after(endselect)) {
-            ToastUtil.showLongToast(DetailsTheProjectEndActivity.this,"开始时间不能大于结束时间");
+            ToastUtil.showLongToast(DetailsTheProjectEndActivity.this, "开始时间不能大于结束时间");
             return;
         }
 
@@ -885,6 +886,13 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
             lineDataSet.setValueTextSize(10);
             lineDataSet.setDrawValues(true);
             LineData lineData = new LineData();
+            lineData.setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getFormattedValue(float value, com.github.mikephil.charting.data.Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                    int n = (int) value;
+                    return n + "";
+                }
+            });
             lineData.addDataSet(lineDataSet);
             /******************LineData end********************/
 

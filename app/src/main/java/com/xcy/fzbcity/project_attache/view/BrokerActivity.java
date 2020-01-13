@@ -37,6 +37,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.api.FinalContents;
@@ -168,12 +169,12 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
                     startActivity(getIntent());
                 }
             });
-            ToastUtil.showLongToast(BrokerActivity.this,"当前无网络，请检查网络后再进行登录");
+            ToastUtil.showLongToast(BrokerActivity.this, "当前无网络，请检查网络后再进行登录");
         }
     }
 
     private void initView() {
-        Log.i("销毁","数1："+ FinalContents.getStoreId());
+        Log.i("销毁", "数1：" + FinalContents.getStoreId());
         StatusBar.makeStatusBarTransparent(this);
 
         broker_rb1 = findViewById(R.id.broker_rb1);
@@ -289,7 +290,7 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
             public void onClick(View view) {
 
                 if (agentInfo.getAgentPhone().equals("")) {
-                    ToastUtil.showLongToast(BrokerActivity.this,"暂无电话信息，无法拨打");
+                    ToastUtil.showLongToast(BrokerActivity.this, "暂无电话信息，无法拨打");
                 } else {
                     Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + agentInfo.getAgentPhone()));//跳转到拨号界面，同时传递电话号码
                     startActivity(dialIntent);
@@ -388,10 +389,10 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
     }
 
     //            TODO 数据统计 时间选择 开始时间
-    private void initTime1_Date1(){
+    private void initTime1_Date1() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-         startDate.set(year - 3, month, dayOfMonth);
+        startDate.set(year - 3, month, dayOfMonth);
         Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(BrokerActivity.this, new OnTimeSelectListener() {
             @Override
@@ -410,24 +411,24 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
                 .isCenterLabel(false)
                 .setDate(selectedDate)
                 .setLineSpacingMultiplier(1.5f)
-                .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
+                .setTextXOffset(-10, 0, 10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
                 .setRangDate(startDate, endDate)
                 .build();
         pvTime.show();
     }
 
     //            TODO 数据统计 时间选择 结束时间
-    private void initTime1_Date2(){
+    private void initTime1_Date2() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-         startDate.set(year - 3, month, dayOfMonth);
+        startDate.set(year - 3, month, dayOfMonth);
         Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(BrokerActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 broker_tv5.setText(getTime2(date));
                 NewlyIncreased.setEndDate(getTime2(date));
-                if (project_attache_broker_ll2. getVisibility() == View.VISIBLE) {
+                if (project_attache_broker_ll2.getVisibility() == View.VISIBLE) {
                     initDataNum("3", broker_tv4.getText().toString(), broker_tv5.getText().toString(), "1");
                 } else if (project_attache_broker_ll4.getVisibility() == View.VISIBLE) {
                     initDataNum("3", broker_tv4.getText().toString(), broker_tv5.getText().toString(), "2");
@@ -439,17 +440,17 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
                 .isCenterLabel(false)
                 .setDate(selectedDate)
                 .setLineSpacingMultiplier(1.5f)
-                .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
+                .setTextXOffset(-10, 0, 10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
                 .setRangDate(startDate, endDate)
                 .build();
         pvTime.show();
     }
 
     //            TODO 财务数据 时间选择 开始时间
-    private void initTime2_Date1(){
+    private void initTime2_Date1() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-         startDate.set(year - 3, month, dayOfMonth);
+        startDate.set(year - 3, month, dayOfMonth);
         Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(BrokerActivity.this, new OnTimeSelectListener() {
             @Override
@@ -464,17 +465,17 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
                 .isCenterLabel(false)
                 .setDate(selectedDate)
                 .setLineSpacingMultiplier(1.5f)
-                .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
+                .setTextXOffset(-10, 0, 10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
                 .setRangDate(startDate, endDate)
                 .build();
         pvTime.show();
     }
 
     //            TODO 财务数据 时间选择 结束时间
-    private void initTime2_Date2(){
+    private void initTime2_Date2() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-         startDate.set(year - 3, month, dayOfMonth);
+        startDate.set(year - 3, month, dayOfMonth);
         Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(BrokerActivity.this, new OnTimeSelectListener() {
             @Override
@@ -489,7 +490,7 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
                 .isCenterLabel(false)
                 .setDate(selectedDate)
                 .setLineSpacingMultiplier(1.5f)
-                .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
+                .setTextXOffset(-10, 0, 10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
                 .setRangDate(startDate, endDate)
                 .build();
         pvTime.show();
@@ -635,7 +636,7 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
                         BrokerBean.DataBean.GsonOptionBean gsonOption = brokerBean.getData().getGsonOption();
                         integers = brokerBean.getData().getGsonOption().getSeries().get(0).getData();
                         indexList = brokerBean.getData().getGsonOption().getXAxis().getData();
-                        if(integers.size() != 0){
+                        if (integers.size() != 0) {
                             setData(integers);
                         }
 //        TODO 佣金
@@ -748,27 +749,27 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
                 broker_ll6.setClickable(true);
                 broker_ll7.setClickable(true);
 //                if (broker_ll1.getVisibility() == View.VISIBLE) {
-                    if (broker_rb1.isChecked() == true) {
-                        initDataNum("0", "", "", "1");
-                        NewlyIncreased.setTag("0");
-                        broker_ll1.setVisibility(View.GONE);
-                    } else if (broker_rb2.isChecked() == true) {
-                        initDataNum("1", "", "", "1");
-                        NewlyIncreased.setTag("1");
-                        broker_ll1.setVisibility(View.GONE);
-                    } else if (broker_rb3.isChecked() == true) {
-                        initDataNum("2", "", "", "1");
-                        NewlyIncreased.setTag("2");
-                        broker_ll1.setVisibility(View.GONE);
-                    } else if (broker_rb4.isChecked() == true) {
-                        String s = broker_tv4.getText().toString();
-                        String s1 = broker_tv4.getText().toString();
-                        NewlyIncreased.setStartDate(s);
-                        NewlyIncreased.setEndDate(s1);
-                        initDataNum("3", s, s1, "1");
-                        NewlyIncreased.setTag("3");
-                        broker_ll1.setVisibility(View.VISIBLE);
-                    }
+                if (broker_rb1.isChecked() == true) {
+                    initDataNum("0", "", "", "1");
+                    NewlyIncreased.setTag("0");
+                    broker_ll1.setVisibility(View.GONE);
+                } else if (broker_rb2.isChecked() == true) {
+                    initDataNum("1", "", "", "1");
+                    NewlyIncreased.setTag("1");
+                    broker_ll1.setVisibility(View.GONE);
+                } else if (broker_rb3.isChecked() == true) {
+                    initDataNum("2", "", "", "1");
+                    NewlyIncreased.setTag("2");
+                    broker_ll1.setVisibility(View.GONE);
+                } else if (broker_rb4.isChecked() == true) {
+                    String s = broker_tv4.getText().toString();
+                    String s1 = broker_tv4.getText().toString();
+                    NewlyIncreased.setStartDate(s);
+                    NewlyIncreased.setEndDate(s1);
+                    initDataNum("3", s, s1, "1");
+                    NewlyIncreased.setTag("3");
+                    broker_ll1.setVisibility(View.VISIBLE);
+                }
 //                } else {
 //                    initDataNum("", "", "", "1");
 //                }
@@ -783,27 +784,27 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
                 broker_ll6.setClickable(false);
                 broker_ll7.setClickable(false);
 //                if (broker_ll1.getVisibility() == View.VISIBLE) {
-                    if (broker_rb1.isChecked() == true) {
-                        initDataNum("0", "", "", "2");
-                        NewlyIncreased.setTag("0");
-                        broker_ll1.setVisibility(View.GONE);
-                    } else if (broker_rb2.isChecked() == true) {
-                        initDataNum("1", "", "", "2");
-                        NewlyIncreased.setTag("1");
-                        broker_ll1.setVisibility(View.GONE);
-                    } else if (broker_rb3.isChecked() == true) {
-                        initDataNum("2", "", "", "2");
-                        NewlyIncreased.setTag("2");
-                        broker_ll1.setVisibility(View.GONE);
-                    } else if (broker_rb4.isChecked() == true) {
-                        String s = broker_tv4.getText().toString();
-                        String s1 = broker_tv4.getText().toString();
-                        NewlyIncreased.setStartDate(s);
-                        NewlyIncreased.setEndDate(s1);
-                        initDataNum("3", s, s1, "2");
-                        NewlyIncreased.setTag("3");
-                        broker_ll1.setVisibility(View.VISIBLE);
-                    }
+                if (broker_rb1.isChecked() == true) {
+                    initDataNum("0", "", "", "2");
+                    NewlyIncreased.setTag("0");
+                    broker_ll1.setVisibility(View.GONE);
+                } else if (broker_rb2.isChecked() == true) {
+                    initDataNum("1", "", "", "2");
+                    NewlyIncreased.setTag("1");
+                    broker_ll1.setVisibility(View.GONE);
+                } else if (broker_rb3.isChecked() == true) {
+                    initDataNum("2", "", "", "2");
+                    NewlyIncreased.setTag("2");
+                    broker_ll1.setVisibility(View.GONE);
+                } else if (broker_rb4.isChecked() == true) {
+                    String s = broker_tv4.getText().toString();
+                    String s1 = broker_tv4.getText().toString();
+                    NewlyIncreased.setStartDate(s);
+                    NewlyIncreased.setEndDate(s1);
+                    initDataNum("3", s, s1, "2");
+                    NewlyIncreased.setTag("3");
+                    broker_ll1.setVisibility(View.VISIBLE);
+                }
 //                }else {
 //                    initDataNum("", "", "", "2");
 //                }
@@ -840,9 +841,9 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
             xAxis.setDrawGridLines(false);
             /*解决左右两端柱形图只显示一半的情况 只有使用CombinedChart时会出现，如果单独使用BarChart不会有这个问题*/
             xAxis.setAxisMinimum(-0.2f);
-            Log.i("长度","values.size()"+values.size());
-            Log.i("长度","list.size()"+list.size());
-            Log.i("长度","indexList.size()"+indexList.size());
+            Log.i("长度", "values.size()" + values.size());
+            Log.i("长度", "list.size()" + list.size());
+            Log.i("长度", "indexList.size()" + indexList.size());
             xAxis.setAxisMaximum(values.size() - 0.5f);
             xAxis.setGranularity(1f);
             xAxis.setTextColor(Color.parseColor("#666666"));
@@ -852,7 +853,7 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
                 public String getFormattedValue(float value) {
                     if (indexList.size() != 0) {
                         return indexList.get((int) value % indexList.size());
-                    }else {
+                    } else {
                         return "";
                     }
                 }
@@ -860,7 +861,7 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
 
             int max = 0;
 
-            for (int i = 0;i < list.size();i++){
+            for (int i = 0; i < list.size(); i++) {
                 if (list.get(i) > max) {
                     max = list.get(i);
                 }
@@ -916,6 +917,13 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
             lineDataSet.setValueTextSize(10);
             lineDataSet.setDrawValues(true);
             LineData lineData = new LineData();
+            lineData.setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getFormattedValue(float value, com.github.mikephil.charting.data.Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                    int n = (int) value;
+                    return n + "";
+                }
+            });
             lineData.addDataSet(lineDataSet);
             /******************LineData end********************/
 
@@ -923,7 +931,7 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
             combinedData.setData(barData);  // 添加柱形图数据源
             combinedData.setData(lineData); // 添加折线图数据源
             if (indexList.size() > 5) {
-                combinedChart.setVisibleXRange(0,5);
+                combinedChart.setVisibleXRange(0, 5);
             }
             combinedChart.setData(combinedData); // 为组合图设置数据源
 //            combinedChart.setVisibleXRangeMaximum(12);
@@ -936,7 +944,7 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i("销毁","数："+FinalContents.getStoreId());
+        Log.i("销毁", "数：" + FinalContents.getStoreId());
         FinalContents.setStoreId("");
         FinalContents.setAgentId("");
         NewlyIncreased.setTag("0");
@@ -949,16 +957,13 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
-        {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
             FinalContents.setStoreId("");
             FinalContents.setAgentId("");
             finish();
             // your code
             return true;// true 事件不继续传递， false 事件继续传递
-        }
-        else
-        {
+        } else {
             return super.onKeyDown(keyCode, event);
         }
     }
