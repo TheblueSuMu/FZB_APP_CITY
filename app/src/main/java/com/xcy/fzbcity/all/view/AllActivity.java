@@ -43,6 +43,7 @@ public class AllActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_all);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);      //  TODO    始终竖屏
+        initView();
 
         if (!this.isTaskRoot()) {
             Intent mainIntent = getIntent();
@@ -53,15 +54,9 @@ public class AllActivity extends AppCompatActivity {
             }
         }
 
-        initView();
-
 
     }
 
-    @Override
-    public boolean moveTaskToBack(boolean nonRoot) {
-        return super.moveTaskToBack(true);
-    }
 
     private void initView() {
         StatusBar.makeStatusBarTransparent(this);
@@ -170,6 +165,12 @@ public class AllActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    public boolean moveTaskToBack(boolean nonRoot) {
+        return super.moveTaskToBack(true);
+    }
+
 
     /**
      * 隐藏键盘
