@@ -116,6 +116,7 @@
                     android:id="@+id/check_pending_the_project_end_ll5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
@@ -144,6 +145,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:visibility="gone"
                     android:orientation="vertical">
 
                     <TextView
