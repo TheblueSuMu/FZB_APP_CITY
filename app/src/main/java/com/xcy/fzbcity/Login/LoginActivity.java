@@ -35,6 +35,7 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.xcy.fzbcity.R;
@@ -159,11 +160,17 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
     private AVLoadingIndicatorView avi;
     private RelativeLayout avi_login_rl;
     private CheckBox login_select_password;
+    private RelativeLayout login_upload_relative;
+    private ImageView login_upload_image;
+    private ImageView login_cancle_image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        login_upload_relative = findViewById(R.id.login_upload_relative);
+        login_upload_image = findViewById(R.id.login_upload_image);
+        login_cancle_image = findViewById(R.id.login_cancle_image);
         editor = getSharedPreferences("data", MODE_PRIVATE).edit();
         pref = getSharedPreferences("data", MODE_PRIVATE);
         index = pref.getInt("index", 0);
@@ -1353,68 +1360,56 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                     @Override
                     public void onNext(final AppPackageBean appPackageBean) {
-                        if (appPackageBean.getData().getIsUpgrade().equals("0")) {
+                        if(appPackageBean.getData().getIsUpgrade().equals("0")){
+                            login_upload_relative.setVisibility(View.GONE);
                             initfvb();
-                        } else if (appPackageBean.getData().getIsUpgrade().equals("1")) {
-                            AlertDialog.Builder builder1 = new AlertDialog.Builder(LoginActivity.this);
-                            builder1.setTitle("提示");
-                            builder1.setMessage("是否更新当前版本");
-                            builder1.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        }else if(appPackageBean.getData().getIsUpgrade().equals("1")){
+                            login_upload_relative.setVisibility(View.VISIBLE);
+                            try {
+                                Glide.with(LoginActivity.this).load(FinalContents.getImageUrl() + appPackageBean.getData().getImg()).into(login_upload_image);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            login_upload_image.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                                public void onClick(View view) {
+                                    login_upload_relative.setVisibility(View.GONE);
+                                    dial = false;
+                                    url = appPackageBean.getData().getAppurl();
+                                    showDownloadDialog();
+                                }
+                            });
+                            login_cancle_image.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    login_upload_relative.setVisibility(View.GONE);
                                     initfvb();
                                 }
                             });
-                            builder1.setPositiveButton("更新", new DialogInterface.OnClickListener() {
+
+                        }else if(appPackageBean.getData().getIsUpgrade().equals("2")){
+                            login_upload_relative.setVisibility(View.VISIBLE);
+                            try {
+                                Glide.with(LoginActivity.this).load(FinalContents.getImageUrl() + appPackageBean.getData().getImg()).into(login_upload_image);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            login_upload_image.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dial = false;
+                                public void onClick(View view) {
+                                    login_upload_relative.setVisibility(View.GONE);
                                     url = appPackageBean.getData().getAppurl();
                                     showDownloadDialog();
                                 }
                             });
-                            builder1.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            login_cancle_image.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void onDismiss(DialogInterface dialogInterface) {
-                                    if (dial) {
-                                        initfvb();
-                                        Log.i("消失", "1事件触发");
-                                    }
-                                    Log.i("消失", "事件触发");
-//                                    initfvb();
-                                }
-                            });
-                            builder1.show();
-                            Log.i("消失", "2事件触发");
-
-
-                        } else if (appPackageBean.getData().getIsUpgrade().equals("2")) {
-                            AlertDialog.Builder builder1 = new AlertDialog.Builder(LoginActivity.this);
-                            builder1.setTitle("提示");
-                            builder1.setMessage("是否更新当前版本");
-//                            builder1.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    AllActivity.exit = true;
-//                                    finish();
-//                                }
-//                            });
-                            builder1.setPositiveButton("更新", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dial = false;
-                                    url = appPackageBean.getData().getAppurl();
-                                    showDownloadDialog();
-                                }
-                            });
-                            builder1.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                @Override
-                                public void onDismiss(DialogInterface dialogInterface) {
+                                public void onClick(View view) {
+                                    login_upload_relative.setVisibility(View.GONE);
                                     AllActivity.exit = true;
                                     finish();
                                 }
                             });
-                            builder1.show();
                         }
 
                     }

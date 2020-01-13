@@ -43,6 +43,7 @@ public class AllActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_all);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);      //  TODO    始终竖屏
+        initView();
 
         if (!this.isTaskRoot()) {
             Intent mainIntent = getIntent();
@@ -52,21 +53,10 @@ public class AllActivity extends AppCompatActivity {
                 return;
             }
         }
-
-        initView();
-
-
-    }
-
-    @Override
-    public boolean moveTaskToBack(boolean nonRoot) {
-        return super.moveTaskToBack(true);
     }
 
     private void initView() {
         StatusBar.makeStatusBarTransparent(this);
-
-
         Log.i("MyCL", "进入initView");
         if (Build.VERSION.SDK_INT >= 23) {
             //检测是否有写的权限
@@ -103,15 +93,12 @@ public class AllActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-
         if (AllActivity.exit) {
             finish();
             Log.i("王", "123");
         } else {
             Log.i("王", "321");
         }
-
-
     }
 
     @Override
@@ -169,6 +156,11 @@ public class AllActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean moveTaskToBack(boolean nonRoot) {
+        return super.moveTaskToBack(true);
     }
 
     /**

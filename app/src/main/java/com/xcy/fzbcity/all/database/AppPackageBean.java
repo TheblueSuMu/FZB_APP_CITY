@@ -5,7 +5,7 @@ public class AppPackageBean {
     /**
      * code : 1
      * msg : 成功
-     * data : {"comment":"请联系管理员","isUpgrade":"0","appurl":""}
+     * data : {"img":"","comment":"房坐标城市版本开通啦，请您更新体验！","isUpgrade":"1","appurl":"http://test.fangzuobiao.com:88/fangfang/static/down/fangzuobiao.apk"}
      */
 
     private String code;
@@ -38,14 +38,24 @@ public class AppPackageBean {
 
     public static class DataBean {
         /**
-         * comment : 请联系管理员
-         * isUpgrade : 0
-         * appurl :
+         * img :
+         * comment : 房坐标城市版本开通啦，请您更新体验！
+         * isUpgrade : 1
+         * appurl : http://test.fangzuobiao.com:88/fangfang/static/down/fangzuobiao.apk
          */
 
+        private String img;
         private String comment;
         private String isUpgrade;
         private String appurl;
+
+        public String getImg() {
+            return img;
+        }
+
+        public void setImg(String img) {
+            this.img = img;
+        }
 
         public String getComment() {
             return comment;
