@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="拒绝"
+            android:gravity="right"
             android:textColor="#ffe50c0c"
             android:textSize="13sp" />
     </RelativeLayout>

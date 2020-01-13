@@ -47,6 +47,7 @@ import com.baidu.mapapi.search.poi.PoiCitySearchOption;
 import com.baidu.mapapi.search.poi.PoiDetailResult;
 import com.baidu.mapapi.search.poi.PoiDetailSearchResult;
 import com.baidu.mapapi.search.poi.PoiIndoorResult;
+import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
@@ -85,8 +86,8 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
     RelativeLayout test_map_back;
     RelativeLayout test_map_rl_2;
     ImageView text_map_img;
-    private String address;
-    private String pcd;
+    private String address = "";
+    private String pcd = "";
 
     EditText test_map_search;
     int num = 0;
@@ -103,6 +104,10 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
     private LatLng ll1;
     private String xq;
     private String qy;
+
+    private int ifAddress = 0;
+    private int ifPoiSearch = 0;
+    private LatLng point;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,6 +194,7 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
                     Log.i("经纬度", "s1:" + s1);
                     test_map_rl_2.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.VISIBLE);
+                    ifPoiSearch = 0;
                     mPoiSearch.searchInCity(new PoiCitySearchOption()
                             .city(FinalContents.getCityName()) //必填
                             .keyword(s1 + "") //必填
@@ -282,7 +288,7 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
                 mBaiduMap.clear();
                 mBaiduMap = mMapView.getMap();
                 //定义Maker坐标点
-                LatLng point = new LatLng(latLng.latitude, latLng.longitude);
+                point = new LatLng(latLng.latitude, latLng.longitude);
                 //构建Marker图标
                 BitmapDescriptor bitmap = BitmapDescriptorFactory
                         .fromResource(R.mipmap.pin_red2x);
@@ -295,11 +301,20 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
                 mBaiduMap.addOverlay(option);
                 latitude = latLng.latitude;
                 longitude = latLng.longitude;
-                //经纬度转地址
-                mCoder.reverseGeoCode(new ReverseGeoCodeOption()
+                //poi周边检索
+                ifPoiSearch = 1;
+                mPoiSearch.searchNearby(new PoiNearbySearchOption()
                         .location(point)
-                        // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
-                        .radius(500));
+                        .radius(100)
+                        .keyword("房")
+                        .pageNum(0)
+                        .pageCapacity(20));
+                //经纬度转地址
+//                ifAddress = 0;
+//                mCoder.reverseGeoCode(new ReverseGeoCodeOption()
+//                        .location(point)
+//                        // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
+//                        .radius(500));
 
                 latLng1 = latLng;
             }
@@ -312,7 +327,7 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
                 mBaiduMap.clear();
                 mBaiduMap = mMapView.getMap();
                 //定义Maker坐标点
-                LatLng point = new LatLng(mapPoi.getPosition().latitude, mapPoi.getPosition().longitude);
+                point = new LatLng(mapPoi.getPosition().latitude, mapPoi.getPosition().longitude);
                 //构建Marker图标
                 BitmapDescriptor bitmap = BitmapDescriptorFactory
                         .fromResource(R.mipmap.pin_red2x);
@@ -326,10 +341,18 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
                 longitude = mapPoi.getPosition().longitude;
                 //经纬度转地址
                 Log.i("经纬度", "onMapPoiClick_point:" + point);
-                mCoder.reverseGeoCode(new ReverseGeoCodeOption()
+                ifPoiSearch = 1;
+                mPoiSearch.searchNearby(new PoiNearbySearchOption()
                         .location(point)
-                        // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
-                        .radius(900));
+                        .radius(100)
+                        .keyword("房")
+                        .pageNum(0)
+                        .pageCapacity(20));
+//                ifAddress = 0;
+//                mCoder.reverseGeoCode(new ReverseGeoCodeOption()
+//                        .location(point)
+//                        // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
+//                        .radius(900));
 
                 latLng1 = mapPoi.getPosition();
 
@@ -378,7 +401,12 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
             } else {
 
                 //详细地址
-                address = reverseGeoCodeResult.getAddress();
+                if (ifAddress == 0) {
+                    address = reverseGeoCodeResult.getAddress();
+                } else {
+
+                }
+
                 //行政区号
                 int adCode = reverseGeoCodeResult.getCityCode();
 
@@ -400,29 +428,59 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
         public void onGetPoiResult(PoiResult poiResult) {
 //            Log.i("经纬度", "进入onGetPoiResult:");
             allPoi = poiResult.getAllPoi();
-
-            if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {
-                for (int i = 0; i < poiResult.getAllPoi().size(); ++i) {
-                    Log.i("经纬度", "getAddress:" + poiResult.getAllPoi().get(i).getAddress());
-                    Log.i("经纬度", "getArea:" + poiResult.getAllPoi().get(i).getArea());
-                    Log.i("经纬度", "getName:" + poiResult.getAllPoi().get(i).getName());
-                    Log.i("经纬度", "getLocation:" + poiResult.getAllPoi().get(i).getLocation());
-
-                    //name(area)
-                    //address
-                    Log.i("经纬度", "++++++++++++++++++++++++++++++++++++++++++++++++" + i + "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            if (ifPoiSearch == 0) {
+                if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {
+//                    for (int i = 0; i < poiResult.getAllPoi().size(); ++i) {
+//                        Log.i("经纬度", "getAddress:" + poiResult.getAllPoi().get(i).getAddress());
+//                        Log.i("经纬度", "getArea:" + poiResult.getAllPoi().get(i).getArea());
+//                        Log.i("经纬度", "getName:" + poiResult.getAllPoi().get(i).getName());
+//                        Log.i("经纬度", "getLocation:" + poiResult.getAllPoi().get(i).getLocation());
+//
+//                        //name(area)
+//                        //address
+//                        Log.i("经纬度", "++++++++++++++++++++++++++++++++++++++++++++++++" + i + "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+//                    }
+                    LinearLayoutManager manager = new LinearLayoutManager(TestMapActivity.this);
+                    manager.setOrientation(LinearLayoutManager.VERTICAL);
+                    recyclerView.setLayoutManager(manager);
+                    adapter.setAllPoi(allPoi);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Log.i("经纬度", "没有检索到数据");
+                    test_map_rl_2.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
                 }
-                LinearLayoutManager manager = new LinearLayoutManager(TestMapActivity.this);
-                manager.setOrientation(LinearLayoutManager.VERTICAL);
-                recyclerView.setLayoutManager(manager);
-                adapter.setAllPoi(allPoi);
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
             } else {
-                Log.i("经纬度", "没有检索到数据");
-                test_map_rl_2.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.GONE);
+                if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {
+//                    for (int i = 0; i < poiResult.getAllPoi().size(); ++i) {
+//                        Log.i("经纬度", "getAddress:" + poiResult.getAllPoi().get(i).getAddress());
+//                        Log.i("经纬度", "getArea:" + poiResult.getAllPoi().get(i).getArea());
+//                        Log.i("经纬度", "getName:" + poiResult.getAllPoi().get(i).getName());
+//                        Log.i("经纬度", "getLocation:" + poiResult.getAllPoi().get(i).getLocation());
+//
+//                        //name(area)
+//                        //address
+//                        Log.i("经纬度", "++++++++++++++++++++++++++++++++++++++++++++++++" + i + "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+//
+//                    }
+                    address = poiResult.getAllPoi().get(0).getAddress();
+                    ifAddress = 1;
+                    mCoder.reverseGeoCode(new ReverseGeoCodeOption()
+                            .location(point)
+                            // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
+                            .radius(100));
+                    Log.i("", "");
+                } else {
+                    Log.i("经纬度", "没有检索到数据");
+                    ifAddress = 0;
+                    mCoder.reverseGeoCode(new ReverseGeoCodeOption()
+                            .location(point)
+                            // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
+                            .radius(100));
+                }
             }
+
 
         }
 
@@ -468,6 +526,10 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
         latitude = allPoi.get(position).getLocation().latitude;
         longitude = allPoi.get(position).getLocation().longitude;
         //经纬度转地址
+        address = allPoi.get(position).getAddress();
+        Log.i("经纬度", "坐标+名称address：" + address);
+//        pcd = allPoi.get(position).province + "/" + allPoi.get(position).city + "/" + allPoi.get(position);//district
+        ifAddress = 1;
         mCoder.reverseGeoCode(new ReverseGeoCodeOption()
                 .location(point)
                 // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
