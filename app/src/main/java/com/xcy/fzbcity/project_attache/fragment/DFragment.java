@@ -46,6 +46,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.adapter.MyFragmentPagerAdapter;
@@ -417,7 +418,7 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
         project_attache_fragment_ll1.setOnClickListener(this);
 
         if (FinalContents.getFragmentSS().equals("0")) {
-            mAdapter = new MyFragmentPagerAdapter(Objects.requireNonNull(getActivity()).getSupportFragmentManager());
+            mAdapter = new MyFragmentPagerAdapter(getChildFragmentManager());//Objects.requireNonNull(getActivity()).getSupportFragmentManager()
             FinalContents.setFragmentSS("1");
             aList.add(myFragment2);
             aList.add(myFragment1);
@@ -454,7 +455,7 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
                         integers = tendentcyBean.getData().getSeries().get(0).getData();
                         indexList = tendentcyBean.getData().getXAxis().getData();
                         combinedChart.setVisibility(View.VISIBLE);
-                        if(integers.size() != 0){
+                        if (integers.size() != 0) {
                             setData(integers);
                         }
 
@@ -560,7 +561,7 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
                         integers = dBean.getData().getGsonOption().getSeries().get(0).getData();
                         indexList = dBean.getData().getGsonOption().getXAxis().getData();
                         combinedChart.setVisibility(View.VISIBLE);
-                        if(integers.size() != 0){
+                        if (integers.size() != 0) {
                             setData(integers);
                         }
                     }
@@ -578,7 +579,7 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
     }
 
     //   TODO 数据统计 时间选择 开始时间
-    private void initTimePickerView1(){
+    private void initTimePickerView1() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
         startDate.set(year - 3, month, dayOfMonth);
@@ -601,17 +602,17 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
                 .isCenterLabel(false)
                 .setDate(selectedDate)
                 .setLineSpacingMultiplier(1.5f)
-                .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
+                .setTextXOffset(-10, 0, 10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
                 .setRangDate(startDate, endDate)
                 .build();
         pvTime.show();
     }
 
     //   TODO 数据统计 时间选择 结束时间
-    private void initTimePickerView2(){
+    private void initTimePickerView2() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-         startDate.set(year - 3, month, dayOfMonth);
+        startDate.set(year - 3, month, dayOfMonth);
         Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
             @Override
@@ -630,7 +631,7 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
                 .isCenterLabel(false)
                 .setDate(selectedDate)
                 .setLineSpacingMultiplier(1.5f)
-                .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
+                .setTextXOffset(-10, 0, 10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
                 .setRangDate(startDate, endDate)
                 .build();
         pvTime.show();
@@ -871,9 +872,9 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
             xAxis.setDrawGridLines(false);
             /*解决左右两端柱形图只显示一半的情况 只有使用CombinedChart时会出现，如果单独使用BarChart不会有这个问题*/
             xAxis.setAxisMinimum(-0.2f);
-            Log.i("长度","values.size()"+values.size());
-            Log.i("长度","list.size()"+list.size());
-            Log.i("长度","indexList.size()"+indexList.size());
+            Log.i("长度", "values.size()" + values.size());
+            Log.i("长度", "list.size()" + list.size());
+            Log.i("长度", "indexList.size()" + indexList.size());
             xAxis.setAxisMaximum(values.size() - 0.5f);
             xAxis.setGranularity(1f);
             xAxis.setTextColor(Color.parseColor("#666666"));
@@ -883,7 +884,7 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
                 public String getFormattedValue(float value) {
                     if (indexList.size() != 0) {
                         return indexList.get((int) value % indexList.size());
-                    }else {
+                    } else {
                         return "";
                     }
                 }
@@ -891,7 +892,7 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
 
             int max = 0;
 
-            for (int i = 0;i < list.size();i++){
+            for (int i = 0; i < list.size(); i++) {
                 if (list.get(i) > max) {
                     max = list.get(i);
                 }
@@ -904,7 +905,6 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
             axisLeft.setTextColor(Color.parseColor("#999999"));
             axisLeft.setGridColor(Color.parseColor("#999999"));
 //            axisLeft.setGridColor(Color.parseColor("333333"));
-
 
 
             List<Entry> lineEntries = new ArrayList<>();
@@ -949,6 +949,14 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
             lineDataSet.setValueTextSize(10);
             lineDataSet.setDrawValues(true);
             LineData lineData = new LineData();
+            lineData.setValueFormatter(new ValueFormatter() {
+                @Override
+
+                public String getFormattedValue(float value, com.github.mikephil.charting.data.Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                    int n = (int) value;
+                    return n + "";
+                }
+            });
             lineData.addDataSet(lineDataSet);
             /******************LineData end********************/
 
@@ -956,7 +964,7 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
             combinedData.setData(barData);  // 添加柱形图数据源
             combinedData.setData(lineData); // 添加折线图数据源
             if (indexList.size() > 5) {
-                combinedChart.setVisibleXRange(0,5);
+                combinedChart.setVisibleXRange(0, 5);
             }
             combinedChart.setData(combinedData); // 为组合图设置数据源
 //            combinedChart.setVisibleXRangeMaximum(12);

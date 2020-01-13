@@ -36,6 +36,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.android.material.tabs.TabLayout;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
@@ -400,11 +401,11 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                             pvOptions.setPicker(arrayList);
                             //      展示
                             pvOptions.show();
-                        }else {
-                            ToastUtil.showLongToast(ProjectDetails.this,"暂无专案");
+                        } else {
+                            ToastUtil.showLongToast(ProjectDetails.this, "暂无专案");
                         }
-                    }else if(projectDetailsBeanData.getProjectListVo().getFfAttacheList().size() == 0){
-                        ToastUtil.showLongToast(ProjectDetails.this,"暂无专案");
+                    } else if (projectDetailsBeanData.getProjectListVo().getFfAttacheList().size() == 0) {
+                        ToastUtil.showLongToast(ProjectDetails.this, "暂无专案");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -532,8 +533,8 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                         pvOptions.setPicker(arrayList);
                         //      展示
                         pvOptions.show();
-                    }else {
-                        ToastUtil.showLongToast(ProjectDetails.this,"暂无专案");
+                    } else {
+                        ToastUtil.showLongToast(ProjectDetails.this, "暂无专案");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -736,7 +737,7 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                     @Override
                     public void onNext(BuildingBean buildingBean) {
                         List<BuildingBean.DataBean> data = buildingBean.getData();
-                        Log.i("MyCL","data:" + data.size());
+                        Log.i("MyCL", "data:" + data.size());
                         list.clear();
                         if (data.size() == 0) {
                             linear5.setVisibility(View.GONE);
@@ -883,7 +884,7 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                         Log.i("wsm", "fdsafd:" + projectDetailsBeanData.getProjectListVo().getProjectImg());
                         if (projectDetailsBean.getData().getProjectListVo().getProjectImg().equals("")) {
                             backimg.setImageResource(R.mipmap.banner_img);
-                        }else {
+                        } else {
                             Glide.with(ProjectDetails.this).load(FinalContents.getImageUrl() + projectDetailsBean.getData().getProjectListVo().getProjectImg()).into(backimg);
                         }
 
@@ -893,14 +894,14 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                                 try {
                                     if (projectDetailsBeanData.getProjectListVo().getIsPriceTrend() != null) {
                                         if (projectDetailsBeanData.getProjectListVo().getIsPriceTrend().equals("0")) {
-                                            ToastUtil.showLongToast(ProjectDetails.this,"暂无数据");
-                                        }else if (projectDetailsBeanData.getProjectListVo().getIsPriceTrend().equals("1")){
+                                            ToastUtil.showLongToast(ProjectDetails.this, "暂无数据");
+                                        } else if (projectDetailsBeanData.getProjectListVo().getIsPriceTrend().equals("1")) {
                                             project_details_relative.setVisibility(View.VISIBLE);
-                                        }else{
-                                            ToastUtil.showLongToast(ProjectDetails.this,"暂无数据");
+                                        } else {
+                                            ToastUtil.showLongToast(ProjectDetails.this, "暂无数据");
                                         }
-                                    }else {
-                                        ToastUtil.showLongToast(ProjectDetails.this,"暂无数据");
+                                    } else {
+                                        ToastUtil.showLongToast(ProjectDetails.this, "暂无数据");
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -925,7 +926,7 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
 //                        if (projectDetailsBeanData.getProjectListVo().getIsgroup().equals("1")) {
 //                            project_details_group_booking.setVisibility(View.VISIBLE);
 //                        } else {
-                            project_details_group_booking.setVisibility(View.GONE);
+                        project_details_group_booking.setVisibility(View.GONE);
 //                        }
 //                        }
 
@@ -973,22 +974,22 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                         share.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Item_Share.initDaown( ProjectDetails.this,projectDetailsBean.getData().getProjectListVo().getProjectName(),
-                                        FinalContents.getAdminUrl() + "/?userId=" + FinalContents.getUserID() + "&id=" + FinalContents.getProjectID()+"&type=1",
+                                Item_Share.initDaown(ProjectDetails.this, projectDetailsBean.getData().getProjectListVo().getProjectName(),
+                                        FinalContents.getAdminUrl() + "/?userId=" + FinalContents.getUserID() + "&id=" + FinalContents.getProjectID() + "&type=1",
                                         projectDetailsBean.getData().getProjectListVo().getProductFeature(), FinalContents.getImageUrl() + projectDetailsBean.getData().
                                                 getProjectListVo().getProjectImg(), FinalContents.getAdminUrl() + "/?userId=" + FinalContents.getUserID() + "&id=" +
-                                                FinalContents.getProjectID()+"&type=1");
+                                                FinalContents.getProjectID() + "&type=1");
                             }
                         });
 
                         project_details_share_all.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Item_Share.initDaown( ProjectDetails.this,projectDetailsBean.getData().getProjectListVo().getProjectName(),
+                                Item_Share.initDaown(ProjectDetails.this, projectDetailsBean.getData().getProjectListVo().getProjectName(),
                                         FinalContents.getAdminUrl() + "/?userId=" + FinalContents.getUserID() + "&id=" +
-                                                FinalContents.getProjectID()+"&type=1", projectDetailsBean.getData().getProjectListVo().getProductFeature(),
+                                                FinalContents.getProjectID() + "&type=1", projectDetailsBean.getData().getProjectListVo().getProductFeature(),
                                         FinalContents.getImageUrl() + projectDetailsBean.getData().getProjectListVo().getProjectImg(), FinalContents.getAdminUrl()
-                                                + "/?userId=" + FinalContents.getUserID() + "&id=" + FinalContents.getProjectID()+"&type=1");
+                                                + "/?userId=" + FinalContents.getUserID() + "&id=" + FinalContents.getProjectID() + "&type=1");
                             }
                         });
 
@@ -1003,17 +1004,17 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
 
                         //地图
                         String ids = projectDetailsBeanData.getProjectListVo().getLocation();//从pd里取出字符串
-                       List tags = Arrays.asList(ids.split(","));//根据逗号分隔转化为list
-List tag = new ArrayList();
-if (tags.size() > 4) {
-    for (int i = 0;i < 4;i++){
-        tag.add(tags.get(i));
-    }
-}else {
-    for (int i = 0;i < tags.size();i++){
-        tag.add(tags.get(i));
-    }
-}
+                        List tags = Arrays.asList(ids.split(","));//根据逗号分隔转化为list
+                        List tag = new ArrayList();
+                        if (tags.size() > 4) {
+                            for (int i = 0; i < 4; i++) {
+                                tag.add(tags.get(i));
+                            }
+                        } else {
+                            for (int i = 0; i < tags.size(); i++) {
+                                tag.add(tags.get(i));
+                            }
+                        }
                         double d = Double.parseDouble(tags.get(0).toString());
                         double o = Double.parseDouble(tags.get(1).toString());
                         if (!projectDetailsBeanData.getProjectListVo().getSalesOfficeLocation().equals("")) {
@@ -1346,17 +1347,17 @@ if (tags.size() > 4) {
                             } else {
                                 linear6.setVisibility(View.VISIBLE);
                                 String ids = houseDataData.getPropertyHouseList().get(0).getContent();//从pd里取出字符串
-                               List tags = Arrays.asList(ids.split(","));//根据逗号分隔转化为list
-List tag = new ArrayList();
-if (tags.size() > 4) {
-    for (int i = 0;i < 4;i++){
-        tag.add(tags.get(i));
-    }
-}else {
-    for (int i = 0;i < tags.size();i++){
-        tag.add(tags.get(i));
-    }
-}
+                                List tags = Arrays.asList(ids.split(","));//根据逗号分隔转化为list
+                                List tag = new ArrayList();
+                                if (tags.size() > 4) {
+                                    for (int i = 0; i < 4; i++) {
+                                        tag.add(tags.get(i));
+                                    }
+                                } else {
+                                    for (int i = 0; i < tags.size(); i++) {
+                                        tag.add(tags.get(i));
+                                    }
+                                }
 
                                 repast_content.setTheme(ColorFactory.NONE);
                                 repast_content.setTags(tags);
@@ -1516,7 +1517,7 @@ if (tags.size() > 4) {
                             }
 
                             indexList = projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(0).getMonthList();
-                            if(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(0).getMonthPriceList().size() != 0){
+                            if (projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(0).getMonthPriceList().size() != 0) {
                                 setData(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(0).getMonthPriceList());
                             }
 
@@ -1546,7 +1547,7 @@ if (tags.size() > 4) {
                                         }
                                         if (tabName.equals(tab.getText().toString())) {
                                             indexList = projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthList();
-                                            if(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthPriceList().size() != 0){
+                                            if (projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthPriceList().size() != 0) {
                                                 setData(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthPriceList());
                                             }
                                         }
@@ -1583,7 +1584,7 @@ if (tags.size() > 4) {
                                         }
                                         if (tabName.equals(tab.getText().toString())) {
                                             indexList = projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthList();
-                                            if(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthPriceList().size() != 0){
+                                            if (projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthPriceList().size() != 0) {
                                                 setData(projectHousesTrendListBean.getData().getHouseTrendResult().getHouseTrendVoList().get(i).getMonthPriceList());
                                             }
                                         }
@@ -1607,6 +1608,7 @@ if (tags.size() > 4) {
                     }
                 });
     }
+
     //TODO 详情页趋势图数据填充
     private void setData(final List<Integer> list) {
 
@@ -1634,9 +1636,9 @@ if (tags.size() > 4) {
             xAxis.setDrawGridLines(false);
             /*解决左右两端柱形图只显示一半的情况 只有使用CombinedChart时会出现，如果单独使用BarChart不会有这个问题*/
             xAxis.setAxisMinimum(-0.2f);
-            Log.i("长度","values.size()"+values.size());
-            Log.i("长度","list.size()"+list.size());
-            Log.i("长度","indexList.size()"+indexList.size());
+            Log.i("长度", "values.size()" + values.size());
+            Log.i("长度", "list.size()" + list.size());
+            Log.i("长度", "indexList.size()" + indexList.size());
             xAxis.setAxisMaximum(values.size() - 0.5f);
             xAxis.setGranularity(1f);
             xAxis.setTextColor(Color.parseColor("#666666"));
@@ -1646,7 +1648,7 @@ if (tags.size() > 4) {
                 public String getFormattedValue(float value) {
                     if (indexList.size() != 0) {
                         return indexList.get((int) value % indexList.size());
-                    }else {
+                    } else {
                         return "";
                     }
                 }
@@ -1654,7 +1656,7 @@ if (tags.size() > 4) {
 
             int max = 0;
 
-            for (int i = 0;i < list.size();i++){
+            for (int i = 0; i < list.size(); i++) {
                 if (list.get(i) > max) {
                     max = list.get(i);
                 }
@@ -1710,6 +1712,13 @@ if (tags.size() > 4) {
             lineDataSet.setValueTextSize(10);
             lineDataSet.setDrawValues(true);
             LineData lineData = new LineData();
+            lineData.setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getFormattedValue(float value, com.github.mikephil.charting.data.Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                    int n = (int) value;
+                    return n + "";
+                }
+            });
             lineData.addDataSet(lineDataSet);
             /******************LineData end********************/
 
@@ -1717,7 +1726,7 @@ if (tags.size() > 4) {
             combinedData.setData(barData);  // 添加柱形图数据源
             combinedData.setData(lineData); // 添加折线图数据源
             if (indexList.size() > 5) {
-                combinedChart.setVisibleXRange(0,5);
+                combinedChart.setVisibleXRange(0, 5);
             }
             combinedChart.setData(combinedData); // 为组合图设置数据源
 //            combinedChart.setVisibleXRangeMaximum(12);
@@ -1737,7 +1746,7 @@ if (tags.size() > 4) {
     @Override
     public void onScrollChanged(GradationScrollView scrollView, int x, final int y, int oldx, int oldy) {
         int minHeight = 50;
-        int maxHeight = (int) (backimg.getMeasuredHeight()*0.5);
+        int maxHeight = (int) (backimg.getMeasuredHeight() * 0.5);
         if (maxHeight == 0) {
             maxHeight = 500;
         }
@@ -1771,7 +1780,7 @@ if (tags.size() > 4) {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i("数据","走一走:"+CityContents.getIsReport());
+        Log.i("数据", "走一走:" + CityContents.getIsReport());
         CityContents.setIsReport("");
     }
 }

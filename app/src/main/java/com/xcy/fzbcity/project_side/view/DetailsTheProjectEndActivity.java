@@ -3,6 +3,7 @@ package com.xcy.fzbcity.project_side.view;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -20,6 +21,9 @@ import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -29,7 +33,12 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IFillFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.api.CityContents;
@@ -48,6 +57,7 @@ import com.xcy.fzbcity.all.utils.ToastUtil;
 import com.xcy.fzbcity.all.view.AllActivity;
 import com.xcy.fzbcity.all.view.MapActivity;
 import com.xcy.fzbcity.all.view.ProjectDetails;
+import com.xcy.fzbcity.all.view.ReportActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -559,13 +569,13 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
 
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year-3, month, dayOfMonth);
+        startDate.set(year - 3, month, dayOfMonth);
         Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(DetailsTheProjectEndActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 if (select.after(date)) {
-                    ToastUtil.showLongToast(DetailsTheProjectEndActivity.this,"时间间隔不能大于100天");
+                    ToastUtil.showLongToast(DetailsTheProjectEndActivity.this, "时间间隔不能大于100天");
                 } else {
 
                     endselect = date;
@@ -731,7 +741,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
     //TODO 详情页趋势数据赋值
     private void initViewData3() {
         if (select.after(endselect)) {
-            ToastUtil.showLongToast(DetailsTheProjectEndActivity.this,"开始时间不能大于结束时间");
+            ToastUtil.showLongToast(DetailsTheProjectEndActivity.this, "开始时间不能大于结束时间");
             return;
         }
 
@@ -876,6 +886,13 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
             lineDataSet.setValueTextSize(10);
             lineDataSet.setDrawValues(true);
             LineData lineData = new LineData();
+            lineData.setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getFormattedValue(float value, com.github.mikephil.charting.data.Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                    int n = (int) value;
+                    return n + "";
+                }
+            });
             lineData.addDataSet(lineDataSet);
             /******************LineData end********************/
 
@@ -1137,7 +1154,6 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
                 } else if (details_the_project_end_rb4.isChecked() == true) {
                     type1 = "3";
                     NewlyIncreased.setTag("3");
-                    initViewData2();
                     details_the_project_end_time_ll1.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -1176,7 +1192,6 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
                 } else if (details_the_project_end_rb4.isChecked() == true) {
                     type1 = "3";
                     NewlyIncreased.setTag("3");
-                    initViewData2();
                     details_the_project_end_time_ll1.setVisibility(View.VISIBLE);
                 }
                 break;

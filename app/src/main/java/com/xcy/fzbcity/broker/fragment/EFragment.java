@@ -231,30 +231,75 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
             startActivity(intent);
         } else if (id == R.id.my_empty) {
 //            TODO 清空缓存
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setMessage("确认清除缓存吗?");
-            builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+            View inflate = LayoutInflater.from(getActivity()).inflate(R.layout.binding_report, null, false);
+            builder1.setView(inflate);
+            final AlertDialog show = builder1.show();
+            show.getWindow().setBackgroundDrawableResource(R.drawable.report_shape);
+
+            WindowManager m = getActivity().getWindowManager();
+            Display d = m.getDefaultDisplay();
+            WindowManager.LayoutParams attributes = show.getWindow().getAttributes();
+            attributes.width = (int)(d.getWidth() - 200);
+            show.getWindow().setAttributes(attributes);
+
+            TextView report_binding_title = inflate.findViewById(R.id.report_binding_title);
+            TextView report_binding_confirm_tv = inflate.findViewById(R.id.report_binding_confirm_tv);
+            TextView report_binding_cancel_tv = inflate.findViewById(R.id.report_binding_cancel_tv);
+            RelativeLayout report_binding_cancel = inflate.findViewById(R.id.report_binding_cancel);
+            RelativeLayout report_binding_confirm = inflate.findViewById(R.id.report_binding_confirm);
+            report_binding_title.setText("确认清除缓存吗?");//内容
+            report_binding_confirm_tv.setText("确定");
+            report_binding_cancel_tv.setText("取消");
+            report_binding_title.setTextColor(Color.parseColor("#111111"));
+            report_binding_cancel_tv.setTextColor(Color.parseColor("#334485"));
+            report_binding_confirm_tv.setTextColor(Color.parseColor("#334485"));
+            report_binding_cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
+                public void onClick(View v) {
+                    show.dismiss();
+                }
+            });
+            report_binding_confirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     try {
                         String totalCacheSize = CleanDataUtils.getTotalCacheSize(getActivity());
                         CleanDataUtils.clearAllCache(getActivity());
                         ToastUtil.showToast(getActivity(), "清理缓存成功,共清理了" + totalCacheSize + "内存");
                         my_tv_huancun.setText("0 M");
+                        show.dismiss();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             });
-            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    ToastUtil.showToast(getActivity(), "取消清理");
-                }
-            });
-            AlertDialog show = builder.show();
-            show.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#334485"));
-            show.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#334485"));
+
+//            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//            builder.setMessage("确认清除缓存吗?");
+//            builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialogInterface, int i) {
+//                    try {
+//                        String totalCacheSize = CleanDataUtils.getTotalCacheSize(getActivity());
+//                        CleanDataUtils.clearAllCache(getActivity());
+//                        ToastUtil.showToast(getActivity(), "清理缓存成功,共清理了" + totalCacheSize + "内存");
+//                        my_tv_huancun.setText("0 M");
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+//            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialogInterface, int i) {
+//                    ToastUtil.showToast(getActivity(), "取消清理");
+//                }
+//            });
+//            AlertDialog show = builder.show();
+//            show.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#334485"));
+//            show.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#334485"));
         } else if (id == R.id.my_exit) {
 //            TODO 退出登录
 

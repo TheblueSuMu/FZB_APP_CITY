@@ -287,7 +287,7 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
                 BitmapDescriptor bitmap = BitmapDescriptorFactory
                         .fromResource(R.mipmap.pin_red2x);
                 //构建MarkerOption，用于在地图上添加Marker
-                Log.i("经纬度","onMapClick_point:" + point);
+                Log.i("经纬度", "onMapClick_point:" + point);
                 OverlayOptions option = new MarkerOptions()
                         .position(point)
                         .icon(bitmap);
@@ -325,7 +325,7 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
                 latitude = mapPoi.getPosition().latitude;
                 longitude = mapPoi.getPosition().longitude;
                 //经纬度转地址
-                Log.i("经纬度","onMapPoiClick_point:" + point);
+                Log.i("经纬度", "onMapPoiClick_point:" + point);
                 mCoder.reverseGeoCode(new ReverseGeoCodeOption()
                         .location(point)
                         // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
@@ -376,11 +376,12 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
                 Log.i("经纬度", "没有找到检索结果");
                 return;
             } else {
+
                 //详细地址
                 address = reverseGeoCodeResult.getAddress();
                 //行政区号
                 int adCode = reverseGeoCodeResult.getCityCode();
-                
+
                 pcd = reverseGeoCodeResult.getAddressDetail().province + "/" + reverseGeoCodeResult.getAddressDetail().city + "/" + reverseGeoCodeResult.getAddressDetail().district;
                 Log.i("经纬度", "address：" + address);
                 Log.i("经纬度", "getLocation：" + reverseGeoCodeResult.getLocation());
@@ -581,9 +582,9 @@ public class TestMapActivity extends AppCompatActivity implements TestMapPopwind
         if (latitude == 0 || longitude == 0) {
             ToastUtil.showToast(TestMapActivity.this, "请选择定位");
         } else {
-            if(address.equals("") || pcd.equals("")){
+            if (address.equals("") || pcd.equals("")) {
                 ToastUtil.showToast(TestMapActivity.this, "请重新选择定位");
-            }else {
+            } else {
                 Intent intent = new Intent();
                 //纬度
                 intent.putExtra("getLatitude", latitude + "");
