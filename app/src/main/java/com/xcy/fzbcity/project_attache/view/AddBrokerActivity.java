@@ -217,7 +217,7 @@ public class AddBrokerActivity extends AppCompatActivity implements View.OnClick
 
                         ifCompanyManageId = brokerChangeBean.getData().getCompanyManage().getId();
 
-                        add_store_et4.setHint("");
+                        add_store_et4.setHint("               ");
 
                     }
 

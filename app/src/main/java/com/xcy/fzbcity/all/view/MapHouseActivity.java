@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -86,11 +87,11 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
     private BaiduMap mBaiduMap;
     private MapStatus mMapStatus;
     private ClusterManager<MyItem> mClusterManager;
-    private List<MyItem> items;
+    private List<MyItem> items = new ArrayList<>();
     private LayoutInflater mLayoutIn;
     private View view;
     private PopupWindow popupWindow;
-    private List<StoreListBean.DataBean.RowsBean> rows;
+    private List<StoreListBean.DataBean.RowsBean> rows = new ArrayList<>();
     private List<String> strings = new ArrayList<>();
     private StringBuffer sb;
     private TextView pop_name;
@@ -111,13 +112,13 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
     private LinearLayout pop_ll_1;
 
     int ifMG = 0;
-    private List<StoreListBean.DataBean.RowsBean> rows1;
+    private List<StoreListBean.DataBean.RowsBean> rows1 = new ArrayList<>();
     private double ssv;
     private double ssvs;
 
     int ifKeyListener = 0;
-    private List<CityBean.DataBean> data;
-    private List<HotBean.DataBean.RowsBean> rows2;
+    private List<CityBean.DataBean> data = new ArrayList<>();
+    private List<HotBean.DataBean.RowsBean> rows2 = new ArrayList<>();
 
     //城市弹窗数据
     RoundedImageView imageAvatar;
@@ -215,6 +216,9 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
         map_house_return = findViewById(R.id.map_house_return);
         map_house_search = findViewById(R.id.map_house_search_S);
         map_house_check = findViewById(R.id.map_house_check);
+
+        map_house_search.setInputType(InputType.TYPE_NULL);
+
         //输入框回车事件监听
         map_house_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -455,6 +459,7 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onNext(HotBean hotBean) {
                         rows2 = hotBean.getData().getRows();
+                        map_house_search.setInputType(InputType.TYPE_CLASS_TEXT);
                         Log.i("MyCL", "城市项目列表长度：" + rows2.size());
                         initMap();
                     }
@@ -493,6 +498,7 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onNext(StoreListBean storeListBean) {
                         rows1 = storeListBean.getData().getRows();
+                        map_house_search.setInputType(InputType.TYPE_CLASS_TEXT);
                         Log.i("MyCL", "公司数据：" + rows1.size());
                         initMap();
                     }
@@ -531,6 +537,7 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onNext(StoreListBean storeListBean) {
                         rows = storeListBean.getData().getRows();
+                        map_house_search.setInputType(InputType.TYPE_CLASS_TEXT);
                         Log.i("MyCL", "门店数据：" + rows.size());
                         initMap();
                     }

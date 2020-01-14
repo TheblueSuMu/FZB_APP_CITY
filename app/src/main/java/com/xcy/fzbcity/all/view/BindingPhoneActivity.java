@@ -15,6 +15,7 @@ import com.xcy.fzbcity.all.api.Connector;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.api.NewlyIncreased;
 import com.xcy.fzbcity.all.modle.ChangePhoneBean;
+import com.xcy.fzbcity.all.modle.CodeBean;
 import com.xcy.fzbcity.all.modle.GWDataBean;
 import com.xcy.fzbcity.all.modle.UserBean;
 import com.xcy.fzbcity.all.modle.UserMessageBean;
@@ -251,21 +252,25 @@ public class BindingPhoneActivity extends AllActivity implements View.OnClickLis
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        final Observable<VerificationBean> code = fzbInterface.getCode(phone);
+        final Observable<CodeBean> code = fzbInterface.getSendCode(phone);
         code.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<VerificationBean>() {
+                .subscribe(new Observer<CodeBean>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(VerificationBean codeBean) {
-                        CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(binding_btn_1, 60000, 1000);
-                        mCountDownTimerUtils.start();
-                        VerificationBean.DataBean data = codeBean.getData();
-                        ToastUtil.showToast(BindingPhoneActivity.this,data.getMessage());
+                    public void onNext(CodeBean codeBean) {
+                        if (codeBean.getData().getStatus().equals("0")) {
+                            ToastUtil.showLongToast(BindingPhoneActivity.this, codeBean.getData().getMessage());
+                        } else if (codeBean.getData().getStatus().equals("1")) {
+                            CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(binding_btn_1, 60000, 1000);
+                            mCountDownTimerUtils.start();
+                            CodeBean.DataBean data = codeBean.getData();
+                            ToastUtil.showToast(BindingPhoneActivity.this, data.getMessage());
+                        }
                     }
 
                     @Override

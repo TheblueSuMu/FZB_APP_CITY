@@ -60,6 +60,6 @@ public class CountDownTimerUtils extends CountDownTimer {
     public void onFinish() {
         mTextView.setText("获取验证码");
         mTextView.setClickable(true);//重新获得点击
-        mTextView.setBackgroundColor(R.color.colorget);
+        mTextView.setBackgroundColor(Color.parseColor("#ff334485"));
     }
 }

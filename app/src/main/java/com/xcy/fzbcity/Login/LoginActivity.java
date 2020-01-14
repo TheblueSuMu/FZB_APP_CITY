@@ -633,6 +633,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                     @Override
                     public void onError(Throwable e) {
+                        avi.hide();
+                        avi.setVisibility(View.GONE);
+                        avi_login_rl.setVisibility(View.GONE);
                         ToastUtil.showLongToast(LoginActivity.this, "您输入的手机号有误");
                         Log.i("wsw", "返回的数据" + e.getMessage());
                     }
@@ -1069,6 +1072,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                                 finish();
                             }
                         } else {
+                            avi.hide();
+                            avi.setVisibility(View.GONE);
+                            avi_login_rl.setVisibility(View.GONE);
                             ToastUtil.showLongToast(LoginActivity.this, "当前无网络，请检查网络后再重新登录APP");
                             finish();
                         }
@@ -1076,6 +1082,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                     @Override
                     public void onError(Throwable e) {
+                        avi.hide();
+                        avi.setVisibility(View.GONE);
+                        avi_login_rl.setVisibility(View.GONE);
                         ToastUtil.showLongToast(LoginActivity.this, "您输入的账号或密码有误");
                         Log.i("wsw", "返回的数据" + e.getMessage());
                     }
@@ -1202,6 +1211,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                                 finish();
                             }
                         } else {
+                            avi.hide();
+                            avi.setVisibility(View.GONE);
+                            avi_login_rl.setVisibility(View.GONE);
                             ToastUtil.showLongToast(LoginActivity.this, "当前无网络，请检查网络后再重新登录APP");
                             finish();
                         }
@@ -1211,6 +1223,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                     @Override
                     public void onError(Throwable e) {
+                        avi.hide();
+                        avi.setVisibility(View.GONE);
+                        avi_login_rl.setVisibility(View.GONE);
                         ToastUtil.showLongToast(LoginActivity.this, "您输入的账号或密码有误");
                         Log.i("wsw", "返回的数据" + e.getMessage());
                     }
