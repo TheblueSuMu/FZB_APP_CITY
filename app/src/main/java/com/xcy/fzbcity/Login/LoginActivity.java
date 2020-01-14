@@ -1404,7 +1404,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                         }else if(appPackageBean.getData().getIsUpgrade().equals("2")){
                             login_upload_relative.setVisibility(View.VISIBLE);
-                            login_cancle_image.setVisibility(View.VISIBLE);
+                            login_cancle_image.setVisibility(View.GONE);
                             try {
                                 Glide.with(LoginActivity.this).load(FinalContents.getImageUrl() + appPackageBean.getData().getImg()).into(login_upload_image);
                             } catch (Exception e) {
