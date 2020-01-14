@@ -36,6 +36,7 @@
             android:background="@drawable/comment"
             android:imeOptions="actionSearch"
             android:singleLine="true"
+            android:inputType="text"
             android:gravity="center"
             android:hint="搜索"
             android:textColor="#333333"

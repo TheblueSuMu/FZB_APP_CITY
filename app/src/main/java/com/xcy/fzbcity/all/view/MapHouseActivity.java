@@ -146,6 +146,8 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
     private double latitude;
     private double longitude;
 
+    private int ifSearch = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -288,7 +290,93 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
                 return false;
             }
         });
+        //输入框搜索事件监听
+        map_house_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
+            @Override
+            public boolean onEditorAction(TextView v, int actionId,
+                                          KeyEvent event) {
+                if ((actionId == 0 || actionId == 3) && event != null) {
+
+                    if (ifKeyListener == 0) {
+                        String s = map_house_search.getText().toString();
+                        if (s.equals("")) {
+                            //提示用户输入内容再搜索
+                            ToastUtil.showToast(MapHouseActivity.this, "输入框为空，请输入内容再进行查找");
+                        } else {
+                            if (FinalContents.getIfCity().equals("")) {
+                                if (ifMG == 0) {//门店
+                                    for (int p = 0; p < rows.size(); ++p) {
+                                        if (s.equals(rows.get(p).getStoreName())) {
+                                            StringBuffer stringBuffer = new StringBuffer();
+                                            StringBuffer append = stringBuffer.append(rows.get(p).getLocation());
+                                            for (int j = 0; j < append.length(); ++j) {
+                                                if (append.substring(j, j + 1).equals(",")) {
+                                                    //lo 后
+                                                    ssv = Double.parseDouble(append.substring(0, j));
+                                                    //la 前
+                                                    ssvs = Double.parseDouble(append.substring(j + 1));
+                                                    ifKeyListener = 1;
+                                                }
+                                            }
+                                            ifSearch = 0;
+                                            break;
+                                        }else {
+                                            ifSearch = 1;
+                                        }
+                                    }
+                                } else if (ifMG == 1) {//公司
+                                    for (int p = 0; p < rows1.size(); ++p) {
+                                        if (s.equals(rows1.get(p).getCompanyName())) {
+                                            StringBuffer stringBuffer = new StringBuffer();
+                                            StringBuffer append = stringBuffer.append(rows1.get(p).getComLocation());
+                                            for (int j = 0; j < append.length(); ++j) {
+                                                if (append.substring(j, j + 1).equals(",")) {
+                                                    ssv = Double.parseDouble(append.substring(0, j));//lo 后
+
+                                                    ssvs = Double.parseDouble(append.substring(j + 1));//la 前
+
+                                                    ifKeyListener = 1;
+                                                }
+                                            }
+                                            ifSearch = 0;
+                                            break;
+                                        }else {
+                                            ifSearch = 1;
+                                        }
+                                    }
+                                }
+                            } else {
+                                for (int p = 0; p < rows2.size(); ++p) {
+                                    if (s.equals(rows2.get(p).getProjectName())) {
+                                        StringBuffer stringBuffer = new StringBuffer();
+                                        StringBuffer append = stringBuffer.append(rows2.get(p).getLocation());
+                                        for (int j = 0; j < append.length(); ++j) {
+                                            if (append.substring(j, j + 1).equals(",")) {
+                                                ssv = Double.parseDouble(append.substring(0, j));//lo 后
+
+                                                ssvs = Double.parseDouble(append.substring(j + 1));//la 前
+
+                                                ifKeyListener = 1;
+                                            }
+                                        }
+                                        ifSearch = 0;
+                                        break;
+                                    }else {
+                                        ifSearch = 1;
+                                    }
+                                }
+                            }
+                        }
+                        if(ifSearch == 1){
+                            ToastUtil.showLongToast(MapHouseActivity.this,"搜索暂无结果");
+                        }
+                    }
+
+                }
+                return false;
+            }
+        });
 
         map_house_return.setOnClickListener(this);
         map_house_check.setOnClickListener(this);
