@@ -291,17 +291,18 @@ public class AboutFZBActivity extends AllActivity implements View.OnClickListene
                             RelativeLayout report_binding_cancel = inflate.findViewById(R.id.report_binding_cancel);
                             RelativeLayout report_binding_confirm = inflate.findViewById(R.id.report_binding_confirm);
                             report_binding_title.setText(appPackageBean.getData().getComment());//内容
+                            report_binding_cancel.setVisibility(View.GONE);
                             report_binding_confirm_tv.setText("更新");
-                            report_binding_cancel_tv.setText("取消");
+//                            report_binding_cancel_tv.setText("取消");
                             report_binding_title.setTextColor(Color.parseColor("#111111"));
-                            report_binding_cancel_tv.setTextColor(Color.parseColor("#334485"));
+//                            report_binding_cancel_tv.setTextColor(Color.parseColor("#334485"));
                             report_binding_confirm_tv.setTextColor(Color.parseColor("#334485"));
-                            report_binding_cancel.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    show.dismiss();
-                                }
-                            });
+//                            report_binding_cancel.setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    show.dismiss();
+//                                }
+//                            });
                             report_binding_confirm.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
