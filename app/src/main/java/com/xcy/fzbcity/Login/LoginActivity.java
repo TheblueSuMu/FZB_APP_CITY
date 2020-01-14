@@ -1413,7 +1413,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                             login_upload_image.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    login_upload_relative.setVisibility(View.GONE);
+//                                    login_upload_relative.setVisibility(View.GONE);
                                     url = appPackageBean.getData().getAppurl();
                                     showDownloadDialog();
                                 }
@@ -1446,7 +1446,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
      * 显示正在下载对话框
      */
     protected void showDownloadDialog() {
-
+        mIsCancel = false;
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
         builder.setTitle("下载中");
         View view = LayoutInflater.from(LoginActivity.this).inflate(R.layout.dialog_progress, null);

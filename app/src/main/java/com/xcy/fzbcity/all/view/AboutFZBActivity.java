@@ -332,7 +332,7 @@ public class AboutFZBActivity extends AllActivity implements View.OnClickListene
      * 显示正在下载对话框
      */
     protected void showDownloadDialog() {
-
+        mIsCancel = false;
         AlertDialog.Builder builder = new AlertDialog.Builder(AboutFZBActivity.this);
         builder.setTitle("下载中");
         View view = LayoutInflater.from(AboutFZBActivity.this).inflate(R.layout.dialog_progress, null);
