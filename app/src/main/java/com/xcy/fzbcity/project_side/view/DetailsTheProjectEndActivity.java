@@ -864,7 +864,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
             barDataSet.setDrawValues(true);
             barDataSet.setValueFormatter(new ValueFormatter() {
                 @Override
-                public String getFormattedValue(float value, com.github.mikephil.charting.data.Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                public String getFormattedValue(float value) {
                     int n = (int) value;
                     return n + "";
                 }

@@ -102,9 +102,9 @@ public class MyClientFragment2 extends Fragment implements ClientFragmentAdapter
 
                         if (FinalContents.getZhuanyuan().equals("1")) {
                             initData2();
-                        }else if (FinalContents.getQuanceng().equals("1")) {
+                        } else if (FinalContents.getQuanceng().equals("1")) {
                             initData2();
-                        }else {
+                        } else {
                             initData();
                         }
 
@@ -129,7 +129,7 @@ public class MyClientFragment2 extends Fragment implements ClientFragmentAdapter
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<ClientFragmentBean> clientFragment = fzbInterface.getClientFragment(FinalContents.getUserID() + "", "", "","10","1000", NewlyIncreased.getTag(), NewlyIncreased.getStartDate(), NewlyIncreased.getEndDate());
+        Observable<ClientFragmentBean> clientFragment = fzbInterface.getClientFragment(FinalContents.getUserID() + "", "", "", "10", "1000", NewlyIncreased.getTag(), NewlyIncreased.getStartDate(), NewlyIncreased.getEndDate());
         clientFragment.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ClientFragmentBean>() {
@@ -147,7 +147,7 @@ public class MyClientFragment2 extends Fragment implements ClientFragmentAdapter
                             clientFragmentAdapter.setRows(rows);
 
                             client_2_rv.setAdapter(clientFragmentAdapter);
-                        }else {
+                        } else {
                             all_no_information.setVisibility(View.VISIBLE);
                             client_2_rv.setVisibility(View.GONE);
                         }
@@ -172,7 +172,7 @@ public class MyClientFragment2 extends Fragment implements ClientFragmentAdapter
     }
 
     private void initData2() {
-        rows = new ArrayList<>();
+        rowsList = new ArrayList<>();
         reportProcessAdapter = new ReportProcessAdapter();
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(FinalContents.getBaseUrl());
@@ -180,7 +180,7 @@ public class MyClientFragment2 extends Fragment implements ClientFragmentAdapter
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<ReportProcessBean> clientFragment = fzbInterface.getReportProcess(FinalContents.getAgentId(), "10", "",FinalContents.getUserID(),"1000",FinalContents.getMySelf(), NewlyIncreased.getTag(), NewlyIncreased.getStartDate(), NewlyIncreased.getEndDate());
+        Observable<ReportProcessBean> clientFragment = fzbInterface.getReportProcess(FinalContents.getAgentId(), "10", "", FinalContents.getUserID(), "1000", FinalContents.getMySelf(), NewlyIncreased.getTag(), NewlyIncreased.getStartDate(), NewlyIncreased.getEndDate());
         clientFragment.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ReportProcessBean>() {
@@ -198,7 +198,7 @@ public class MyClientFragment2 extends Fragment implements ClientFragmentAdapter
                             reportProcessAdapter.setRows(rowsList);
 
                             client_2_rv.setAdapter(reportProcessAdapter);
-                        }else {
+                        } else {
                             all_no_information.setVisibility(View.VISIBLE);
                             client_2_rv.setVisibility(View.GONE);
                         }
@@ -222,10 +222,18 @@ public class MyClientFragment2 extends Fragment implements ClientFragmentAdapter
     @Override
     public void ItemOnClick(int position) {
         CityContents.setReadRecordStatus("10");
-        Intent intent = new Intent(getContext(), ReviewTheSuccessActivity.class);
-        FinalContents.setCustomerID(rows.get(position).getCustomerId());
-        FinalContents.setPreparationId(rows.get(position).getPreparationId());
-        startActivity(intent);
+        if (FinalContents.getZhuanyuan().equals("1") || FinalContents.getQuanceng().equals("1")) {
+            Intent intent = new Intent(getContext(), ReviewTheSuccessActivity.class);
+//        FinalContents.setCustomerID(rows.get(position).getCustomerId());
+            FinalContents.setPreparationId(rowsList.get(position).getPreparationId());
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(getContext(), ReviewTheSuccessActivity.class);
+//        FinalContents.setCustomerID(rows.get(position).getCustomerId());
+            FinalContents.setPreparationId(rows.get(position).getPreparationId());
+            startActivity(intent);
+        }
+
     }
 
 
@@ -235,9 +243,9 @@ public class MyClientFragment2 extends Fragment implements ClientFragmentAdapter
 
         if (FinalContents.getZhuanyuan().equals("1")) {
             initData2();
-        }else if (FinalContents.getQuanceng().equals("1")) {
+        } else if (FinalContents.getQuanceng().equals("1")) {
             initData2();
-        }else {
+        } else {
             initData();
         }
 

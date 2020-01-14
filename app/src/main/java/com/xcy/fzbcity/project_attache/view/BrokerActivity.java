@@ -894,12 +894,12 @@ public class BrokerActivity extends AllActivity implements View.OnClickListener 
             barDataSet.setValueTextColor(Color.parseColor("#666666")); //  设置线形图顶部文本颜色
             barDataSet.setDrawValues(true);
             barDataSet.setValueFormatter(new ValueFormatter() {
-                @Override
-                public String getFormattedValue(float value, com.github.mikephil.charting.data.Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                    int n = (int) value;
-                    return n + "";
-                }
-            });
+    @Override
+    public String getFormattedValue(float value) {
+        int n = (int) value;
+        return n+"";
+    }
+});
             BarData barData = new BarData();
             barData.addDataSet(barDataSet);// 添加一组柱形图，如果有多组柱形图数据，则可以多次addDataSet来设置
             barData.setBarWidth(0.1f);

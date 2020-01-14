@@ -216,15 +216,21 @@ public class MyClientFragment5 extends Fragment implements ClientFragmentAdapter
     @Override
     public void ItemOnClick(int position) {
         CityContents.setReadRecordStatus("50");
-        FinalContents.setPreparationId(rows.get(position).getPreparationId());
-        Intent intent = new Intent(getContext(), ReviewTheSuccessActivity.class);
-        FinalContents.setCustomerID(rows.get(position).getCustomerId());
-        FinalContents.setPreparationId(rows.get(position).getPreparationId());
-
-        Log.i("MyCL", "getCustomerId___myclient：" + rows.get(position).getCustomerId());
-        Log.i("MyCL", "getCustomerId：" + FinalContents.getCustomerID());
-        Log.i("MyCL", "userID：" + FinalContents.getUserID());
-        startActivity(intent);
+//        Intent intent = new Intent(getContext(), ReviewTheSuccessActivity.class);
+//        FinalContents.setCustomerID(rows.get(position).getCustomerId());
+//        FinalContents.setPreparationId(rows.get(position).getPreparationId());
+//        startActivity(intent);
+        if (FinalContents.getZhuanyuan().equals("1") || FinalContents.getQuanceng().equals("1")) {
+            Intent intent = new Intent(getContext(), ReviewTheSuccessActivity.class);
+//        FinalContents.setCustomerID(rows.get(position).getCustomerId());
+            FinalContents.setPreparationId(rowsList.get(position).getPreparationId());
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(getContext(), ReviewTheSuccessActivity.class);
+//        FinalContents.setCustomerID(rows.get(position).getCustomerId());
+            FinalContents.setPreparationId(rows.get(position).getPreparationId());
+            startActivity(intent);
+        }
     }
 
     @Override

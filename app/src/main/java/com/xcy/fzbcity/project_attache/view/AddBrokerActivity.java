@@ -52,13 +52,14 @@ public class AddBrokerActivity extends AppCompatActivity implements View.OnClick
     RelativeLayout add_store_rl1;
     RelativeLayout add_store_rl2;
     RelativeLayout add_store_rl3;
+    RelativeLayout add_broker_rl_1;
+    RelativeLayout add_broker_rl_2;
 
     Button add_store_btn;
 
     TextView add_store_tv1;
     TextView add_store_tv2;
     TextView add_store_tv3;
-    TextView broker_tv_id;
 
     EditText add_store_et1;
     EditText add_store_et2;
@@ -94,6 +95,8 @@ public class AddBrokerActivity extends AppCompatActivity implements View.OnClick
     int ifnum = 0;
     private String isCover;
     private String ifCompanyManageId;
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -143,15 +146,15 @@ public class AddBrokerActivity extends AppCompatActivity implements View.OnClick
         add_store_et3 = findViewById(R.id.add_et3);
         add_store_et4 = findViewById(R.id.add_et4);
         add_store_return = findViewById(R.id.add_return);
-        broker_tv_id = findViewById(R.id.broker_tv_id);
+
+        add_broker_rl_1 = findViewById(R.id.add_broker_rl_1);
+        add_broker_rl_2 = findViewById(R.id.add_broker_rl_2);
 
         add_rl4 = findViewById(R.id.add_rl4);
         add_rl4_s = findViewById(R.id.add_ll4_s);
         add_rg = findViewById(R.id.add_rg);
         add_rb1 = findViewById(R.id.add_rb1);
         add_rb2 = findViewById(R.id.add_rb2);
-
-        broker_tv_id.setVisibility(View.GONE);
 
         add_rl4.setVisibility(View.GONE);
         add_rl4_s.setVisibility(View.GONE);
@@ -162,9 +165,13 @@ public class AddBrokerActivity extends AppCompatActivity implements View.OnClick
         add_store_rl3.setOnClickListener(this);
         add_store_btn.setOnClickListener(this);
 
+        add_broker_rl_1.setVisibility(View.GONE);
+        add_broker_rl_2.setVisibility(View.VISIBLE);
+
         if (FinalContents.getBorkerChange().equals("修改")) {
             initChangeData();
-            broker_tv_id.setVisibility(View.GONE);
+            add_broker_rl_1.setVisibility(View.VISIBLE);
+            add_broker_rl_2.setVisibility(View.GONE);
             add_title.setText("修改经纪人");
             add_rl4.setVisibility(View.VISIBLE);
             add_rl4_s.setVisibility(View.VISIBLE);
@@ -323,11 +330,6 @@ public class AddBrokerActivity extends AppCompatActivity implements View.OnClick
                 num = "3";
             }
 
-            if(add_store_et4.getHint().equals("")){
-
-            }else {
-
-            }
 
             if (s.equals("") || s2.equals("") || s11.equals("") || s3.equals("") || s4.equals("") || s5.equals("")) {
                 ToastUtil.showLongToast(this, "带*数据请填写完整");
@@ -338,7 +340,7 @@ public class AddBrokerActivity extends AppCompatActivity implements View.OnClick
                 builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
                 Retrofit build = builder.build();
                 MyService fzbInterface = build.create(MyService.class);
-                Observable<AddBrokerBean> addBrokerBean = fzbInterface.getAddBrokerBean("", num, s3, s4, s5, s6, FinalContents.getUserID(), FinalContents.getCompanyManageId(), FinalContents.getStoreManageId(), "");
+                Observable<AddBrokerBean> addBrokerBean = fzbInterface.getAddBrokerBean("", num, s3, s4, s5,"", FinalContents.getUserID(), FinalContents.getCompanyManageId(), FinalContents.getStoreManageId(), "");
                 addBrokerBean.subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Observer<AddBrokerBean>() {

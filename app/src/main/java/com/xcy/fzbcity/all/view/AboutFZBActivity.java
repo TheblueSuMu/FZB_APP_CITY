@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,8 +16,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -28,6 +31,7 @@ import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.xcy.fzbcity.Login.LoginActivity;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.api.APKVersionCodeUtils;
 import com.xcy.fzbcity.all.api.FinalContents;
@@ -112,7 +116,7 @@ public class AboutFZBActivity extends AllActivity implements View.OnClickListene
                     startActivity(getIntent());
                 }
             });
-            ToastUtil.showToast(this,"当前无网络，请检查网络后再进行登录");
+            ToastUtil.showToast(this, "当前无网络，请检查网络后再进行登录");
         }
     }
 
@@ -128,7 +132,7 @@ public class AboutFZBActivity extends AllActivity implements View.OnClickListene
         About_Version_NumBer = findViewById(R.id.About_Version_NumBer);
 
         About_Version_NumBer.setText("当前版本" + FinalContents.getVersionNumBer());
-        Log.i("二维码","网址：" + FinalContents.getImageUrl() + "/fangfang/static/down/appTwoCode.png");
+        Log.i("二维码", "网址：" + FinalContents.getImageUrl() + "/fangfang/static/down/appTwoCode.png");
         Glide.with(AboutFZBActivity.this).load(FinalContents.getImageUrl() + "/fangfang/static/down/appTwoCode.png").into(fzb_img);
 
         fzb_return.setOnClickListener(this);
@@ -151,8 +155,8 @@ public class AboutFZBActivity extends AllActivity implements View.OnClickListene
             case R.id.fzb_fx:
 //                FinalContents.showShare("房app下载", FinalContents.getAdminUrl()+"/fangfang/static/down/index.html", "app下载",
 //                        FinalContents.getImageUrl()+"/fangfang/static/common/images/logo.png", FinalContents.getAdminUrl()+"/fangfang/static/down/index.html", AboutFZBActivity.this);
-                Item_Share.initDaown(AboutFZBActivity.this,"房app下载", FinalContents.getAdminUrl()+"/fangfang/static/down/index.html", "app下载",
-                        FinalContents.getImageUrl()+"/fangfang/static/common/images/logo.png", FinalContents.getAdminUrl()+"/fangfang/static/down/index.html");
+                Item_Share.initDaown(AboutFZBActivity.this, "房app下载", FinalContents.getAdminUrl() + "/fangfang/static/down/index.html", "app下载",
+                        FinalContents.getImageUrl() + "/fangfang/static/common/images/logo.png", FinalContents.getAdminUrl() + "/fangfang/static/down/index.html");
                 break;
 //                TODO 检测版本
             case R.id.fzb_jc:
@@ -191,44 +195,122 @@ public class AboutFZBActivity extends AllActivity implements View.OnClickListene
 //                        ToastUtil.showToast(AboutFZBActivity.this, appPackageBean.getData().getComment());
                         panduan = appPackageBean.getData().getIsUpgrade();
                         if (appPackageBean.getData().getIsUpgrade().equals("0")) {
-                            ToastUtil.showToast(AboutFZBActivity.this,"当前版本已是最新版本");
+                            ToastUtil.showToast(AboutFZBActivity.this, "当前版本已是最新版本");
                         } else if (appPackageBean.getData().getIsUpgrade().equals("1")) {
-                            AlertDialog.Builder builder1 = new AlertDialog.Builder(AboutFZBActivity.this);
-                            builder1.setTitle("提示");
-                            builder1.setMessage("是否更新当前版本");
-                            builder1.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+//                            AlertDialog.Builder builder1 = new AlertDialog.Builder(AboutFZBActivity.this);
+//                            builder1.setTitle("提示");
+//                            builder1.setMessage("是否更新当前版本");
+//                            builder1.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//
+//                                }
+//                            });
+//                            builder1.setPositiveButton("更新", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    url = appPackageBean.getData().getAppurl();
+//                                    showDownloadDialog();
+//                                }
+//                            });
+//                            builder1.show();
 
-                                }
-                            });
-                            builder1.setPositiveButton("更新", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    url = appPackageBean.getData().getAppurl();
-                                    showDownloadDialog();
-                                }
-                            });
-                            builder1.show();
-                        } else if (appPackageBean.getData().getIsUpgrade().equals("2")) {
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(AboutFZBActivity.this);
-                            builder1.setTitle("提示");
-                            builder1.setMessage("是否更新当前版本");
-                            /*builder1.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            View inflate = LayoutInflater.from(AboutFZBActivity.this).inflate(R.layout.binding_report, null, false);
+                            builder1.setView(inflate);
+                            final AlertDialog show = builder1.show();
+                            show.getWindow().setBackgroundDrawableResource(R.drawable.report_shape);
+
+                            WindowManager m = getWindowManager();
+                            Display d = m.getDefaultDisplay();
+                            WindowManager.LayoutParams attributes = show.getWindow().getAttributes();
+                            attributes.width = (int) (d.getWidth() - 200);
+                            show.getWindow().setAttributes(attributes);
+
+                            TextView report_binding_title = inflate.findViewById(R.id.report_binding_title);
+                            TextView report_binding_confirm_tv = inflate.findViewById(R.id.report_binding_confirm_tv);
+                            TextView report_binding_cancel_tv = inflate.findViewById(R.id.report_binding_cancel_tv);
+                            RelativeLayout report_binding_cancel = inflate.findViewById(R.id.report_binding_cancel);
+                            RelativeLayout report_binding_confirm = inflate.findViewById(R.id.report_binding_confirm);
+                            report_binding_title.setText(appPackageBean.getData().getComment());//内容
+                            report_binding_confirm_tv.setText("更新");
+                            report_binding_cancel_tv.setText("取消");
+                            report_binding_title.setTextColor(Color.parseColor("#111111"));
+                            report_binding_cancel_tv.setTextColor(Color.parseColor("#334485"));
+                            report_binding_confirm_tv.setTextColor(Color.parseColor("#334485"));
+                            report_binding_cancel.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    AllActivity.exit = true;
-                                    finish();
-                                }
-                            });*/
-                            builder1.setPositiveButton("更新", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    url = appPackageBean.getData().getAppurl();
-                                    showDownloadDialog();
+                                public void onClick(View v) {
+                                    show.dismiss();
                                 }
                             });
-                            builder1.show();
+                            report_binding_confirm.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    url = appPackageBean.getData().getAppurl();
+                                    showDownloadDialog();
+                                    show.dismiss();
+                                }
+                            });
+
+                        } else if (appPackageBean.getData().getIsUpgrade().equals("2")) {
+//                            AlertDialog.Builder builder1 = new AlertDialog.Builder(AboutFZBActivity.this);
+//                            builder1.setTitle("提示");
+//                            builder1.setMessage("是否更新当前版本");
+//                            /*builder1.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    AllActivity.exit = true;
+//                                    finish();
+//                                }
+//                            });*/
+//                            builder1.setPositiveButton("更新", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    url = appPackageBean.getData().getAppurl();
+//                                    showDownloadDialog();
+//                                }
+//                            });
+//                            builder1.show();
+
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(AboutFZBActivity.this);
+                            View inflate = LayoutInflater.from(AboutFZBActivity.this).inflate(R.layout.binding_report, null, false);
+                            builder1.setView(inflate);
+                            final AlertDialog show = builder1.show();
+                            show.getWindow().setBackgroundDrawableResource(R.drawable.report_shape);
+
+                            WindowManager m = getWindowManager();
+                            Display d = m.getDefaultDisplay();
+                            WindowManager.LayoutParams attributes = show.getWindow().getAttributes();
+                            attributes.width = (int) (d.getWidth() - 200);
+                            show.getWindow().setAttributes(attributes);
+
+                            TextView report_binding_title = inflate.findViewById(R.id.report_binding_title);
+                            TextView report_binding_confirm_tv = inflate.findViewById(R.id.report_binding_confirm_tv);
+                            TextView report_binding_cancel_tv = inflate.findViewById(R.id.report_binding_cancel_tv);
+                            RelativeLayout report_binding_cancel = inflate.findViewById(R.id.report_binding_cancel);
+                            RelativeLayout report_binding_confirm = inflate.findViewById(R.id.report_binding_confirm);
+                            report_binding_title.setText(appPackageBean.getData().getComment());//内容
+                            report_binding_confirm_tv.setText("更新");
+                            report_binding_cancel_tv.setText("取消");
+                            report_binding_title.setTextColor(Color.parseColor("#111111"));
+                            report_binding_cancel_tv.setTextColor(Color.parseColor("#334485"));
+                            report_binding_confirm_tv.setTextColor(Color.parseColor("#334485"));
+                            report_binding_cancel.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    show.dismiss();
+                                }
+                            });
+                            report_binding_confirm.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    url = appPackageBean.getData().getAppurl();
+                                    showDownloadDialog();
+                                    show.dismiss();
+                                }
+                            });
+
                         }
 
                     }
