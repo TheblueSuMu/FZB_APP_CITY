@@ -150,7 +150,7 @@ public class ForgetActivity extends AllActivity implements View.OnClickListener 
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<CodeBean> userMessage = fzbInterface.getSendCode(phone.getText().toString());
+        Observable<CodeBean> userMessage = fzbInterface.getSendCode(phone.getText().toString(),"");
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<CodeBean>() {

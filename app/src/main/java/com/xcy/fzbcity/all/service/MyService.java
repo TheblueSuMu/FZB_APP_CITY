@@ -298,7 +298,7 @@ public interface MyService {
 
     //验证码发送
     @POST("commonSelect/sendCode")
-    Observable<CodeBean> getSendCode(@Query("phone") String phone);
+    Observable<CodeBean> getSendCode(@Query("phone") String phone,@Query("type") String type);
 
     //修改密码
     @POST("commonUpdate/findBackPassword")
