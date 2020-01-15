@@ -567,19 +567,26 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
     //            TODO  项目详情    业务趋势   结束时间
     private void initTime3_Date2() {
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(select);
+        int selectyear = calendar.get(Calendar.YEAR);
+        int selectmonth = calendar.get(Calendar.MONTH);
+        int selectdayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+        final Calendar selected = Calendar.getInstance();
+        selected.set(selectyear,selectmonth,selectdayOfMonth+100);
+        select = selected.getTime();
+
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year - 3, month, dayOfMonth);
+        startDate.set(year-3, month, dayOfMonth);
         Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(DetailsTheProjectEndActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                if (select.after(date)) {
-                    ToastUtil.showLongToast(DetailsTheProjectEndActivity.this, "时间间隔不能大于100天");
+                if (select.before(date)) {
+                    ToastUtil.showLongToast(DetailsTheProjectEndActivity.this,"时间间隔不能大于100天");
                 } else {
-
-                    endselect = date;
-
                     afterDate3 = getTime2(date);
                     details_the_project_end_time6.setText("-" + getTime2(date) + " >");
                     initViewData3();
@@ -592,7 +599,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
                 .isCenterLabel(false)
                 .setDate(selectedDate)
                 .setLineSpacingMultiplier(1.5f)
-                .setTextXOffset(-10, 0, 10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
+                .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
                 .setRangDate(startDate, endDate)
                 .build();
         pvTime.show();

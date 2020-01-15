@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginLeft="25dp"
+    android:layout_marginRight="25dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/report_shape"
+    android:orientation="vertical"
+    android:paddingTop="15dp"
+    tools:ignore="ResourceName">
+
+    <ImageView
+        android:id="@+id/login_yingxi_title_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:src="@mipmap/warm_prompt"
+        android:textColor="#111111"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:id="@+id/login_yingxi_item"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/login_yingxi_title_image"
+        android:orientation="vertical"
+        android:layout_marginTop="15dp"
+        android:background="#EEEEEE"/>
+
+    <TextView
+        android:id="@+id/login_yingxi_title_S"
+        android:layout_below="@id/login_yingxi_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:visibility="visible"
+        android:text="欢迎来到房坐标!"
+        android:textColor="#333333"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:id="@+id/login_yingxi_linear"
+        android:orientation="vertical"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_below="@id/login_yingxi_title_S"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/login_yingxi_title1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:lineSpacingExtra="12dp"
+            android:text="1.为更好的提供浏览推荐、发布信息、交流沟通、等相关服务，我们会根据您使用服务的具体功能需要，收集必要的用户信息(可能涉及账户、交易、设备等相关信息) ;"
+            android:textColor="#666666"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_marginTop="12dp"
+            android:id="@+id/login_yingxi_title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:lineSpacingExtra="12dp"
+            android:text="2.未经您同意，我们不会从第三方获取、共享或对外提供您的信息;"
+            android:textColor="#666666"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:layout_marginTop="12dp"
+            android:id="@+id/login_yingxi_title3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:lineSpacingExtra="12dp"
+            android:text="3.您可以访问、更正、删除您的个人信息，我们也将提供注销、投诉方式。"
+            android:textColor="#666666"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="27dp"
+        android:id="@+id/login_yingxi_linear1"
+        android:layout_below="@id/login_yingxi_linear"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="阅读完整版"
+            android:textSize="12sp"
+            android:textColor="#333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/login_yingxi_chick"
+            android:text="隐私协议/服务条款"
+            android:textSize="12sp"
+            android:textColor="#334485"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/login_yingxi_linear1"
+        android:layout_marginTop="30dp"
+        android:background="#EEEEEE"
+        android:orientation="horizontal"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_below="@id/login_yingxi_linear1"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/login_yingxi_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/login_yingxi_cancel_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="不同意"
+                android:textColor="#333333"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/login_yingxi_confirm_LinearLayout"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#EEEEEE"
+            android:orientation="horizontal" />
+
+        <RelativeLayout
+            android:id="@+id/login_yingxi_confirm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/login_yingxi_confirm_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="同意"
+                android:textColor="#334485"
+                android:textSize="15sp" />
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>
