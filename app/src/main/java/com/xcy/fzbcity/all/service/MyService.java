@@ -843,4 +843,8 @@ public interface MyService {
     @POST("commonUpdate/shareLogSave")
     Observable<ShareLogSaveBean> getShareLogSave(@Query("shareType") String shareType,@Query("projectId") String projectId,@Query("userId") String userId);
 
+    //门店编号
+    @POST("commissionerUpdate/setStoreNum")
+    Observable<AddStoreNumBean> getAddStoreNum(@Query("userId") String userId);
+
 }

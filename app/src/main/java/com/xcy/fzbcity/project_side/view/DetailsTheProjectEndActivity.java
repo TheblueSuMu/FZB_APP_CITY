@@ -1153,6 +1153,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
                 } else if (details_the_project_end_rb4.isChecked() == true) {
                     type1 = "3";
                     NewlyIncreased.setTag("3");
+                    initViewData2();
                     details_the_project_end_time_ll1.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -1191,6 +1192,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
                 } else if (details_the_project_end_rb4.isChecked() == true) {
                     type1 = "3";
                     NewlyIncreased.setTag("3");
+                    initViewData2();
                     details_the_project_end_time_ll1.setVisibility(View.VISIBLE);
                 }
                 break;

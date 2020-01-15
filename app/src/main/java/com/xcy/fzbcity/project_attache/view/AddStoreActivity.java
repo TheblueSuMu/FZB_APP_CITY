@@ -325,14 +325,39 @@ public class AddStoreActivity extends AppCompatActivity implements View.OnClickL
             add_broker_rb3.setVisibility(View.GONE);
             add_broker_rb4.setVisibility(View.GONE);
             if (isOne == 0) {
-                String storeUrl = FinalContents.getBaseUrl() + "commissionerUpdate/setStoreNum?userId=" + FinalContents.getUserID();
-                OkHttpPost okHttpPost = new OkHttpPost(storeUrl);
-                String post = okHttpPost.post();
-                Gson gson = new Gson();
-                AddStoreNumBean addStoreNumBean = gson.fromJson(post, AddStoreNumBean.class);
-                String storeNum = addStoreNumBean.getData().getStoreNum();
-                add_broker_tv1.setText(storeNum);
-                isOne = 1;
+
+                Retrofit.Builder builder = new Retrofit.Builder();
+                builder.baseUrl(FinalContents.getBaseUrl());
+                builder.addConverterFactory(GsonConverterFactory.create());
+                builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+                Retrofit build = builder.build();
+                MyService fzbInterface = build.create(MyService.class);
+                Observable<AddStoreNumBean> storeChangeBean = fzbInterface.getAddStoreNum(FinalContents.getUserID());
+                storeChangeBean.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<AddStoreNumBean>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+
+                            }
+
+                            @Override
+                            public void onNext(AddStoreNumBean addStoreNumBean) {
+                                String storeNum = addStoreNumBean.getData().getStoreNum();
+                                add_broker_tv1.setText(storeNum);
+                                isOne = 1;
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                ToastUtil.showLongToast(AddStoreActivity.this,"请联系管理员");
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
             } else {
 
             }
