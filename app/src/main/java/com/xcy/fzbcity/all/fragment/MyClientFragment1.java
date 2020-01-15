@@ -264,6 +264,29 @@ public class MyClientFragment1 extends Fragment implements ContactsAdapter.ItemO
                             main_side_bar.setmSourceDatas(list)//设置数据
                                     .invalidate();
                             mDecoration.setmDatas(list);
+
+                            linkmanAdapter.setItemOnClick(new LinkmanAdapter.ItemOnClick() {
+                                                              @Override
+                                                              public void itemClick(int position) {
+                                                                  Log.i("数据对比", "1客户名" + list.get(position).getCity());
+                                                                  if (FinalContents.getNUM().equals("1")) {
+                                                                      FinalContents.setClientName(list.get(position).getCity());
+                                                                      FinalContents.setCustomerID(list.get(position).getClientId());
+                                                                      Log.i("数据对比", "1客户名" + list.get(position).getCity());
+                                                                      FinalContents.setClientPhone(list.get(position).getClientPhone());
+                                                                      FinalContents.setChecked(true);
+                                                                      getActivity().finish();
+                                                                  } else {
+                                                                      FinalContents.setCustomerID(list.get(position).getClientId());
+                                                                      Intent intent = new Intent(getContext(), ClientParticularsActivity.class);
+                                                                      startActivity(intent);
+                                                                      Log.i("团队长", "contacts.get(position).getName()：" + list.get(position).getCity());
+
+                                                                  }
+                                                              }
+                                                          }
+                            );
+
                         }else {
                             mRecyclerView.setVisibility(View.GONE);
                             all_no_information.setVisibility(View.VISIBLE);
