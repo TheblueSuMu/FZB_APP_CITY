@@ -97,7 +97,7 @@ public class MyClientFragment1 extends Fragment implements ContactsAdapter.ItemO
         return view;
     }
 
-    private void init(){
+    private void init() {
         EventBus.getDefault().register(this);
         i = 0;
 //        mWaveSideBarView = view.findViewById(R.id.main_side_bar);
@@ -146,17 +146,19 @@ public class MyClientFragment1 extends Fragment implements ContactsAdapter.ItemO
 
                     @Override
                     public void onNext(ClientBean clientBean) {
+                        data.clear();
+                        list.clear();
                         data = clientBean.getData();
                         Log.i("客户列表", "数据长度：" + data.size());
                         if (data.size() != 0) {
                             all_no_information.setVisibility(View.GONE);
                             mRecyclerView.setVisibility(View.VISIBLE);
 
-                            for (int i = 0; i < data.size(); i++){
-                                list.add(new LinkmanBean(data.get(i).getCustomerName()+"",data.get(i).getId()+"",data.get(i).getContactsPhone1()+""));
+                            for (int i = 0; i < data.size(); i++) {
+                                list.add(new LinkmanBean(data.get(i).getCustomerName() + "", data.get(i).getId() + "", data.get(i).getContactsPhone1() + ""));
                             }
 
-                            linkmanAdapter = new LinkmanAdapter(context,list);
+                            linkmanAdapter = new LinkmanAdapter(context, list);
                             mRecyclerView.setAdapter(linkmanAdapter);
                             linkmanAdapter.notifyDataSetChanged();
 
@@ -165,27 +167,27 @@ public class MyClientFragment1 extends Fragment implements ContactsAdapter.ItemO
                             mDecoration.setmDatas(list);
 
                             linkmanAdapter.setItemOnClick(new LinkmanAdapter.ItemOnClick() {
-                                @Override
-                                public void itemClick(int position) {
-                                    Log.i("数据对比","1客户名"+list.get(position).getCity());
-                                    if (FinalContents.getNUM().equals("1")) {
-                                        FinalContents.setClientName(list.get(position).getCity());
-                                        FinalContents.setCustomerID(list.get(position).getClientId());
-                                        Log.i("数据对比","1客户名"+list.get(position).getCity());
-                                        FinalContents.setClientPhone(list.get(position).getClientPhone());
-                                        FinalContents.setChecked(true);
-                                        getActivity().finish();
-                                    } else {
-                                        FinalContents.setCustomerID(list.get(position).getClientId());
-                                        Intent intent = new Intent(getContext(), ClientParticularsActivity.class);
-                                        startActivity(intent);
-                                        Log.i("团队长", "contacts.get(position).getName()：" + list.get(position).getCity());
+                                                              @Override
+                                                              public void itemClick(int position) {
+                                                                  Log.i("数据对比", "1客户名" + list.get(position).getCity());
+                                                                  if (FinalContents.getNUM().equals("1")) {
+                                                                      FinalContents.setClientName(list.get(position).getCity());
+                                                                      FinalContents.setCustomerID(list.get(position).getClientId());
+                                                                      Log.i("数据对比", "1客户名" + list.get(position).getCity());
+                                                                      FinalContents.setClientPhone(list.get(position).getClientPhone());
+                                                                      FinalContents.setChecked(true);
+                                                                      getActivity().finish();
+                                                                  } else {
+                                                                      FinalContents.setCustomerID(list.get(position).getClientId());
+                                                                      Intent intent = new Intent(getContext(), ClientParticularsActivity.class);
+                                                                      startActivity(intent);
+                                                                      Log.i("团队长", "contacts.get(position).getName()：" + list.get(position).getCity());
 
-                                    }
-                                }
-                            }
+                                                                  }
+                                                              }
+                                                          }
                             );
-                        }else {
+                        } else {
                             mRecyclerView.setVisibility(View.GONE);
                             all_no_information.setVisibility(View.VISIBLE);
                         }
@@ -243,15 +245,51 @@ public class MyClientFragment1 extends Fragment implements ContactsAdapter.ItemO
 
                     @Override
                     public void onNext(ClientBean clientBean) {
-//                        Log.i("MyCL", "1");
+                        data.clear();
+                        list.clear();
+                        data = clientBean.getData();
+                        Log.i("客户列表", "数据长度：" + data.size());
+                        if (data.size() != 0) {
+                            all_no_information.setVisibility(View.GONE);
+                            mRecyclerView.setVisibility(View.VISIBLE);
+
+                            for (int i = 0; i < data.size(); i++) {
+                                list.add(new LinkmanBean(data.get(i).getCustomerName() + "", data.get(i).getId() + "", data.get(i).getContactsPhone1() + ""));
+                            }
+
+                            linkmanAdapter = new LinkmanAdapter(context, list);
+                            mRecyclerView.setAdapter(linkmanAdapter);
+                            linkmanAdapter.notifyDataSetChanged();
+
+                            main_side_bar.setmSourceDatas(list)//设置数据
+                                    .invalidate();
+                            mDecoration.setmDatas(list);
+                        }else {
+                            mRecyclerView.setVisibility(View.GONE);
+                            all_no_information.setVisibility(View.VISIBLE);
+                        }
+                        Log.i("MyCL", "1");
 //                        mContactModels.clear();
 //                        data = clientBean.getData();
 //                        for (int i = 0; i < data.size(); ++i) {
 //                            ContactModel contactModel = new ContactModel(data.get(i).getName() + "@" + data.get(i).getId());
 //                            mContactModels.add(contactModel);
 //                        }
-//                        initDatas();
-//                        NewlyIncreased.setTest(true);
+//
+//                        mAdapter = new ContactsAdapter();
+//                        mAdapter.setContacts(mContactModels);
+//                        mRecyclerView.setAdapter(mAdapter);
+//                        mAdapter.notifyDataSetChanged();
+
+//                        linkmanAdapter = new LinkmanAdapter(context, list);
+//                        mRecyclerView.setAdapter(linkmanAdapter);
+//                        linkmanAdapter.notifyDataSetChanged();
+//
+//                        main_side_bar.setmSourceDatas(list)//设置数据
+//                                .invalidate();
+//                        mDecoration.setmDatas(list);
+
+                        NewlyIncreased.setTest(true);
                     }
 
                     @Override
@@ -268,6 +306,7 @@ public class MyClientFragment1 extends Fragment implements ContactsAdapter.ItemO
 
     }
 
+
     @Override
     public void itemClick(String itemName) {
 
@@ -283,7 +322,7 @@ public class MyClientFragment1 extends Fragment implements ContactsAdapter.ItemO
                 }
             }
 
-            for (int i = 0;i < data.size();i++){
+            for (int i = 0; i < data.size(); i++) {
                 if (FinalContents.getCustomerID().equals(data.get(i).getId())) {
                     FinalContents.setClientPhone(data.get(i).getContactsPhone1());
                     getActivity().finish();
@@ -308,12 +347,12 @@ public class MyClientFragment1 extends Fragment implements ContactsAdapter.ItemO
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("客户列表","加载");
+        Log.i("客户列表", "加载");
         if (CityContents.getAddClient().equals("1")) {
-            Log.i("客户列表","加载成功");
+            Log.i("客户列表", "加载成功");
             initData();
-        }else {
-            Log.i("客户列表","加载失败");
+        } else {
+            Log.i("客户列表", "加载失败");
         }
     }
 

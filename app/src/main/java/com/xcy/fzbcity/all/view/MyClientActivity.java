@@ -101,7 +101,7 @@ public class MyClientActivity extends AllActivity implements View.OnClickListene
         init_No_Network();
     }
 
-    private void init_No_Network(){
+    private void init_No_Network() {
         boolean networkAvailable = CommonUtil.isNetworkAvailable(this);
         if (networkAvailable) {
             initView();
@@ -191,6 +191,23 @@ public class MyClientActivity extends AllActivity implements View.OnClickListene
 
         });
 
+        my_client_ss.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((actionId == 0 || actionId == 3) && event != null) {
+
+                    String s = my_client_ss.getText().toString();
+                    if (NewlyIncreased.isTest()) {
+                        EventBus.getDefault().post(new MyClientName(s));
+                        return true;
+                    }
+
+                }
+
+                return false;
+            }
+        });
+
     }
 
     @SingleClick(1000)
@@ -216,7 +233,7 @@ public class MyClientActivity extends AllActivity implements View.OnClickListene
                         if (list.get(options1).equals("手动添加")) {
                             Intent intent = new Intent(MyClientActivity.this, MyClientAddActivity.class);
                             startActivity(intent);
-                        }else if (list.get(options1).equals("通讯录导入")){
+                        } else if (list.get(options1).equals("通讯录导入")) {
                             Intent intent = new Intent(MyClientActivity.this, PhoneActivity.class);
                             startActivity(intent);
                         }
@@ -381,7 +398,7 @@ public class MyClientActivity extends AllActivity implements View.OnClickListene
             my_client_11_12.setVisibility(View.INVISIBLE);
             my_client_11_13.setVisibility(View.INVISIBLE);
             my_client_11_14.setVisibility(View.VISIBLE);
-        } else if (FinalContents.getTiaozhuang().equals("成交")){
+        } else if (FinalContents.getTiaozhuang().equals("成交")) {
             myClientFragment6 = new MyClientFragment6();
             manager = getSupportFragmentManager();
             transaction = manager.beginTransaction();
@@ -394,7 +411,7 @@ public class MyClientActivity extends AllActivity implements View.OnClickListene
             my_client_11_12.setVisibility(View.INVISIBLE);
             my_client_11_13.setVisibility(View.VISIBLE);
             my_client_11_14.setVisibility(View.INVISIBLE);
-        } else if (FinalContents.getTiaozhuang().equals("调单")){
+        } else if (FinalContents.getTiaozhuang().equals("调单")) {
             myClientFragment6 = new MyClientFragment6();
             manager = getSupportFragmentManager();
             transaction = manager.beginTransaction();
@@ -411,14 +428,14 @@ public class MyClientActivity extends AllActivity implements View.OnClickListene
         initData();
     }
 
-    private void initData(){
+    private void initData() {
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(FinalContents.getBaseUrl());
         builder.addConverterFactory(GsonConverterFactory.create());
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<ReportNoReadListBean> clientFragment = fzbInterface.getReportNoReadList(FinalContents.getUserID(),"", NewlyIncreased.getTag(), NewlyIncreased.getStartDate(), NewlyIncreased.getEndDate(),"","");
+        Observable<ReportNoReadListBean> clientFragment = fzbInterface.getReportNoReadList(FinalContents.getUserID(), "", NewlyIncreased.getTag(), NewlyIncreased.getStartDate(), NewlyIncreased.getEndDate(), "", "");
         clientFragment.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ReportNoReadListBean>() {
@@ -431,42 +448,42 @@ public class MyClientActivity extends AllActivity implements View.OnClickListene
                     public void onNext(ReportNoReadListBean reportNoReadListBean) {
                         if (reportNoReadListBean.getData().getReports().equals("0") || reportNoReadListBean.getData().getReports().equals("")) {//  TODO 报备
                             my_client_unread_1.setVisibility(View.INVISIBLE);
-                        }else {
+                        } else {
                             my_client_unread_1.setVisibility(View.VISIBLE);
                             my_client_unread_1.setText(reportNoReadListBean.getData().getReports());
                         }
 
                         if (reportNoReadListBean.getData().getAccessing().equals("0") || reportNoReadListBean.getData().getAccessing().equals("")) {//  TODO 到访
                             my_client_unread_2.setVisibility(View.INVISIBLE);
-                        }else {
+                        } else {
                             my_client_unread_2.setVisibility(View.VISIBLE);
                             my_client_unread_2.setText(reportNoReadListBean.getData().getAccessing());
                         }
 
                         if (reportNoReadListBean.getData().getTrade().equals("0") || reportNoReadListBean.getData().getTrade().equals("")) {//  TODO 成交
                             my_client_unread_5.setVisibility(View.INVISIBLE);
-                        }else {
+                        } else {
                             my_client_unread_5.setVisibility(View.VISIBLE);
                             my_client_unread_5.setText(reportNoReadListBean.getData().getTrade());
                         }
 
                         if (reportNoReadListBean.getData().getLose().equals("0") || reportNoReadListBean.getData().getLose().equals("")) {//  TODO 失效
                             my_client_unread_6.setVisibility(View.INVISIBLE);
-                        }else {
+                        } else {
                             my_client_unread_6.setVisibility(View.VISIBLE);
                             my_client_unread_6.setText(reportNoReadListBean.getData().getLose());
                         }
 
                         if (reportNoReadListBean.getData().getEarnest().equals("0") || reportNoReadListBean.getData().getEarnest().equals("")) {//  TODO 认筹
                             my_client_unread_4.setVisibility(View.INVISIBLE);
-                        }else {
+                        } else {
                             my_client_unread_4.setVisibility(View.VISIBLE);
                             my_client_unread_4.setText(reportNoReadListBean.getData().getEarnest());
                         }
 
                         if (reportNoReadListBean.getData().getIsIsland().equals("0") || reportNoReadListBean.getData().getIsIsland().equals("")) {//  TODO 登岛
                             my_client_unread_3.setVisibility(View.INVISIBLE);
-                        }else {
+                        } else {
                             my_client_unread_3.setVisibility(View.VISIBLE);
                             my_client_unread_3.setText(reportNoReadListBean.getData().getIsIsland());
                         }

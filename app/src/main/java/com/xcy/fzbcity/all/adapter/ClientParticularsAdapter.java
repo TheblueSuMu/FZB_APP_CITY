@@ -45,24 +45,38 @@ public class ClientParticularsAdapter extends RecyclerView.Adapter<ClientParticu
         List<ClientParticularsBean.DataBean.ListDataBean.AttacheListBean> attacheList = listData.get(position).getAttacheList();
         for (int i = 0; i < attacheList.size(); ++i) {
             if (num == 0) {
-                holder.item_client_name1.setText(attacheList.get(i).getName());
+                holder.item_client_name1.setText("[项目负责人]" + attacheList.get(i).getName());
                 num++;
             } else if (num == 1) {
-                holder.item_client_name2.setText(attacheList.get(i).getName());
+                holder.item_client_name2.setText("[项目负责人]" + attacheList.get(i).getName());
                 num++;
             } else if (num == 2) {
-                holder.item_client_name3.setText(attacheList.get(i).getName());
+                holder.item_client_name3.setText("[项目负责人]" + attacheList.get(i).getName());
                 num++;
             }
         }
+
+        if (listData.get(position).getStatusName().equals("失效") || a == 1) {
+            holder.item_client_tv1.setVisibility(View.VISIBLE);
+            holder.item_client_tv1.setText(listData.get(position).getStatusName());
+            holder.item_client_tv1.setTextColor(Color.parseColor(listData.get(position).getStatusColor()));
+            holder.item_client_tv2.setVisibility(View.GONE);
+        } else {
+            holder.item_client_tv1.setVisibility(View.VISIBLE);
+            holder.item_client_tv1.setText(listData.get(position).getStatusName());
+            holder.item_client_tv1.setTextColor(Color.parseColor(listData.get(position).getStatusColor()));
+        }
+
         final List<ClientParticularsBean.DataBean.ListDataBean.ListMapBean> listMap = listData.get(position).getListMap();
         if (listMap.size() != 0) {
             for (int j = 0; j < listMap.size(); ++j) {
 
                 if (listMap.get(j).getKey() != null) {
-                    if (listMap.get(j).getKey().equals("报备保护期")) {
+                    if (listMap.get(j).getKey().indexOf("保护期") == -1) {
+                        holder.item_client_tv2.setVisibility(View.GONE);
+                    } else {
                         holder.item_client_tv2.setVisibility(View.VISIBLE);
-                        holder.item_client_tv2.setText("保护期"+listMap.get(j).getValue());
+                        holder.item_client_tv2.setText("保护期" + listMap.get(j).getValue());
                         holder.item_client_tv2.setTextColor(Color.parseColor("#C3555B"));
                         return;
                     }
@@ -80,17 +94,6 @@ public class ClientParticularsAdapter extends RecyclerView.Adapter<ClientParticu
             }
         });
 
-        if (listData.get(position).getStatusName().equals("失效") || a == 1) {
-            holder.item_client_tv1.setVisibility(View.VISIBLE);
-            holder.item_client_tv1.setText(listData.get(position).getStatusName());
-            holder.item_client_tv1.setTextColor(Color.parseColor(listData.get(position).getStatusColor()));
-            holder.item_client_tv2.setVisibility(View.GONE);
-        } else {
-            Log.i("报备保护期","数值：" + listData.get(position).getStatusName());
-            holder.item_client_tv1.setVisibility(View.VISIBLE);
-            holder.item_client_tv1.setText(listData.get(position).getStatusName());
-            holder.item_client_tv1.setTextColor(Color.parseColor(listData.get(position).getStatusColor()));
-        }
 
     }
 

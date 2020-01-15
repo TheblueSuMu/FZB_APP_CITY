@@ -41,6 +41,7 @@
                 android:imeOptions="actionSearch"
                 android:singleLine="true"
                 android:gravity="center"
+                android:inputType="text"
                 android:hint="按客户姓名/手机号搜索"
                 android:textColor="#333333"
                 android:textSize="12sp" />

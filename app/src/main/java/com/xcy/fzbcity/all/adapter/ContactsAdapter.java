@@ -47,30 +47,33 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     public ContactsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.layaout_item_contacts, null);
+        View view = inflater.inflate(R.layout.item_linkman, null);
         return new ContactsViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ContactsViewHolder holder, final int position) {
 
-        Log.i("MyCL", "集合长度：" + contacts.size());
-        contact = contacts.get(position);
-        Log.e("MyCL", "onBindViewHolder: index:" + contact.getIndex());
-        if (position == 0 || !contacts.get(position - 1).getIndex().equals(contact.getIndex())) {
-            holder.tvIndex.setVisibility(View.VISIBLE);
-            holder.tvIndex.setText(contact.getIndex());
-        } else {
-            holder.tvIndex.setVisibility(View.GONE);
-        }
+//        Log.i("MyCL", "集合长度：" + contacts.size());
+//        contact = contacts.get(position);
+//        Log.e("MyCL", "onBindViewHolder: index:" + contact.getIndex());
+//        if (position == 0 || !contacts.get(position - 1).getIndex().equals(contact.getIndex())) {
+//            holder.tvIndex.setVisibility(View.VISIBLE);
+//            holder.tvIndex.setText(contact.getIndex());
+//        } else {
+//            holder.tvIndex.setVisibility(View.GONE);
+//        }
+//
+//        StringBuffer stringBuffer = new StringBuffer();
+//        StringBuffer append = stringBuffer.append(contact.getName());
+//        for (int i = 0; i < append.length(); ++i) {
+//            if (append.substring(i, i + 1).equals("@")) {
+//                holder.tvName.setText(append.substring(0, i));
+//            }
+//        }
 
-        StringBuffer stringBuffer = new StringBuffer();
-        StringBuffer append = stringBuffer.append(contact.getName());
-        for (int i = 0; i < append.length(); ++i) {
-            if (append.substring(i, i + 1).equals("@")) {
-                holder.tvName.setText(append.substring(0, i));
-            }
-        }
+        holder.item_linkman_name.setText(contacts.get(position).getName());
+//        holder.item_linkman_phone.setText(mDatas.get(position).getClientPhone());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,13 +91,15 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     }
 
     class ContactsViewHolder extends RecyclerView.ViewHolder {
-        TextView tvIndex;
-        TextView tvName;
+        TextView item_linkman_name;
+        TextView item_linkman_phone;
+        View content;
 
         ContactsViewHolder(View itemView) {
             super(itemView);
-            tvIndex = itemView.findViewById(R.id.tv_index_s);
-            tvName = itemView.findViewById(R.id.tv_name_s);
+            item_linkman_name =  itemView.findViewById(R.id.item_linkman_name);
+            item_linkman_phone =  itemView.findViewById(R.id.item_linkman_phone);
+            content = itemView.findViewById(R.id.content);
         }
     }
 
