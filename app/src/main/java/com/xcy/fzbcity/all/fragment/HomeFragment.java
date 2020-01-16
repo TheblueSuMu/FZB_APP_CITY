@@ -545,12 +545,11 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                             textBannerAdapter_s.setOnItemClickListener(new TextBannerAdapter_S.OnItemClickLisenter() {
                                 @Override
                                 public void onItemClick(int postion) {
-                                    Log.i("文字轮播","点击执行回调textBannerAdapter_s：" + messagelist.get(postion).getType());
-                                    if (messagelist.get(postion).getType().equals("0")) {
+                                    if (messagelist.get(postion+1).getType().equals("0")) {
                                         listterner.process("0"); // 3.1 执行回调
-                                    } else if (messagelist.get(postion).getType().equals("2")) {
+                                    } else if (messagelist.get(postion+1).getType().equals("2")) {
                                         listterner.process("2"); // 3.1 执行回调
-                                    } else if (messagelist.get(postion).getType().equals("5")) {
+                                    } else if (messagelist.get(postion+1).getType().equals("5")) {
                                         listterner.process("5"); // 3.1 执行回调
                                     }
                                 }
@@ -622,12 +621,11 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                             textBannerAdapter_s.setOnItemClickListener(new TextBannerAdapter_S.OnItemClickLisenter() {
                                 @Override
                                 public void onItemClick(int postion) {
-                                    Log.i("文字轮播","点击执行回调textBannerAdapter_s：" + messagelist.get(postion).getType());
-                                    if (messagelist.get(postion).getType().equals("0")) {
+                                    if (messagelist.get(postion+1).getType().equals("0")) {
                                         listterner.process("0"); // 3.1 执行回调
-                                    } else if (messagelist.get(postion).getType().equals("2")) {
+                                    } else if (messagelist.get(postion+1).getType().equals("2")) {
                                         listterner.process("2"); // 3.1 执行回调
-                                    } else if (messagelist.get(postion).getType().equals("5")) {
+                                    } else if (messagelist.get(postion+1).getType().equals("5")) {
                                         listterner.process("5"); // 3.1 执行回调
                                     }
                                 }
