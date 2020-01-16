@@ -645,7 +645,10 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
 
     //文字轮播
     private void tvBanner2() {
-        Log.i("文字轮播", "文字轮播2");
+        tvBanner2.stopFlipping();
+        tvBanner2_S.stopFlipping();
+        messagelist2 = new ArrayList<>();
+        messagelist2_S = new ArrayList<>();
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(FinalContents.getBaseUrl());
         builder.addConverterFactory(GsonConverterFactory.create());
@@ -666,33 +669,90 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
                     public void onNext(MessageBean2 messageBean) {
                         MessageBean2.DataBean dataBean = messageBean.getData();
                         messagelist = dataBean.getRows();
-//TODO 第一行
-                        for (int i = 0; i < messagelist.size(); i++) {
-                            if (messagelist.get(i).getType().equals("0")) {
-                                messagelist2.add(new Bean(R.mipmap.give, messagelist.get(i).getTitle()));
-                            } else if (messagelist.get(i).getType().equals("2")) {
-                                messagelist2.add(new Bean(R.mipmap.lodger, messagelist.get(i).getTitle()));
-                            } else if (messagelist.get(i).getType().equals("5")) {
-                                messagelist2.add(new Bean(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                        if (messagelist.size() == 0) {
+                            messagelist2.add(new Bean(R.mipmap.no_information, "暂无数据"));
+                            messagelist2.add(new Bean(R.mipmap.no_information, "暂无数据"));
+                            messagelist2.add(new Bean(R.mipmap.no_information, "暂无数据"));
+                            messagelist2_S.add(new Bean_S(R.mipmap.no_information, "暂无数据"));
+                            messagelist2_S.add(new Bean_S(R.mipmap.no_information, "暂无数据"));
+                            messagelist2_S.add(new Bean_S(R.mipmap.no_information, "暂无数据"));
+                        } else if (messagelist.size() == 1) {
+                            //TODO 第一行
+                            for (int i = 0; i < messagelist.size(); i++) {
+                                if (messagelist.get(i).getType().equals("0")) {
+                                    messagelist2.add(new Bean(R.mipmap.give, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("2")) {
+                                    messagelist2.add(new Bean(R.mipmap.lodger, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("5")) {
+                                    messagelist2.add(new Bean(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                }
+                            }
+                            int numSize = 0;
+                            for (int i = 1; i < messagelist.size(); ++i) {
+                                if (messagelist.get(i).getType().equals("0")) {
+                                    messagelist2_S.add(new Bean_S(R.mipmap.give, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("2")) {
+                                    messagelist2_S.add(new Bean_S(R.mipmap.lodger, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("5")) {
+                                    messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                }
+                                numSize = i;
+                            }
+                            tvBanner2.setFlipInterval(500000000);
+                            tvBanner2_S.setFlipInterval(500000000);
+                        } else {
+                            //TODO 第一行
+                            for (int i = 0; i < messagelist.size(); i++) {
+                                if (messagelist.get(i).getType().equals("0")) {
+                                    messagelist2.add(new Bean(R.mipmap.give, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("2")) {
+                                    messagelist2.add(new Bean(R.mipmap.lodger, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("5")) {
+                                    messagelist2.add(new Bean(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                }
+                            }
+                            int numSize = 0;
+                            for (int i = 1; i < messagelist.size(); ++i) {
+                                if (messagelist.get(i).getType().equals("0")) {
+                                    messagelist2_S.add(new Bean_S(R.mipmap.give, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("2")) {
+                                    messagelist2_S.add(new Bean_S(R.mipmap.lodger, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("5")) {
+                                    messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                }
+                                numSize = i;
                             }
                         }
-                        int numSize = 0;
-                        for (int i = 1; i < messagelist.size(); ++i) {
-                            if (messagelist.get(i).getType().equals("0")) {
-                                messagelist2_S.add(new Bean_S(R.mipmap.give, messagelist.get(i).getTitle()));
-                            } else if (messagelist.get(i).getType().equals("2")) {
-                                messagelist2_S.add(new Bean_S(R.mipmap.lodger, messagelist.get(i).getTitle()));
-                            } else if (messagelist.get(i).getType().equals("5")) {
-                                messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(i).getTitle()));
-                            }
-                            numSize = i;
-                        }
-                        if(messagelist.size() > 1){
+
+                        if (messagelist.size() > 1){
                             tvBanner2_S.setVisibility(View.VISIBLE);
                         }
                         textBannerAdapter.setData(messagelist2);
                         textBannerAdapter_s.setData(messagelist2_S);
-
+                        textBannerAdapter.setOnItemClickListener(new TextBannerAdapter.OnItemClickLisenter() {
+                            @Override
+                            public void onItemClick(int postion) {
+                                if (messagelist.get(postion).getType().equals("0")) {
+                                    listterner.process("0"); // 3.1 执行回调
+                                } else if (messagelist.get(postion).getType().equals("2")) {
+                                    listterner.process("2"); // 3.1 执行回调
+                                } else if (messagelist.get(postion).getType().equals("5")) {
+                                    listterner.process("5"); // 3.1 执行回调
+                                }
+                            }
+                        });
+                        textBannerAdapter_s.setOnItemClickListener(new TextBannerAdapter_S.OnItemClickLisenter() {
+                            @Override
+                            public void onItemClick(int postion) {
+                                if (messagelist.get(postion+1).getType().equals("0")) {
+                                    listterner.process("0"); // 3.1 执行回调
+                                } else if (messagelist.get(postion+1).getType().equals("2")) {
+                                    listterner.process("2"); // 3.1 执行回调
+                                } else if (messagelist.get(postion+1).getType().equals("5")) {
+                                    listterner.process("5"); // 3.1 执行回调
+                                }
+                            }
+                        });
                     }
 
                     @Override
