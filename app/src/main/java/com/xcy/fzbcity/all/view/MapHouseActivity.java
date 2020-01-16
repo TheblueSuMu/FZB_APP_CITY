@@ -246,7 +246,7 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
                                                 }
                                             }
                                         }else {
-                                            ToastUtil.showLongToast(MapHouseActivity.this,"搜索暂无结果");
+                                            ToastUtil.showLongToast(MapHouseActivity.this,"未找到该门店");
                                         }
                                     }
                                 } else if (ifMG == 1) {//公司
@@ -264,7 +264,7 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
                                                 }
                                             }
                                         }else {
-                                            ToastUtil.showLongToast(MapHouseActivity.this,"搜索暂无结果");
+                                            ToastUtil.showLongToast(MapHouseActivity.this,"未找到该公司");
                                         }
                                     }
                                 }
@@ -283,7 +283,7 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
                                             }
                                         }
                                     }else {
-                                        ToastUtil.showLongToast(MapHouseActivity.this,"搜索暂无结果");
+                                        ToastUtil.showLongToast(MapHouseActivity.this,"未找到该项目");
                                     }
                                 }
                             }
