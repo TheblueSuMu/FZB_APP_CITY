@@ -747,11 +747,6 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
 
     //TODO 详情页趋势数据赋值
     private void initViewData3() {
-        if (select.after(endselect)) {
-            ToastUtil.showLongToast(DetailsTheProjectEndActivity.this, "开始时间不能大于结束时间");
-            return;
-        }
-
 
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(FinalContents.getBaseUrl());

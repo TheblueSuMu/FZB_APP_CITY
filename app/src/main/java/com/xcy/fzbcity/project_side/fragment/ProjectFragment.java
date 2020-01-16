@@ -508,6 +508,43 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
                                 }
                             });
 
+                            //TODO 第二行
+                            int numSize = 0;
+                            for (int i = 1; i < messagelist.size(); ++i) {
+                                if (messagelist.get(i).getType().equals("0")) {
+                                    messagelist2_S.add(new Bean_S(R.mipmap.give, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("2")) {
+                                    messagelist2_S.add(new Bean_S(R.mipmap.lodger, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("5")) {
+                                    messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                }
+                                numSize = i;
+                            }
+//                            if(numSize == messagelist.size()){
+                            if (messagelist.get(0).getType().equals("0")) {
+                                messagelist2_S.add(new Bean_S(R.mipmap.give, messagelist.get(0).getTitle()));
+                            } else if (messagelist.get(0).getType().equals("2")) {
+                                messagelist2_S.add(new Bean_S(R.mipmap.lodger, messagelist.get(0).getTitle()));
+                            } else if (messagelist.get(0).getType().equals("5")) {
+                                messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(0).getTitle()));
+                            }
+//                            }
+                            textBannerAdapter_s = new TextBannerAdapter_S(messagelist2_S, view.getContext());
+                            tvBanner2_S.setAdapter(textBannerAdapter_s);
+                            tvBanner2_S.setVisibility(View.INVISIBLE);
+                            textBannerAdapter_s.setOnItemClickListener(new TextBannerAdapter_S.OnItemClickLisenter() {
+                                @Override
+                                public void onItemClick(int postion) {
+                                    if (messagelist.get(postion).getType().equals("0")) {
+                                        listterner.process("0"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion).getType().equals("2")) {
+                                        listterner.process("2"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion).getType().equals("5")) {
+                                        listterner.process("5"); // 3.1 执行回调
+                                    }
+                                }
+                            });
+
                         } else {
                             Log.i("文字轮播","else");
 
@@ -649,6 +686,9 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
                                 messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(i).getTitle()));
                             }
                             numSize = i;
+                        }
+                        if(messagelist.size() > 1){
+                            tvBanner2_S.setVisibility(View.VISIBLE);
                         }
                         textBannerAdapter.setData(messagelist2);
                         textBannerAdapter_s.setData(messagelist2_S);
