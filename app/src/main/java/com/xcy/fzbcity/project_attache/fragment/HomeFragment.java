@@ -536,17 +536,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                             tvBanner2_S.setAdapter(textBannerAdapter_s);
                             tvBanner2_S.setVisibility(View.INVISIBLE);
                             textBannerAdapter_s.setOnItemClickListener(new TextBannerAdapter_S.OnItemClickLisenter() {
-                            @Override
-                            public void onItemClick(int postion) {
-                                if (messagelist.get(postion+1).getType().equals("0")) {
-                                    listterner.process("0"); // 3.1 执行回调
-                                } else if (messagelist.get(postion+1).getType().equals("2")) {
-                                    listterner.process("2"); // 3.1 执行回调
-                                } else if (messagelist.get(postion+1).getType().equals("5")) {
-                                    listterner.process("5"); // 3.1 执行回调
+                                @Override
+                                public void onItemClick(int postion) {
+                                    if (messagelist.get(postion + 1).getType().equals("0")) {
+                                        listterner.process("0"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion + 1).getType().equals("2")) {
+                                        listterner.process("2"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion + 1).getType().equals("5")) {
+                                        listterner.process("5"); // 3.1 执行回调
+                                    }
                                 }
-                            }
-                        });
+                            });
 
                         } else {
                             Log.i("文字轮播", "else");
@@ -613,17 +613,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                             textBannerAdapter_s = new TextBannerAdapter_S(messagelist2_S, view.getContext());
                             tvBanner2_S.setAdapter(textBannerAdapter_s);
                             textBannerAdapter_s.setOnItemClickListener(new TextBannerAdapter_S.OnItemClickLisenter() {
-                            @Override
-                            public void onItemClick(int postion) {
-                                if (messagelist.get(postion+1).getType().equals("0")) {
-                                    listterner.process("0"); // 3.1 执行回调
-                                } else if (messagelist.get(postion+1).getType().equals("2")) {
-                                    listterner.process("2"); // 3.1 执行回调
-                                } else if (messagelist.get(postion+1).getType().equals("5")) {
-                                    listterner.process("5"); // 3.1 执行回调
+                                @Override
+                                public void onItemClick(int postion) {
+                                    if (messagelist.get(postion + 1).getType().equals("0")) {
+                                        listterner.process("0"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion + 1).getType().equals("2")) {
+                                        listterner.process("2"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion + 1).getType().equals("5")) {
+                                        listterner.process("5"); // 3.1 执行回调
+                                    }
                                 }
-                            }
-                        });
+                            });
                             Log.i("文字轮播", "*********************************************************************");
                             for (int i = 0; i < messagelist2_S.size(); ++i) {
                                 Log.i("文字轮播", "第二行：" + messagelist2_S.get(i).getName());
@@ -730,7 +730,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                             }
                         }
 
-                        if (messagelist.size() > 1){
+                        if (messagelist.size() != 1) {
                             tvBanner2_S.setVisibility(View.VISIBLE);
                         }
                         textBannerAdapter.setData(messagelist2);
@@ -750,11 +750,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                         textBannerAdapter_s.setOnItemClickListener(new TextBannerAdapter_S.OnItemClickLisenter() {
                             @Override
                             public void onItemClick(int postion) {
-                                if (messagelist.get(postion+1).getType().equals("0")) {
+                                if (messagelist.get(postion + 1).getType().equals("0")) {
                                     listterner.process("0"); // 3.1 执行回调
-                                } else if (messagelist.get(postion+1).getType().equals("2")) {
+                                } else if (messagelist.get(postion + 1).getType().equals("2")) {
                                     listterner.process("2"); // 3.1 执行回调
-                                } else if (messagelist.get(postion+1).getType().equals("5")) {
+                                } else if (messagelist.get(postion + 1).getType().equals("5")) {
                                     listterner.process("5"); // 3.1 执行回调
                                 }
                             }

@@ -488,7 +488,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
 
                         } else if (messagelist.size() == 1) {
 
-                            Log.i("文字轮播","messagelist.size() == 1");
+                            Log.i("文字轮播", "messagelist.size() == 1");
 
                             tvBanner2.setVisibility(View.VISIBLE);
                             tvBanner2_S.setVisibility(View.INVISIBLE);
@@ -508,7 +508,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                             textBannerAdapter.setOnItemClickListener(new TextBannerAdapter.OnItemClickLisenter() {
                                 @Override
                                 public void onItemClick(int postion) {
-                                    Log.i("文字轮播","点击执行回调textBannerAdapter：" + messagelist.get(postion).getType());
+                                    Log.i("文字轮播", "点击执行回调textBannerAdapter：" + messagelist.get(postion).getType());
                                     if (messagelist.get(postion).getType().equals("0")) {
                                         listterner.process("0"); // 3.1 执行回调
                                     } else if (messagelist.get(postion).getType().equals("2")) {
@@ -545,24 +545,25 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                             textBannerAdapter_s.setOnItemClickListener(new TextBannerAdapter_S.OnItemClickLisenter() {
                                 @Override
                                 public void onItemClick(int postion) {
-                                    if (messagelist.get(postion+1).getType().equals("0")) {
+                                    if (messagelist.get(postion + 1).getType().equals("0")) {
                                         listterner.process("0"); // 3.1 执行回调
-                                    } else if (messagelist.get(postion+1).getType().equals("2")) {
+                                    } else if (messagelist.get(postion + 1).getType().equals("2")) {
                                         listterner.process("2"); // 3.1 执行回调
-                                    } else if (messagelist.get(postion+1).getType().equals("5")) {
+                                    } else if (messagelist.get(postion + 1).getType().equals("5")) {
                                         listterner.process("5"); // 3.1 执行回调
                                     }
                                 }
                             });
                         } else {
-                            Log.i("文字轮播","else");
+                            Log.i("文字轮播", "else");
 
                             tvBanner2.setVisibility(View.VISIBLE);
                             tvBanner2_S.setVisibility(View.VISIBLE);
                             side_message_no.setVisibility(View.GONE);
-                            if(messagelist.size() == 2){
-                                tvBanner2.setFlipInterval(500000000);tvBanner2_S.setFlipInterval(500000000);
-                            }else {
+                            if (messagelist.size() == 2) {
+                                tvBanner2.setFlipInterval(500000000);
+                                tvBanner2_S.setFlipInterval(500000000);
+                            } else {
 
                             }
                             //TODO 第一行
@@ -580,7 +581,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                             textBannerAdapter.setOnItemClickListener(new TextBannerAdapter.OnItemClickLisenter() {
                                 @Override
                                 public void onItemClick(int postion) {
-                                    Log.i("文字轮播","点击执行回调textBannerAdapter：" + messagelist.get(postion).getType());
+                                    Log.i("文字轮播", "点击执行回调textBannerAdapter：" + messagelist.get(postion).getType());
                                     if (messagelist.get(postion).getType().equals("0")) {
                                         listterner.process("0"); // 3.1 执行回调
                                     } else if (messagelist.get(postion).getType().equals("2")) {
@@ -591,8 +592,8 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                 }
                             });
 
-                            for (int i = 0; i < messagelist2.size(); ++i){
-                                Log.i("文字轮播","第一行：" + messagelist2.get(i).getName());
+                            for (int i = 0; i < messagelist2.size(); ++i) {
+                                Log.i("文字轮播", "第一行：" + messagelist2.get(i).getName());
                             }
 
                             //TODO 第二行
@@ -621,18 +622,18 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                             textBannerAdapter_s.setOnItemClickListener(new TextBannerAdapter_S.OnItemClickLisenter() {
                                 @Override
                                 public void onItemClick(int postion) {
-                                    if (messagelist.get(postion+1).getType().equals("0")) {
+                                    if (messagelist.get(postion + 1).getType().equals("0")) {
                                         listterner.process("0"); // 3.1 执行回调
-                                    } else if (messagelist.get(postion+1).getType().equals("2")) {
+                                    } else if (messagelist.get(postion + 1).getType().equals("2")) {
                                         listterner.process("2"); // 3.1 执行回调
-                                    } else if (messagelist.get(postion+1).getType().equals("5")) {
+                                    } else if (messagelist.get(postion + 1).getType().equals("5")) {
                                         listterner.process("5"); // 3.1 执行回调
                                     }
                                 }
                             });
-                            Log.i("文字轮播","*********************************************************************");
-                            for (int i = 0; i < messagelist2_S.size(); ++i){
-                                Log.i("文字轮播","第二行：" + messagelist2_S.get(i).getName());
+                            Log.i("文字轮播", "*********************************************************************");
+                            for (int i = 0; i < messagelist2_S.size(); ++i) {
+                                Log.i("文字轮播", "第二行：" + messagelist2_S.get(i).getName());
                             }
                         }
 
@@ -734,7 +735,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                             }
                         }
 
-                        if (messagelist.size() > 1){
+                        if (messagelist.size() != 1) {
                             tvBanner2_S.setVisibility(View.VISIBLE);
                         }
                         textBannerAdapter.setData(messagelist2);
@@ -754,11 +755,11 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                         textBannerAdapter_s.setOnItemClickListener(new TextBannerAdapter_S.OnItemClickLisenter() {
                             @Override
                             public void onItemClick(int postion) {
-                                if (messagelist.get(postion+1).getType().equals("0")) {
+                                if (messagelist.get(postion + 1).getType().equals("0")) {
                                     listterner.process("0"); // 3.1 执行回调
-                                } else if (messagelist.get(postion+1).getType().equals("2")) {
+                                } else if (messagelist.get(postion + 1).getType().equals("2")) {
                                     listterner.process("2"); // 3.1 执行回调
-                                } else if (messagelist.get(postion+1).getType().equals("5")) {
+                                } else if (messagelist.get(postion + 1).getType().equals("5")) {
                                     listterner.process("5"); // 3.1 执行回调
                                 }
                             }

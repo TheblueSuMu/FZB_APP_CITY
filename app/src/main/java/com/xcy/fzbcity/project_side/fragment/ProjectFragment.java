@@ -476,13 +476,14 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
 
                         } else if (messagelist.size() == 1) {
 
-                            Log.i("文字轮播","messagelist.size() == 1");
+                            Log.i("文字轮播", "messagelist.size() == 1");
 
                             tvBanner2.setVisibility(View.VISIBLE);
                             tvBanner2_S.setVisibility(View.INVISIBLE);
                             side_message_no_2.setVisibility(View.GONE);
 
-                            tvBanner2.setFlipInterval(500000000);tvBanner2_S.setFlipInterval(500000000);
+                            tvBanner2.setFlipInterval(500000000);
+                            tvBanner2_S.setFlipInterval(500000000);
 
                             for (int i = 0; i < messagelist.size(); i++) {
                                 if (messagelist.get(i).getType().equals("0")) {
@@ -533,27 +534,28 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
                             tvBanner2_S.setAdapter(textBannerAdapter_s);
                             tvBanner2_S.setVisibility(View.INVISIBLE);
                             textBannerAdapter_s.setOnItemClickListener(new TextBannerAdapter_S.OnItemClickLisenter() {
-                            @Override
-                            public void onItemClick(int postion) {
-                                if (messagelist.get(postion+1).getType().equals("0")) {
-                                    listterner.process("0"); // 3.1 执行回调
-                                } else if (messagelist.get(postion+1).getType().equals("2")) {
-                                    listterner.process("2"); // 3.1 执行回调
-                                } else if (messagelist.get(postion+1).getType().equals("5")) {
-                                    listterner.process("5"); // 3.1 执行回调
+                                @Override
+                                public void onItemClick(int postion) {
+                                    if (messagelist.get(postion + 1).getType().equals("0")) {
+                                        listterner.process("0"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion + 1).getType().equals("2")) {
+                                        listterner.process("2"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion + 1).getType().equals("5")) {
+                                        listterner.process("5"); // 3.1 执行回调
+                                    }
                                 }
-                            }
-                        });
+                            });
 
                         } else {
-                            Log.i("文字轮播","else");
+                            Log.i("文字轮播", "else");
 
                             tvBanner2.setVisibility(View.VISIBLE);
                             tvBanner2_S.setVisibility(View.VISIBLE);
                             side_message_no_2.setVisibility(View.GONE);
-                            if(messagelist.size() == 2){
-                                tvBanner2.setFlipInterval(500000000);tvBanner2_S.setFlipInterval(500000000);
-                            }else {
+                            if (messagelist.size() == 2) {
+                                tvBanner2.setFlipInterval(500000000);
+                                tvBanner2_S.setFlipInterval(500000000);
+                            } else {
 
                             }
                             //TODO 第一行
@@ -581,8 +583,8 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
                                 }
                             });
 
-                            for (int i = 0; i < messagelist2.size(); ++i){
-                                Log.i("文字轮播","第一行：" + messagelist2.get(i).getName());
+                            for (int i = 0; i < messagelist2.size(); ++i) {
+                                Log.i("文字轮播", "第一行：" + messagelist2.get(i).getName());
                             }
 
                             //TODO 第二行
@@ -609,20 +611,20 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
                             textBannerAdapter_s = new TextBannerAdapter_S(messagelist2_S, view.getContext());
                             tvBanner2_S.setAdapter(textBannerAdapter_s);
                             textBannerAdapter_s.setOnItemClickListener(new TextBannerAdapter_S.OnItemClickLisenter() {
-                            @Override
-                            public void onItemClick(int postion) {
-                                if (messagelist.get(postion+1).getType().equals("0")) {
-                                    listterner.process("0"); // 3.1 执行回调
-                                } else if (messagelist.get(postion+1).getType().equals("2")) {
-                                    listterner.process("2"); // 3.1 执行回调
-                                } else if (messagelist.get(postion+1).getType().equals("5")) {
-                                    listterner.process("5"); // 3.1 执行回调
+                                @Override
+                                public void onItemClick(int postion) {
+                                    if (messagelist.get(postion + 1).getType().equals("0")) {
+                                        listterner.process("0"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion + 1).getType().equals("2")) {
+                                        listterner.process("2"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion + 1).getType().equals("5")) {
+                                        listterner.process("5"); // 3.1 执行回调
+                                    }
                                 }
-                            }
-                        });
-                            Log.i("文字轮播","*********************************************************************");
-                            for (int i = 0; i < messagelist2_S.size(); ++i){
-                                Log.i("文字轮播","第二行：" + messagelist2_S.get(i).getName());
+                            });
+                            Log.i("文字轮播", "*********************************************************************");
+                            for (int i = 0; i < messagelist2_S.size(); ++i) {
+                                Log.i("文字轮播", "第二行：" + messagelist2_S.get(i).getName());
                             }
                         }
 
@@ -724,7 +726,7 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
                             }
                         }
 
-                        if (messagelist.size() > 1){
+                        if (messagelist.size() != 1) {
                             tvBanner2_S.setVisibility(View.VISIBLE);
                         }
                         textBannerAdapter.setData(messagelist2);
@@ -744,11 +746,11 @@ public class ProjectFragment extends Fragment implements View.OnClickListener, S
                         textBannerAdapter_s.setOnItemClickListener(new TextBannerAdapter_S.OnItemClickLisenter() {
                             @Override
                             public void onItemClick(int postion) {
-                                if (messagelist.get(postion+1).getType().equals("0")) {
+                                if (messagelist.get(postion + 1).getType().equals("0")) {
                                     listterner.process("0"); // 3.1 执行回调
-                                } else if (messagelist.get(postion+1).getType().equals("2")) {
+                                } else if (messagelist.get(postion + 1).getType().equals("2")) {
                                     listterner.process("2"); // 3.1 执行回调
-                                } else if (messagelist.get(postion+1).getType().equals("5")) {
+                                } else if (messagelist.get(postion + 1).getType().equals("5")) {
                                     listterner.process("5"); // 3.1 执行回调
                                 }
                             }
