@@ -90,6 +90,7 @@
         <!--TODO 百度地图 end-->
 
         <activity android:name="com.xcy.fzbcity.all.view.ATestActivity"/><!--TODO 数据库测试数据-->
+        <activity android:name="com.xcy.fzbcity.all.view.Close_An_Account"/><!--TODO 账号注销-->
         <activity android:name="com.xcy.fzbcity.all.view.MessageCommentActivity" android:launchMode="singleTop" android:windowSoftInputMode="stateVisible|adjustResize"/>   <!--TODO 公用 楼盘动态详情-->
         <activity android:name="com.xcy.fzbcity.all.view.MapActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan"/>
         <activity android:name="com.xcy.fzbcity.all.view.BannerPhotoActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan"/>

@@ -847,4 +847,8 @@ public interface MyService {
     @POST("commissionerUpdate/setStoreNum")
     Observable<AddStoreNumBean> getAddStoreNum(@Query("userId") String userId);
 
+    //账号注销功能
+    @POST("commonUpdate/updateLoginFlag")
+    Observable<UpdateLoginFlag> getUpdateLoginFlag(@Query("userId") String userId, @Query("sysUserId") String sysUserId);
+
 }
