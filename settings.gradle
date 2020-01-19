@@ -1,1 +1,1 @@
-include ':app', ':gallery', ':azlist', ':fuzzysearchlibrary', ':indexlib'
+include ':app', ':gallery', ':azlist', ':fuzzysearchlibrary', ':indexlib', ':lib_citydata', ':citypickerview'

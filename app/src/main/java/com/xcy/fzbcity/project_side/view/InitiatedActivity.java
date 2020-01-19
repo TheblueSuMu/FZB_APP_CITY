@@ -9,12 +9,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
+import com.xcy.fzbcity.all.adapter.ReviewTheSuccessPhoneAdapter;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.modle.ReadRecordBean;
 import com.xcy.fzbcity.all.modle.ReportProcessDetailsBean;
@@ -38,7 +40,6 @@ public class InitiatedActivity extends AllActivity {
 
     RelativeLayout initiated_return;
     ImageView initiated_img1;
-    ImageView initiated_img2;
 
     TextView initiated_tv1;
     TextView initiated_tv2;
@@ -50,6 +51,7 @@ public class InitiatedActivity extends AllActivity {
     private List<ReportProcessDetailsBean.DataBean.ProcessDataBean> processData;
     private List<String> list;
     private Intent intent;
+    private RecyclerView initiated_nameRv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +66,7 @@ public class InitiatedActivity extends AllActivity {
         StatusBar.makeStatusBarTransparent(this);
         initiated_return = findViewById(R.id.initiated_return);
         initiated_img1 = findViewById(R.id.initiated_img1);
-        initiated_img2 = findViewById(R.id.initiated_img2);
+        initiated_nameRv = findViewById(R.id.initiated_NameRv);
         initiated_tv1 = findViewById(R.id.initiated_tv1);
         initiated_tv2 = findViewById(R.id.initiated_tv2);
         initiated_tv3 = findViewById(R.id.initiated_tv3);
@@ -72,12 +74,6 @@ public class InitiatedActivity extends AllActivity {
 
         initData();
 
-        initiated_img2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
     }
 
     private void initData() {
@@ -109,7 +105,17 @@ public class InitiatedActivity extends AllActivity {
                         processData = reportProcessDetailsBean.getData().getProcessData();
 
                         initiated_tv2.setText(infoData.getProjectName());
-                        initiated_tv3.setText(infoData.getCustomerName() + "[" + infoData.getCustomerPhone() + "]");
+                        if (reportProcessDetailsBean.getData().getAttacheList().size() == 0) {
+                            initiated_tv3.setVisibility(View.GONE);
+                        }else {
+                            GridLayoutManager gridLayoutManager = new GridLayoutManager(InitiatedActivity.this,2);
+                            gridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
+                            initiated_nameRv.setLayoutManager(gridLayoutManager);
+                            ReviewTheSuccessPhoneAdapter reviewTheSuccessPhoneAdapter = new ReviewTheSuccessPhoneAdapter(reportProcessDetailsBean.getData().getAttacheList());
+                            initiated_nameRv.setAdapter(reviewTheSuccessPhoneAdapter);
+                            reviewTheSuccessPhoneAdapter.notifyDataSetChanged();
+                            initiated_tv3.setText("项目负责人：");
+                        }
                         initiated_return.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {

@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.amap.api.maps.model.LatLng;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.modle.ShareLogSaveBean;
@@ -228,6 +229,36 @@ public class FinalContents {
     static String CityIs = "";
 
     static String OldCityId = "";
+
+    static String NationalCityName = "";
+
+    static LatLng MylatLng = null;
+
+    static String NationalCityNameSearch = "";
+
+    public static String getNationalCityNameSearch() {
+        return NationalCityNameSearch;
+    }
+
+    public static void setNationalCityNameSearch(String nationalCityNameSearch) {
+        NationalCityNameSearch = nationalCityNameSearch;
+    }
+
+    public static LatLng getMylatLng() {
+        return MylatLng;
+    }
+
+    public static void setMylatLng(LatLng mylatLng) {
+        MylatLng = mylatLng;
+    }
+
+    public static String getNationalCityName() {
+        return NationalCityName;
+    }
+
+    public static void setNationalCityName(String nationalCityName) {
+        NationalCityName = nationalCityName;
+    }
 
     public static String getOldCityId() {
         return OldCityId;

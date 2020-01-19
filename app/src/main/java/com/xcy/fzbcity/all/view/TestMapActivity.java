@@ -1,709 +1,549 @@
 package com.xcy.fzbcity.all.view;
 
-import android.Manifest;
+
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.MapPoi;
-import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.MapStatusUpdateFactory;
-import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MarkerOptions;
-import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.core.PoiInfo;
-import com.baidu.mapapi.search.core.SearchResult;
-import com.baidu.mapapi.search.geocode.GeoCodeResult;
-import com.baidu.mapapi.search.geocode.GeoCoder;
-import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
-import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
-import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
-import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
-import com.baidu.mapapi.search.poi.PoiCitySearchOption;
-import com.baidu.mapapi.search.poi.PoiDetailResult;
-import com.baidu.mapapi.search.poi.PoiDetailSearchResult;
-import com.baidu.mapapi.search.poi.PoiIndoorResult;
-import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
-import com.baidu.mapapi.search.poi.PoiResult;
-import com.baidu.mapapi.search.poi.PoiSearch;
-import com.baidu.mapapi.search.route.RoutePlanSearch;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.AMapOptions;
+import com.amap.api.maps.CameraUpdate;
+import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.LocationSource;
+import com.amap.api.maps.MapView;
+import com.amap.api.maps.UiSettings;
+import com.amap.api.maps.model.CameraPosition;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MyLocationStyle;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeQuery;
+import com.amap.api.services.geocoder.RegeocodeResult;
+import com.amap.api.services.poisearch.PoiResult;
+import com.amap.api.services.poisearch.PoiSearch;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.adapter.TestMapPopwindowAdapter;
+import com.xcy.fzbcity.all.adapter.TestMapPopwindowAdapter_S;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.persente.StatusBar;
-import com.xcy.fzbcity.all.utils.ToastUtil;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class TestMapActivity extends AppCompatActivity implements TestMapPopwindowAdapter.OnTestMap {
+public class TestMapActivity extends AppCompatActivity implements LocationSource, AMapLocationListener, PoiSearch.OnPoiSearchListener, TestMapPopwindowAdapter.OnTestMap, View.OnClickListener, GeocodeSearch.OnGeocodeSearchListener, TestMapPopwindowAdapter_S.OnTestMap {
 
-    // 定位相关
-    LocationClient mLocClient;
-    //定位监听
-    public MyLocationListenner myListener = new MyLocationListenner();
-    MapView mMapView = null;
-    BaiduMap mBaiduMap;
-    boolean isFirstLoc = true; // 是否首次定位
-    BDLocation mlocation;
-    private double latitude = 0;
-    private double longitude = 0;
-    private GeoCoder mCoder;
-    private LatLng latLng1;
-    private RoutePlanSearch mSearch;
-    GeoCoder geoCoder = GeoCoder.newInstance();
-    private String la = "";
-    private String lo = "";
-    private LatLng ll;
-    private MyLocationData locData;
+    MapView mapView = null;
+    AMap aMap = null;
+    private UiSettings mUiSettings;//定义一个UiSettings对象
+    OnLocationChangedListener mListener;
+    AMapLocationClient mlocationClient;
+    AMapLocationClientOption mLocationOption;
+    MyLocationStyle myLocationStyle;
+    private PoiSearch.Query query;
+    private PoiSearch poiSearch;
+    ImageView test_map_pop_rv_img;
+    ImageView test_map_pop_rv_img_s;
+    RecyclerView recyclerView;
+    RecyclerView test_map_pop_rv_S_s;
+    private TestMapPopwindowAdapter adapter;
+    private TestMapPopwindowAdapter_S adapter_s;
+    private ArrayList<PoiItem> pois;
+    private String pcd;
+    private Marker marker;
+    private String la;
+    private String lo;
+    private String qy;
+    private String xq;
 
-    TextView map_sendmap_btn;
-
-    RelativeLayout text_map_rl;
     RelativeLayout test_map_back;
     RelativeLayout test_map_rl_2;
-    ImageView text_map_img;
-    private String address = "";
-    private String pcd = "";
-
+    TextView test_map_city;
+    TextView test_map_search_tv;
     EditText test_map_search;
-    int num = 0;
-    private MapStatus mMapStatus;
-    //    private SuggestionSearch mSuggestionSearch;
-    private String province;
-    private PoiSearch mPoiSearch;
-    private List<PoiInfo> allPoi;
-    private RecyclerView recyclerView;
-    private TestMapPopwindowAdapter adapter;
-    private double ssv;
-    private double ssvs;
-    int ifKeyListener = 0;
-    private LatLng ll1;
-    private String xq;
-    private String qy;
 
-    private int ifAddress = 0;
-    private int ifPoiSearch = 0;
-    private LatLng point;
+    int isNum = 0;
+    private GeocodeSearch geocoderSearch;
+    private Intent intent;
+    private InputMethodManager imm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_map);
 
+        StatusBar.makeStatusBarTransparent(this);
+
         la = getIntent().getStringExtra("La");
         lo = getIntent().getStringExtra("Lo");
         qy = getIntent().getStringExtra("qy");
         xq = getIntent().getStringExtra("xq");
 
+        Log.i("高德地图", "la:" + la);
+        Log.i("高德地图", "lo:" + lo);
 
-        if (ContextCompat.checkSelfPermission(TestMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
-            //开启定位权限,200是标识码
-            ActivityCompat.requestPermissions(TestMapActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
-        } else {
-//            initMap();
-//            ToastUtil.showToast(TestMapActivity.this, "已开启定位权限", Toast.LENGTH_LONG).show();
-        }
-
-
-        text_map_rl = findViewById(R.id.text_map_rl);
-        text_map_img = findViewById(R.id.text_map_img);
-
-        if (la.equals("") || lo.equals("")) {
-            text_map_rl.setVisibility(View.VISIBLE);
-            text_map_img.setVisibility(View.VISIBLE);
-        } else {
-            text_map_rl.setVisibility(View.GONE);
-            text_map_img.setVisibility(View.GONE);
-        }
-
-        text_map_rl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text_map_rl.setVisibility(View.GONE);
-                text_map_img.setVisibility(View.GONE);
-            }
-        });
-        text_map_img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text_map_rl.setVisibility(View.GONE);
-                text_map_img.setVisibility(View.GONE);
-            }
-        });
-
-        test_map_back = findViewById(R.id.test_map_back);
-        map_sendmap_btn = findViewById(R.id.test_map_success);
-        test_map_search = findViewById(R.id.test_map_search);
-        test_map_rl_2 = findViewById(R.id.test_map_rl_2);
-//        mSuggestionSearch = SuggestionSearch.newInstance();
-        mPoiSearch = PoiSearch.newInstance();
         adapter = new TestMapPopwindowAdapter();
         adapter.setOnTestMap(this);
 
-        test_map_rl_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                test_map_rl_2.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.GONE);
-            }
-        });
+        adapter_s = new TestMapPopwindowAdapter_S();
+        adapter_s.setOnTestMap(this);
 
         recyclerView = findViewById(R.id.test_map_pop_rv_S);
-        test_map_search.addTextChangedListener(new TextWatcher() {
+        test_map_back = findViewById(R.id.test_map_back);
+        test_map_city = findViewById(R.id.test_map_city);
+        test_map_search_tv = findViewById(R.id.test_map_search_tv);
+        test_map_search = findViewById(R.id.test_map_search);
+        test_map_rl_2 = findViewById(R.id.test_map_rl_2);
+        test_map_pop_rv_img_s = findViewById(R.id.test_map_pop_rv_img_s);
+        test_map_pop_rv_S_s = findViewById(R.id.test_map_pop_rv_S_s);
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+        test_map_pop_rv_img = findViewById(R.id.test_map_pop_rv_img);
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                String s1 = s + "";
-                if (s1.equals("")) {
-                    test_map_rl_2.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.GONE);
-                } else {
-                    Log.i("经纬度", "province:" + FinalContents.getCityName());
-                    Log.i("经纬度", "s1:" + s1);
-                    test_map_rl_2.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    ifPoiSearch = 0;
-                    mPoiSearch.searchInCity(new PoiCitySearchOption()
-                            .city(FinalContents.getCityName()) //必填
-                            .keyword(s1 + "") //必填
-                            .pageNum(0)
-                            .pageCapacity(20));
-                }
-//                Log.i("经纬度", "afterTextChanged-s:" + s);
-            }
-        });
+        //获取地图控件引用
+        mapView = findViewById(R.id.map);
+        //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
+        mapView.onCreate(savedInstanceState);
 
-        map_sendmap_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendMessage();
-            }
-        });
+        //定义了一个地图view
+        mapView = (MapView) findViewById(R.id.map);
+        mapView.onCreate(savedInstanceState);// 此方法须覆写，虚拟机需要在很多情况下保存地图绘制的当前状态。
+//初始化地图控制器对象
 
-        test_map_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (xq.equals("") || qy.equals("")) {
-                    Intent intent = new Intent();
-                    //纬度
-                    intent.putExtra("getLatitude", "");
-                    //经度
-                    intent.putExtra("getLongitude", "");
-                    //地址
-                    intent.putExtra("address", "");
-                    //省市区
-                    intent.putExtra("pcd", "");
+        if (aMap == null) {
+            aMap = mapView.getMap();
+        }
 
-                    setResult(RESULT_OK, intent);
-                    finish();
-                } else {
-                    Intent intent = new Intent();
-                    //纬度
-                    intent.putExtra("getLatitude", la);
-                    //经度
-                    intent.putExtra("getLongitude", lo);
-                    //地址
-                    intent.putExtra("address", xq);
-                    //省市区
-                    intent.putExtra("pcd", qy);
-
-                    setResult(RESULT_OK, intent);
-                    finish();
-                }
-
-            }
-        });
+        test_map_back.setOnClickListener(this);
+        test_map_city.setOnClickListener(this);
+        test_map_search_tv.setOnClickListener(this);
+        test_map_search.setOnClickListener(this);
 
         initView();
-
 
     }
 
     private void initView() {
 
-        StatusBar.makeStatusBarTransparent(this);
+        //去掉放大缩小按钮
+        mUiSettings = aMap.getUiSettings();//实例化UiSettings类对象
+        mUiSettings.setZoomControlsEnabled(false);
 
-        mMapView = (MapView) findViewById(R.id.bmapView);
 
-        //获取地图控件引用
-        mMapView = (MapView) findViewById(R.id.bmapView);
-        mBaiduMap = mMapView.getMap();
-        // 开启定位图层
-        mBaiduMap.setMyLocationEnabled(true);
-        // 定位初始化
-        mLocClient = new LocationClient(this);
-        mLocClient.registerLocationListener(myListener);
-        LocationClientOption option = new LocationClientOption();
-        option.setOpenGps(true); // 打开gps
-        option.setCoorType("bd09ll"); // 设置坐标类型
-        option.setScanSpan(1000);
-        option.setAddrType("all");
-        mLocClient.setLocOption(option);
-//        mSuggestionSearch.setOnGetSuggestionResultListener(onGetSuggestionResultListener);
-        mPoiSearch.setOnGetPoiSearchResultListener(poiSearchResultListener);
-        //经纬度转地址
-        mCoder = GeoCoder.newInstance();
-        mSearch = RoutePlanSearch.newInstance();
-        mCoder.setOnGetGeoCodeResultListener(onGetGeoCoderResultListener);
-//        mSearch.setOnGetRoutePlanResultListener((OnGetRoutePlanResultListener) this);
+        // 设置定位监听
+        aMap.setLocationSource(this);
+// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
+        aMap.setMyLocationEnabled(true);
 
-        BaiduMap.OnMapClickListener listener = new BaiduMap.OnMapClickListener() {
+        mUiSettings.setMyLocationButtonEnabled(true); //显示默认的定位按钮
+        mUiSettings.setLogoPosition(AMapOptions.LOGO_POSITION_BOTTOM_RIGHT);
 
+// 设置定位的类型为定位模式，有定位、跟随或地图根据面向方向旋转几种
+        aMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
+        aMap.setOnMyLocationChangeListener(new AMap.OnMyLocationChangeListener() {
             @Override
-            public void onMapClick(LatLng latLng) {
-                String s = latLng.toString();
-                Log.i("地图", "latLng：" + s);
-                mBaiduMap.clear();
-                mBaiduMap = mMapView.getMap();
-                //定义Maker坐标点
-                point = new LatLng(latLng.latitude, latLng.longitude);
-                //构建Marker图标
-                BitmapDescriptor bitmap = BitmapDescriptorFactory
-                        .fromResource(R.mipmap.pin_red2x);
-                //构建MarkerOption，用于在地图上添加Marker
-                Log.i("经纬度", "onMapClick_point:" + point);
-                OverlayOptions option = new MarkerOptions()
-                        .position(point)
-                        .icon(bitmap);
-                //在地图上添加Marker，并显示
-                mBaiduMap.addOverlay(option);
-                latitude = latLng.latitude;
-                longitude = latLng.longitude;
-                //poi周边检索
-                ifPoiSearch = 1;
-                mPoiSearch.searchNearby(new PoiNearbySearchOption()
-                        .location(point)
-                        .radius(100)
-                        .keyword("房")
-                        .pageNum(0)
-                        .pageCapacity(20));
-                //经纬度转地址
-//                ifAddress = 0;
-//                mCoder.reverseGeoCode(new ReverseGeoCodeOption()
-//                        .location(point)
-//                        // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
-//                        .radius(500));
+            public void onMyLocationChange(Location location) {
+                if (isNum == 0) {
+                    Log.i("高德地图", "provider:" + location.getLatitude());
+                    Log.i("高德地图", "provider:" + location.getLongitude());
+                    geocoderSearch = new GeocodeSearch(TestMapActivity.this);
+                    geocoderSearch.setOnGeocodeSearchListener(TestMapActivity.this);
 
-                latLng1 = latLng;
+                    RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(location.getLatitude(), location.getLongitude()), 200, GeocodeSearch.AMAP);
+                    geocoderSearch.getFromLocationAsyn(query);
+
+                    isNum = 1;
+                }
+
+            }
+        });
+        myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
+        ////定位一次，且将视角移动到地图中心点。
+        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE);
+
+        //定位图标
+        myLocationStyle.myLocationIcon(com.amap.api.maps.model.BitmapDescriptorFactory.fromBitmap(BitmapFactory
+                .decodeResource(getResources(), R.mipmap.ios_location)));
+        //精度圆圈颜色
+        myLocationStyle.strokeColor(Color.parseColor("#00000000"));
+        myLocationStyle.radiusFillColor(Color.parseColor("#00000000"));
+
+        aMap.setMyLocationStyle(myLocationStyle);
+        aMap.setMyLocationEnabled(true);
+
+
+        /**
+         * 高德地图拖拽事件
+         */
+        AMap.OnCameraChangeListener onCameraChangeListener = new AMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition cameraPosition) {
+                //实时监听
             }
 
             @Override
-            public boolean onMapPoiClick(MapPoi mapPoi) {
+            public void onCameraChangeFinish(CameraPosition cameraPosition) {
+                //拖拽结束监听
+                Log.i("高德地图", "onCameraChangeFinish：" + cameraPosition.target);
 
-                String s = mapPoi.getPosition().toString();
-                Log.i("地图", "latLng：" + s);
-                mBaiduMap.clear();
-                mBaiduMap = mMapView.getMap();
-                //定义Maker坐标点
-                point = new LatLng(mapPoi.getPosition().latitude, mapPoi.getPosition().longitude);
-                //构建Marker图标
-                BitmapDescriptor bitmap = BitmapDescriptorFactory
-                        .fromResource(R.mipmap.pin_red2x);
-                //构建MarkerOption，用于在地图上添加Marker
-                OverlayOptions option = new MarkerOptions()
-                        .position(point)
-                        .icon(bitmap);
-                //在地图上添加Marker，并显示
-                mBaiduMap.addOverlay(option);
-                latitude = mapPoi.getPosition().latitude;
-                longitude = mapPoi.getPosition().longitude;
-                //经纬度转地址
-                Log.i("经纬度", "onMapPoiClick_point:" + point);
-                ifPoiSearch = 1;
-                mPoiSearch.searchNearby(new PoiNearbySearchOption()
-                        .location(point)
-                        .radius(100)
-                        .keyword("房")
-                        .pageNum(0)
-                        .pageCapacity(20));
-//                ifAddress = 0;
-//                mCoder.reverseGeoCode(new ReverseGeoCodeOption()
-//                        .location(point)
-//                        // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
-//                        .radius(900));
+                RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(cameraPosition.target.latitude, cameraPosition.target.longitude), 200, GeocodeSearch.AMAP);
+                geocoderSearch.getFromLocationAsyn(query);
 
-                latLng1 = mapPoi.getPosition();
+                poiSearch.setBound(new PoiSearch.SearchBound(new LatLonPoint(cameraPosition.target.latitude,
+                        cameraPosition.target.longitude), 10000));//设置周边搜索的中心点以及半径
+                poiSearch.searchPOIAsyn();
+                if (la.equals("") || la.equals("")) {
 
-                return false;
+                } else {
+                    CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(Double.parseDouble(la), Double.parseDouble(lo)), 10, 0, 0));
+                    aMap.moveCamera(mCameraUpdate);
+                }
+
+                FinalContents.setMylatLng(cameraPosition.target);
+
             }
         };
-        mBaiduMap.setOnMapClickListener(listener);
 
-        mBaiduMap.setMyLocationEnabled(true);
+        aMap.setOnCameraChangeListener(onCameraChangeListener);
 
-        mLocClient.start();
-
-
-    }
-
-    OnGetGeoCoderResultListener onGetGeoCoderResultListener = new OnGetGeoCoderResultListener() {
-        @Override
-        public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
-            //地址转经纬度
-            if (null != geoCodeResult && null != geoCodeResult.getLocation()) {
-//                Log.i("地图", "geoCodeResult：" + geoCodeResult);
-//                Log.i("地图", "geoCodeResult.error：" + geoCodeResult.error);
-                if (geoCodeResult == null || geoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
-                    //没有检索到结果
-                    Log.i("地图", "没有检索到结果");
-                    return;
-                } else {
-                    latitude = geoCodeResult.getLocation().latitude;
-                    longitude = geoCodeResult.getLocation().longitude;
-                    la = latitude + "";
-                    lo = longitude + "";
-                    Log.i("经纬度", "la：" + la);
-                    Log.i("经纬度", "lo：" + lo);
-                }
-            }
-        }
-
-        @Override
-        public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
-            //经纬度转地址
-            Log.i("经纬度", "经纬度转地址");
-            if (reverseGeoCodeResult == null || reverseGeoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
-                //没有找到检索结果
-                Log.i("经纬度", "没有找到检索结果");
-                return;
-            } else {
-
-                //详细地址
-                if (ifAddress == 0) {
-                    address = reverseGeoCodeResult.getAddress();
-                } else {
-
-                }
-
-                //行政区号
-                int adCode = reverseGeoCodeResult.getCityCode();
-
-                pcd = reverseGeoCodeResult.getAddressDetail().province + "/" + reverseGeoCodeResult.getAddressDetail().city + "/" + reverseGeoCodeResult.getAddressDetail().district;
-                Log.i("经纬度", "address：" + address);
-                Log.i("经纬度", "getLocation：" + reverseGeoCodeResult.getLocation());
-                Log.i("经纬度", "city：" + reverseGeoCodeResult.getAddressDetail().city);
-                Log.i("经纬度", "countryName：" + reverseGeoCodeResult.getAddressDetail().countryName);
-                Log.i("经纬度", "district：" + reverseGeoCodeResult.getAddressDetail().district);
-                Log.i("经纬度", "province：" + reverseGeoCodeResult.getAddressDetail().province);
-
-            }
-        }
-    };
-
-    OnGetPoiSearchResultListener poiSearchResultListener = new OnGetPoiSearchResultListener() {
-
-        @Override
-        public void onGetPoiResult(PoiResult poiResult) {
-//            Log.i("经纬度", "进入onGetPoiResult:");
-            allPoi = poiResult.getAllPoi();
-            if (ifPoiSearch == 0) {
-                if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {
-//                    for (int i = 0; i < poiResult.getAllPoi().size(); ++i) {
-//                        Log.i("经纬度", "getAddress:" + poiResult.getAllPoi().get(i).getAddress());
-//                        Log.i("经纬度", "getArea:" + poiResult.getAllPoi().get(i).getArea());
-//                        Log.i("经纬度", "getName:" + poiResult.getAllPoi().get(i).getName());
-//                        Log.i("经纬度", "getLocation:" + poiResult.getAllPoi().get(i).getLocation());
-//
-//                        //name(area)
-//                        //address
-//                        Log.i("经纬度", "++++++++++++++++++++++++++++++++++++++++++++++++" + i + "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-//                    }
-                    LinearLayoutManager manager = new LinearLayoutManager(TestMapActivity.this);
-                    manager.setOrientation(LinearLayoutManager.VERTICAL);
-                    recyclerView.setLayoutManager(manager);
-                    adapter.setAllPoi(allPoi);
-                    recyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-                } else {
-                    Log.i("经纬度", "没有检索到数据");
-                    test_map_rl_2.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.GONE);
-                }
-            } else {
-                if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {
-//                    for (int i = 0; i < poiResult.getAllPoi().size(); ++i) {
-//                        Log.i("经纬度", "getAddress:" + poiResult.getAllPoi().get(i).getAddress());
-//                        Log.i("经纬度", "getArea:" + poiResult.getAllPoi().get(i).getArea());
-//                        Log.i("经纬度", "getName:" + poiResult.getAllPoi().get(i).getName());
-//                        Log.i("经纬度", "getLocation:" + poiResult.getAllPoi().get(i).getLocation());
-//
-//                        //name(area)
-//                        //address
-//                        Log.i("经纬度", "++++++++++++++++++++++++++++++++++++++++++++++++" + i + "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-//
-//                    }
-                    address = poiResult.getAllPoi().get(0).getAddress();
-                    ifAddress = 1;
-                    mCoder.reverseGeoCode(new ReverseGeoCodeOption()
-                            .location(point)
-                            // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
-                            .radius(100));
-                    Log.i("", "");
-                } else {
-                    Log.i("经纬度", "没有检索到数据");
-                    ifAddress = 0;
-                    mCoder.reverseGeoCode(new ReverseGeoCodeOption()
-                            .location(point)
-                            // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
-                            .radius(100));
-                }
-            }
-
-
-        }
-
-        @Override
-        public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
-            Log.i("经纬度", "进入onGetPoiDetailResult");
-        }
-
-        @Override
-        public void onGetPoiDetailResult(PoiDetailSearchResult poiDetailSearchResult) {
-            Log.i("经纬度", "进入onGetPoiDetailResult");
-
-        }
-
-        @Override
-        public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
-            Log.i("经纬度", "进入onGetPoiIndoorResult");
-        }
-    };
-
-    @Override
-    public void TestMap(int position) {
-
-        Log.i("经纬度", "坐标+名称：" + allPoi.get(position).getAddress() + "+" + allPoi.get(position).getLocation());
-        ifKeyListener = 1;
-        ssvs = allPoi.get(position).getLocation().latitude;
-        ssv = allPoi.get(position).getLocation().longitude;
-        test_map_rl_2.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.GONE);
-        mBaiduMap.clear();
-        mBaiduMap = mMapView.getMap();
-        //定义Maker坐标点
-        LatLng point = new LatLng(allPoi.get(position).getLocation().latitude, allPoi.get(position).getLocation().longitude);
-        //构建Marker图标
-        BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.mipmap.pin_red2x);
-        //构建MarkerOption，用于在地图上添加Marker
-        OverlayOptions option = new MarkerOptions()
-                .position(point)
-                .icon(bitmap);
-        //在地图上添加Marker，并显示
-        mBaiduMap.addOverlay(option);
-        latitude = allPoi.get(position).getLocation().latitude;
-        longitude = allPoi.get(position).getLocation().longitude;
-        //经纬度转地址
-        address = allPoi.get(position).getAddress();
-        Log.i("经纬度", "坐标+名称address：" + address);
-//        pcd = allPoi.get(position).province + "/" + allPoi.get(position).city + "/" + allPoi.get(position);//district
-        ifAddress = 1;
-        mCoder.reverseGeoCode(new ReverseGeoCodeOption()
-                .location(point)
-                // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
-                .radius(500));
-
-        latLng1 = allPoi.get(position).getLocation();
     }
 
     /**
-     * 定位SDK监听函数
+     * 激活定位
      */
-    public class MyLocationListenner implements BDLocationListener {
+    @Override
+    public void activate(OnLocationChangedListener onLocationChangedListener) {
+        mListener = onLocationChangedListener;
+        if (mlocationClient == null) {
+            //初始化定位
+            mlocationClient = new AMapLocationClient(this);
+            //初始化定位参数
+            mLocationOption = new AMapLocationClientOption();
+            //设置定位回调监听
+            mlocationClient.setLocationListener(this);
+            //设置为高精度定位模式
+            mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+            //设置定位参数
+            mlocationClient.setLocationOption(mLocationOption);
+            // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+            // 注意设置合适的定位时间的间隔（最小间隔支持为2000ms），并且在合适时间调用stopLocation()方法来取消定位请求
+            // 在定位结束后，在合适的生命周期调用onDestroy()方法
+            // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
+            mlocationClient.startLocation();//启动定位
+        }
+    }
 
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            // map view 销毁后不在处理新接收的位置
-            if (location == null || mMapView == null) {
-                return;
-            }
-            mlocation = location;
+    /**
+     * 停止定位
+     */
+    @Override
+    public void deactivate() {
+        mListener = null;
+        if (mlocationClient != null) {
+            mlocationClient.stopLocation();
+            mlocationClient.onDestroy();
+        }
+        mlocationClient = null;
+    }
 
-            if (lo.equals("") || la.equals("")) {
-                locData = new MyLocationData.Builder()
-                        .accuracy(0)//mlocation.getRadius()：有精度圈    0：无精度圈
-                        // 此处设置开发者获取到的方向信息，顺时针0-360
-                        .direction(100).latitude(mlocation.getLatitude())
-                        .longitude(mlocation.getLongitude()).build();
+    /**
+     * 定位成功后回调函数
+     */
+    @Override
+    public void onLocationChanged(AMapLocation aMapLocation) {
+        if (mListener != null && aMapLocation != null) {
+            if (aMapLocation != null
+                    && aMapLocation.getErrorCode() == 0) {
+                mListener.onLocationChanged(aMapLocation);// 显示系统小蓝点
             } else {
-                locData = new MyLocationData.Builder()
-                        .accuracy(0)//mlocation.getRadius()：有精度圈    0：无精度圈
-                        // 此处设置开发者获取到的方向信息，顺时针0-360
-                        .direction(100).latitude(Double.parseDouble(la))
-                        .longitude(Double.parseDouble(lo)).build();
+                String errText = "定位失败," + aMapLocation.getErrorCode() + ": " + aMapLocation.getErrorInfo();
+                Log.e("AmapErr", errText);
+            }
+        }
+    }
+
+    /**
+     * poi检索1
+     */
+    @Override
+    public void onPoiSearched(PoiResult poiResult, int i) {
+//        for (int j = 0; j < poiResult.getPois().size(); ++j) {
+//            Log.i("高德地图", "getTitle:" + poiResult.getPois().get(j).getTitle());//名字
+//            Log.i("高德地图", "getSnippet:" + poiResult.getPois().get(j).getSnippet());//地址
+//            Log.i("高德地图", "getAdName:" + poiResult.getPois().get(j).getAdName());//区
+//            Log.i("高德地图", "getProvinceName:" + poiResult.getPois().get(j).getProvinceName());//省
+//            Log.i("高德地图", "getCityName:" + poiResult.getPois().get(j).getCityName());//市
+//            Log.i("高德地图", "------------------------------------------------------------------");
+//
+//        }
+        pois = poiResult.getPois();
+        if (test_map_rl_2.getVisibility() == View.VISIBLE) {//搜索框poi检索
+            Log.i("高德地图", "VISIBLE");
+            if (pois.size() == 0) {
+                Log.i("高德地图", "size0");
+                test_map_pop_rv_img_s.setVisibility(View.VISIBLE);
+                test_map_pop_rv_S_s.setVisibility(View.GONE);
+            } else {
+                Log.i("高德地图", "size：" + pois.size());
+                test_map_pop_rv_img_s.setVisibility(View.GONE);
+                test_map_pop_rv_S_s.setVisibility(View.VISIBLE);
+                LinearLayoutManager manager = new LinearLayoutManager(TestMapActivity.this);
+                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                test_map_pop_rv_S_s.setLayoutManager(manager);
+                adapter_s.setAllPoi(pois);
+                test_map_pop_rv_S_s.setAdapter(adapter_s);
+                adapter_s.notifyDataSetChanged();
+            }
+        } else {//拖拽poi检索
+            Log.i("高德地图", "GONE");
+            if (pois.size() == 0) {
+
+                test_map_pop_rv_img.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+
+            } else {
+
+                test_map_pop_rv_img.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+
+                LinearLayoutManager manager = new LinearLayoutManager(TestMapActivity.this);
+                manager.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(manager);
+                adapter.setAllPoi(pois);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+        }
+
+
+    }
+
+    /**
+     * poi检索2
+     */
+    @Override
+    public void onPoiItemSearched(PoiItem poiItem, int i) {
+        Log.i("高德地图", "onPoiItemSearched:");
+    }
+
+    /**
+     * 检索点击事件
+     */
+    @Override
+    public void TestMap(int position) {
+
+        pcd = pois.get(position).getProvinceName() + "/" + pois.get(position).getCityName() + "/" + pois.get(position).getAdName();
+
+        Intent intent = new Intent();
+        //纬度
+        intent.putExtra("getLatitude", pois.get(position).getLatLonPoint().getLatitude() + "");
+        //经度
+        intent.putExtra("getLongitude", pois.get(position).getLatLonPoint().getLongitude() + "");
+        //地址
+        intent.putExtra("address", pois.get(position).getSnippet() + "");
+        //省市区
+        intent.putExtra("pcd", pcd + "");
+
+        setResult(RESULT_OK, intent);
+        finish();
+
+    }
+
+    /**
+     * 所有点击事件
+     */
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.test_map_back://返回上一层
+                intent = new Intent();
+                //纬度
+                intent.putExtra("getLatitude", la);
+                //经度
+                intent.putExtra("getLongitude", lo);
+                //地址
+                intent.putExtra("address", xq);
+                //省市区
+                intent.putExtra("pcd", qy);
+
+                setResult(RESULT_OK, intent);
+                finish();
+                imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                break;
+            case R.id.test_map_city://城市选择
+                FinalContents.setNationalCityName(test_map_city.getText().toString());
+//                intent = new Intent(TestMapActivity.this, TheNationalCityActivity.class);
+//                startActivity(intent);
+                intent = new Intent(TestMapActivity.this, TheNationalCityActivity.class);
+                startActivityForResult(intent,TheNationalCityActivity.CITY_SELECT_RESULT_FRAG);
+                break;
+            case R.id.test_map_search_tv://取消
+                test_map_search_tv.setVisibility(View.GONE);
+                test_map_rl_2.setVisibility(View.GONE);
+                imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                break;
+            case R.id.test_map_search://搜索
+                test_map_search_tv.setVisibility(View.VISIBLE);
+                test_map_rl_2.setVisibility(View.VISIBLE);
+
+                initSearch();
+
+                break;
+        }
+
+    }
+
+    /**
+     * 搜索框搜索
+     */
+    private void initSearch() {
+        Log.i("高德地图", "initSearch");
+        test_map_search.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.i("高德地图", "onTextChanged");
             }
 
-            mBaiduMap.setMyLocationData(locData);
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                Log.i("高德地图", "beforeTextChanged");
+            }
 
-            if (isFirstLoc) {
-                isFirstLoc = false;
-                province = mlocation.getProvince();
-//                Log.i("经纬度", " mlocation.getProvince():" + mlocation.getProvince());
-                if (lo.equals("") || la.equals("")) {
-                    ll = new LatLng(location.getLatitude(),
-                            location.getLongitude());
+            @Override
+            public void afterTextChanged(Editable s) {
+                Log.i("高德地图", "afterTextChanged");
+
+                String s1 = s + "";
+                String s2 = test_map_city.getText().toString();
+                if (s1.equals("")) {
+
+                    Log.i("高德地图", "空");
+
                 } else {
-                    ll = new LatLng(Double.parseDouble(la),
-                            Double.parseDouble(lo));
+                    Log.i("高德地图", "s1:" + s1);
+                    query = new PoiSearch.Query(s1, "", s2);
+                    poiSearch = new PoiSearch(TestMapActivity.this, query);
+                    poiSearch.setOnPoiSearchListener(TestMapActivity.this);
+                    query.setPageSize(10);// 设置每页最多返回多少条poiitem
+                    query.setPageNum(0);//设置查询页码
+                    poiSearch.searchPOIAsyn();
                 }
-
-                MapStatus.Builder builder = new MapStatus.Builder();
-                builder.target(ll).zoom(20.0f);
-                mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
             }
-            if (ifKeyListener == 1) {
-                ifKeyListener = 0;
-                ll1 = new LatLng(ssvs,
-                        ssv);
-                MapStatus.Builder builder = new MapStatus.Builder();
-                builder.target(ll1).zoom(18.0f);
-                mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
-            }
-        }
+        });
 
-        public void onReceivePoi(BDLocation poiLocation) {
-
-            Log.i("地图", poiLocation + "");
-
-        }
     }
 
+    /**
+     * 搜索框检索点击事件
+     */
     @Override
-    protected void onPause() {
-        //在activity执行onPause时执行mMapView. onPause ()，实现地图生命周期管理
-        mMapView.onPause();
-        super.onPause();
+    public void TestMapS(int position) {
+        test_map_rl_2.setVisibility(View.GONE);
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+
+        pcd = pois.get(position).getProvinceName() + "/" + pois.get(position).getCityName() + "/" + pois.get(position).getAdName();
+
+        Intent intent = new Intent();
+        //纬度
+        intent.putExtra("getLatitude", pois.get(position).getLatLonPoint().getLatitude() + "");
+        //经度
+        intent.putExtra("getLongitude", pois.get(position).getLatLonPoint().getLongitude() + "");
+        //地址
+        intent.putExtra("address", pois.get(position).getSnippet() + "");
+        //省市区
+        intent.putExtra("pcd", pcd + "");
+
+        setResult(RESULT_OK, intent);
+        finish();
+
+        //跳转指定位置
+//        CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(pois.get(position).getLatLonPoint().getLatitude(),pois.get(position).getLatLonPoint().getLongitude()), 10, 0, 0));
+//        aMap.moveCamera(mCameraUpdate);
     }
 
+    /**
+     * 坐标转地址
+     */
     @Override
-    protected void onResume() {
-        //在activity执行onResume时执行mMapView. onResume ()，实现地图生命周期管理
-        mMapView.onResume();
-        super.onResume();
+    public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
+
+        Log.i("高德地图", " getCity():" + regeocodeResult.getRegeocodeAddress().getCity());
+        test_map_city.setText(regeocodeResult.getRegeocodeAddress().getCity());
+        query = new PoiSearch.Query("", "", "");
+        poiSearch = new PoiSearch(TestMapActivity.this, query);
+        poiSearch.setOnPoiSearchListener(TestMapActivity.this);
+
+    }
+
+    /**
+     * 地址转坐标
+     */
+    @Override
+    public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+
     }
 
     @Override
     protected void onDestroy() {
-        // 退出时销毁定位
-        mLocClient.stop();
-        // 关闭定位图层
-        mBaiduMap.setMyLocationEnabled(false);
-        mMapView.onDestroy();
-        mPoiSearch.destroy();
-        mMapView = null;
-//        mCoder.destroy();
-
         super.onDestroy();
+        //在activity执行onDestroy时执行mMapView.onDestroy()，销毁地图
+        mapView.onDestroy();
     }
 
-    /**
-     * 发送按钮的点击事件
-     */
-    public void sendMessage() {
-
-        if (mlocation == null || mMapView == null) {
-            ToastUtil.showToast(TestMapActivity.this, "点击了发送按钮");
-            return;
-        }
-
-//        Log.i("地图", "latitude：" + latitude);
-//        Log.i("地图", "longitude：" + longitude);
-
-        if (latitude == 0 || longitude == 0) {
-            ToastUtil.showToast(TestMapActivity.this, "请选择定位");
-        } else {
-            if (address.equals("") || pcd.equals("")) {
-                ToastUtil.showToast(TestMapActivity.this, "请重新选择定位");
-            } else {
-                Intent intent = new Intent();
-                //纬度
-                intent.putExtra("getLatitude", latitude + "");
-                //经度
-                intent.putExtra("getLongitude", longitude + "");
-                //地址
-                intent.putExtra("address", address + "");
-                //省市区
-                intent.putExtra("pcd", pcd + "");
-
-                setResult(RESULT_OK, intent);
-                finish();
-            }
-
-        }
-
-
-        //        Intent intent = new Intent();
-        //        //纬度
-        //        intent.putExtra("getLatitude", mlocation.getLatitude() + "");
-        //        //经度
-        //        intent.putExtra("getLongitude", mlocation.getLongitude() + "");
-        //        //地址
-        //        intent.putExtra("getAddress", mlocation.getAddrStr());
-        //        setResult(RESULT_OK, intent);
-        //        finish();
-    }
-
-
-    //    TODO 动态打开gps
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 200://刚才的识别码
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//用户同意权限,执行我们的操作
-//                    initMap();//开始定位
-                } else {//用户拒绝之后,当然我们也可以弹出一个窗口,直接跳转到系统设置页面
-                    ToastUtil.showToast(TestMapActivity.this, "未开启定位权限,请手动到设置去开启权限");
-                    initView();
-                }
-                break;
-            default:
-                break;
-        }
+    protected void onResume() {
+        super.onResume();
+        //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图
+        mapView.onResume();
     }
 
-
-    /**
-     * 监听Back键按下事件
-     */
     @Override
-    public void onBackPressed() {
-//        super.onBackPressed();
-        ToastUtil.showToast(TestMapActivity.this, "请选择坐标");
-        Log.i("键", "点击了回退键");
+    protected void onPause() {
+        super.onPause();
+        //在activity执行onPause时执行mMapView.onPause ()，暂停地图的绘制
+        mapView.onPause();
+    }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        test_map_city.setText(FinalContents.getNationalCityName());
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
+        mapView.onSaveInstanceState(outState);
     }
 
 }

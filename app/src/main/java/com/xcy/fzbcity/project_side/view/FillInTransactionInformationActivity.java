@@ -22,6 +22,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.annotation.RequiresApi;
@@ -194,7 +195,6 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
         transition_layout = findViewById(R.id.transition_layout);
         transition_recycler = findViewById(R.id.transition_recycler);
         transition_layout.setOnClickListener(this);
-
 
 
         fill_in_transaction_information_rl1 = findViewById(R.id.fill_in_transaction_information_rl1);
@@ -661,7 +661,7 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
                 hideInput();
                 Calendar selectedDate = Calendar.getInstance();//系统当前时间
                 Calendar startDate = Calendar.getInstance();
-                startDate.set(year-2, month, dayOfMonth);
+                startDate.set(year - 2, month, dayOfMonth);
                 final Calendar endDate = Calendar.getInstance();
                 endDate.set(year, month, dayOfMonth);
                 TimePickerView pvTime = new TimePickerBuilder(FillInTransactionInformationActivity.this, new OnTimeSelectListener() {
@@ -676,7 +676,7 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
                         .isCenterLabel(false)
                         .setDate(selectedDate)
                         .setLineSpacingMultiplier(1.5f)
-                        .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
+                        .setTextXOffset(-10, 0, 10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
                         .setRangDate(startDate, endDate)
                         .build();
                 pvTime.show();
@@ -720,27 +720,35 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
                     @SuppressLint("WrongConstant")
                     @Override
                     public void onNext(final BrokerBean brokerBean) {
-                        MyLinearLayoutManager layoutManager = new MyLinearLayoutManager(FillInTransactionInformationActivity.this);
-                        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        layoutManager.setScrollEnabled(false);
-                        transition_recycler.setLayoutManager(layoutManager);
-                        TimeRangeAdapter timeRangeAdapter = new TimeRangeAdapter(brokerBean.getData());
-                        transition_recycler.setNestedScrollingEnabled(false);
-                        transition_recycler.setAdapter(timeRangeAdapter);
-                        timeRangeAdapter.setOnItemClickListener(new TimeRangeAdapter.OnItemClickLisenter() {
-                            @Override
-                            public void onItemClick(int postion) {
-                                project_brokerage.setText(brokerBean.getData().get(postion).getCommissionFormat());
-                                FinalContents.setCommissionId(brokerBean.getData().get(postion).getId());
-                                transition_layout.setVisibility(View.GONE);
-                                whethe = true;
-                            }
-                        });
-                        timeRangeAdapter.notifyDataSetChanged();
+                        if (brokerBean.getData().size() != 0) {
+                            transition_layout.setVisibility(View.VISIBLE);
+                            MyLinearLayoutManager layoutManager = new MyLinearLayoutManager(FillInTransactionInformationActivity.this);
+                            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                            layoutManager.setScrollEnabled(false);
+                            transition_recycler.setLayoutManager(layoutManager);
+                            TimeRangeAdapter timeRangeAdapter = new TimeRangeAdapter(brokerBean.getData());
+                            transition_recycler.setNestedScrollingEnabled(false);
+                            transition_recycler.setAdapter(timeRangeAdapter);
+                            timeRangeAdapter.setOnItemClickListener(new TimeRangeAdapter.OnItemClickLisenter() {
+                                @Override
+                                public void onItemClick(int postion) {
+                                    project_brokerage.setText(brokerBean.getData().get(postion).getCommissionFormat());
+                                    FinalContents.setCommissionId(brokerBean.getData().get(postion).getId());
+                                    transition_layout.setVisibility(View.GONE);
+                                    whethe = true;
+                                }
+                            });
+                            timeRangeAdapter.notifyDataSetChanged();
+                        }else {
+                            ToastUtil.showLongToast(FillInTransactionInformationActivity.this,"暂无佣金");
+                            transition_layout.setVisibility(View.GONE);
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        ToastUtil.showLongToast(FillInTransactionInformationActivity.this,"佣金列表数据获取错误");
+                        transition_layout.setVisibility(View.GONE);
                         Log.i("列表数据获取错误", "错误" + e);
                     }
 
@@ -987,7 +995,6 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
     }
-
 
 
     public String getTime1(Date date) {//可根据需要自行截取数据显示

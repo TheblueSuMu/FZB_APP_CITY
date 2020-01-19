@@ -35,6 +35,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lljjcoder.style.citylist.utils.CityListLoader;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 public class DemoApplication extends Application {
 
@@ -58,9 +61,26 @@ public class DemoApplication extends Application {
     private SharedPreferences pref;
     public List<NationBean.DataBean> nationlist;
     public List<ImgData.DataBean> imagelist;
+
+    //在自己的Application中添加如下代码
+    private RefWatcher refWatcher;
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        /**
+         * 预先加载一级列表所有城市的数据
+         */
+        CityListLoader.getInstance().loadCityData(this);
+
+        /**
+         * 预先加载三级列表显示省市区的数据
+         */
+        CityListLoader.getInstance().loadProData(this);
+
+        refWatcher = LeakCanary.install(this);
+
         editor = getSharedPreferences("data", MODE_PRIVATE).edit();
         pref = getSharedPreferences("data", MODE_PRIVATE);
         //在使用SDK各组件之前初始化context信息，传入ApplicationContext
@@ -106,6 +126,12 @@ public class DemoApplication extends Application {
         setScreeningFragment(new ScreeningFragment());
         setNationlist(new ArrayList<NationBean.DataBean>());
         setImagelist(new ArrayList<ImgData.DataBean>());
+    }
+
+    //在自己的Application中添加如下代码
+    public static RefWatcher getRefWatcher(Context context) {
+        DemoApplication application = (DemoApplication) context.getApplicationContext();
+        return application.refWatcher;
     }
 
     /**

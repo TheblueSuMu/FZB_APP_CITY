@@ -672,26 +672,35 @@ public class VisitingScheduleActivity extends AppCompatActivity implements View.
                     @SuppressLint("WrongConstant")
                     @Override
                     public void onNext(final BrokerBean brokerBean) {
-                        MyLinearLayoutManager layoutManager = new MyLinearLayoutManager(VisitingScheduleActivity.this);
-                        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        layoutManager.setScrollEnabled(false);
-                        transition_recycler.setLayoutManager(layoutManager);
-                        TimeRangeAdapter timeRangeAdapter = new TimeRangeAdapter(brokerBean.getData());
-                        transition_recycler.setNestedScrollingEnabled(false);
-                        transition_recycler.setAdapter(timeRangeAdapter);
-                        timeRangeAdapter.setOnItemClickListener(new TimeRangeAdapter.OnItemClickLisenter() {
-                            @Override
-                            public void onItemClick(int postion) {
-                                project_brokerage.setText(brokerBean.getData().get(postion).getCommissionFormat());
-                                FinalContents.setCommissionId(brokerBean.getData().get(postion).getId());
-                                transition_layout.setVisibility(View.GONE);
-                            }
-                        });
-                        timeRangeAdapter.notifyDataSetChanged();
+                        if(brokerBean.getData().size() != 0){
+                            transition_layout.setVisibility(View.VISIBLE);
+                            MyLinearLayoutManager layoutManager = new MyLinearLayoutManager(VisitingScheduleActivity.this);
+                            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                            layoutManager.setScrollEnabled(false);
+                            transition_recycler.setLayoutManager(layoutManager);
+                            TimeRangeAdapter timeRangeAdapter = new TimeRangeAdapter(brokerBean.getData());
+                            transition_recycler.setNestedScrollingEnabled(false);
+                            transition_recycler.setAdapter(timeRangeAdapter);
+                            timeRangeAdapter.setOnItemClickListener(new TimeRangeAdapter.OnItemClickLisenter() {
+                                @Override
+                                public void onItemClick(int postion) {
+                                    project_brokerage.setText(brokerBean.getData().get(postion).getCommissionFormat());
+                                    FinalContents.setCommissionId(brokerBean.getData().get(postion).getId());
+                                    transition_layout.setVisibility(View.GONE);
+                                }
+                            });
+                            timeRangeAdapter.notifyDataSetChanged();
+                        }else {
+                            ToastUtil.showLongToast(VisitingScheduleActivity.this,"暂无佣金");
+                            transition_layout.setVisibility(View.GONE);
+                        }
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        ToastUtil.showLongToast(VisitingScheduleActivity.this,"佣金列表数据获取错误");
+                        transition_layout.setVisibility(View.GONE);
                         Log.i("列表数据获取错误", "错误" + e);
                     }
 
