@@ -131,6 +131,7 @@ public class TheNationalCityActivity extends AppCompatActivity implements View.O
 
         sourceDateList.addAll(filledData(cityList));
         sourceDateList.add(new SortModel("天津市","T"));
+        sourceDateList.add(new SortModel("济源市","J"));
         // 根据a-z进行排序源数据
         Collections.sort(sourceDateList, pinyinComparator);
         adapter.notifyDataSetChanged();
