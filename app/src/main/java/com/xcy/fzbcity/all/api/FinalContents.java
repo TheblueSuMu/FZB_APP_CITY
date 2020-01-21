@@ -9,6 +9,7 @@ import android.util.Log;
 import com.amap.api.maps.model.LatLng;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
+import com.xcy.fzbcity.all.modle.ProjectDetailsBean;
 import com.xcy.fzbcity.all.modle.ShareLogSaveBean;
 import com.xcy.fzbcity.all.service.MyService;
 
@@ -19,6 +20,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
@@ -235,6 +237,16 @@ public class FinalContents {
     static LatLng MylatLng = null;
 
     static String NationalCityNameSearch = "";
+
+    static List<ProjectDetailsBean.DataBean.ProjectListVoBean.FfAttacheListBean> ffAttacheList;
+
+    public static List<ProjectDetailsBean.DataBean.ProjectListVoBean.FfAttacheListBean> getFfAttacheList() {
+        return ffAttacheList;
+    }
+
+    public static void setFfAttacheList(List<ProjectDetailsBean.DataBean.ProjectListVoBean.FfAttacheListBean> ffAttacheList) {
+        FinalContents.ffAttacheList = ffAttacheList;
+    }
 
     public static String getNationalCityNameSearch() {
         return NationalCityNameSearch;

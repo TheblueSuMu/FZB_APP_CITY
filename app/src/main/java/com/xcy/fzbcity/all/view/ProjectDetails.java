@@ -609,9 +609,12 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                 startActivity(photointent);
                 break;
             case R.id.project_details_more:
-                if (projectDetailsBeanData.getProjectListVo().getFfAttacheList().size() != 0) {
-                    FinalContents.setIPhone(projectDetailsBeanData.getProjectListVo().getFfAttacheList().get(0).getPhone());
-                }
+//                if (projectDetailsBeanData.getProjectListVo().getFfAttacheList().size() != 0) {
+//                    FinalContents.setIPhone(projectDetailsBeanData.getProjectListVo().getFfAttacheList().get(0).getPhone());
+//                }
+                List<ProjectDetailsBean.DataBean.ProjectListVoBean.FfAttacheListBean> ffAttacheList = projectDetailsBeanData.getProjectListVo().getFfAttacheList();
+                Log.i("项目专线","ffAttacheList:" + ffAttacheList.size());
+                FinalContents.setFfAttacheList(ffAttacheList);
                 FinalContents.setProjectName(projectDetailsBeanData.getProjectListVo().getProjectName());
                 FinalContents.setProjectSearchID(projectDetailsBeanData.getProjectListVo().getProjectId());
                 FinalContents.setGuideRuleId(projectDetailsBeanData.getProjectListVo().getGuideRuleId());

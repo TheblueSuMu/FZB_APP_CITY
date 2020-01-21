@@ -143,7 +143,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="房坐标用户服务条款"
+                android:text="用户服务条款(包含隐私条款)"
                 android:textColor="#ff111111"
                 android:textSize="15sp" />
 
