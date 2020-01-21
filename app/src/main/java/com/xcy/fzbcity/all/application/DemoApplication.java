@@ -63,7 +63,7 @@ public class DemoApplication extends Application {
     public List<ImgData.DataBean> imagelist;
 
     //在自己的Application中添加如下代码
-    private RefWatcher refWatcher;
+//    private RefWatcher refWatcher;
 
     @Override
     public void onCreate() {
@@ -79,7 +79,10 @@ public class DemoApplication extends Application {
          */
         CityListLoader.getInstance().loadProData(this);
 
-        refWatcher = LeakCanary.install(this);
+        /**
+         * 检测内存溢出
+         */
+//        refWatcher = LeakCanary.install(this);
 
         editor = getSharedPreferences("data", MODE_PRIVATE).edit();
         pref = getSharedPreferences("data", MODE_PRIVATE);
@@ -129,10 +132,10 @@ public class DemoApplication extends Application {
     }
 
     //在自己的Application中添加如下代码
-    public static RefWatcher getRefWatcher(Context context) {
-        DemoApplication application = (DemoApplication) context.getApplicationContext();
-        return application.refWatcher;
-    }
+//    public static RefWatcher getRefWatcher(Context context) {
+//        DemoApplication application = (DemoApplication) context.getApplicationContext();
+//        return application.refWatcher;
+//    }
 
     /**
      * 获取进程号对应的进程名

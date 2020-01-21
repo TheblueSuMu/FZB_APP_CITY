@@ -37,6 +37,8 @@ import com.xcy.fzbcity.project_side.fragment.MyClientFragment6;
 import com.xcy.fzbcity.project_side.fragment.MyClientFragment7;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -117,6 +119,8 @@ public class MyClientActivity extends AllActivity implements View.OnClickListene
     private void initView() {
 
         StatusBar.makeStatusBarTransparent(this);
+
+        EventBus.getDefault().register(this);
 
         client = getIntent().getStringExtra("client");
 
@@ -540,5 +544,12 @@ public class MyClientActivity extends AllActivity implements View.OnClickListene
         initData();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+    public void onEvent(String nam) {
+        if(nam.equals("修改了")){
+            Log.i("我的客户","修改了");
+            initData();
+        }
+    }
 
 }

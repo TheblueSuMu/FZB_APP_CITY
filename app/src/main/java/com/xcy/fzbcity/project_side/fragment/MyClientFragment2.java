@@ -104,7 +104,7 @@ public class MyClientFragment2 extends Fragment implements ClientFragmentAdapter
                         }else {
                             initData("");
                         }
-
+                        EventBus.getDefault().post("修改了");
                     }
                 }, 1000);
             }

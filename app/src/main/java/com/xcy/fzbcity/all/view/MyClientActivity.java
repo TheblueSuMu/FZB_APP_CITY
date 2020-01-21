@@ -38,6 +38,8 @@ import com.xcy.fzbcity.all.utils.CommonUtil;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,6 +126,8 @@ public class MyClientActivity extends AllActivity implements View.OnClickListene
     private void initView() {
 
         StatusBar.makeStatusBarTransparent(this);
+
+        EventBus.getDefault().register(this);
 
         my_client_return = findViewById(R.id.my_client_return);
         client_add = findViewById(R.id.client_add);
@@ -508,4 +512,13 @@ public class MyClientActivity extends AllActivity implements View.OnClickListene
         EventBus.getDefault().unregister(this);
         FinalContents.setTiaozhuang("");
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+    public void onEvent(String nam) {
+       if(nam.equals("修改")){
+           Log.i("我的客户","修改");
+           initData();
+       }
+    }
+
 }

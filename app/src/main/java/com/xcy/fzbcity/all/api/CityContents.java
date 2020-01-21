@@ -27,6 +27,16 @@ public class CityContents {
 
     static boolean Enabled = true;
 
+    static String CommissionFormat = "";
+
+    public static String getCommissionFormat() {
+        return CommissionFormat;
+    }
+
+    public static void setCommissionFormat(String commissionFormat) {
+        CommissionFormat = commissionFormat;
+    }
+
     public static boolean isEnabled() {
         return Enabled;
     }

@@ -87,6 +87,7 @@ public class TestMapActivity extends AppCompatActivity implements LocationSource
     private GeocodeSearch geocoderSearch;
     private Intent intent;
     private InputMethodManager imm;
+    private AMapLocation aMapLocation1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,7 +158,7 @@ public class TestMapActivity extends AppCompatActivity implements LocationSource
         aMap.setMyLocationEnabled(true);
 
         mUiSettings.setMyLocationButtonEnabled(true); //显示默认的定位按钮
-        mUiSettings.setLogoPosition(AMapOptions.LOGO_POSITION_BOTTOM_RIGHT);
+//        mUiSettings.setLogoPosition(AMapOptions.LOGO_POSITION_BOTTOM_RIGHT);
 
 // 设置定位的类型为定位模式，有定位、跟随或地图根据面向方向旋转几种
         aMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
@@ -275,6 +276,7 @@ public class TestMapActivity extends AppCompatActivity implements LocationSource
         if (mListener != null && aMapLocation != null) {
             if (aMapLocation != null
                     && aMapLocation.getErrorCode() == 0) {
+                aMapLocation1 = aMapLocation;
                 mListener.onLocationChanged(aMapLocation);// 显示系统小蓝点
             } else {
                 String errText = "定位失败," + aMapLocation.getErrorCode() + ": " + aMapLocation.getErrorInfo();
@@ -441,14 +443,22 @@ public class TestMapActivity extends AppCompatActivity implements LocationSource
                 String s1 = s + "";
                 String s2 = test_map_city.getText().toString();
                 if (s1.equals("")) {
-
+                    test_map_pop_rv_img_s.setVisibility(View.VISIBLE);
+                    test_map_pop_rv_S_s.setVisibility(View.GONE);
                     Log.i("高德地图", "空");
 
                 } else {
+                    test_map_pop_rv_img_s.setVisibility(View.GONE);
+                    test_map_pop_rv_S_s.setVisibility(View.VISIBLE);
                     Log.i("高德地图", "s1:" + s1);
                     query = new PoiSearch.Query(s1, "", s2);
                     poiSearch = new PoiSearch(TestMapActivity.this, query);
                     poiSearch.setOnPoiSearchListener(TestMapActivity.this);
+                    Log.i("高德地图","高德地图:" + aMapLocation1.getLatitude());
+                    Log.i("高德地图","高德地图:" + aMapLocation1.getLongitude());
+                    query.setLocation(new LatLonPoint(aMapLocation1.getLatitude(),aMapLocation1.getLongitude()));
+                    query.setDistanceSort(true);
+                    query.setCityLimit(true);
                     query.setPageSize(10);// 设置每页最多返回多少条poiitem
                     query.setPageNum(0);//设置查询页码
                     poiSearch.searchPOIAsyn();
@@ -496,7 +506,7 @@ public class TestMapActivity extends AppCompatActivity implements LocationSource
 
         Log.i("高德地图", " getCity():" + regeocodeResult.getRegeocodeAddress().getCity());
         test_map_city.setText(regeocodeResult.getRegeocodeAddress().getCity());
-        query = new PoiSearch.Query("", "", "");
+        query = new PoiSearch.Query("写字楼|小区|学校|医院|公交车站", "", "");
         poiSearch = new PoiSearch(TestMapActivity.this, query);
         poiSearch.setOnPoiSearchListener(TestMapActivity.this);
 
@@ -544,6 +554,28 @@ public class TestMapActivity extends AppCompatActivity implements LocationSource
         super.onSaveInstanceState(outState);
         //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
         mapView.onSaveInstanceState(outState);
+    }
+
+    /**
+     * 监听Back键按下事件
+     */
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        intent = new Intent();
+        //纬度
+        intent.putExtra("getLatitude", la);
+        //经度
+        intent.putExtra("getLongitude", lo);
+        //地址
+        intent.putExtra("address", xq);
+        //省市区
+        intent.putExtra("pcd", qy);
+
+        setResult(RESULT_OK, intent);
+        finish();
+        Log.i("键", "点击了回退键");
+
     }
 
 }

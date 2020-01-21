@@ -51,12 +51,12 @@ public class TestMapPopwindowAdapter extends RecyclerView.Adapter<TestMapPopwind
 
         if(position == 0){
             Log.i("高德地图","0下标：" + position);
-            holder.textView1.setTextColor(Color.parseColor("#AC1E26"));
-            Glide.with(holder.itemView.getContext()).load(R.mipmap.yuan2).into(holder.test_map_img);
+            holder.textView1.setTextColor(Color.parseColor("#334485"));
+            Glide.with(holder.itemView.getContext()).load(R.mipmap.nationalcity2).into(holder.test_map_img);
         }else {
             Log.i("高德地图","下标：" + position);
             holder.textView1.setTextColor(Color.parseColor("#ff111111"));
-            Glide.with(holder.itemView.getContext()).load(R.mipmap.yuan1).into(holder.test_map_img);
+            Glide.with(holder.itemView.getContext()).load(R.mipmap.nationalcity1).into(holder.test_map_img);
         }
 
         if (allPoi.get(position).getTitle().equals("")) {

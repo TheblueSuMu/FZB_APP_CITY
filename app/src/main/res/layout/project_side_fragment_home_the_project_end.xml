@@ -660,7 +660,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
                                         android:layout_marginTop="5dp"
-                                        android:text="应收(万)"
+                                        android:text="总佣金(万)"
                                         android:textColor="#111111"
                                         android:textSize="12sp" />
                                 </LinearLayout>

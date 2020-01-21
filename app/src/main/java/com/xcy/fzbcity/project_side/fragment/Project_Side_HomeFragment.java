@@ -624,7 +624,7 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
                 intent.putExtra("client", "6");
                 startActivity(intent);
                 break;
-//                TODO  应收
+//                TODO  总佣金
             case R.id.layout7:
                 intent = new Intent(getContext(), CommissionTheProjectEndActivity.class);
                 startActivity(intent);

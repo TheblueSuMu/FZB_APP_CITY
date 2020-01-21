@@ -61,11 +61,14 @@ public class TestMapPopwindowAdapter_S extends RecyclerView.Adapter<TestMapPopwi
 //        BigDecimal b = new BigDecimal(v);
 //        b = b.setScale(scale, roundingMode);
 
-        NumberFormat nf = NumberFormat.getNumberInstance();
-        nf.setMaximumFractionDigits(1);
+
         if(v > 1000){
+            NumberFormat nf = NumberFormat.getNumberInstance();
+            nf.setMaximumFractionDigits(1);
             holder.textView3.setText(nf.format(v / 1000) + "km");
         }else {
+            NumberFormat nf = NumberFormat.getNumberInstance();
+            nf.setMaximumFractionDigits(0);
             holder.textView3.setText(nf.format(v) + "m");
         }
 

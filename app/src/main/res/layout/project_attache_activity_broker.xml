@@ -785,7 +785,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="5dp"
-                                    android:text="总佣金"
+                                    android:text="总佣金(万)"
                                     android:textColor="#111111"
                                     android:textSize="12sp" />
                             </LinearLayout>
@@ -829,7 +829,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="5dp"
                                     android:gravity="center"
-                                    android:text="已结"
+                                    android:text="已结(万)"
                                     android:textColor="#111111"
                                     android:textSize="12sp" />
                             </LinearLayout>
@@ -873,7 +873,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="5dp"
                                     android:gravity="center"
-                                    android:text="未结"
+                                    android:text="未结(万)"
 
                                     android:textColor="#111111"
                                     android:textSize="12sp" />

@@ -168,7 +168,6 @@ public class CheckPendingTheProjectEndActivity extends AllActivity implements Vi
                 Intent intent = new Intent(CheckPendingTheProjectEndActivity.this, CheckPendingTheProjectActivity.class);
                 FinalContents.setJJ("待我审核");
                 startActivity(intent);
-                finish();
                 break;
             //            TODO 报备
             case R.id.check_pending_the_project_end_ll1:

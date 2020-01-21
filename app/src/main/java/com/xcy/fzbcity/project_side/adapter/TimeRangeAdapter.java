@@ -1,9 +1,11 @@
 package com.xcy.fzbcity.project_side.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -11,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.xcy.fzbcity.R;
+import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.modle.BrokerBean;
 
 import java.util.ArrayList;
@@ -46,17 +49,26 @@ public class TimeRangeAdapter extends RecyclerView.Adapter<TimeRangeAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        holder.timerange_title.setText(list.get(position).getMainTitle());
-        holder.timerange_content.setText(list.get(position).getCommissionFormat());
-        holder.timerange_miao.setText(list.get(position).getSecondsFormat());
-        holder.timerange_select.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (onItemClickLisenter != null){
-                    onItemClickLisenter.onItemClick(position);
-                }
+        holder.commission_item_title_activity.setText(list.get(position).getMainTitle());
+        holder.commission_item_money_activity.setText(list.get(position).getCommissionFormat());
+        holder.commission_item_time_activity.setText(list.get(position).getSecondsFormat());
+
+        if (list.get(position).getIsSeconds().equals("0")) {
+            holder.commission_item_time_activity.setTextColor(Color.parseColor("#31CA98"));
+        }else {
+            holder.commission_item_time_activity.setTextColor(Color.parseColor("#999999"));
+        }
+
+        if (FinalContents.getProjectType().equals("1")) {
+            if (list.get(position).getSecondsFormat().equals("")) {
+                holder.commission_item_time_activity.setVisibility(View.INVISIBLE);
+            }else {
+                holder.commission_item_time_activity.setVisibility(View.VISIBLE);
             }
-        });
+        }else {
+            holder.commission_item_time_activity.setVisibility(View.INVISIBLE);
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,17 +85,17 @@ public class TimeRangeAdapter extends RecyclerView.Adapter<TimeRangeAdapter.View
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder{
-        TextView timerange_title;
-        TextView timerange_content;
-        RadioButton timerange_select;
-        TextView timerange_miao;
+        TextView commission_item_title_activity;
+        TextView commission_item_time_activity;
+        TextView commission_item_money_activity;
+        ImageView commission_item_image;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            timerange_title =(TextView) itemView.findViewById(R.id.timerange_title);
-            timerange_content =(TextView) itemView.findViewById(R.id.timerange_content);
-            timerange_select = itemView.findViewById(R.id.timerange_select);
-            timerange_miao =(TextView) itemView.findViewById(R.id.timerange_miao);
+            commission_item_title_activity =(TextView) itemView.findViewById(R.id.commission_item_title_activity);
+            commission_item_time_activity =(TextView) itemView.findViewById(R.id.commission_item_time_activity);
+            commission_item_money_activity =(TextView) itemView.findViewById(R.id.commission_item_money_activity);
+            commission_item_image = itemView.findViewById(R.id.commission_item_image);
         }
     }
 }

@@ -562,14 +562,14 @@ public class OneKeyActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             //            TODO 佣金
             case R.id.fill_in_transaction_information_rl6:
-                if (whether) {
-                    transition_layout.setVisibility(View.VISIBLE);
-                    initTimeData();
-                    whether = false;
-                } else {
-                    transition_layout.setVisibility(View.GONE);
-                    whether = true;
+                if (project_time.getText().toString().equals("")) {
+                    ToastUtil.showLongToast(OneKeyActivity.this,"请选择时间后，再进行佣金选择");
+                    return;
                 }
+                project_time.getText().toString();
+                Intent intent = new Intent(OneKeyActivity.this,Commission_To_Choose.class);
+                intent.putExtra("time",project_time.getText().toString());
+                startActivity(intent);
                 break;
             //            TODO 佣金选择
             case R.id.transition_layout:
@@ -814,6 +814,13 @@ public class OneKeyActivity extends AppCompatActivity implements View.OnClickLis
         } else {
             one_key_relative_et3.setText("");
         }
+
+        if (!FinalContents.getTiaodan().equals("调单")) {
+            if (!CityContents.getCommissionFormat().equals("")) {
+                project_brokerage.setText(CityContents.getCommissionFormat());
+            }
+        }
+
     }
 
     @Override
@@ -824,6 +831,7 @@ public class OneKeyActivity extends AppCompatActivity implements View.OnClickLis
         FinalContents.setProjectName("");
         FinalContents.setCommissionId("");
         FinalContents.setProject("");
+        CityContents.setCommissionFormat("");
     }
 
     /**
