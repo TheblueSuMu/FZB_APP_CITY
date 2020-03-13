@@ -144,6 +144,9 @@ public class CompanyDetailsActivity extends AllActivity implements View.OnClickL
 
     public static CompanyDetailsActivity companyDetailsActivity = null;
 
+    private Date select1;
+    private Date select2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -270,7 +273,8 @@ public class CompanyDetailsActivity extends AllActivity implements View.OnClickL
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-
+        select1 = calendar.getTime();
+        select2 = calendar.getTime();
         string1 = String.format(Locale.getDefault(), "%d.%02d.%02d", year, month + 1, dayOfMonth);
         string2 = String.format(Locale.getDefault(), "%d.%02d.%02d", year, month + 1, dayOfMonth);
         company_details_tv4.setText(string1);
@@ -391,6 +395,7 @@ public class CompanyDetailsActivity extends AllActivity implements View.OnClickL
         TimePickerView pvTime = new TimePickerBuilder(CompanyDetailsActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
+                select1 = date;
                 company_details_tv4.setText(getTime2(date));
                 NewlyIncreased.setStartDate(getTime2(date));
 //                if (project_attache_ll2.getVisibility() == View.VISIBLE) {
@@ -420,13 +425,18 @@ public class CompanyDetailsActivity extends AllActivity implements View.OnClickL
         TimePickerView pvTime = new TimePickerBuilder(CompanyDetailsActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                company_details_tv5.setText(getTime2(date));
-                NewlyIncreased.setEndDate(getTime2(date));
-                if (project_attache_ll2.getVisibility() == View.VISIBLE) {
-                    initDataNum("3", company_details_tv4.getText().toString(), company_details_tv5.getText().toString(), "1");
-                } else if (project_attache_ll4.getVisibility() == View.VISIBLE) {
-                    initDataNum("3", company_details_tv4.getText().toString(), company_details_tv5.getText().toString(), "2");
+                if (select1.after(date)) {
+                    ToastUtil.showLongToast(CompanyDetailsActivity.this,"开始时间不能大于结束时间");
+                }else{
+                    company_details_tv5.setText(getTime2(date));
+                    NewlyIncreased.setEndDate(getTime2(date));
+                    if (project_attache_ll2.getVisibility() == View.VISIBLE) {
+                        initDataNum("3", company_details_tv4.getText().toString(), company_details_tv5.getText().toString(), "1");
+                    } else if (project_attache_ll4.getVisibility() == View.VISIBLE) {
+                        initDataNum("3", company_details_tv4.getText().toString(), company_details_tv5.getText().toString(), "2");
+                    }
                 }
+
             }
         })
                 .setType(new boolean[]{true, true, true, false, false, false}) //年月日时分秒 的显示与否，不设置则默认全部显示
@@ -449,6 +459,7 @@ public class CompanyDetailsActivity extends AllActivity implements View.OnClickL
         TimePickerView pvTime = new TimePickerBuilder(CompanyDetailsActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
+                select2 = date;
                 company_details_tv8.setText(getTime2(date));
                 NewlyIncreased.setYJstartDate(getTime2(date));
 //                initFinanceNum("3", company_details_tv8.getText().toString(), company_details_tv9.getText().toString());
@@ -474,9 +485,14 @@ public class CompanyDetailsActivity extends AllActivity implements View.OnClickL
         TimePickerView pvTime = new TimePickerBuilder(CompanyDetailsActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                company_details_tv9.setText(getTime2(date));
-                NewlyIncreased.setYJendDate(getTime2(date));
-                initFinanceNum("3", company_details_tv8.getText().toString(), company_details_tv9.getText().toString());
+                if (select2.after(date)) {
+                    ToastUtil.showLongToast(CompanyDetailsActivity.this,"开始时间不能大于结束时间");
+                }else {
+                    company_details_tv9.setText(getTime2(date));
+                    NewlyIncreased.setYJendDate(getTime2(date));
+                    initFinanceNum("3", company_details_tv8.getText().toString(), company_details_tv9.getText().toString());
+                }
+
             }
         })
                 .setType(new boolean[]{true, true, true, false, false, false}) //年月日时分秒 的显示与否，不设置则默认全部显示

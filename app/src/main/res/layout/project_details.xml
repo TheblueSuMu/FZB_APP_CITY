@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible"
+        android:fillViewport="true"
         android:background="#FFFFFF">
 
         <LinearLayout
@@ -424,6 +425,7 @@
                     android:textSize="14sp" />
 
                 <RelativeLayout
+                    android:id="@+id/project_details_b_k"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp">
@@ -711,6 +713,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="21dp"
                     android:orientation="vertical"
+                    android:descendantFocusability="blocksDescendants"
                     android:paddingLeft="15dp">
 
                     <TextView
@@ -1021,8 +1024,8 @@
                     android:id="@+id/linear7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="60dp"
                     android:orientation="vertical"
+                    android:descendantFocusability="blocksDescendants"
                     android:paddingLeft="15dp">
 
                     <TextView
@@ -1038,6 +1041,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="-10dp"
+                        android:orientation="vertical"
                         android:layout_marginTop="5dp">
 
                         <com.google.android.material.tabs.TabLayout
@@ -1051,25 +1055,39 @@
 
                         </com.google.android.material.tabs.TabLayout>
 
+                        <com.amap.api.maps.MapView
+                            android:id="@+id/map_zbpt"
+                            android:layout_marginTop="15dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="160dp"/>
+
                     </LinearLayout>
 
-                    <TextView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/project_details_message"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:lineSpacingMultiplier="1.2"
-                        android:text="周边信息"
-                        android:textColor="#111"
-                        android:textSize="14sp" />
+                        android:layout_marginRight="15dp"
+                        android:layout_height="wrap_content">
+                    </androidx.recyclerview.widget.RecyclerView>
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/project_details_message"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="15dp"-->
+<!--                        android:lineSpacingMultiplier="1.2"-->
+<!--                        android:text="周边信息"-->
+<!--                        android:textColor="#111"-->
+<!--                        android:textSize="14sp" />-->
 
                 </LinearLayout>
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="50dp" />
+<!--            <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="50dp" />-->
         </LinearLayout>
 
     </com.xcy.fzbcity.all.persente.GradationScrollView>
@@ -1118,6 +1136,7 @@
         android:paddingBottom="5dp">
 
         <LinearLayout
+            android:id="@+id/project_details_s_z_1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -1194,6 +1213,7 @@
         android:visibility="gone">
 
         <LinearLayout
+            android:id="@+id/project_details_s_z_2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1">

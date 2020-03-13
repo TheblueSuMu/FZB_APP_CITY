@@ -41,6 +41,10 @@ import com.xcy.fzbcity.all.view.BigPhotoActivity;
 import com.xcy.fzbcity.all.view.MessageCommentActivity;
 import com.xcy.fzbcity.all.view.ProjectDetails;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -139,6 +143,9 @@ public class DynamicFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        EventBus.getDefault().register(this);
+
         recyclerView = view.findViewById(R.id.dynamic_rv);
         all_no_information = view.findViewById(R.id.all_no_information);
         textView = view.findViewById(R.id.dynamic_text);
@@ -172,7 +179,8 @@ public class DynamicFragment extends Fragment {
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<Dynamic2Bean> userMessage = fzbInterface.getDynamicBeanList2(FinalContents.getUserID(), "1000");
+        Log.i("刷新","FinalContents.getCityID()");
+        Observable<Dynamic2Bean> userMessage = fzbInterface.getDynamicBeanList2(FinalContents.getCityID(),FinalContents.getUserID(), "1000");
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Dynamic2Bean>() {
@@ -447,6 +455,14 @@ public class DynamicFragment extends Fragment {
         }
         Log.i("MyCL", "11");
         return bitmap;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+    public void onEvent(String nam) {
+        if(nam.equals("切换")){
+            Log.i("刷新","切换");
+            initView();
+        }
     }
 
 }

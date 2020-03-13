@@ -117,15 +117,15 @@ public class ClusterManager<T extends ClusterItem> implements BaiduMap.OnMapStat
         }
     }
 
-    public void addItems(List<MapHouseActivity.MyItem> items) {
-        mAlgorithmLock.writeLock().lock();
-        try {
-            mAlgorithm.addItems((Collection<T>) items);
-        } finally {
-            mAlgorithmLock.writeLock().unlock();
-        }
-
-    }
+//    public void addItems(List<MapHouseActivity.MyItem> items) {
+//        mAlgorithmLock.writeLock().lock();
+//        try {
+//            mAlgorithm.addItems((Collection<T>) items);
+//        } finally {
+//            mAlgorithmLock.writeLock().unlock();
+//        }
+//
+//    }
 
     public void addItem(T myItem) {
         mAlgorithmLock.writeLock().lock();

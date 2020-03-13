@@ -39,14 +39,20 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.utils.DistanceUtil;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.AMapUtils;
+import com.amap.api.maps.LocationSource;
+import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeQuery;
+import com.amap.api.services.geocoder.RegeocodeResult;
 import com.bumptech.glide.Glide;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
@@ -72,7 +78,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 //TODO 门店打卡
-public class ClockStoresActivity extends AppCompatActivity implements View.OnClickListener {
+public class ClockStoresActivity extends AppCompatActivity implements View.OnClickListener, LocationSource, AMapLocationListener, GeocodeSearch.OnGeocodeSearchListener {
 
     RelativeLayout store_details_return;
     ImageView store_details_img;
@@ -88,13 +94,7 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
     /**
      * 地图
      */
-    // 定位相关
-    LocationClient mLocClient;
-    //定位监听
-    public MyLocationListenner myListener = new MyLocationListenner();
     boolean isFirstLoc = true; // 是否首次定位
-    BDLocation mlocation;
-    private LatLng ll;
     /**
      * num判断按钮状态
      * 0 初始状态
@@ -185,17 +185,34 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
     private long timeStamp;
     private long createTime;
 
+    MapView mMapView = null;
+    AMap aMap = null;
+    LocationSource.OnLocationChangedListener mListener;
+    AMapLocationClient mlocationClient;
+    AMapLocationClientOption mLocationOption;
+    private double latitude;
+    private double longitude;
+    private String formatAddress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clock_stores);
 
+        StatusBar.makeStatusBarTransparent(this);
+
+        mMapView = (MapView) findViewById(R.id.map_s_d_m);
+        mMapView.onCreate(savedInstanceState);// 此方法须覆写，虚拟机需要在很多情况下保存地图绘制的当前状态。
+//初始化地图控制器对象
+
+        if (aMap == null) {
+            aMap = mMapView.getMap();
+        }
+
         initView();
     }
 
     private void initView() {
-
-        StatusBar.makeStatusBarTransparent(this);
 
         store_details_linear1 = findViewById(R.id.store_details_linear1);
         store_details_linear2 = findViewById(R.id.store_details_linear2);
@@ -336,25 +353,31 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
         } else {
             //TODO 已开启定位权限
             Log.i("MyCL", "已开启定位权限");
-//            initMap();
-//            ToastUtil.showToast(ClockStoresActivity.this, "已开启定位权限", Toast.LENGTH_LONG).show();
             ifnum = 1;
-            mLocClient = new LocationClient(this);
-            mLocClient.registerLocationListener(myListener);
-            LocationClientOption option = new LocationClientOption();
-            option.setOpenGps(true); // 打开gps
-            option.setCoorType("bd09ll"); // 设置坐标类型
-            option.setScanSpan(1000);
-            option.setAddrType("all");
-            mLocClient.setLocOption(option);
-            mLocClient.start();
+//            mLocClient = new LocationClient(this);
+//            mLocClient.registerLocationListener(myListener);
+//            LocationClientOption option = new LocationClientOption();
+//            option.setOpenGps(true); // 打开gps
+//            option.setCoorType("bd09ll"); // 设置坐标类型
+//            option.setScanSpan(1000);
+//            option.setAddrType("all");
+//            mLocClient.setLocOption(option);
+//            mLocClient.start();
+
+            // 设置定位监听
+            aMap.setLocationSource(this);
+// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
+            aMap.setMyLocationEnabled(true);
+// 设置定位的类型为定位模式，有定位、跟随或地图根据面向方向旋转几种
+            aMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
+
 
         }
-        if (isFirstLoc) {
-
-        } else {
-            initData();
-        }
+//        if (isFirstLoc) {
+//
+//        } else {
+        initData();
+//        }
     }
 
     private void initData() {
@@ -464,11 +487,18 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
             }
         }
 
-        LatLng start = new LatLng(Double.valueOf(mylatitude), Double.valueOf(mylongitude));
-        double distance = DistanceUtil.getDistance(ll, start);
-        Log.i("MyCL", "ll：" + ll);
-        Log.i("MyCL", "data.getTotal()：" + data.getTotal());
-        Log.i("MyCL", "data.getTotal()：" + data.getTotal());
+        Log.i("定位系统", "mylatitude:" + mylatitude);
+        Log.i("定位系统", "mylongitude:" + mylongitude);
+        Log.i("定位系统", "latitude:" + latitude);
+        Log.i("定位系统", "longitude:" + longitude);
+
+        float distance = AMapUtils.calculateLineDistance(new LatLng(latitude, longitude), new LatLng(Double.parseDouble(mylatitude), Double.parseDouble(mylongitude)));
+        Log.i("定位系统", "distance:" + distance);
+//        LatLng start = new LatLng(Double.valueOf(mylatitude), Double.valueOf(mylongitude));
+//        double distance = DistanceUtil.getDistance(ll, start);
+//        Log.i("MyCL", "ll：" + ll);
+//        Log.i("MyCL", "data.getTotal()：" + data.getTotal());
+//        Log.i("MyCL", "data.getTotal()：" + data.getTotal());
 
         if (distance < 50) {
             Log.i("MyCL", "范围小于50");
@@ -627,10 +657,10 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
     private void initClockIn() {
         //从百度地图获取地址
         if (IfNum == 0) {
-            s = addrStr;
+            s = formatAddress;
             IfNum = 1;
         } else {
-            s = mlocation.getAddrStr();
+//            s = mlocation.getAddrStr();
         }
         if (data.getTotal() == 0) {
             ifType = "1";
@@ -638,9 +668,10 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
             ifType = "2";
         }
 
-        double longitude = ll.longitude;
-        double latitude = ll.latitude;
+//        double longitude = ll.longitude;
+//        double latitude = ll.latitude;
         String locations = longitude + "," + latitude;
+
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(FinalContents.getBaseUrl());
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
@@ -649,7 +680,7 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
         MyService myService = build.create(MyService.class);
         Log.i("MyCL", "myStoreId：" + myStoreId);
         Log.i("MyCL", "s：" + s);
-        Log.i("MyCL", "locations：" + locations);
+//        Log.i("MyCL", "locations：" + locations);
         Log.i("MyCL", "stringBuffer.toString()：" + stringBuffer.toString());
         Log.i("MyCL", "ifType：" + ifType);
         Log.i("MyCL", "FinalContents.getUserID()：" + FinalContents.getUserID());
@@ -788,37 +819,6 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
      * num = 2;
      * initData();
      */
-    public class MyLocationListenner implements BDLocationListener {
-
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            // map view 销毁后不在处理新接收的位置  || mMapView == null
-            if (location == null) {
-                return;
-            }
-            mlocation = location;
-            MyLocationData locData = new MyLocationData.Builder()
-                    .accuracy(mlocation.getRadius())
-                    // 此处设置开发者获取到的方向信息，顺时针0-360
-                    .direction(100).latitude(mlocation.getLatitude())
-                    .longitude(mlocation.getLongitude()).build();
-//            mBaiduMap.setMyLocationData(locData);
-            if (isFirstLoc) {
-                isFirstLoc = false;
-                addrStr = mlocation.getAddrStr();
-                ll = new LatLng(location.getLatitude(),
-                        location.getLongitude());
-                MapStatus.Builder builder = new MapStatus.Builder();
-                builder.target(ll).zoom(18.0f);
-                Log.i("MyCL", "MyLocationListenner");
-                initData();
-//                mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
-            }
-        }
-
-        public void onReceivePoi(BDLocation poiLocation) {
-        }
-    }
 
     @Override
     protected void onPause() {
@@ -834,16 +834,6 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
         super.onResume();
     }
 
-    @Override
-    protected void onDestroy() {
-        // 退出时销毁定位
-        mLocClient.stop();
-        // 关闭定位图层
-//        mBaiduMap.setMyLocationEnabled(false);
-//        mMapView.onDestroy();
-//        mMapView = null;
-        super.onDestroy();
-    }
 
     //    TODO 动态打开gps
     @Override
@@ -858,19 +848,86 @@ public class ClockStoresActivity extends AppCompatActivity implements View.OnCli
                     ToastUtil.showLongToast(ClockStoresActivity.this, "未开启定位权限,请手动到设置去开启权限");
                 }
                 Log.i("MyCL", "动态打开gps");
-                mLocClient = new LocationClient(this);
-                mLocClient.registerLocationListener(myListener);
-                LocationClientOption option = new LocationClientOption();
-                option.setOpenGps(true); // 打开gps
-                option.setCoorType("bd09ll"); // 设置坐标类型
-                option.setScanSpan(1000);
-                option.setAddrType("all");
-                mLocClient.setLocOption(option);
-                mLocClient.start();
+//                mLocClient = new LocationClient(this);
+//                mLocClient.registerLocationListener(myListener);
+//                LocationClientOption option = new LocationClientOption();
+//                option.setOpenGps(true); // 打开gps
+//                option.setCoorType("bd09ll"); // 设置坐标类型
+//                option.setScanSpan(1000);
+//                option.setAddrType("all");
+//                mLocClient.setLocOption(option);
+//                mLocClient.start();
                 initQX();
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    public void activate(OnLocationChangedListener onLocationChangedListener) {
+        mListener = onLocationChangedListener;
+        if (mlocationClient == null) {
+            //初始化定位
+            mlocationClient = new AMapLocationClient(this);
+            //初始化定位参数
+            mLocationOption = new AMapLocationClientOption();
+            //设置定位回调监听
+            mlocationClient.setLocationListener(this);
+            //设置为高精度定位模式
+            mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+            //设置定位参数
+            mlocationClient.setLocationOption(mLocationOption);
+            // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+            // 注意设置合适的定位时间的间隔（最小间隔支持为2000ms），并且在合适时间调用stopLocation()方法来取消定位请求
+            // 在定位结束后，在合适的生命周期调用onDestroy()方法
+            // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
+            mlocationClient.startLocation();//启动定位
+        }
+    }
+
+    @Override
+    public void deactivate() {
+        mListener = null;
+        if (mlocationClient != null) {
+            mlocationClient.stopLocation();
+            mlocationClient.onDestroy();
+        }
+        mlocationClient = null;
+    }
+
+    @Override
+    public void onLocationChanged(AMapLocation amapLocation) {
+        if (mListener != null && amapLocation != null) {
+            if (amapLocation != null
+                    && amapLocation.getErrorCode() == 0) {
+                mListener.onLocationChanged(amapLocation);// 显示系统小蓝点
+//                if(isFirstLoc == true){
+                //39.16951
+                latitude = amapLocation.getLatitude();
+                //117.252287
+                longitude = amapLocation.getLongitude();
+//                    isFirstLoc = false;
+                GeocodeSearch geocoderSearch = new GeocodeSearch(this);
+                geocoderSearch.setOnGeocodeSearchListener(this);
+                // 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
+                RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(latitude, longitude), 200, GeocodeSearch.AMAP);
+                geocoderSearch.getFromLocationAsyn(query);
+//                }
+            } else {
+                String errText = "定位失败," + amapLocation.getErrorCode() + ": " + amapLocation.getErrorInfo();
+                Log.e("AmapErr", errText);
+            }
+        }
+    }
+
+    @Override
+    public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
+        formatAddress = regeocodeResult.getRegeocodeAddress().getFormatAddress();
+    }
+
+    @Override
+    public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+
     }
 }

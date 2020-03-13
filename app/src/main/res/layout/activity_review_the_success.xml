@@ -116,6 +116,15 @@
                                         android:textColor="#ff666666"
                                         android:textSize="13sp" />
 
+                                    <ImageView
+                                        android:id="@+id/review_the_success_img3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:visibility="gone"
+                                        android:src="@mipmap/icon_mine_call"
+                                        android:layout_gravity="center_vertical"></ImageView>
+
+
                                     <RelativeLayout
                                         android:layout_gravity="top"
                                         android:layout_width="wrap_content"

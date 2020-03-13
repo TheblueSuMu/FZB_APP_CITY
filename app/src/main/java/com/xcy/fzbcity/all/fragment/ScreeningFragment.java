@@ -221,7 +221,7 @@ public class ScreeningFragment extends Fragment implements View.OnClickListener 
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<LabelBean> nationBean = fzbInterface.getLabel(FinalContents.getProjectType(),FinalContents.getUserID(),"0");
+        Observable<LabelBean> nationBean = fzbInterface.getLabel(FinalContents.getProjectType(),FinalContents.getUserID(),"0",FinalContents.getCityID());
         nationBean.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<LabelBean>() {

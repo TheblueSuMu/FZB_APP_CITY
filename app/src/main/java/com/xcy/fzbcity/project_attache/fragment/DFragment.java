@@ -63,6 +63,7 @@ import com.xcy.fzbcity.all.persente.SingleClick;
 import com.xcy.fzbcity.all.persente.StatusBar;
 import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.utils.MyViewPager;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 import com.xcy.fzbcity.project_attache.view.BrokersListActivity;
 import com.xcy.fzbcity.project_attache.view.CommissionActivity;
 import com.xcy.fzbcity.project_attache.view.StoreListActivity;
@@ -160,6 +161,8 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
     private int dayOfMonth;
     private String string1;
     private String string2;
+
+    private Date select2;
 
     @Nullable
     @Override
@@ -311,7 +314,7 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-
+        select2 = calendar.getTime();
         string1 = String.format(Locale.getDefault(), "%d.%02d.%02d", year, month + 1, dayOfMonth);
         string2 = String.format(Locale.getDefault(), "%d.%02d.%02d", year, month + 1, dayOfMonth);
         time1_modulebroker.setText(string1);
@@ -588,6 +591,7 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
         TimePickerView pvTime = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
+                select2 = date;
                 time1_modulebroker.setText(getTime2(date));
                 NewlyIncreased.setStartDate(getTime2(date));
 //                if (project_attache_fragment_ll2.getVisibility() == View.VISIBLE) {
@@ -617,13 +621,18 @@ public class DFragment extends Fragment implements View.OnClickListener, MyViewP
         TimePickerView pvTime = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                time2_modulebroker.setText(getTime2(date));
-                NewlyIncreased.setEndDate(getTime2(date));
-                if (project_attache_fragment_ll2.getVisibility() == View.VISIBLE) {
-                    initDataNum("3", time1_modulebroker.getText().toString(), time2_modulebroker.getText().toString(), "1");
-                } else if (project_attache_fragment_ll4.getVisibility() == View.VISIBLE) {
-                    initDataNum("3", time1_modulebroker.getText().toString(), time2_modulebroker.getText().toString(), "2");
+                if (select2.after(date)) {
+                    ToastUtil.showLongToast(getContext(),"开始时间不能大于结束时间");
+                }else {
+                    time2_modulebroker.setText(getTime2(date));
+                    NewlyIncreased.setEndDate(getTime2(date));
+                    if (project_attache_fragment_ll2.getVisibility() == View.VISIBLE) {
+                        initDataNum("3", time1_modulebroker.getText().toString(), time2_modulebroker.getText().toString(), "1");
+                    } else if (project_attache_fragment_ll4.getVisibility() == View.VISIBLE) {
+                        initDataNum("3", time1_modulebroker.getText().toString(), time2_modulebroker.getText().toString(), "2");
+                    }
                 }
+
             }
         })
                 .setType(new boolean[]{true, true, true, false, false, false}) //年月日时分秒 的显示与否，不设置则默认全部显示

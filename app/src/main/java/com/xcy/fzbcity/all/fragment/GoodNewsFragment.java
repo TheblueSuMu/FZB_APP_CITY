@@ -100,7 +100,7 @@ public class GoodNewsFragment extends Fragment {
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<GoodNewsBean> userMessage = fzbInterface.getGoodNewsBeanList(FinalContents.getUserID(),FinalContents.getCityID(),"5","1000");
+        Observable<GoodNewsBean> userMessage = fzbInterface.getGoodNewsBeanList(FinalContents.getUserID(),FinalContents.getOldCityId(),"5","1000");
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<GoodNewsBean>() {

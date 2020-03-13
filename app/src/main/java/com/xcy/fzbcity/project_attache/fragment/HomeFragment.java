@@ -66,6 +66,8 @@ import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,6 +128,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
     TextView side_message_no_1;
     private TextBannerAdapter textBannerAdapter;
     private TextBannerAdapter_S textBannerAdapter_s;
+    int istvBean = 0;
 
     @Nullable
     @Override
@@ -254,7 +257,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
     @Override
     public void onClick(View view) {
         if (hotlist.size() != 0) {
-            if (view.getId() == R.id.home_city_selector) {
+            if (view.getId() == R.id.attache_home_city_selector) {
                 showPickerView();
             } else if (view.getId() == R.id.home_search) {
 //                Intent intent = new Intent(view.getContext(), SearchInterfaceActivity.class);
@@ -347,7 +350,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                 city.setText(list.get(options1));
                                 FinalContents.setCityName(list.get(options1));
                                 FinalContents.setCityID(citylist.get(options1).getId());
+                                initView();
                                 initHotList();
+                                tvBanner2();
+                                EventBus.getDefault().post("切换");
                             }
                         })
                                 .setSelectOptions(0)//设置选择第一个
@@ -444,7 +450,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<MessageBean2>() {
-
                     @Override
                     public void onSubscribe(Disposable d) {
 
@@ -459,7 +464,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                             tvBanner2.setVisibility(View.VISIBLE);
                             tvBanner2_S.setVisibility(View.VISIBLE);
                             side_message_no_1.setVisibility(View.GONE);
-
 
                             messagelist2.add(new Bean(R.mipmap.no_information, "暂无数据"));
                             messagelist2.add(new Bean(R.mipmap.no_information, "暂无数据"));
@@ -479,7 +483,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
 
 
                         } else if (messagelist.size() == 1) {
-
+                            side_message_no_1.setVisibility(View.GONE);
                             Log.i("文字轮播", "messagelist.size() == 1");
 
                             tvBanner2.setVisibility(View.VISIBLE);
@@ -494,6 +498,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                     messagelist2.add(new Bean(R.mipmap.lodger, messagelist.get(i).getTitle()));
                                 } else if (messagelist.get(i).getType().equals("5")) {
                                     messagelist2.add(new Bean(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("10")) {
+                                    messagelist2.add(new Bean(R.mipmap.buildingdynamicimage, messagelist.get(i).getTitle()));
                                 }
                             }
                             textBannerAdapter = new TextBannerAdapter(messagelist2, view.getContext());
@@ -507,6 +513,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                         listterner.process("2"); // 3.1 执行回调
                                     } else if (messagelist.get(postion).getType().equals("5")) {
                                         listterner.process("5"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion).getType().equals("10")) {
+                                        listterner.process("10"); // 3.1 执行回调
                                     }
                                 }
                             });
@@ -520,6 +528,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                     messagelist2_S.add(new Bean_S(R.mipmap.lodger, messagelist.get(i).getTitle()));
                                 } else if (messagelist.get(i).getType().equals("5")) {
                                     messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("10")) {
+                                    messagelist2_S.add(new Bean_S(R.mipmap.buildingdynamicimage, messagelist.get(i).getTitle()));
                                 }
                                 numSize = i;
                             }
@@ -530,6 +540,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                 messagelist2_S.add(new Bean_S(R.mipmap.lodger, messagelist.get(0).getTitle()));
                             } else if (messagelist.get(0).getType().equals("5")) {
                                 messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(0).getTitle()));
+                            } else if (messagelist.get(0).getType().equals("10")) {
+                                messagelist2_S.add(new Bean_S(R.mipmap.buildingdynamicimage, messagelist.get(0).getTitle()));
                             }
 //                            }
                             textBannerAdapter_s = new TextBannerAdapter_S(messagelist2_S, view.getContext());
@@ -544,13 +556,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                         listterner.process("2"); // 3.1 执行回调
                                     } else if (messagelist.get(postion + 1).getType().equals("5")) {
                                         listterner.process("5"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion + 1).getType().equals("10")) {
+                                        listterner.process("10"); // 3.1 执行回调
                                     }
                                 }
                             });
 
                         } else {
                             Log.i("文字轮播", "else");
-
+                            side_message_no_1.setVisibility(View.GONE);
                             tvBanner2.setVisibility(View.VISIBLE);
                             tvBanner2_S.setVisibility(View.VISIBLE);
                             side_message_no_1.setVisibility(View.GONE);
@@ -568,6 +582,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                     messagelist2.add(new Bean(R.mipmap.lodger, messagelist.get(i).getTitle()));
                                 } else if (messagelist.get(i).getType().equals("5")) {
                                     messagelist2.add(new Bean(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("10")) {
+                                    messagelist2.add(new Bean(R.mipmap.buildingdynamicimage, messagelist.get(i).getTitle()));
                                 }
                             }
                             textBannerAdapter = new TextBannerAdapter(messagelist2, view.getContext());
@@ -581,6 +597,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                         listterner.process("2"); // 3.1 执行回调
                                     } else if (messagelist.get(postion).getType().equals("5")) {
                                         listterner.process("5"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion).getType().equals("10")) {
+                                        listterner.process("10"); // 3.1 执行回调
                                     }
                                 }
                             });
@@ -598,6 +616,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                     messagelist2_S.add(new Bean_S(R.mipmap.lodger, messagelist.get(i).getTitle()));
                                 } else if (messagelist.get(i).getType().equals("5")) {
                                     messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("10")) {
+                                    messagelist2_S.add(new Bean_S(R.mipmap.buildingdynamicimage, messagelist.get(i).getTitle()));
                                 }
                                 numSize = i;
                             }
@@ -608,6 +628,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                 messagelist2_S.add(new Bean_S(R.mipmap.lodger, messagelist.get(0).getTitle()));
                             } else if (messagelist.get(0).getType().equals("5")) {
                                 messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(0).getTitle()));
+                            } else if (messagelist.get(0).getType().equals("10")) {
+                                messagelist2_S.add(new Bean_S(R.mipmap.buildingdynamicimage, messagelist.get(0).getTitle()));
                             }
 //                            }
                             textBannerAdapter_s = new TextBannerAdapter_S(messagelist2_S, view.getContext());
@@ -621,6 +643,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                         listterner.process("2"); // 3.1 执行回调
                                     } else if (messagelist.get(postion + 1).getType().equals("5")) {
                                         listterner.process("5"); // 3.1 执行回调
+                                    } else if (messagelist.get(postion + 1).getType().equals("10")) {
+                                        listterner.process("10"); // 3.1 执行回调
                                     }
                                 }
                             });
@@ -629,7 +653,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                 Log.i("文字轮播", "第二行：" + messagelist2_S.get(i).getName());
                             }
                         }
-
 
                     }
 
@@ -648,11 +671,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                 });
     }
 
-
     //文字轮播
     private void tvBanner2() {
         tvBanner2.stopFlipping();
         tvBanner2_S.stopFlipping();
+        messagelist2.clear();
+        messagelist2_S.clear();
+        messagelist.clear();
+        tvBanner2.removeAllViews();
+        tvBanner2_S.removeAllViews();
+        tvBanner2.clearFocus();
+        tvBanner2_S.clearFocus();
+        textBannerAdapter.notifyDataChanged();
+        textBannerAdapter_s.notifyDataChanged();
         messagelist2 = new ArrayList<>();
         messagelist2_S = new ArrayList<>();
         Retrofit.Builder builder = new Retrofit.Builder();
@@ -691,6 +722,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                     messagelist2.add(new Bean(R.mipmap.lodger, messagelist.get(i).getTitle()));
                                 } else if (messagelist.get(i).getType().equals("5")) {
                                     messagelist2.add(new Bean(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("10")) {
+                                    messagelist2.add(new Bean(R.mipmap.buildingdynamicimage, messagelist.get(i).getTitle()));
                                 }
                             }
                             int numSize = 0;
@@ -701,6 +734,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                     messagelist2_S.add(new Bean_S(R.mipmap.lodger, messagelist.get(i).getTitle()));
                                 } else if (messagelist.get(i).getType().equals("5")) {
                                     messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("10")) {
+                                    messagelist2_S.add(new Bean_S(R.mipmap.buildingdynamicimage, messagelist.get(i).getTitle()));
                                 }
                                 numSize = i;
                             }
@@ -715,6 +750,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                     messagelist2.add(new Bean(R.mipmap.lodger, messagelist.get(i).getTitle()));
                                 } else if (messagelist.get(i).getType().equals("5")) {
                                     messagelist2.add(new Bean(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("10")) {
+                                    messagelist2.add(new Bean(R.mipmap.buildingdynamicimage, messagelist.get(i).getTitle()));
                                 }
                             }
                             int numSize = 0;
@@ -725,11 +762,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                     messagelist2_S.add(new Bean_S(R.mipmap.lodger, messagelist.get(i).getTitle()));
                                 } else if (messagelist.get(i).getType().equals("5")) {
                                     messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("10")) {
+                                    messagelist2_S.add(new Bean_S(R.mipmap.buildingdynamicimage, messagelist.get(i).getTitle()));
                                 }
                                 numSize = i;
                             }
                         }
-
                         if (messagelist.size() != 1) {
                             tvBanner2_S.setVisibility(View.VISIBLE);
                         }
@@ -744,6 +782,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                     listterner.process("2"); // 3.1 执行回调
                                 } else if (messagelist.get(postion).getType().equals("5")) {
                                     listterner.process("5"); // 3.1 执行回调
+                                } else if (messagelist.get(postion).getType().equals("10")) {
+                                    listterner.process("10"); // 3.1 执行回调
                                 }
                             }
                         });
@@ -756,9 +796,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                                     listterner.process("2"); // 3.1 执行回调
                                 } else if (messagelist.get(postion + 1).getType().equals("5")) {
                                     listterner.process("5"); // 3.1 执行回调
+                                } else if (messagelist.get(postion + 1).getType().equals("10")) {
+                                    listterner.process("10"); // 3.1 执行回调
                                 }
                             }
                         });
+                        istvBean = 0;
                     }
 
                     @Override
@@ -862,10 +905,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
 
     @Override
     public void onRefresh() {
+        tvBanner2.stopFlipping();
+        tvBanner2_S.stopFlipping();
+        messagelist2.clear();
+        messagelist2_S.clear();
+        messagelist.clear();
+        tvBanner2.removeAllViews();
+        tvBanner2_S.removeAllViews();
+        tvBanner2.clearFocus();
+        tvBanner2_S.clearFocus();
+        textBannerAdapter.notifyDataChanged();
+        textBannerAdapter_s.notifyDataChanged();
         if (layout.isRefreshing()) {//如果正在刷新
             initView();
             initHotList();
-            tvBanner2();
+            if(istvBean == 0){
+                istvBean = 1;
+                tvBanner2();
+            }
             layout.setRefreshing(false);//取消刷新
         }
     }

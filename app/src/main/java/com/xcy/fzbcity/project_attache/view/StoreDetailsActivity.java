@@ -118,6 +118,9 @@ public class StoreDetailsActivity extends AllActivity implements View.OnClickLis
 
     public static StoreDetailsActivity storeDetailsActivity = null;
 
+    private Date select1;
+    private Date select2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -314,7 +317,8 @@ public class StoreDetailsActivity extends AllActivity implements View.OnClickLis
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH) + 1;
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-
+        select1 = calendar.getTime();
+        select2 = calendar.getTime();
         string1 = String.format(Locale.getDefault(), "%d.%02d.%02d", year, month, dayOfMonth);
         string2 = String.format(Locale.getDefault(), "%d.%02d.%02d", year, month, dayOfMonth);
         store_details_tv4.setText(string1);
@@ -548,6 +552,7 @@ public class StoreDetailsActivity extends AllActivity implements View.OnClickLis
         TimePickerView pvTime = new TimePickerBuilder(StoreDetailsActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
+                select1 = date;
                 store_details_tv4.setText(getTime2(date));
                 NewlyIncreased.setStartDate(getTime2(date));
 //                initDataNum("3", store_details_tv4.getText().toString(), store_details_tv5.getText().toString());
@@ -573,9 +578,14 @@ public class StoreDetailsActivity extends AllActivity implements View.OnClickLis
         TimePickerView pvTime = new TimePickerBuilder(StoreDetailsActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                store_details_tv5.setText(getTime2(date));
-                NewlyIncreased.setEndDate(getTime2(date));
-                initDataNum("3", store_details_tv4.getText().toString(), store_details_tv5.getText().toString());
+                if (select1.after(date)) {
+                    ToastUtil.showLongToast(StoreDetailsActivity.this,"开始时间不能大于结束时间");
+                }else {
+                    store_details_tv5.setText(getTime2(date));
+                    NewlyIncreased.setEndDate(getTime2(date));
+                    initDataNum("3", store_details_tv4.getText().toString(), store_details_tv5.getText().toString());
+                }
+
             }
         })
                 .setType(new boolean[]{true, true, true, false, false, false}) //年月日时分秒 的显示与否，不设置则默认全部显示
@@ -598,6 +608,7 @@ public class StoreDetailsActivity extends AllActivity implements View.OnClickLis
         TimePickerView pvTime = new TimePickerBuilder(StoreDetailsActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
+                select2 = date;
                 store_details_tv8.setText(getTime2(date));
                 NewlyIncreased.setYJstartDate(getTime2(date));
 //                initFinanceNum("3", store_details_tv8.getText().toString(), store_details_tv9.getText().toString());
@@ -623,8 +634,13 @@ public class StoreDetailsActivity extends AllActivity implements View.OnClickLis
         TimePickerView pvTime = new TimePickerBuilder(StoreDetailsActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                store_details_tv9.setText(getTime2(date));
-                NewlyIncreased.setYJendDate(getTime2(date));
+                if (select2.after(date)) {
+                    ToastUtil.showLongToast(StoreDetailsActivity.this,"开始时间不能大于结束时间");
+                }else {
+                    store_details_tv9.setText(getTime2(date));
+                    NewlyIncreased.setYJendDate(getTime2(date));
+                }
+
 //                initFinanceNum("3", store_details_tv8.getText().toString(), store_details_tv9.getText().toString());
             }
         })

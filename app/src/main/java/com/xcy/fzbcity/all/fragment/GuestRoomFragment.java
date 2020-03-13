@@ -34,6 +34,10 @@ import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 import com.xcy.fzbcity.all.view.BigPhotoActivity;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -358,4 +362,28 @@ public class GuestRoomFragment extends Fragment{
         return bitmap;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this))//加上判断
+            EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if(!EventBus.getDefault().isRegistered(this)){//加上判断
+            EventBus.getDefault().register(this);
+        }
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+    public void onEvent(String nam) {
+        if(nam.equals("切换")){
+            Log.i("刷新","切换");
+            initData();
+        }
+    }
 }

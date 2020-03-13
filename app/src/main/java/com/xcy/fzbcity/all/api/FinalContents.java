@@ -6,8 +6,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.amap.api.maps.model.LatLng;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
+import com.xcy.fzbcity.all.modle.ProjectDetailsBean;
 import com.xcy.fzbcity.all.modle.ShareLogSaveBean;
 import com.xcy.fzbcity.all.service.MyService;
 
@@ -18,6 +20,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
@@ -41,13 +44,16 @@ public class FinalContents {
     public static final String SP_FILE_NAME = "fzb";
     public static final String SP_LOGIN_NAME = "fzbLogin";
 
+    static String ImageUrl = "http://39.98.237.23:8080";
+//        static String ImageUrl = "http://39.98.237.23:8080";
 //        static String ImageUrl = "http://192.168.0.121:8080";
 //    static String ImageUrl = "http://39.98.173.250:8081";
 //    static String ImageUrl = "http://test.fangzuobiao.com:88";
-//    static String ImageUrl = "http://yanshi.fangzuobiao.com:88";
+//    static String ImageUrl = "http://yanshi.fangzuobiao.com:80";
 //    static String ImageUrl = "http://sojo.fangzuobiao.com:88";
 //    static String ImageUrl = "http://39.100.13.183:8080";       //      TODO    IP版
-    static String ImageUrl = "http://city.fangzuobiao.com:88";       //      TODO     域名版
+//    static String ImageUrl = "http://city1.fangzuobiao.com:88";       //      TODO     域名版
+//    static String ImageUrl = "http://city.fangzuobiao.com:88";       //      TODO     域名版
 //    static String ImageUrl = "http://39.98.237.23:8082";       //      TODO     远程版
 //    static String ImageUrl = "http://39.98.209.175:8181";       //      TODO     城市版
 
@@ -55,8 +61,10 @@ public class FinalContents {
 //    static String ImageUrl = "http://39.98.224.67:8080";
 //    static String ImageUrl = "http://admin.fangzuobiao.com:88";
 
+        static String AdminUrl = "http://39.98.237.23:8080";
     //    static String AdminUrl = "http://admin.fangzuobiao.com:88";
-    static String AdminUrl = "http://city.fangzuobiao.com:88";
+//    static String AdminUrl = "http://city1.fangzuobiao.com:88";
+//    static String AdminUrl = "http://city.fangzuobiao.com:88";
 //    static String AdminUrl = "http://yanshi.fangzuobiao.com:88";
 //    static String AdminUrl = "http://sojo.fangzuobiao.com:88";
 //    static String AdminUrl = "http://test.fangzuobiao.com:88";
@@ -78,13 +86,18 @@ public class FinalContents {
         ImageUrl = imageUrl;
     }
 
+        static String BaseUrl = "http://39.98.237.23:8080/fangfang/app/v2/";
+//        static String BaseUrl = "http://39.98.237.23:8080/fangfang/app/v1/";
+//        static String BaseUrl = "http://39.98.209.175:8181/fangfang/app/v1/";
+//        static String BaseUrl = "http://39.98.173.250:8082/fangfang/app/v1/";
 //        static String BaseUrl = "http://192.168.0.121:8080/fangfang/app/v1/";
 //    static String BaseUrl = "http://39.98.173.250:8081/fangfang/app/v1/";
 //    static String BaseUrl = "http://test.fangzuobiao.com:88/fangfang/app/v1/";
-//    static String BaseUrl = "http://yanshi.fangzuobiao.com:88/fangfang/app/v1/";
+//    static String BaseUrl = "http://yanshi.fangzuobiao.com:80/fangfang/app/v1/";
 //    static String BaseUrl = "http://sojo.fangzuobiao.com:88/fangfang/app/v1/";
 //    static String BaseUrl = "http://39.100.13.183:8080/fangfang/app/v1/";      //      TODO    IP版
-    static String BaseUrl = "http://city.fangzuobiao.com:88/fangfang/app/v1/";      //      TODO    域名版
+//    static String BaseUrl = "http://city1.fangzuobiao.com:88/fangfang/app/v1/";      //      TODO    域名版
+//    static String BaseUrl = "http://city.fangzuobiao.com:88/fangfang/app/v1/";      //      TODO    域名版
 //    static String BaseUrl = "http://39.98.237.23:8082/fangfang/app/v1/";      //      TODO    远程版
 //    static String BaseUrl = "http://39.98.224.67:8080/fangfang/app/v1/";
 //    static String BaseUrl = "http://admin.fangzuobiao.com:88/fangfang/app/v1/";
@@ -228,6 +241,87 @@ public class FinalContents {
     static String CityIs = "";
 
     static String OldCityId = "";
+
+    static String NationalCityName = "";
+
+    static LatLng MylatLng = null;
+
+    static String NationalCityNameSearch = "";
+
+    static String IfSignIn = "";
+
+    static String SignInName = "";
+
+    static String OldCityName = "";
+
+    static String isMyTotal = "";
+
+    public static String getIsMyTotal() {
+        return isMyTotal;
+    }
+
+    public static void setIsMyTotal(String isMyTotal) {
+        FinalContents.isMyTotal = isMyTotal;
+    }
+
+    public static String getOldCityName() {
+        return OldCityName;
+    }
+
+    public static void setOldCityName(String oldCityName) {
+        OldCityName = oldCityName;
+    }
+
+
+    public static String getSignInName() {
+        return SignInName;
+    }
+
+    public static void setSignInName(String signInName) {
+        SignInName = signInName;
+    }
+
+    public static String getIfSignIn() {
+        return IfSignIn;
+    }
+
+    public static void setIfSignIn(String ifSignIn) {
+        IfSignIn = ifSignIn;
+    }
+
+    static List<ProjectDetailsBean.DataBean.ProjectListVoBean.FfAttacheListBean> ffAttacheList;
+
+    public static List<ProjectDetailsBean.DataBean.ProjectListVoBean.FfAttacheListBean> getFfAttacheList() {
+        return ffAttacheList;
+    }
+
+    public static void setFfAttacheList(List<ProjectDetailsBean.DataBean.ProjectListVoBean.FfAttacheListBean> ffAttacheList) {
+        FinalContents.ffAttacheList = ffAttacheList;
+    }
+
+    public static String getNationalCityNameSearch() {
+        return NationalCityNameSearch;
+    }
+
+    public static void setNationalCityNameSearch(String nationalCityNameSearch) {
+        NationalCityNameSearch = nationalCityNameSearch;
+    }
+
+    public static LatLng getMylatLng() {
+        return MylatLng;
+    }
+
+    public static void setMylatLng(LatLng mylatLng) {
+        MylatLng = mylatLng;
+    }
+
+    public static String getNationalCityName() {
+        return NationalCityName;
+    }
+
+    public static void setNationalCityName(String nationalCityName) {
+        NationalCityName = nationalCityName;
+    }
 
     public static String getOldCityId() {
         return OldCityId;

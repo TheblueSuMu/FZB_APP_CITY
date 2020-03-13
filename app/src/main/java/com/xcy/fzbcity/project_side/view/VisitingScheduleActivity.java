@@ -2,6 +2,7 @@ package com.xcy.fzbcity.project_side.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
@@ -37,6 +38,7 @@ import com.bigkoo.pickerview.view.TimePickerView;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.adapter.ConfessAdapter;
+import com.xcy.fzbcity.all.api.CityContents;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.database.TradeAuditBean;
 import com.xcy.fzbcity.all.modle.BrokerBean;
@@ -636,14 +638,15 @@ public class VisitingScheduleActivity extends AppCompatActivity implements View.
                 break;
             //            TODO 佣金
             case R.id.fill_in_transaction_information_rl6:
-                if (whether) {
-                    transition_layout.setVisibility(View.VISIBLE);
-                    initTimeData();
-                    whether = false;
-                } else {
-                    transition_layout.setVisibility(View.GONE);
-                    whether = true;
+                if (project_time.getText().toString().equals("")) {
+                    ToastUtil.showLongToast(VisitingScheduleActivity.this,"请选择时间后，再进行佣金选择");
+                    return;
                 }
+                project_time.getText().toString();
+                Intent intent = new Intent(VisitingScheduleActivity.this,Commission_To_Choose.class);
+                intent.putExtra("time",project_time.getText().toString());
+                startActivity(intent);
+
                 break;
             //            TODO 佣金选择
             case R.id.transition_layout:
@@ -672,26 +675,35 @@ public class VisitingScheduleActivity extends AppCompatActivity implements View.
                     @SuppressLint("WrongConstant")
                     @Override
                     public void onNext(final BrokerBean brokerBean) {
-                        MyLinearLayoutManager layoutManager = new MyLinearLayoutManager(VisitingScheduleActivity.this);
-                        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        layoutManager.setScrollEnabled(false);
-                        transition_recycler.setLayoutManager(layoutManager);
-                        TimeRangeAdapter timeRangeAdapter = new TimeRangeAdapter(brokerBean.getData());
-                        transition_recycler.setNestedScrollingEnabled(false);
-                        transition_recycler.setAdapter(timeRangeAdapter);
-                        timeRangeAdapter.setOnItemClickListener(new TimeRangeAdapter.OnItemClickLisenter() {
-                            @Override
-                            public void onItemClick(int postion) {
-                                project_brokerage.setText(brokerBean.getData().get(postion).getCommissionFormat());
-                                FinalContents.setCommissionId(brokerBean.getData().get(postion).getId());
-                                transition_layout.setVisibility(View.GONE);
-                            }
-                        });
-                        timeRangeAdapter.notifyDataSetChanged();
+                        if(brokerBean.getData().size() != 0){
+                            transition_layout.setVisibility(View.VISIBLE);
+                            MyLinearLayoutManager layoutManager = new MyLinearLayoutManager(VisitingScheduleActivity.this);
+                            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                            layoutManager.setScrollEnabled(false);
+                            transition_recycler.setLayoutManager(layoutManager);
+                            TimeRangeAdapter timeRangeAdapter = new TimeRangeAdapter(brokerBean.getData());
+                            transition_recycler.setNestedScrollingEnabled(false);
+                            transition_recycler.setAdapter(timeRangeAdapter);
+                            timeRangeAdapter.setOnItemClickListener(new TimeRangeAdapter.OnItemClickLisenter() {
+                                @Override
+                                public void onItemClick(int postion) {
+                                    project_brokerage.setText(brokerBean.getData().get(postion).getCommissionFormat());
+                                    FinalContents.setCommissionId(brokerBean.getData().get(postion).getId());
+                                    transition_layout.setVisibility(View.GONE);
+                                }
+                            });
+                            timeRangeAdapter.notifyDataSetChanged();
+                        }else {
+                            ToastUtil.showLongToast(VisitingScheduleActivity.this,"暂无佣金");
+                            transition_layout.setVisibility(View.GONE);
+                        }
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        ToastUtil.showLongToast(VisitingScheduleActivity.this,"佣金列表数据获取错误");
+                        transition_layout.setVisibility(View.GONE);
                         Log.i("列表数据获取错误", "错误" + e);
                     }
 
@@ -935,6 +947,22 @@ public class VisitingScheduleActivity extends AppCompatActivity implements View.
 //        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
         return format.format(date);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!FinalContents.getTiaodan().equals("调单")) {
+            if (!CityContents.getCommissionFormat().equals("")) {
+                project_brokerage.setText(CityContents.getCommissionFormat());
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        CityContents.setCommissionFormat("");
     }
 
 }

@@ -1,23 +1,31 @@
 package com.xcy.fzbcity.all.adapter;
 
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amap.api.maps.AMapUtils;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.services.core.PoiItem;
 import com.baidu.mapapi.search.core.PoiInfo;
+import com.bumptech.glide.Glide;
 import com.xcy.fzbcity.R;
+import com.xcy.fzbcity.all.api.FinalContents;
 
 import java.util.List;
 
 public class TestMapPopwindowAdapter extends RecyclerView.Adapter<TestMapPopwindowAdapter.TestMapPopwindowViewHolder> {
 
-    private List<PoiInfo> allPoi;
+    private List<PoiItem> allPoi;
 
-    public void setAllPoi(List<PoiInfo> allPoi) {
+    public void setAllPoi(List<PoiItem> allPoi) {
         this.allPoi = allPoi;
     }
 
@@ -39,28 +47,29 @@ public class TestMapPopwindowAdapter extends RecyclerView.Adapter<TestMapPopwind
     @Override
     public void onBindViewHolder(@NonNull TestMapPopwindowViewHolder holder, final int position) {
 
-        if (allPoi.get(position).getName().equals("")) {
-            holder.textView1.setText(allPoi.get(position).getAddress());
-        } else {
-            if (allPoi.get(position).getArea().equals("")) {
-                holder.textView1.setText(allPoi.get(position).getName());
-            } else {
-                holder.textView1.setText(allPoi.get(position).getName() + "(" + allPoi.get(position).getArea() + ")");
-            }
+        holder.test_map_img.setVisibility(View.VISIBLE);
+
+        if(position == 0){
+            Log.i("高德地图","0下标：" + position);
+            holder.textView1.setTextColor(Color.parseColor("#334485"));
+            Glide.with(holder.itemView.getContext()).load(R.mipmap.nationalcity2).into(holder.test_map_img);
+        }else {
+            Log.i("高德地图","下标：" + position);
+            holder.textView1.setTextColor(Color.parseColor("#ff111111"));
+            Glide.with(holder.itemView.getContext()).load(R.mipmap.nationalcity1).into(holder.test_map_img);
         }
-        if (allPoi.get(position).getAddress().equals("")) {
-            if (allPoi.get(position).getName().equals("")) {
-                holder.textView2.setText(allPoi.get(position).getAddress());
-            } else {
-                if (allPoi.get(position).getArea().equals("")) {
-                    holder.textView2.setText(allPoi.get(position).getName());
-                } else {
-                    holder.textView2.setText(allPoi.get(position).getName() + "(" + allPoi.get(position).getArea() + ")");
-                }
-            }
-        } else {
-            holder.textView2.setText(allPoi.get(position).getAddress());
+
+        if (allPoi.get(position).getTitle().equals("")) {
+            holder.textView1.setText(allPoi.get(position).getSnippet());
+        }else {
+            holder.textView1.setText(allPoi.get(position).getTitle());
         }
+        if(allPoi.get(position).getSnippet().equals("")){
+            holder.textView2.setText(allPoi.get(position).getTitle());
+        }else {
+            holder.textView2.setText(allPoi.get(position).getSnippet());
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,11 +87,13 @@ public class TestMapPopwindowAdapter extends RecyclerView.Adapter<TestMapPopwind
 
         TextView textView1;
         TextView textView2;
+        ImageView test_map_img;
 
         public TestMapPopwindowViewHolder(@NonNull View itemView) {
             super(itemView);
             textView1 = itemView.findViewById(R.id.test_map_tv1);
             textView2 = itemView.findViewById(R.id.test_map_tv2);
+            test_map_img = itemView.findViewById(R.id.test_map_img);
         }
     }
 

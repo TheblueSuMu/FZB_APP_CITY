@@ -63,6 +63,7 @@ public class DFragment extends AllFragment implements View.OnClickListener {
         totalFragment = new TotalFragment();
         manager = getFragmentManager();
         transaction = manager.beginTransaction();
+        FinalContents.setIsMyTotal("1");
         transaction.replace(R.id.d_fl, totalFragment);
         transaction.commit();
 
@@ -80,7 +81,7 @@ public class DFragment extends AllFragment implements View.OnClickListener {
 
                 d_all_l.setVisibility(View.VISIBLE);
                 d_my_l.setVisibility(View.INVISIBLE);
-
+                FinalContents.setIsMyTotal("1");
                 manager = getFragmentManager();
                 transaction = manager.beginTransaction();
                 transaction.replace(R.id.d_fl, totalFragment);
@@ -89,7 +90,7 @@ public class DFragment extends AllFragment implements View.OnClickListener {
             case R.id.d_my:
                 d_all_l.setVisibility(View.INVISIBLE);
                 d_my_l.setVisibility(View.VISIBLE);
-
+                FinalContents.setIsMyTotal("2");
                 manager = getFragmentManager();
                 transaction = manager.beginTransaction();
                 transaction.replace(R.id.d_fl, mineFragment);

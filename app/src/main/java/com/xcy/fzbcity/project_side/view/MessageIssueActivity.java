@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.annotation.Nullable;
@@ -83,6 +84,7 @@ public class MessageIssueActivity extends AllActivity {
 
     TextView message_issue_tv1;
     TextView message_issue_tv2;
+    TextView message_issue_title;
 
     private List<Object> mDatas;
     private GridViewAdapter adapter;
@@ -107,6 +109,7 @@ public class MessageIssueActivity extends AllActivity {
     private File file;
     private List<File> fileList = new ArrayList<>();
     private List<MultipartBody.Part> parts;
+    private int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +151,7 @@ public class MessageIssueActivity extends AllActivity {
         message_issue_rl2 = findViewById(R.id.message_issue_rl2);
         message_issue_tv1 = findViewById(R.id.message_issue_tv1);
         message_issue_tv2 = findViewById(R.id.message_issue_tv2);
+        message_issue_title = findViewById(R.id.message_issue_title);
 
         initData();
 
@@ -199,6 +203,17 @@ public class MessageIssueActivity extends AllActivity {
 
     //TODO 发布操作
     private void initFB() {
+
+        String s = message_issue_tv1.getText().toString();
+
+        if (s.equals("楼盘动态")) {
+            type = 0;
+        } else if (s.equals("变价通知")) {
+            type = 1;
+        } else if (s.equals("开盘通知")) {
+            type = 2;
+        }
+
         message = message_issue_message.getText().toString();
         imgUrl = stringBuffer.toString();
         Retrofit.Builder builder = new Retrofit.Builder();
@@ -207,7 +222,7 @@ public class MessageIssueActivity extends AllActivity {
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<MessageIssueBean> userMessage = fzbInterface.getAddHousesDynamic(message_issue_tv2.getText().toString(), message, imgUrl, FinalContents.getUserID(), projectID);
+        Observable<MessageIssueBean> userMessage = fzbInterface.getAddHousesDynamic(message_issue_title.getText().toString(), message, imgUrl, FinalContents.getUserID(), projectID, type + "");
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<MessageIssueBean>() {
@@ -369,7 +384,7 @@ public class MessageIssueActivity extends AllActivity {
                                                         }
                                                         parts = mbuilder.build().parts();
 
-                                                        Log.i("批量选择相册","进入前");
+                                                        Log.i("批量选择相册", "进入前");
 
                                                         Retrofit.Builder builder = new Retrofit.Builder();
                                                         builder.baseUrl(FinalContents.getBaseUrl());
@@ -383,14 +398,14 @@ public class MessageIssueActivity extends AllActivity {
                                                                 .subscribe(new Observer<AddPhotoBeanS>() {
                                                                     @Override
                                                                     public void onSubscribe(Disposable d) {
-                                                                        Log.i("批量选择相册","onSubscribe");
+                                                                        Log.i("批量选择相册", "onSubscribe");
                                                                     }
 
                                                                     @Override
                                                                     public void onNext(AddPhotoBeanS addPhotoBean) {
-                                                                        Log.i("批量选择相册","图片地址");
-                                                                        for (int i = 0; i < addPhotoBean.getData().size(); ++i){
-                                                                            Log.i("批量选择相册","图片地址：" + addPhotoBean.getData().get(i).getUrl());
+                                                                        Log.i("批量选择相册", "图片地址");
+                                                                        for (int i = 0; i < addPhotoBean.getData().size(); ++i) {
+                                                                            Log.i("批量选择相册", "图片地址：" + addPhotoBean.getData().get(i).getUrl());
                                                                             if (stringBuffer.length() == 0) {
                                                                                 stringBuffer.append(addPhotoBean.getData().get(i).getUrl());
                                                                             } else {
@@ -406,7 +421,7 @@ public class MessageIssueActivity extends AllActivity {
 
                                                                     @Override
                                                                     public void onError(Throwable e) {
-                                                                        Log.i("批量选择相册","经济圈发布图片上传错误信息：" + e.getMessage());
+                                                                        Log.i("批量选择相册", "经济圈发布图片上传错误信息：" + e.getMessage());
                                                                         Log.i("MyCL", "经济圈发布图片上传错误信息：" + e.getMessage());
                                                                     }
 

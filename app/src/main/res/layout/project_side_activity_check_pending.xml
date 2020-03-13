@@ -109,6 +109,15 @@
                                     android:textColor="#ff666666"
                                     android:textSize="13sp" />
 
+                                <ImageView
+                                    android:id="@+id/check_pending_img2"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:visibility="gone"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="5dp"
+                                    android:src="@mipmap/icon_mine_call" />
+
                                 <RelativeLayout
                                     android:layout_gravity="top"
                                     android:layout_width="wrap_content"

@@ -132,6 +132,21 @@ public class Project_Side_MainActivity extends AllActivity implements CustomAdap
 
                 transaction.commit();
                 message.setChecked(true);
+            }else if (str.equals("10")) {
+                init_No_Network();
+                FragmentManager manager = getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+//                MessageFragment messageFragment = new MessageFragment();
+                messageFragment.setType("1");
+//                transaction.replace(R.id.main_framelayout,messageFragment);
+
+                transaction.hide(homeFragment);
+                transaction.hide(projectFragment);
+                transaction.show(messageFragment);
+                transaction.hide(meFragment);
+
+                transaction.commit();
+                message.setChecked(true);
             }
         }
     }

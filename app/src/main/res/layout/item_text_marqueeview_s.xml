@@ -14,8 +14,10 @@
         android:gravity="center_vertical"
         android:id="@+id/textbanner_s"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="15dp"
         android:text=""
         android:textSize="11sp"
+        android:singleLine="true"
         android:textColor="#ff333333"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

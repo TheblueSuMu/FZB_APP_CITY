@@ -26,14 +26,18 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.LocationSource;
+import com.amap.api.maps.MapView;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeQuery;
+import com.amap.api.services.geocoder.RegeocodeResult;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.adapter.GridViewAdapter;
@@ -66,7 +70,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 //TODO 确认到访
-public class ConfirmTheVisitActivity extends AllActivity {
+public class ConfirmTheVisitActivity extends AllActivity implements LocationSource, AMapLocationListener, GeocodeSearch.OnGeocodeSearchListener {
     RelativeLayout confirm_the_visit_return;
     private TextView comfirm_client_name;
     private TextView comfirm_project_name;
@@ -106,22 +110,33 @@ public class ConfirmTheVisitActivity extends AllActivity {
 
     int ismap = 0;
 
-    // 定位相关
-    LocationClient mLocClient;
-    //定位监听
-    public MyLocationListenner myListener = new MyLocationListenner();
-    boolean isFirstLoc = true; // 是否首次定位
-    BDLocation mlocation;
-    private GeoCoder mCoder;
-    private LatLng latLng1;
-    private LatLng ll;
-    private MyLocationData locData;
 
+    boolean isFirstLoc = true; // 是否首次定位
+
+    MapView mMapView = null;
+    AMap aMap = null;
+    OnLocationChangedListener mListener;
+    AMapLocationClient mlocationClient;
+    AMapLocationClientOption mLocationOption;
+    private double latitude1;
+    private double longitude1;
+    private GeocodeSearch geocoderSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_the_visit);
+
+        StatusBar.makeStatusBarTransparent(this);
+
+        mMapView = (MapView) findViewById(R.id.map_s_d);
+        mMapView.onCreate(savedInstanceState);// 此方法须覆写，虚拟机需要在很多情况下保存地图绘制的当前状态。
+//初始化地图控制器对象
+
+        if (aMap == null) {
+            aMap = mMapView.getMap();
+        }
+
         init_No_Network();
 
     }
@@ -148,7 +163,7 @@ public class ConfirmTheVisitActivity extends AllActivity {
 
     @SuppressLint("MissingPermission")
     private void initView() {
-        StatusBar.makeStatusBarTransparent(this);
+
         comfirm_client_name = findViewById(R.id.comfirm_client_name);
         confirm_the_visit_return = findViewById(R.id.confirm_the_visit_return);
         comfirm_project_name = findViewById(R.id.comfirm_project_name);
@@ -230,145 +245,12 @@ public class ConfirmTheVisitActivity extends AllActivity {
     @SuppressLint("MissingPermission")
     private void initMapData() {
 
-//        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//        locationListener = new LocationListener() {
-//
-//            // Provider的状态在可用、暂时不可用和无服务三个状态直接切换时触发此函数
-//            @Override
-//            public void onStatusChanged(String provider, int status, Bundle extras) {
-//
-//            }
-//
-//            // Provider被enable时触发此函数，比如GPS被打开
-//            @Override
-//            public void onProviderEnabled(String provider) {
-//                Log.e("Map", "onProviderEnabled ");
-//            }
-//
-//            // Provider被disable时触发此函数，比如GPS被关闭
-//            @Override
-//            public void onProviderDisabled(String provider) {
-//
-//            }
-//
-//            //当坐标改变时触发此函数，如果Provider传进相同的坐标，它就不会被触发
-//            @Override
-//            public void onLocationChanged(Location location) {
-//                if (location != null) {
-//                    Log.e("Map", "Location changed : Lat: "
-//                            + location.getLatitude() + " Lng: "
-//                            + location.getLongitude());
-//                    longitude = location.getLongitude();
-//                    latitude = location.getLatitude();
-//
-//                    initMap();
-//
-//                    stopLister(this);
-//                }
-//            }
-//        };
-//
-//        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//            //第一个参数，与取
-//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
-//        } else {
-//            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
-//        }
-
-        Log.i("地图", "initMapData");
-        mLocClient = new LocationClient(this);
-        mLocClient.registerLocationListener(myListener);
-        LocationClientOption option = new LocationClientOption();
-        option.setOpenGps(true); // 打开gps
-        option.setCoorType("bd09ll"); // 设置坐标类型
-        option.setScanSpan(1000);
-        option.setAddrType("all");
-        mLocClient.setLocOption(option);
-        mCoder = GeoCoder.newInstance();
-        mLocClient.start();
-
-    }
-
-
-    /**
-     * 定位SDK监听函数
-     */
-    public class MyLocationListenner implements BDLocationListener {
-
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            // map view 销毁后不在处理新接收的位置
-            mlocation = location;
-
-            locData = new MyLocationData.Builder()
-                    .accuracy(mlocation.getRadius())
-                    // 此处设置开发者获取到的方向信息，顺时针0-360
-                    .direction(100).latitude(mlocation.getLatitude())
-                    .longitude(mlocation.getLongitude()).build();
-            if (isFirstLoc) {
-                String addrStr = location.getAddrStr();
-                comfirm_location.setText(addrStr);
-                Log.i("确认到访", "addrStr：" + addrStr);
-                isFirstLoc = false;
-                ll = new LatLng(location.getLatitude(),
-                        location.getLongitude());
-                MapStatus.Builder builder = new MapStatus.Builder();
-                builder.target(ll).zoom(18.0f);
-                getLongitude = location.getLongitude() + "";
-                getLatitude = location.getLatitude() + "";
-                comfirm_location.setText(location.getAddrStr());
-            }
-
-
-        }
-
-        public void onReceivePoi(BDLocation poiLocation) {
-
-            Log.i("地图", poiLocation + "");
-
-        }
-    }
-
-    private void initMap() {
-
-        getLongitude = longitude + "";
-        getLatitude = latitude + "";
-
-        Retrofit.Builder builder = new Retrofit.Builder();
-        builder.baseUrl(FinalContents.getBaseUrl());
-        builder.addConverterFactory(GsonConverterFactory.create());
-        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
-        Retrofit build = builder.build();
-        MyService fzbInterface = build.create(MyService.class);
-
-        Observable<ChangeAddress> changeAddress = fzbInterface.getChangeAddress(getLongitude, getLatitude);
-        changeAddress.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ChangeAddress>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(ChangeAddress changeAddress) {
-
-                        comfirm_location.setText(changeAddress.getData().getValue());
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                        Log.i("经纬度转坐标", "经纬度转坐标错误信息：" + e.getMessage());
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+        // 设置定位监听
+        aMap.setLocationSource(this);
+// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
+        aMap.setMyLocationEnabled(true);
+// 设置定位的类型为定位模式，有定位、跟随或地图根据面向方向旋转几种
+        aMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
 
     }
 
@@ -462,7 +344,7 @@ public class ConfirmTheVisitActivity extends AllActivity {
 
         String string = comfirm_location.getText().toString();
 
-        String locationS = getLongitude + "," + getLatitude;
+        String locationS = longitude1 + "," + latitude1;
 
         if (comfirm_location.getText().toString().equals("")) {
             ToastUtil.showToast(this,"请进入地图选择地址");
@@ -512,60 +394,7 @@ public class ConfirmTheVisitActivity extends AllActivity {
     //TODO 从相册获取图片
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        if (isIF == 1) {
-////            if (requestCode == 1 && resultCode == RESULT_OK) {
-////                add_company_tv3.setText(data.getStringExtra("getLatitude") + "\n" + data.getStringExtra("getLongitude"));
-////            }
-//            getLatitude = data.getStringExtra("getLatitude");
-//            getLongitude = data.getStringExtra("getLongitude");
-//
-//
-//            StringBuffer stringBuffer1 = new StringBuffer();
-//            StringBuffer stringBuffer2 = new StringBuffer();
-//
-//            StringBuffer append1 = stringBuffer1.append(getLatitude);
-//            StringBuffer append2 = stringBuffer2.append(getLongitude);
-//
-//            Retrofit.Builder builder = new Retrofit.Builder();
-//            builder.baseUrl(FinalContents.getBaseUrl());
-//            builder.addConverterFactory(GsonConverterFactory.create());
-//            builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
-//            Retrofit build = builder.build();
-//            MyService fzbInterface = build.create(MyService.class);
-//
-//            Observable<ChangeAddress> changeAddress = fzbInterface.getChangeAddress(getLongitude, getLatitude);
-//            changeAddress.subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(new Observer<ChangeAddress>() {
-//                        @Override
-//                        public void onSubscribe(Disposable d) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onNext(ChangeAddress changeAddress) {
-//
-//                            comfirm_location.setText(changeAddress.getData().getValue());
-//
-//                        }
-//
-//                        @Override
-//                        public void onError(Throwable e) {
-//
-//                            Log.i("经纬度转坐标", "经纬度转坐标错误信息：" + e.getMessage());
-//
-//                        }
-//
-//                        @Override
-//                        public void onComplete() {
-//
-//                        }
-//                    });
-//
-//            isIF = 0;
-//        } else {
-//
-//        }
+
         //TODO  获取相册图片地址
         sum++;
         if (resultCode != RESULT_OK) {        //此处的 RESULT_OK 是系统自定义得一个常量
@@ -759,13 +588,77 @@ public class ConfirmTheVisitActivity extends AllActivity {
         }
     }
 
-    /**
-     * 销毁定位
-     */
-    private void stopLister(LocationListener listener) {
-        if (locationManager != null) {
-            locationManager.removeUpdates(listener);
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
+        mMapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void activate(OnLocationChangedListener onLocationChangedListener) {
+        mListener = onLocationChangedListener;
+        if (mlocationClient == null) {
+            //初始化定位
+            mlocationClient = new AMapLocationClient(this);
+            //初始化定位参数
+            mLocationOption = new AMapLocationClientOption();
+            //设置定位回调监听
+            mlocationClient.setLocationListener(this);
+            //设置为高精度定位模式
+            mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+            //设置定位参数
+            mlocationClient.setLocationOption(mLocationOption);
+            // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+            // 注意设置合适的定位时间的间隔（最小间隔支持为2000ms），并且在合适时间调用stopLocation()方法来取消定位请求
+            // 在定位结束后，在合适的生命周期调用onDestroy()方法
+            // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
+            mlocationClient.startLocation();//启动定位
         }
-        locationManager = null;
+    }
+
+    @Override
+    public void deactivate() {
+        mListener = null;
+        if (mlocationClient != null) {
+            mlocationClient.stopLocation();
+            mlocationClient.onDestroy();
+        }
+        mlocationClient = null;
+    }
+
+    @Override
+    public void onLocationChanged(AMapLocation amapLocation) {
+        if (mListener != null&&amapLocation != null) {
+            if (amapLocation != null
+                    &&amapLocation.getErrorCode() == 0) {
+                mListener.onLocationChanged(amapLocation);// 显示系统小蓝点
+                if(isFirstLoc == true){
+                    //39.16951
+                    latitude1 = amapLocation.getLatitude();
+                    //117.252287
+                    longitude1 = amapLocation.getLongitude();
+                    isFirstLoc = false;
+                    geocoderSearch = new GeocodeSearch(this);
+                    geocoderSearch.setOnGeocodeSearchListener(this);
+                    // 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
+                    RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(latitude1,longitude1), 200,GeocodeSearch.AMAP);
+                    geocoderSearch.getFromLocationAsyn(query);
+                }
+            } else {
+                String errText = "定位失败," + amapLocation.getErrorCode()+ ": " + amapLocation.getErrorInfo();
+                Log.e("AmapErr",errText);
+            }
+        }
+    }
+
+    @Override
+    public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
+        comfirm_location.setText(regeocodeResult.getRegeocodeAddress().getFormatAddress());
+    }
+
+    @Override
+    public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+
     }
 }

@@ -112,7 +112,6 @@ public class Dynamic2Adapter extends RecyclerView.Adapter<Dynamic2Adapter.ViewHo
             imageAdapter.notifyDataSetChanged();
         }
 
-
         if (list.get(position).getIsLike().equals("1")) {
             Glide.with(context).load(R.mipmap.icon_like).into(holder.item_dynamic_zan);
         } else if (list.get(position).getIsLike().equals("0")) {
@@ -120,6 +119,15 @@ public class Dynamic2Adapter extends RecyclerView.Adapter<Dynamic2Adapter.ViewHo
         }
         holder.circle_like.setText(list.get(position).getLikeNum() + "");
 
+        if (!FinalContents.getCityIs().equals("")) {
+            holder.circle_city_linear.setVisibility(View.GONE);
+            holder.circle_city_relative.setVisibility(View.VISIBLE);
+            holder.circle_rv.setVisibility(View.GONE);
+        }else {
+            holder.circle_city_linear.setVisibility(View.VISIBLE);
+            holder.circle_city_relative.setVisibility(View.GONE);
+            holder.circle_rv.setVisibility(View.VISIBLE);
+        }
 
         Glide.with(context).load(FinalContents.getImageUrl() + list.get(position).getProject().getProjectImg()).placeholder(R.mipmap.logo_square).into(holder.circle_img_1);
         holder.circle_title.setText(list.get(position).getCreateBy().getName());
@@ -133,6 +141,16 @@ public class Dynamic2Adapter extends RecyclerView.Adapter<Dynamic2Adapter.ViewHo
                 tuPian.tp(position);
             }
         });
+
+        if (list.get(position).getType().equals("0")) {
+            holder.circle_image.setVisibility(View.GONE);
+        } else if (list.get(position).getType().equals("1")) {
+            holder.circle_image.setVisibility(View.VISIBLE);
+            holder.circle_image.setImageResource(R.mipmap.bianjiaimage);
+        } else if (list.get(position).getType().equals("2")) {
+            holder.circle_image.setVisibility(View.VISIBLE);
+            holder.circle_image.setImageResource(R.mipmap.kaipanimage);
+        }
 
         if(list.get(position).getAttaches().size() == 0){
         }else {
@@ -197,6 +215,15 @@ public class Dynamic2Adapter extends RecyclerView.Adapter<Dynamic2Adapter.ViewHo
             }
         });
 
+
+        //        TODO 复制
+        holder.circle_fuzhi_two.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fuZhi.FuZhi(position);
+            }
+        });
+
 //        TODO 评论
         holder.circle_pinglun.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,16 +253,22 @@ public class Dynamic2Adapter extends RecyclerView.Adapter<Dynamic2Adapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FinalContents.setTargetId(list.get(position).getId());
-                Log.i("MyCL", "ID：" + list.get(position).getId());
-                Intent intent = new Intent(holder.itemView.getContext(), MessageCommentActivity.class);
-                intent.putExtra("headPortrait", list.get(position).getCreateBy().getPhoto());
-                intent.putExtra("title", list.get(position).getCreateBy().getName());
-                intent.putExtra("time", list.get(position).getCreateDate());
-                intent.putExtra("message", list.get(position).getContent());
-                intent.putExtra("img", list.get(position).getImgUrl());
-                intent.putExtra("isLike", list.get(position).getIsLike());
-                holder.itemView.getContext().startActivity(intent);
+                if (!FinalContents.getCityIs().equals("")) {
+
+                }else {
+                    FinalContents.setTargetId(list.get(position).getId());
+                    Log.i("MyCL", "ID：" + list.get(position).getId());
+                    Log.i("时间", "time：" + list.get(position).getCreateDate());
+                    Intent intent = new Intent(holder.itemView.getContext(), MessageCommentActivity.class);
+                    intent.putExtra("headPortrait", list.get(position).getCreateBy().getPhoto());
+                    intent.putExtra("title", list.get(position).getCreateBy().getName());
+                    intent.putExtra("time", list.get(position).getCreateDate());
+                    intent.putExtra("message", list.get(position).getContent());
+                    intent.putExtra("img", list.get(position).getImgUrl());
+                    intent.putExtra("isLike", list.get(position).getIsLike());
+                    holder.itemView.getContext().startActivity(intent);
+                }
+
             }
         });
 
@@ -263,10 +296,18 @@ public class Dynamic2Adapter extends RecyclerView.Adapter<Dynamic2Adapter.ViewHo
         LinearLayout dynamic_ll;
         LinearLayout item_dynamic_ll;
         RecyclerView circle_rv;
+        ImageView circle_image;
+        LinearLayout circle_city_linear;
+        RelativeLayout circle_city_relative;
+        TextView circle_fuzhi_two;
 
         public ViewHolder(View itemView) {
             super(itemView);
             //注意这里可能需要import com.example.lenovo.myrecyclerview.R; 才能使用R.id
+            circle_city_linear = itemView.findViewById(R.id.circle_city_linear);
+            circle_city_relative = itemView.findViewById(R.id.circle_city_relative);
+            circle_fuzhi_two = itemView.findViewById(R.id.circle_fuzhi_two);
+
             circle_img = (ImageView) itemView.findViewById(R.id.circle_img);
             circle_title = (TextView) itemView.findViewById(R.id.circle_title);
             circle_time = (TextView) itemView.findViewById(R.id.circle_time);
@@ -283,6 +324,7 @@ public class Dynamic2Adapter extends RecyclerView.Adapter<Dynamic2Adapter.ViewHo
             dynamic_ll = itemView.findViewById(R.id.dynamic_ll);
             item_dynamic_ll = itemView.findViewById(R.id.item_dynamic_ll);
             circle_rv = itemView.findViewById(R.id.circle_rv);
+            circle_image = itemView.findViewById(R.id.circle_image);
         }
     }
 

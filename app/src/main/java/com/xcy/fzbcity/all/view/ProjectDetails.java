@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,6 +22,19 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdate;
+import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.MapView;
+import com.amap.api.maps.UiSettings;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.CameraPosition;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.poisearch.PoiResult;
+import com.amap.api.services.poisearch.PoiSearch;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
@@ -44,6 +58,7 @@ import com.xcy.fzbcity.all.adapter.CommissionRecycler;
 import com.xcy.fzbcity.all.adapter.DetailsAdapter;
 import com.xcy.fzbcity.all.adapter.FamilyRecycler;
 import com.xcy.fzbcity.all.adapter.ProjectDetailsVillaAdapter;
+import com.xcy.fzbcity.all.adapter.ProjectMapAdapter;
 import com.xcy.fzbcity.all.adapter.ReportAdapter;
 import com.xcy.fzbcity.all.adapter.TalktoolRecycler;
 import com.xcy.fzbcity.all.api.CityContents;
@@ -79,9 +94,10 @@ import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ProjectDetails extends AllActivity implements View.OnClickListener, DetailsAdapter.DetailsItem, GradationScrollView.ScrollViewListener {
+public class ProjectDetails extends AllActivity implements View.OnClickListener, DetailsAdapter.DetailsItem, GradationScrollView.ScrollViewListener, PoiSearch.OnPoiSearchListener {
     private ImageView backimg;
     private RelativeLayout back;
+    private RelativeLayout project_details_b_k;
     private ImageView building;
 
     private TextView number;
@@ -102,7 +118,7 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
     private TextView house_time;
     private TextView transmit_house;
 
-    private TextView message;
+    private RecyclerView message;
 
     private TextView report;
     private CheckBox collect;
@@ -131,6 +147,9 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
     private LinearLayout linear5;
     private LinearLayout linear6;
     private LinearLayout linear7;
+
+    private LinearLayout project_details_s_z_1;
+    private LinearLayout project_details_s_z_2;
 
     private TextView group_booking;
 
@@ -195,10 +214,33 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
     int mAlpha = 0;
     private LinearLayout project_details_villa_linear;
 
+    private MapView mapView;
+    AMap aMap = null;
+    private UiSettings mUiSettings;//定义一个UiSettings对象
+    private MarkerOptions markerOption;
+    private PoiSearch.Query query;
+    private PoiSearch poiSearch;
+    ProjectMapAdapter projectMapAdapter;
+    private ArrayList<PoiItem> pois;
+    private String title;
+
+    private String selectLL = "0";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.project_details);
+
+        StatusBar.makeStatusBarTransparent(this);
+
+        mapView = (MapView) findViewById(R.id.map_zbpt);
+        mapView.onCreate(savedInstanceState);// 此方法须覆写，虚拟机需要在很多情况下保存地图绘制的当前状态。
+//初始化地图控制器对象
+
+        if (aMap == null) {
+            aMap = mapView.getMap();
+        }
+
         init_No_Network();
     }
 
@@ -226,14 +268,18 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
     //命名区域
     private void initfvb() {
 
-        StatusBar.makeStatusBarTransparent(this);
-
         project_details_kai = findViewById(R.id.project_details_kai);
         project_details_family_tvs = findViewById(R.id.project_details_family_tvs);
         project_details_ding = findViewById(R.id.project_details_ding);
         project_details_qt_call = findViewById(R.id.project_details_qt_call);
         details_rv = findViewById(R.id.details_rv);
         details_tv_S = findViewById(R.id.details_tv_S);
+
+
+        project_details_b_k = findViewById(R.id.project_details_b_k);
+        project_details_s_z_1 = findViewById(R.id.project_details_s_z_1);
+        project_details_s_z_2 = findViewById(R.id.project_details_s_z_2);
+
 
         project_details_kai.setOnClickListener(this);
         project_details_ding.setOnClickListener(this);
@@ -332,7 +378,7 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
         share = findViewById(R.id.project_details_share);
 
         tabLayout = findViewById(R.id.project_details_tab);
-        message = findViewById(R.id.project_details_message);
+
 
         repast = findViewById(R.id.project_details_repast);
         repast_content = findViewById(R.id.project_details_repast_content);
@@ -374,6 +420,45 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
 
         location.setOnClickListener(this);
         project_details_group_booking.setOnClickListener(this);
+
+        if (FinalContents.getCityID().equals(FinalContents.getOldCityId())) {
+//            project_details_b_k.setVisibility(View.VISIBLE);
+//            project_details_s_z_1.setVisibility(View.VISIBLE);
+//            project_details_s_z_2.setVisibility(View.VISIBLE);
+            project_details_all.setVisibility(View.VISIBLE);
+            project_details_qt.setVisibility(View.VISIBLE);
+            project_details_b_k.setVisibility(View.VISIBLE);
+            project_details_layout.setVisibility(View.VISIBLE);
+            linear7.setPadding(15,0,15,200);
+            if (FinalContents.getZhuanAn().equals("1")) {
+                project_details_qt.setVisibility(View.VISIBLE);
+                project_details_all.setVisibility(View.GONE);
+            }else {
+                project_details_qt.setVisibility(View.GONE);
+                project_details_all.setVisibility(View.VISIBLE);
+            }
+
+        } else {
+            linear7.setPadding(15,0,15,0);
+            project_details_all.setVisibility(View.GONE);
+            project_details_qt.setVisibility(View.GONE);
+            project_details_b_k.setVisibility(View.GONE);
+            project_details_layout.setVisibility(View.GONE);
+//            project_details_b_k.setVisibility(View.GONE);
+//            project_details_s_z_1.setVisibility(View.GONE);
+//            project_details_s_z_2.setVisibility(View.GONE);
+        }
+
+//        mapView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent mapintent = new Intent(ProjectDetails.this, MapActivity.class);
+//                mapintent.putExtra("office", "1");
+//                startActivity(mapintent);
+//            }
+//        });
+
+        //拨打电话
         project_details_qt_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -413,11 +498,6 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
             }
         });
 
-
-        if (FinalContents.getZhuanAn().equals("1")) {
-            project_details_qt.setVisibility(View.VISIBLE);
-            project_details_all.setVisibility(View.GONE);
-        }
 
         collect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -547,23 +627,35 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
         tabLayout.addTab(tabLayout.newTab().setText("商场购物"));
         tabLayout.addTab(tabLayout.newTab().setText("生活娱乐"));
         tabLayout.addTab(tabLayout.newTab().setText("著名景点"));
-
+        initTabSelectedMap("交通服务相关|公交站|地铁站|摆渡车站|机场出发/到达|飞机场|火车站|客运站");
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 //                添加选中Tab的逻辑
                 if (tab.getText().equals("交通出行")) {
-                    message.setText(projectDetailsBeanData.getMatingInformation().getTraffic());
+                    selectLL = "0";
+                    initTabSelectedMap("交通服务相关|公交站|地铁站|摆渡车站|机场出发/到达|飞机场|火车站|客运站");
+//                    message.setText(projectDetailsBeanData.getMatingInformation().getTraffic());
                 } else if (tab.getText().equals("教育教学")) {
-                    message.setText(projectDetailsBeanData.getMatingInformation().getEducation());
+                    selectLL = "1";
+                    initTabSelectedMap("学校|高等院校|中学|小学|幼儿园|成人教育|职业技术学校");
+//                    message.setText(projectDetailsBeanData.getMatingInformation().getEducation());
                 } else if (tab.getText().equals("医疗健康")) {
-                    message.setText(projectDetailsBeanData.getMatingInformation().getMedical());
+                    selectLL = "2";
+                    initTabSelectedMap("医院|专科医院|综合医院|诊所|急救中心");
+//                    message.setText(projectDetailsBeanData.getMatingInformation().getMedical());
                 } else if (tab.getText().equals("商场购物")) {
-                    message.setText(projectDetailsBeanData.getMatingInformation().getShopping());
+                    selectLL = "3";
+                    initTabSelectedMap("商场|超级市场|购物中心|普通商场|便利店|便民商店|综合市场");
+//                    message.setText(projectDetailsBeanData.getMatingInformation().getShopping());
                 } else if (tab.getText().equals("生活娱乐")) {
-                    message.setText(projectDetailsBeanData.getMatingInformation().getEntertainment());
+                    selectLL = "4";
+                    initTabSelectedMap("生活娱乐|娱乐场所|KTV|迪厅|酒吧|电影院|休闲场所|音乐厅|剧场");
+//                    message.setText(projectDetailsBeanData.getMatingInformation().getEntertainment());
                 } else if (tab.getText().equals("著名景点")) {
-                    message.setText(projectDetailsBeanData.getMatingInformation().getFamousScene());
+                    selectLL = "5";
+                    initTabSelectedMap("著名景点|公园广场|风景名胜");
+//                    message.setText(projectDetailsBeanData.getMatingInformation().getFamousScene());
                 }
 
             }
@@ -576,23 +668,96 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
                 //                再次选中tab的逻辑
-                if (tab.getText().equals("交通出行")) {
-                    message.setText(projectDetailsBeanData.getMatingInformation().getTraffic());
-                } else if (tab.getText().equals("教育健康")) {
-                    message.setText(projectDetailsBeanData.getMatingInformation().getEducation());
-                } else if (tab.getText().equals("医疗健康")) {
-                    message.setText(projectDetailsBeanData.getMatingInformation().getMedical());
-                } else if (tab.getText().equals("商场购物")) {
-                    message.setText(projectDetailsBeanData.getMatingInformation().getShopping());
-                } else if (tab.getText().equals("生活娱乐")) {
-                    message.setText(projectDetailsBeanData.getMatingInformation().getEntertainment());
-                } else if (tab.getText().equals("著名景点")) {
-                    message.setText(projectDetailsBeanData.getMatingInformation().getFamousScene());
-                }
+//                title = tab.getText().toString();
+//                if (tab.getText().equals("交通出行")) {
+//                    selectLL = "0";
+//                    initTabSelectedMap("交通服务相关|公交站|地铁站|摆渡车站|机场出发/到达|飞机场|火车站|客运站");
+////                    message.setText(projectDetailsBeanData.getMatingInformation().getTraffic());
+//                } else if (tab.getText().equals("教育健康")) {
+//                    selectLL = "1";
+//                    initTabSelectedMap("学校|高等院校|中学|小学|幼儿园|成人教育|职业技术学校");
+////                    message.setText(projectDetailsBeanData.getMatingInformation().getEducation());
+//                } else if (tab.getText().equals("医疗健康")) {
+//                    selectLL = "2";
+//                    initTabSelectedMap("医院|专科医院|综合医院|诊所|急救中心");
+////                    message.setText(projectDetailsBeanData.getMatingInformation().getMedical());
+//                } else if (tab.getText().equals("商场购物")) {
+//                    selectLL = "3";
+//                    initTabSelectedMap("商场|超级市场|购物中心|普通商场|便利店|便民商店|综合市场|专卖店");
+////                    message.setText(projectDetailsBeanData.getMatingInformation().getShopping());
+//                } else if (tab.getText().equals("生活娱乐")) {
+//                    selectLL = "4";
+//                    initTabSelectedMap("生活娱乐|娱乐场所|KTV|迪厅|酒吧|电影院|休闲场所|音乐厅|剧场");
+////                    message.setText(projectDetailsBeanData.getMatingInformation().getEntertainment());
+//                } else if (tab.getText().equals("著名景点")) {
+//                    selectLL = "5";
+//                    initTabSelectedMap("著名景点|公园广场|风景名胜");
+////                    message.setText(projectDetailsBeanData.getMatingInformation().getFamousScene());
+//                }
             }
         });
 
         initDetails();//楼栋查看全部信息
+
+    }
+
+    //高德地图poi检索
+    private void initTabSelectedMap(String RetrieveName) {
+
+        query = new PoiSearch.Query(RetrieveName, "", "");
+        query.setPageSize(3);// 设置每页最多返回多少条poiitem
+        query.setPageNum(0);//设置查询页码
+        poiSearch = new PoiSearch(this, query);
+        poiSearch.setOnPoiSearchListener(this);
+        poiSearch.setBound(new PoiSearch.SearchBound(new LatLonPoint(FinalContents.getD(),
+                FinalContents.getO()), 5000));
+        poiSearch.searchPOIAsyn();
+
+    }
+
+    //高德地图
+    private void initMap() {
+
+        message = findViewById(R.id.project_details_message);
+        projectMapAdapter = new ProjectMapAdapter();
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        message.setLayoutManager(manager);
+
+        mUiSettings = aMap.getUiSettings();//实例化UiSettings类对象
+        mUiSettings.setZoomControlsEnabled(false);
+        mUiSettings.setZoomGesturesEnabled(false);
+        mUiSettings.setScrollGesturesEnabled(false);
+        mUiSettings.setRotateGesturesEnabled(false);
+        mUiSettings.setTiltGesturesEnabled(false);
+
+        aMap.setOnMapClickListener(new AMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                Intent mapintent = new Intent(ProjectDetails.this, MapActivity.class);
+                mapintent.putExtra("office", "1");
+                mapintent.putExtra("selectLL", selectLL);
+                startActivity(mapintent);
+            }
+        });
+
+        Log.i("小地图数据", "FinalContents.getO():" + FinalContents.getO());
+        Log.i("小地图数据", "FinalContents.getD():" + FinalContents.getD());
+        CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(FinalContents.getO(), FinalContents.getD()), 16, 0, 0));
+        aMap.moveCamera(mCameraUpdate);
+
+        markerOption = new MarkerOptions();
+        markerOption.position(new LatLng(FinalContents.getO(), FinalContents.getD()));
+
+        markerOption.draggable(true);//设置Marker可拖动
+
+        markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
+                .decodeResource(getResources(), R.mipmap.zhen1)));
+        // 将Marker设置为贴地显示，可以双指下拉地图查看效果
+        markerOption.setFlat(true);//设置marker平贴地图效果
+        aMap.addMarker(markerOption);
+
+        initTabSelectedMap("交通服务相关|公交站|地铁站|摆渡车站|机场出发/到达|飞机场|火车站|客运站");
 
     }
 
@@ -609,9 +774,12 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                 startActivity(photointent);
                 break;
             case R.id.project_details_more:
-                if (projectDetailsBeanData.getProjectListVo().getFfAttacheList().size() != 0) {
-                    FinalContents.setIPhone(projectDetailsBeanData.getProjectListVo().getFfAttacheList().get(0).getPhone());
-                }
+//                if (projectDetailsBeanData.getProjectListVo().getFfAttacheList().size() != 0) {
+//                    FinalContents.setIPhone(projectDetailsBeanData.getProjectListVo().getFfAttacheList().get(0).getPhone());
+//                }
+                List<ProjectDetailsBean.DataBean.ProjectListVoBean.FfAttacheListBean> ffAttacheList = projectDetailsBeanData.getProjectListVo().getFfAttacheList();
+                Log.i("项目专线", "ffAttacheList:" + ffAttacheList.size());
+                FinalContents.setFfAttacheList(ffAttacheList);
                 FinalContents.setProjectName(projectDetailsBeanData.getProjectListVo().getProjectName());
                 FinalContents.setProjectSearchID(projectDetailsBeanData.getProjectListVo().getProjectId());
                 FinalContents.setGuideRuleId(projectDetailsBeanData.getProjectListVo().getGuideRuleId());
@@ -626,6 +794,7 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
             case R.id.project_details_location:
                 Intent mapintent = new Intent(this, MapActivity.class);
                 mapintent.putExtra("office", "1");
+                mapintent.putExtra("selectLL", "0");
                 startActivity(mapintent);
                 break;
             case R.id.project_details_group_booking:
@@ -725,6 +894,8 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         final Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
+        Log.i("详情","initDetails-FinalContents.getUserID()：" + FinalContents.getUserID());
+        Log.i("详情","initDetails-FinalContents.getProjectID()：" + FinalContents.getProjectID());
         Observable<BuildingBean> buildingBean = fzbInterface.getBuildingBean(FinalContents.getUserID(), FinalContents.getProjectID());
         buildingBean.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -792,6 +963,9 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         final Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
+        Log.i("详情","initRemind-FinalContents.getProjectID()：" + FinalContents.getProjectID());
+        Log.i("详情","initRemind-FinalContents.getUserID()：" + FinalContents.getUserID());
+        Log.i("详情","initRemind-i：" + i);
         Observable<RemindBean> remindBean = fzbInterface.getRemindBean(FinalContents.getProjectID(), i + "", FinalContents.getUserID());
         remindBean.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -852,12 +1026,15 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
 
     @SuppressLint({"CheckResult", "WrongConstant"})
     private void init() {
+        Log.i("详情","进入init");
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(FinalContents.getBaseUrl());
         builder.addConverterFactory(GsonConverterFactory.create());
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
+        Log.i("详情","init-FinalContents.getUserID()：" + FinalContents.getUserID());
+        Log.i("详情","init-FinalContents.getProjectID()：" + FinalContents.getProjectID());
         Observable<ProjectDetailsBean> projectDetailsBean = fzbInterface.getProjectDetailsBean(FinalContents.getUserID(), FinalContents.getProjectID());
         projectDetailsBean.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -930,7 +1107,7 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
 //                        }
 //                        }
 
-                        message.setText(projectDetailsBeanData.getMatingInformation().getTraffic());
+//                        message.setText(projectDetailsBeanData.getMatingInformation().getTraffic());
 
                         report.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -1028,6 +1205,7 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                         }
                         FinalContents.setO(o);
                         FinalContents.setD(d);
+                        initMap();
                         Log.i("经纬度", "查看项目详情经纬度" + FinalContents.getO() + "---" + FinalContents.getD());
 
                         //导客规则
@@ -1300,8 +1478,15 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
                             }
                             project_details_layout2.setVisibility(View.GONE);
                             report_rv.setVisibility(View.GONE);
-                            project_details_qt.setVisibility(View.VISIBLE);
-                            project_details_all.setVisibility(View.GONE);
+                            if (FinalContents.getCityID().equals(FinalContents.getOldCityId())) {
+                                project_details_qt.setVisibility(View.VISIBLE);
+                                project_details_all.setVisibility(View.VISIBLE);
+                            } else {
+                                project_details_qt.setVisibility(View.GONE);
+                                project_details_all.setVisibility(View.GONE);
+                            }
+
+//                            project_details_all.setVisibility(View.GONE);
                         }
                     }
 
@@ -1689,12 +1874,12 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
             barDataSet.setValueTextColor(Color.parseColor("#666666")); //  设置线形图顶部文本颜色
             barDataSet.setDrawValues(true);
             barDataSet.setValueFormatter(new ValueFormatter() {
-    @Override
-    public String getFormattedValue(float value) {
-        int n = (int) value;
-        return n+"";
-    }
-});
+                @Override
+                public String getFormattedValue(float value) {
+                    int n = (int) value;
+                    return n + "";
+                }
+            });
             BarData barData = new BarData();
             barData.addDataSet(barDataSet);// 添加一组柱形图，如果有多组柱形图数据，则可以多次addDataSet来设置
             barData.setBarWidth(0.1f);
@@ -1781,5 +1966,33 @@ public class ProjectDetails extends AllActivity implements View.OnClickListener,
         super.onDestroy();
         Log.i("数据", "走一走:" + CityContents.getIsReport());
         CityContents.setIsReport("");
+    }
+
+    @Override
+    public void onPoiSearched(PoiResult poiResult, int i) {
+        for (int g = 0; g < poiResult.getPois().size(); ++g) {
+            Log.i("小地图poi", "数据：" + poiResult.getPois().get(g).getTitle());
+        }
+        pois = poiResult.getPois();
+        projectMapAdapter.setPois(pois);
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//            }
+//        });
+        message.setAdapter(projectMapAdapter);
+        projectMapAdapter.notifyDataSetChanged();
+        Log.i("小地图", "进入onPoiSearched7");
+//        for (int g = 0; g < poiResult.getPois().size(); ++g){
+//            Log.i("小地图","poiResult.getPois().get(g).getTitle()：" + poiResult.getPois().get(g).getTitle());
+//            Log.i("小地图","poiResult.getPois().get(g).getTitle()：" + poiResult.getPois().get(g).getLatLonPoint());
+//        }
+
+    }
+
+    @Override
+    public void onPoiItemSearched(PoiItem poiItem, int i) {
+
     }
 }

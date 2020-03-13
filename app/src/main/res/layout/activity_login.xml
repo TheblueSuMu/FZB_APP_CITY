@@ -1,40 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF"
     android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="43dp"
+        android:layout_marginRight="13dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="登录"
+            android:textColor="#ff334485"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="15dp"
+            android:background="#E5E5E5" />
+
+        <TextView
+            android:id="@+id/login_sign_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="注册"
+            android:textColor="#ff999999"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <!--    <TextView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="登录"-->
+    <!--        android:textColor="#ff334485"-->
+    <!--        android:textSize="16sp"-->
+    <!--        />-->
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/wll1"
-            android:layout_weight="7"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_weight="7"
             android:orientation="vertical">
 
             <RelativeLayout
-                android:layout_weight="5"
                 android:layout_width="match_parent"
-                android:layout_height="0dp">
+                android:layout_height="0dp"
+                android:layout_weight="5">
 
                 <ImageView
                     android:layout_width="154dp"
                     android:layout_height="50dp"
-                    android:layout_gravity="center_horizontal"
                     android:layout_centerInParent="true"
+                    android:layout_gravity="center_horizontal"
                     android:src="@mipmap/ic_login_logo" />
 
             </RelativeLayout>
 
             <LinearLayout
-                android:layout_weight="2.5"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_weight="2.5"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -58,11 +102,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="26dp"
                         android:layout_weight="1"
-                        android:imeOptions="actionNext"
-                        android:singleLine="true"
                         android:background="@null"
                         android:hint="请输入账号"
+                        android:imeOptions="actionNext"
                         android:paddingLeft="10dp"
+                        android:singleLine="true"
                         android:textSize="12sp" />
 
                     <FrameLayout
@@ -125,11 +169,11 @@
                         android:layout_marginLeft="26dp"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:imeOptions="actionDone"
-                        android:singleLine="true"
                         android:hint="请输入密码"
+                        android:imeOptions="actionDone"
                         android:inputType="textPassword"
                         android:paddingLeft="10dp"
+                        android:singleLine="true"
                         android:textSize="12sp" />
 
                     <FrameLayout
@@ -139,11 +183,11 @@
 
                         <CheckBox
                             android:id="@+id/login_select_password"
-                            android:button="@null"
-                            android:checked="false"
-                            android:background="@drawable/login_select"
                             android:layout_width="20dp"
-                            android:layout_height="15dp"/>
+                            android:layout_height="15dp"
+                            android:background="@drawable/login_select"
+                            android:button="@null"
+                            android:checked="false" />
 
                     </FrameLayout>
 
@@ -154,8 +198,8 @@
                     android:layout_height="1dp"
                     android:layout_marginLeft="29dp"
                     android:layout_marginTop="15dp"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginRight="29dp"
+                    android:layout_marginBottom="10dp"
                     android:background="#ffd2d2d2" />
 
                 <LinearLayout
@@ -166,10 +210,10 @@
                     android:orientation="horizontal">
 
                     <CheckBox
-                        android:layout_gravity="center_vertical"
                         android:id="@+id/cb_is_save_user"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:button="@null"
                         android:checked="true"
@@ -191,17 +235,16 @@
             </LinearLayout>
 
 
-
             <RelativeLayout
-                android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
 
                 <TextView
-                    android:layout_centerInParent="true"
                     android:id="@+id/tv_user_login"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
+                    android:layout_centerInParent="true"
                     android:layout_marginLeft="38dp"
                     android:layout_marginRight="38dp"
                     android:background="@drawable/ic_shape_login_bg"
@@ -216,18 +259,18 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_weight="3"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="18dp"
+            android:layout_weight="3"
             android:orientation="vertical">
 
             <RelativeLayout
-                android:layout_weight="1"
                 android:id="@+id/login_relative"
-                android:visibility="invisible"
                 android:layout_width="match_parent"
-                android:layout_height="0dp">
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:visibility="invisible">
 
                 <View
                     android:layout_width="80dp"
@@ -258,12 +301,12 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:layout_weight="2"
-                android:visibility="invisible"
                 android:id="@+id/login_select"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:orientation="horizontal">
+                android:layout_weight="2"
+                android:orientation="horizontal"
+                android:visibility="invisible">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -333,14 +376,14 @@
 
             <RelativeLayout
                 android:id="@+id/wsf1"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="0dp">
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
                 <RelativeLayout
-                    android:layout_centerHorizontal="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true">
 
                     <CheckBox
                         android:id="@+id/checkboxed"
@@ -356,12 +399,12 @@
 
                     <TextView
                         android:id="@+id/fuwu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/checkboxed"
                         android:text="《房坐标用户服务条款(包含隐私条款)》"
                         android:textColor="#334485"
-                        android:textSize="9sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:textSize="9sp" />
 
 
                 </RelativeLayout>
@@ -376,38 +419,38 @@
     <RelativeLayout
         android:id="@+id/avi_login_rl"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:background="@drawable/avi_background"
         android:padding="20dp"
-        android:visibility="gone"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true">
+        android:visibility="gone">
 
         <com.wang.avi.AVLoadingIndicatorView
             android:id="@+id/avi_login"
             style="@style/AVLoadingIndicatorView.Small"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:indicatorColor="#666666"
             android:layout_centerInParent="true"
+            app:indicatorColor="#666666"
             app:indicatorName="BallSpinFadeLoaderIndicator" />
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/login_upload_relative"
-        android:background="#90000000"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#90000000"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/login_upload_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginLeft="35dp"
-            android:layout_marginRight="35dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_marginRight="35dp" />
 
         <ImageView
             android:id="@+id/login_cancle_image"

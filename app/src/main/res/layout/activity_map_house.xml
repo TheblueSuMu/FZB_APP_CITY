@@ -1,66 +1,363 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.xcy.fzbcity.all.view.MapHouseActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@drawable/my_brokerage">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/map_house_return"
-            android:layout_width="50dp"
-            android:layout_height="80dp">
-
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="18dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="35dp"
-                android:src="@mipmap/return2" />
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/map_house_search_S"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginLeft="58dp"
-            android:layout_marginBottom="7dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="85dp"
-            android:background="@drawable/comment"
-            android:imeOptions="actionSearch"
-            android:singleLine="true"
-            android:inputType="text"
-            android:gravity="center"
-            android:hint="搜索"
-            android:textColor="#333333"
-            android:textSize="12sp" />
+            android:layout_height="64dp"
+            android:background="@drawable/my_brokerage">
+
+            <LinearLayout
+                android:id="@+id/map_house_return"
+                android:layout_width="50dp"
+                android:layout_height="80dp">
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="35dp"
+                    android:src="@mipmap/return2" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/map_house_search_S1"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="58dp"
+                android:layout_marginRight="85dp"
+                android:layout_marginBottom="7dp"
+                android:background="@drawable/comment"
+                android:gravity="center"
+                android:hint="搜索"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColor="#333333"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/map_house_check"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="7dp"
+                android:drawableRight="@mipmap/ic_stat_name"
+                android:gravity="center"
+                android:text="  "
+                android:textColor="#fff"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <com.amap.api.maps.MapView
+            android:id="@+id/map_s"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/map_house_ll1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:background="#00000000"/>
+
+    <LinearLayout
+        android:id="@+id/map_house_ll2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:paddingBottom="13dp">
 
         <TextView
-            android:id="@+id/map_house_check"
-            android:layout_marginRight="15dp"
+            android:id="@+id/pop_title1"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="15dp"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="7dp"
-            android:drawableRight="@mipmap/ic_stat_name"
-            android:gravity="center"
-            android:text="  "
-            android:textColor="#fff"
-            android:textSize="15sp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#ff111111"
+            android:textSize="16sp"
             />
-    </RelativeLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
 
-    <com.baidu.mapapi.map.MapView
-        android:id="@+id/map_house_mapView"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="地   址："
+                android:textColor="#ff111111"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/pop_address1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text=""
+                android:textColor="#ff111111"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/pop_ll_11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="负责人："
+                android:textColor="#ff111111"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/pop_name1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text=""
+                android:textColor="#ff111111"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/pop_btn1"
+            android:layout_width="83dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_gravity="right"
+            android:text="路线"
+            android:textSize="14sp"
+            android:textColor="#ffffffff"
+            android:background="@drawable/pop_five_bottom_layout"></Button>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/map_house_ll3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.baidu.mapapi.map.MapView>
+        android:layout_height="wrap_content"
+        android:layout_marginRight="1dp"
+        android:background="#fff"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true">
 
-</LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/ImageViewss1"
+                android:layout_width="130dp"
+                android:layout_height="100dp"
+                android:layout_margin="5dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/logo_square"
+                app:riv_corner_radius="5dp" />
+
+            <ImageView
+                android:id="@+id/item_OnlineStatess1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:src="@mipmap/onlinestate"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/group_booking_itemss1"
+                android:layout_width="130dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="85dp"
+                android:background="@drawable/pingtuan"
+                android:gravity="center"
+                android:lines="1"
+                android:singleLine="true"
+                android:text="可拼团"
+                android:textColor="#fff"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/TextViewNamess1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@id/ImageViewss1"
+                android:text=""
+                android:textColor="#ff111111"
+                android:textSize="15sp" />
+
+            <co.lujun.androidtagview.TagContainerLayout
+                android:id="@+id/tagViewss1"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:layout_below="@id/TextViewNamess1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/ImageViewss1"
+                android:text="标签"
+                android:textColor="#ff8296aa"
+                app:container_background_color="#fff"
+                app:container_border_color="#fff"
+                app:horizontal_interval="2dp"
+                app:tag_background_color="#ffeceff3"
+                app:tag_border_color="#fff"
+                app:tag_clickable="true"
+                app:tag_corner_radius="2dp"
+                app:tag_horizontal_padding="3dp"
+                app:tag_text_color="#ff8296aa"
+                app:tag_text_size="10sp"
+                app:tag_theme="pure_teal"
+                app:tag_vertical_padding="3dp" />
+
+            <LinearLayout
+                android:id="@+id/wwwss1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tagViewss1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/ImageViewss1">
+
+                <TextView
+                    android:id="@+id/chickss1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="#666666"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/attentionss1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text=""
+                    android:textColor="#666666"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/collectss1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text=""
+                    android:textColor="#666666"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/transmitss1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textColor="#666666"
+                    android:textSize="10sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/wwwss1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@id/ImageViewss1">
+
+                <TextView
+                    android:id="@+id/pricess1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:text=""
+                    android:textColor="#A52A2A"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/price_moneyss1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:text=""
+                    android:textColor="#A52A2A"
+                    android:textSize="9sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="15dp"
+                    android:layout_marginTop="3dp"
+                    android:background="#ffd2d2d2" />
+
+                <TextView
+                    android:id="@+id/squaress1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text=""
+                    android:textColor="#ff666666"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/item_pop_btn1"
+            android:layout_width="83dp"
+            android:layout_height="35dp"
+            android:layout_gravity="right"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:visibility="gone"
+            android:background="@drawable/pop_five_bottom_layout"
+            android:text="路线"
+            android:textColor="#ffffffff"
+            android:textSize="14sp"></Button>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:background="#ffeeeeee" />
+    </LinearLayout>
+
+</RelativeLayout>

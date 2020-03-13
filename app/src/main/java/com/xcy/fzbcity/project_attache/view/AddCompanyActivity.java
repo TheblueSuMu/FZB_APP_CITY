@@ -24,7 +24,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import com.lljjcoder.citypickerview.widget.CityPicker;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.database.AddCompanyBean;
@@ -447,47 +446,6 @@ public class AddCompanyActivity extends AppCompatActivity implements View.OnClic
         }
 
     }
-
-    private void getAddress() {
-
-        CityPicker cityPicker = new CityPicker.Builder(AddCompanyActivity.this)
-                .textSize(14)
-                .title("地址选择")
-                .titleBackgroundColor("#FFFFFF")
-                .confirTextColor("#696969")
-                .cancelTextColor("#696969")
-                .province("江苏省")
-                .city("常州市")
-                .district("天宁区")
-                .textColor(Color.parseColor("#000000"))
-                .provinceCyclic(true)
-                .cityCyclic(false)
-                .districtCyclic(false)
-                .visibleItemsCount(7)
-                .itemPadding(10)
-                .onlyShowProvinceAndCity(false)
-                .build();
-        cityPicker.show();
-
-        //监听事件，获取结果
-        cityPicker.setOnCityItemClickListener(new CityPicker.OnCityItemClickListener() {
-            @Override
-            public void onSelected(String... citySelected) {
-                //省份
-                String province = citySelected[0];
-                //城市
-                String city = citySelected[1];
-                //区县（如果设定了两级联动，那么该项返回空）
-                String district = citySelected[2];
-                //邮编
-                String code = citySelected[3];
-                //为展示区赋值
-                add_company_tv2.setText(province + "/" + city.trim() + "/" + district.trim());
-            }
-        });
-
-    }
-
 
 
     @Override

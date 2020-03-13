@@ -77,6 +77,8 @@ public class Broker_MainActivity extends AllActivity implements View.OnClickList
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
 
+        FinalContents.setSignInName("");
+
         transaction.add(R.id.main_framelayout,home_fragment);
         transaction.add(R.id.main_framelayout,message_fragment);
         transaction.add(R.id.main_framelayout,dFragment);
@@ -130,6 +132,21 @@ public class Broker_MainActivity extends AllActivity implements View.OnClickList
                 FragmentTransaction transaction = manager.beginTransaction();
 //                MessageFragment messageFragment = new MessageFragment();
                 message_fragment.setType("4");
+//                transaction.replace(R.id.main_framelayout,messageFragment);
+
+                transaction.hide(home_fragment);
+                transaction.hide(dFragment);
+                transaction.show(message_fragment);
+                transaction.hide(eFragment);
+
+                transaction.commit();
+                button_message.setChecked(true);
+            } else if (str.equals("10")) {
+                init_No_Network();
+                FragmentManager manager = getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+//                MessageFragment messageFragment = new MessageFragment();
+                message_fragment.setType("1");
 //                transaction.replace(R.id.main_framelayout,messageFragment);
 
                 transaction.hide(home_fragment);
@@ -199,8 +216,8 @@ public class Broker_MainActivity extends AllActivity implements View.OnClickList
                 transaction.hide(eFragment);
                 break;
             case R.id.button_backup:
-                if (FinalContents.getCityID().equals(FinalContents.getOldCityId())) {
-                    ToastUtil.showToast(this, "");
+                if (!FinalContents.getCityID().equals(FinalContents.getOldCityId())) {
+                    ToastUtil.showToast(this, "该城市不是您的主营城市，请切换到您的主营城市后再报备客户");
                 }else {
                     Intent intent = new Intent(Broker_MainActivity.this, ReportActivity.class);
                     startActivity(intent);

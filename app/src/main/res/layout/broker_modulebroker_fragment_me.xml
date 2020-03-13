@@ -120,83 +120,151 @@
                 <LinearLayout
                     android:id="@+id/my_ll_1"
                     android:layout_width="match_parent"
-                    android:layout_height="110dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="148dp"
                     android:layout_marginRight="15dp"
                     android:background="@drawable/my_e_fragment"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:id="@+id/me_Client"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1">
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/icon_shoppingbag"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableTop="@mipmap/icon_shoppingbag"
+                            android:drawablePadding="10dp"
+                            android:gravity="center_horizontal"
+                            android:text="预览网店"
+                            android:textColor="#333333"
+                            android:textSize="12sp" />
 
-                            <TextView
-                                android:id="@+id/e_client_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text=""
-                                android:textColor="#334485"
-                                android:textSize="18sp" />
+                        <TextView
+                            android:id="@+id/icon_home"
+                            android:layout_weight="1"
+                            android:text="房源超市"
+                            android:drawablePadding="10dp"
+                            android:textColor="#333333"
+                            android:gravity="center_horizontal"
+                            android:textSize="12sp"
+                            android:drawableTop="@mipmap/icon_home"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"/>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="10dp"
-                                android:text="我的客户"
-                                android:textColor="#111111"
-                                android:textSize="12sp" />
-                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/icon_mine"
+                            android:layout_weight="1"
+                            android:text="我的客户"
+                            android:drawablePadding="10dp"
+                            android:textColor="#333333"
+                            android:gravity="center_horizontal"
+                            android:textSize="12sp"
+                            android:drawableTop="@mipmap/icon_mine"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/icon_money"
+                            android:layout_weight="1"
+                            android:text="我的佣金"
+                            android:drawablePadding="10dp"
+                            android:textColor="#333333"
+                            android:gravity="center_horizontal"
+                            android:textSize="12sp"
+                            android:drawableTop="@mipmap/icon_money"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/icon_redpacket"
+                            android:layout_weight="1"
+                            android:text="红包拓客"
+                            android:drawablePadding="10dp"
+                            android:textColor="#333333"
+                            android:gravity="center_horizontal"
+                            android:textSize="12sp"
+                            android:drawableTop="@mipmap/icon_redpacket"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"/>
+
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="1dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
-                        android:background="#A0A0A0"></LinearLayout>
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                    <LinearLayout
-                        android:id="@+id/me_Brokerage"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/icon_emoticon"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableTop="@mipmap/icon_emoticon"
+                            android:drawablePadding="10dp"
+                            android:gravity="center_horizontal"
+                            android:text="朋友圈助手"
+                            android:textColor="#333333"
+                            android:textSize="12sp" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/icon_time"
+                            android:layout_weight="1"
+                            android:text="访客记录"
+                            android:drawablePadding="10dp"
+                            android:textColor="#333333"
+                            android:gravity="center_horizontal"
+                            android:textSize="12sp"
+                            android:drawableTop="@mipmap/icon_time"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"/>
 
-                            <TextView
-                                android:id="@+id/e_commissions_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:lines="1"
-                                android:text=""
-                                android:textColor="#334485"
-                                android:textSize="18sp" />
+                        <TextView
+                            android:id="@+id/icon_file"
+                            android:layout_weight="1"
+                            android:text="常用语"
+                            android:drawablePadding="10dp"
+                            android:textColor="#333333"
+                            android:gravity="center_horizontal"
+                            android:textSize="12sp"
+                            android:drawableTop="@mipmap/icon_file"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"/>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="10dp"
-                                android:text="我的佣金(万元)"
-                                android:textColor="#111111"
-                                android:textSize="12sp" />
-                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/icon_list"
+                            android:layout_weight="1"
+                            android:text="领取记录"
+                            android:drawablePadding="10dp"
+                            android:textColor="#333333"
+                            android:gravity="center_horizontal"
+                            android:textSize="12sp"
+                            android:drawableTop="@mipmap/icon_list"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/icon_label"
+                            android:layout_weight="1"
+                            android:text="优惠活动"
+                            android:drawablePadding="10dp"
+                            android:textColor="#333333"
+                            android:gravity="center_horizontal"
+                            android:textSize="12sp"
+                            android:drawableTop="@mipmap/icon_label"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"/>
+
 
                     </LinearLayout>
 
@@ -205,8 +273,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_alignTop="@id/my_ll_1"
-                    android:layout_marginTop="125dp"
+                    android:layout_below="@id/my_ll_1"
+                    android:layout_marginTop="15dp"
                     android:orientation="vertical">
 
 
@@ -223,7 +291,7 @@
                             android:layout_height="15dp"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="16dp"
-                            android:src="@mipmap/me" />
+                            android:src="@mipmap/icon_mine_phone" />
 
                         <TextView
                             android:id="@+id/my_tv_1"
@@ -264,12 +332,20 @@
                                 android:textSize="13sp" />
 
                             <ImageView
-                                android:id="@+id/me_img_phone"
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
+                                android:id="@+id/me_img_chat"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="12dp"
-                                android:src="@mipmap/icon_mine_call" />
+                                android:src="@mipmap/icon_chat"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"/>
+
+                            <ImageView
+                                android:id="@+id/me_img_phone"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="12dp"
+                                android:src="@mipmap/icon_mine_number" />
                         </LinearLayout>
                     </RelativeLayout>
 
@@ -310,7 +386,7 @@
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
                                     android:layout_toRightOf="@id/my_img_2"
-                                    android:text="我的收藏"
+                                    android:text="我的动态"
                                     android:textColor="#111111"
                                     android:textSize="15sp" />
 
@@ -327,7 +403,7 @@
                                 android:layout_height="1dp"
                                 android:layout_marginLeft="16dp"
                                 android:layout_marginRight="12dp"
-                                android:background="#EEEEEE"></LinearLayout>
+                                android:background="#EEEEEE"/>
 
                             <RelativeLayout
                                 android:id="@+id/my_comment"
@@ -368,7 +444,7 @@
                                 android:layout_height="1dp"
                                 android:layout_marginLeft="16dp"
                                 android:layout_marginRight="12dp"
-                                android:background="#EEEEEE"></LinearLayout>
+                                android:background="#EEEEEE"/>
 
                             <RelativeLayout
                                 android:id="@+id/my_about"

@@ -13,6 +13,9 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.google.android.material.tabs.TabLayout;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
@@ -21,6 +24,7 @@ import com.xcy.fzbcity.all.fragment.MoreInformationFragment;
 import com.xcy.fzbcity.all.fragment.MoreProjectFragment;
 import com.xcy.fzbcity.all.fragment.MoreTypeFragment;
 import com.xcy.fzbcity.all.modle.MoreBean;
+import com.xcy.fzbcity.all.modle.ProjectDetailsBean;
 import com.xcy.fzbcity.all.persente.SingleClick;
 import com.xcy.fzbcity.all.persente.StatusBar;
 import com.xcy.fzbcity.all.service.MyService;
@@ -54,6 +58,7 @@ public class MoreInformationActivity extends AllActivity implements View.OnClick
     private RelativeLayout information_relative1;
     private RelativeLayout information_relative2;
     private TextView more_qt_call;
+    private List<ProjectDetailsBean.DataBean.ProjectListVoBean.FfAttacheListBean> ffAttacheList;
 
 
     @Override
@@ -93,11 +98,11 @@ public class MoreInformationActivity extends AllActivity implements View.OnClick
         information_relative2 = findViewById(R.id.information_relative2);
         more_qt_call = findViewById(R.id.more_qt_call);
 
-
+        ffAttacheList = FinalContents.getFfAttacheList();
 
         if (!FinalContents.getCityID().equals(FinalContents.getOldCityId())) {
             information_relative1.setVisibility(View.GONE);
-            information_relative2.setVisibility(View.VISIBLE);
+            information_relative2.setVisibility(View.GONE);
         }else {
             information_relative1.setVisibility(View.VISIBLE);
             information_relative2.setVisibility(View.GONE);
@@ -117,13 +122,42 @@ public class MoreInformationActivity extends AllActivity implements View.OnClick
         more_qt_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (FinalContents.getIPhone().equals("")) {
-                    ToastUtil.showLongToast(MoreInformationActivity.this,"暂无专案");
-                }else {
-                    Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + FinalContents.getIPhone()));//跳转到拨号界面，同时传递电话号码
-                    startActivity(dialIntent);
+//                if (FinalContents.getIPhone().equals("")) {
+//                    ToastUtil.showLongToast(MoreInformationActivity.this,"暂无专案");
+//                }else {
+//                    Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + FinalContents.getIPhone()));//跳转到拨号界面，同时传递电话号码
+//                    startActivity(dialIntent);
+//                }
+//                FinalContents.setIPhone("");
+                try {
+                    if (ffAttacheList.size() != 0) {
+                        List<String> arrayList = new ArrayList<>();
+                        for (int i = 0; i < ffAttacheList.size(); i++) {
+                            arrayList.add(ffAttacheList.get(i).getName());
+                        }
+                        //      监听选中
+                        OptionsPickerView pvOptions = new OptionsPickerBuilder(MoreInformationActivity.this, new OnOptionsSelectListener() {
+                            @Override
+                            public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                                //               返回的分别是三个级别的选中位置
+                                //              展示选中数据
+                                Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + ffAttacheList.get(options1).getPhone()));//跳转到拨号界面，同时传递电话号码
+                                startActivity(dialIntent);
+                            }
+                        })
+                                .setSelectOptions(0)//设置选择第一个
+                                .setOutSideCancelable(false)//点击背的地方不消失
+                                .build();//创建
+                        //      把数据绑定到控件上面
+                        pvOptions.setPicker(arrayList);
+                        //      展示
+                        pvOptions.show();
+                    } else {
+                        ToastUtil.showLongToast(MoreInformationActivity.this, "暂无专案");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                FinalContents.setIPhone("");
             }
         });
 
@@ -132,13 +166,44 @@ public class MoreInformationActivity extends AllActivity implements View.OnClick
         more_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (FinalContents.getIPhone().equals("")) {
-                    ToastUtil.showLongToast(MoreInformationActivity.this,"暂无专案");
-                }else {
-                    Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + FinalContents.getIPhone()));//跳转到拨号界面，同时传递电话号码
-                    startActivity(dialIntent);
+
+
+//                if (FinalContents.getIPhone().equals("")) {
+//                    ToastUtil.showLongToast(MoreInformationActivity.this,"暂无专案");
+//                }else {
+//                    Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + FinalContents.getIPhone()));//跳转到拨号界面，同时传递电话号码
+//                    startActivity(dialIntent);
+//                }
+//                FinalContents.setIPhone("");
+                try {
+                    if (ffAttacheList.size() != 0) {
+                        List<String> arrayList = new ArrayList<>();
+                        for (int i = 0; i < ffAttacheList.size(); i++) {
+                            arrayList.add(ffAttacheList.get(i).getName());
+                        }
+                        //      监听选中
+                        OptionsPickerView pvOptions = new OptionsPickerBuilder(MoreInformationActivity.this, new OnOptionsSelectListener() {
+                            @Override
+                            public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                                //               返回的分别是三个级别的选中位置
+                                //              展示选中数据
+                                Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + ffAttacheList.get(options1).getPhone()));//跳转到拨号界面，同时传递电话号码
+                                startActivity(dialIntent);
+                            }
+                        })
+                                .setSelectOptions(0)//设置选择第一个
+                                .setOutSideCancelable(false)//点击背的地方不消失
+                                .build();//创建
+                        //      把数据绑定到控件上面
+                        pvOptions.setPicker(arrayList);
+                        //      展示
+                        pvOptions.show();
+                    } else {
+                        ToastUtil.showLongToast(MoreInformationActivity.this, "暂无专案");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                FinalContents.setIPhone("");
             }
         });
 

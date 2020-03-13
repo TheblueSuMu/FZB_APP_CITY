@@ -8,9 +8,9 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -51,6 +51,26 @@
                 android:orientation="vertical">
 
                 <EditText
+                    android:id="@+id/message_issue_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="15dp"
+                    android:background="#FFFFFF"
+                    android:hint="请填写标题"
+                    android:textColor="#111"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="15dp"
+                    android:background="#EEEEEE"
+                    android:layout_marginTop="15dp"></LinearLayout>
+
+                <EditText
                     android:id="@+id/message_issue_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -65,7 +85,7 @@
                 <GridView
                     android:id="@+id/message_issue_gv"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="280dp"
                     android:layout_marginLeft="26dp"
                     android:layout_marginTop="49dp"
                     android:layout_marginRight="15dp"
@@ -155,35 +175,36 @@
                 </RelativeLayout>
 
             </LinearLayout>
+
         </ScrollView>
 
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/all_no_network"
-        android:background="#fff"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/imageimage"
-            android:layout_centerInParent="true"
-            android:src="@mipmap/no_network"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/no_network" />
 
         <Button
-            android:layout_below="@id/imageimage"
             android:id="@+id/all_no_reload"
-            android:layout_marginTop="-40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageimage"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="-40dp"
             android:background="@drawable/button_back"
             android:text="重新加载"
-            android:textSize="12sp"
             android:textColor="#334485"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:textSize="12sp" />
 
     </RelativeLayout>
 

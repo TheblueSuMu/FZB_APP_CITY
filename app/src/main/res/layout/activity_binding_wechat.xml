@@ -51,8 +51,9 @@
             android:layout_marginLeft="14dp"
             android:layout_marginTop="6dp">
 
-            <EditText
+            <TextView
                 android:id="@+id/change_wechat_et"
+                android:paddingTop="10dp"
                 android:imeOptions="actionNext"
                 android:singleLine="true"
                 android:digits="0123456789"

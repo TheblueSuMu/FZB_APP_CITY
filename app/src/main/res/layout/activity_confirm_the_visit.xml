@@ -153,6 +153,8 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
                                 android:text=""
+                                android:gravity="right"
+                                android:layout_marginLeft="50dp"
                                 android:textColor="#ff111111"
                                 android:textSize="15sp" />
 
@@ -227,5 +229,12 @@
             android:layout_height="wrap_content"/>
 
     </RelativeLayout>
+
+
+    <com.amap.api.maps.MapView
+        android:id="@+id/map_s_d"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
 </RelativeLayout>
