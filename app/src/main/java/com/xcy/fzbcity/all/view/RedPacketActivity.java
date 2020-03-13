@@ -1,5 +1,6 @@
 package com.xcy.fzbcity.all.view;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -12,12 +13,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.tencent.mm.opensdk.constants.ConstantsAPI;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.api.RedEnvelopesAllTalk;
+import com.xcy.fzbcity.all.modle.CheckRedbagPayBean;
 import com.xcy.fzbcity.all.modle.CheckRedbagPayProjectBean;
 import com.xcy.fzbcity.all.modle.CodeBean;
 import com.xcy.fzbcity.all.modle.RechargeRedbagBean;
@@ -233,5 +237,55 @@ public class RedPacketActivity extends AllActivity implements View.OnClickListen
                     }
                 });
 
+    }
+
+
+    public void onResp(BaseResp resp){
+        if(resp.getType()== ConstantsAPI.COMMAND_PAY_BY_WX){
+            Log.d("支付","onPayFinish,errCode="+resp.errCode);
+            if (resp.errCode == 0) {
+                initCheckRedbagPay();
+            } else{
+                ToastUtil.showLongToast(RedPacketActivity.this,"支付失败或取消");
+            }
+        }
+    }
+
+    //      TODO    红包查单接口
+    private void initCheckRedbagPay(){
+        Retrofit.Builder builder = new Retrofit.Builder();
+        builder.baseUrl(FinalContents.getBaseUrl());
+        builder.addConverterFactory(GsonConverterFactory.create());
+        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+        Retrofit build = builder.build();
+        MyService fzbInterface = build.create(MyService.class);
+        final Observable<CheckRedbagPayBean> code = fzbInterface.getCheckRedbagPay(FinalContents.getUserID(),"");
+        code.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<CheckRedbagPayBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(CheckRedbagPayBean checkRedbagPayBean) {
+                        if (checkRedbagPayBean.getData().getMessageCode().equals("1")) {
+                            ToastUtil.showLongToast(RedPacketActivity.this,"支付成功");
+                        } else {
+                            ToastUtil.showLongToast(RedPacketActivity.this,"支付失败");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("红包查单接口", "红包查单接口错误信息:" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }

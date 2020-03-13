@@ -899,6 +899,10 @@ public interface MyService {
     @POST("ordinarySelect/redbagStatistics")
     Observable<RedbagStatisticsBean> getRedbagStatistics(@Query("userId") String userId,@Query("pageSize") String pageSize,@Query("pageNo") String pageNo);
 
+    //红包查单接口
+    @POST("ordinarySelect/checkRedbagPay")
+    Observable<CheckRedbagPayBean> getCheckRedbagPay(@Query("userId") String userId,@Query("redbagOrder") String redbagOrder);
+
     //房源超市接口
     @POST("ordinarySelect/supermarket")
     Observable<SupermarketBean> getSupermarket(@Query("userId") String userId,@Query("webshopId") String webshopId,@Query("hotPush") String hotPush);
@@ -922,4 +926,12 @@ public interface MyService {
     //优惠活动列表
     @POST("ordinarySelect/preferentialActList")
     Observable<PreferentialActListBean> getPreferentialActList(@Query("userId") String userId,@Query("type") String type);
+
+    //访客记录--客户足迹列表
+    @POST("commonSelect/customerVisitorStatistics")
+    Observable<CustomerVisitorStatisticsBean> getCustomerVisitorStatistics(@Query("userId") String userId,@Query("webshopId") String webshopId,@Query("searchName") String searchName,@Query("pageSize") String pageSize,@Query("pageNo") String pageNo);
+
+    //访客记录--网店访客量
+    @POST("commonSelect/customerVisitorSumStatistics")
+    Observable<CustomerVisitorSumStatisticsBean> getCustomerVisitorSumStatistics(@Query("userId") String userId,@Query("webshopId") String webshopId);
 }

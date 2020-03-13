@@ -41,7 +41,7 @@ public class SpecialOfferHistoryActivity extends AllActivity implements View.OnC
         special_offer_history_recyclerview = findViewById(R.id.special_offer_history_recyclerview);
 
         special_offer_history_return.setOnClickListener(this);
-
+        initData();
     }
 
     @Override
@@ -54,7 +54,7 @@ public class SpecialOfferHistoryActivity extends AllActivity implements View.OnC
         }
     }
 
-
+    //  TODO    优惠活动历史记录列表
     private void initData(){
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(FinalContents.getBaseUrl());
@@ -84,7 +84,7 @@ public class SpecialOfferHistoryActivity extends AllActivity implements View.OnC
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i("优惠活动列表", "优惠活动列表错误信息:" + e.getMessage());
+                        Log.i("优惠活动历史记录列表", "优惠活动历史记录列表错误信息:" + e.getMessage());
                     }
 
                     @Override
