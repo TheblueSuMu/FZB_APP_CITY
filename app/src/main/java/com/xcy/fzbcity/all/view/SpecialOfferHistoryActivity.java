@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.adapter.SpecialOfferAdapter;
+import com.xcy.fzbcity.all.adapter.SpecialOfferHistoryAdapter;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.modle.PreferentialActListBean;
 import com.xcy.fzbcity.all.service.MyService;
@@ -75,9 +76,9 @@ public class SpecialOfferHistoryActivity extends AllActivity implements View.OnC
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(SpecialOfferHistoryActivity.this);
                         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                         special_offer_history_recyclerview.setLayoutManager(linearLayoutManager);
-                        SpecialOfferAdapter specialOfferAdapter = new SpecialOfferAdapter(preferentialActListBean.getData().getRows());
-                        special_offer_history_recyclerview.setAdapter(specialOfferAdapter);
-                        specialOfferAdapter.notifyDataSetChanged();
+                        SpecialOfferHistoryAdapter specialOfferHistoryAdapter = new SpecialOfferHistoryAdapter(preferentialActListBean.getData().getRows());
+                        special_offer_history_recyclerview.setAdapter(specialOfferHistoryAdapter);
+                        specialOfferHistoryAdapter.notifyDataSetChanged();
 
                     }
 
