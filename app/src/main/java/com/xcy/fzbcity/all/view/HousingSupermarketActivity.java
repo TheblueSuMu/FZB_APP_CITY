@@ -20,9 +20,12 @@ import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.adapter.HousingSupermarketAdapter;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.api.RedEnvelopesAllTalk;
+import com.xcy.fzbcity.all.modle.CustomerVisitorSumStatisticsBean;
+import com.xcy.fzbcity.all.modle.ProjectSortBean;
 import com.xcy.fzbcity.all.modle.RedBagSumStatisticsBean;
 import com.xcy.fzbcity.all.modle.SupermarketBean;
 import com.xcy.fzbcity.all.service.MyService;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -194,6 +197,7 @@ public class HousingSupermarketActivity extends AllActivity implements View.OnCl
                             public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
                                 // 操作完毕后恢复颜色
                                 viewHolder.itemView.setBackgroundResource(R.color.color);
+                                initProjectSort();
                                 super.clearView(recyclerView, viewHolder);
                             }
                         };
@@ -205,6 +209,39 @@ public class HousingSupermarketActivity extends AllActivity implements View.OnCl
                     @Override
                     public void onError(Throwable e) {
                         Log.i("房源超市列表", "房源超市列表错误信息:" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    private void initProjectSort(){
+        Retrofit.Builder builder = new Retrofit.Builder();
+        builder.baseUrl(FinalContents.getBaseUrl());
+        builder.addConverterFactory(GsonConverterFactory.create());
+        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+        Retrofit build = builder.build();
+        MyService fzbInterface = build.create(MyService.class);
+        final Observable<ProjectSortBean> code = fzbInterface.getProjectSort(FinalContents.getUserID(), RedEnvelopesAllTalk.getWebshopId(),"","");
+        code.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ProjectSortBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(ProjectSortBean projectSortBean) {
+                        ToastUtil.showLongToast(HousingSupermarketActivity.this,projectSortBean.getData().getMessage());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("访客记录列表", "访客记录列表错误信息:" + e.getMessage());
                     }
 
                     @Override

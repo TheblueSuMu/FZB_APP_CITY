@@ -255,4 +255,55 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/red_packet_pay_relative"
+        android:background="@mipmap/red_packet_pay_succeed"
+        android:layout_centerInParent="true"
+        android:layout_width="274dp"
+        android:layout_height="372.5dp">
+
+        <TextView
+            android:id="@+id/red_packet_pay_relative_tv1"
+            android:layout_marginTop="222dp"
+            android:layout_marginLeft="107dp"
+            android:text="¥"
+            android:textSize="15sp"
+            android:textColor="#E8CD98"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/red_packet_pay_relative_price"
+            android:layout_toRightOf="@id/red_packet_pay_relative_tv1"
+            android:layout_marginTop="213dp"
+            android:text="1.23"
+            android:textSize="24sp"
+            android:textColor="#E8CD98"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/red_packet_pay_relative_button"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="48dp"
+            android:background="@drawable/red_packet_pay_relative_button_background"
+            android:text="推广"
+            android:textSize="18sp"
+            android:textColor="#111111"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"/>
+
+        <ImageView
+            android:id="@+id/red_packet_pay_relative_cancle"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="21dp"
+            android:layout_marginRight="24.5dp"
+            android:src="@mipmap/red_packet_pay_relative_cancle_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
 </RelativeLayout>

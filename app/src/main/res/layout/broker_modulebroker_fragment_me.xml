@@ -220,7 +220,7 @@
                         <TextView
                             android:id="@+id/icon_time"
                             android:layout_weight="1"
-                            android:text="访客记录"
+                            android:text="我的访客"
                             android:drawablePadding="10dp"
                             android:textColor="#333333"
                             android:gravity="center_horizontal"

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -52,6 +53,11 @@ public class RedPacketActivity extends AllActivity implements View.OnClickListen
     private Button red_packet_pay;
     private boolean switchover = true;
     private RelativeLayout red_packet_list_relative0;
+    private RelativeLayout red_packet_pay_relative;
+    private TextView red_packet_pay_relative_price;
+    private Button red_packet_pay_relative_button;
+    private ImageView red_packet_pay_relative_cancle;
+    private RechargeRedbagBean rechargeRedbag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +76,10 @@ public class RedPacketActivity extends AllActivity implements View.OnClickListen
         red_packet_check_text = findViewById(R.id.red_packet_check_text);
         red_packet_pay = findViewById(R.id.red_packet_pay);
         red_packet_list_relative0 = findViewById(R.id.red_packet_list_relative0);
+        red_packet_pay_relative = findViewById(R.id.red_packet_pay_relative);
+        red_packet_pay_relative_price = findViewById(R.id.red_packet_pay_relative_price);
+        red_packet_pay_relative_button = findViewById(R.id.red_packet_pay_relative_button);
+        red_packet_pay_relative_cancle = findViewById(R.id.red_packet_pay_relative_cancle);
 
         //可以合并一起写为：
         red_packet_check_text.getPaint().setFlags(Paint. UNDERLINE_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
@@ -125,6 +135,28 @@ public class RedPacketActivity extends AllActivity implements View.OnClickListen
                 break;
             case R.id.red_packet_list_relative0:
                 //  TODO    推广项目按钮
+                break;
+            case R.id.red_packet_pay_relative_cancle:
+                //  TODO    支付界面取消按钮
+                red_packet_pay_relative.setVisibility(View.GONE);
+                break;
+            case R.id.red_packet_pay_relative_button:
+                //  TODO    支付界面推广或重新支付按钮
+                if (red_packet_pay_relative_button.getText().toString().equals("推广")) {
+
+                } else if (red_packet_pay_relative_button.getText().toString().equals("重新支付")) {
+                    final IWXAPI msgApi = WXAPIFactory.createWXAPI(RedPacketActivity.this, null);// 将该app注册到微信
+                    msgApi.registerApp("wxf9a42b48a61cfd62");
+                    PayReq req = new PayReq();
+                    req.appId = rechargeRedbag.getData().getAppid();//你的微信appid
+                    req.partnerId = rechargeRedbag.getData().getMch_id();//商户号
+                    req.prepayId = rechargeRedbag.getData().getPrepay_id();//预支付交易会话ID
+                    req.nonceStr = rechargeRedbag.getData().getNonce_str();//随机字符串
+                    req.timeStamp = rechargeRedbag.getData().getTimestamp();//时间戳
+                    req.packageValue = "Sign=WXPay";//扩展字段,这里固定填写Sign=WXPay
+                    req.sign = rechargeRedbag.getData().getSign();//签名
+                    msgApi.sendReq(req);
+                }
                 break;
         }
     }
@@ -205,6 +237,8 @@ public class RedPacketActivity extends AllActivity implements View.OnClickListen
                         rechargeRedbagBean.getData().getTrade_type();
                         rechargeRedbagBean.getData().getTimestamp();
 
+                        rechargeRedbag = rechargeRedbagBean;
+
                         final IWXAPI msgApi = WXAPIFactory.createWXAPI(RedPacketActivity.this, null);// 将该app注册到微信
                         msgApi.registerApp("wxf9a42b48a61cfd62");
                         PayReq req = new PayReq();
@@ -246,7 +280,9 @@ public class RedPacketActivity extends AllActivity implements View.OnClickListen
             if (resp.errCode == 0) {
                 initCheckRedbagPay();
             } else{
-                ToastUtil.showLongToast(RedPacketActivity.this,"支付失败或取消");
+                red_packet_pay_relative.setVisibility(View.VISIBLE);
+                red_packet_pay_relative.setBackgroundResource(R.mipmap.red_packet_pay_nothing);
+                red_packet_pay_relative_button.setText("重新支付");
             }
         }
     }
@@ -271,9 +307,13 @@ public class RedPacketActivity extends AllActivity implements View.OnClickListen
                     @Override
                     public void onNext(CheckRedbagPayBean checkRedbagPayBean) {
                         if (checkRedbagPayBean.getData().getMessageCode().equals("1")) {
-                            ToastUtil.showLongToast(RedPacketActivity.this,"支付成功");
+                            red_packet_pay_relative.setVisibility(View.VISIBLE);
+                            red_packet_pay_relative.setBackgroundResource(R.mipmap.red_packet_pay_succeed);
+                            red_packet_pay_relative_button.setText("推广");
                         } else {
-                            ToastUtil.showLongToast(RedPacketActivity.this,"支付失败");
+                            red_packet_pay_relative.setVisibility(View.VISIBLE);
+                            red_packet_pay_relative.setBackgroundResource(R.mipmap.red_packet_pay_nothing);
+                            red_packet_pay_relative_button.setText("重新支付");
                         }
                     }
 

@@ -907,6 +907,10 @@ public interface MyService {
     @POST("ordinarySelect/supermarket")
     Observable<SupermarketBean> getSupermarket(@Query("userId") String userId,@Query("webshopId") String webshopId,@Query("hotPush") String hotPush);
 
+    //房源超市--项目拖动排序
+    @POST("ordinaryUpdate/projectSort")
+    Observable<ProjectSortBean> getProjectSort(@Query("userId") String userId,@Query("webshopId") String webshopId,@Query("projects") String projects,@Query("type") String type);
+
     //网店添加项目
     @POST("ordinaryUpdate/projectAdd")
     Observable<ProjectAddBean> getProjectAdd(@Query("userId") String userId,@Query("projectId") String projectId,@Query("webshopId") String webshopId);
