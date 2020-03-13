@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/circle_of_friends_assistant_applet_Relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/my_brokerage">
+
+        <RelativeLayout
+            android:id="@+id/circle_of_friends_assistant_applet_return"
+            android:layout_width="50dp"
+            android:layout_height="70dp">
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/return2"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="34dp"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="朋友圈助手"
+            android:textColor="#ffffffff"
+            android:textSize="18sp"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_below="@id/circle_of_friends_assistant_applet_Relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/circle_of_friends_assistant_applet_scrollview"
+            android:layout_above="@id/circle_of_friends_assistant_applet_generalize"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/circle_of_friends_assistant_applet_background"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="16.5dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <RelativeLayout
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="11.5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="87dp">
+
+                    <TextView
+                        android:id="@+id/circle_of_friends_assistant_applet_name"
+                        android:layout_marginTop="22dp"
+                        android:layout_marginLeft="19dp"
+                        android:text="刘喆 12345678900"
+                        android:textSize="16sp"
+                        android:textColor="#111111"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/circle_of_friends_assistant_applet_tv1"
+                        android:layout_below="@id/circle_of_friends_assistant_applet_name"
+                        android:layout_marginLeft="19dp"
+                        android:layout_marginTop="18dp"
+                        android:text="长按识别小程序码"
+                        android:textSize="15sp"
+                        android:textColor="#111111"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/circle_of_friends_assistant_applet_tv2"
+                        android:layout_below="@id/circle_of_friends_assistant_applet_name"
+                        android:layout_toRightOf="@id/circle_of_friends_assistant_applet_tv1"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginLeft="8dp"
+                        android:text="快速联系我"
+                        android:textSize="14sp"
+                        android:textColor="#111111"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <ImageView
+                        android:id="@+id/circle_of_friends_assistant_applet_image"
+                        android:layout_marginRight="9dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="104dp"
+                        android:layout_height="87dp"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <Button
+            android:id="@+id/circle_of_friends_assistant_applet_generalize"
+            android:layout_marginTop="30dp"
+            android:text="推广获客"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="38.5dp"
+            android:layout_marginLeft="37.5dp"
+            android:layout_marginRight="37.5dp"
+            android:background="@drawable/points_dialog_but"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

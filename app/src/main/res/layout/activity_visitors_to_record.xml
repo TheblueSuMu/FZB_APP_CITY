@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/visitors_to_record_Relative_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/my_brokerage">
+
+        <RelativeLayout
+            android:id="@+id/visitors_to_record_return"
+            android:layout_width="50dp"
+            android:layout_height="70dp">
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/return2"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="34dp"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/visitors_to_record_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="访客记录"
+            android:textColor="#ffffffff"
+            android:textSize="18sp"
+            />
+
+        <RelativeLayout
+            android:id="@+id/visitors_to_record_search_Relative"
+            android:layout_below="@id/visitors_to_record_title"
+            android:layout_marginTop="37dp"
+            android:layout_marginLeft="57.5dp"
+            android:layout_marginRight="57.5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/visitors_to_record_search"
+                android:background="@drawable/comment"
+                android:hint="搜索"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"/>
+
+            <ImageView
+                android:id="@+id/visitors_to_record_search_img"
+                android:layout_marginTop="7.5dp"
+                android:layout_marginLeft="19dp"
+                android:src="@mipmap/search"
+                android:layout_width="15dp"
+                android:layout_height="15dp"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_below="@id/visitors_to_record_search_Relative"
+            android:layout_marginTop="22.5dp"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="31.5dp"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="今日访客量"
+                    android:textSize="11sp"
+                    android:textColor="#FFFFFF"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/visitors_to_record_all_money_get"
+                    android:layout_marginTop="10dp"
+                    android:text="1,666.00"
+                    android:textSize="18sp"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="6dp"
+                android:background="#EEEEEE"
+                android:layout_width="1dp"
+                android:layout_height="25dp"/>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="七日访客量"
+                    android:textSize="11sp"
+                    android:textColor="#FFFFFF"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/visitors_to_record_all_people"
+                    android:layout_marginTop="10dp"
+                    android:text="1,666.00"
+                    android:textSize="18sp"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="6dp"
+                android:background="#EEEEEE"
+                android:layout_width="1dp"
+                android:layout_height="25dp"/>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="总访客量"
+                    android:textSize="11sp"
+                    android:textColor="#FFFFFF"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/visitors_to_record_all_money_send"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="334.00"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/visitors_to_record_recycler"
+        android:layout_below="@id/visitors_to_record_Relative_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+
+</RelativeLayout>

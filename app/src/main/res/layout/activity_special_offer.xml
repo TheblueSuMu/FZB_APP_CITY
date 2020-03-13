@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/special_offer_Relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/my_brokerage">
+
+        <RelativeLayout
+            android:id="@+id/special_offer_return"
+            android:layout_width="50dp"
+            android:layout_height="70dp">
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/return2"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="34dp"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="优惠活动"
+            android:textColor="#ffffffff"
+            android:textSize="18sp"
+            />
+
+        <TextView
+            android:id="@+id/special_offer_history_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="30dp"
+            android:text="历史记录"
+            android:textColor="#ffffffff"
+            android:textSize="15sp"
+            />
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/special_offer_recyclerview"
+        android:layout_below="@+id/special_offer_Relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>

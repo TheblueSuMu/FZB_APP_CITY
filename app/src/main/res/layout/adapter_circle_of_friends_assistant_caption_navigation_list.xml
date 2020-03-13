@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginTop="15dp"
+    android:background="@drawable/adapter_circle_of_friends_assistant_caption_navigation_list_item_backround"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/adapter_circle_of_friends_assistant_caption_navigation_list_content"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="18.5dp"
+        android:layout_marginTop="18dp"
+        android:textSize="12sp"
+        android:textColor="#666666"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <RelativeLayout
+        android:id="@+id/adapter_circle_of_friends_assistant_caption_navigation_list_copy"
+        android:layout_marginTop="14.5dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15.5dp"
+        android:layout_marginBottom="9dp"
+        android:layout_below="@id/adapter_circle_of_friends_assistant_caption_navigation_list_content"
+        android:background="@drawable/adapter_circle_of_friends_assistant_caption_navigation_list_button_backround"
+        android:layout_width="90dp"
+        android:layout_height="25dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:text="一键复制"
+            android:drawablePadding="7.5dp"
+            android:layout_centerInParent="true"
+            android:drawableLeft="@mipmap/fz"
+            android:gravity="center_horizontal"
+            android:textColor="#334495"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

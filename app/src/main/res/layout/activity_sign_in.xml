@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:fillViewport="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="43dp"
+            android:layout_marginRight="13dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/sign_in_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="登录"
+                android:textColor="#ff999999"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="15dp"
+                android:background="#E5E5E5" />
+
+            <TextView
+                android:id="@+id/login_sign_in"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="注册"
+                android:textColor="#ff334485"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--        <RelativeLayout-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="50dp"-->
+            <!--            android:background="@drawable/my_brokerage">-->
+
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_centerHorizontal="true"-->
+            <!--                android:layout_centerVertical="true"-->
+            <!--                android:text="注册"-->
+            <!--                android:textColor="#ffffffff"-->
+            <!--                android:textSize="18sp" />-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/sign_in_login"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_alignParentRight="true"-->
+            <!--                android:layout_centerVertical="true"-->
+            <!--                android:layout_marginRight="15dp"-->
+            <!--                android:text="登录"-->
+            <!--                android:textColor="#ffffffff"-->
+            <!--                android:textSize="15sp" />-->
+            <!--        </RelativeLayout>-->
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="154dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="120dp"
+                    android:src="@mipmap/ic_login_logo" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <!--经纪人姓名-->
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:layout_marginTop="92dp"
+                            android:background="#FFFFFF">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="15dp"
+                                    android:text="经纪人姓名"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16sp" />
+
+                                <!--                            <TextView-->
+                                <!--                                android:layout_width="wrap_content"-->
+                                <!--                                android:layout_height="wrap_content"-->
+                                <!--                                android:text="*"-->
+                                <!--                                android:textColor="#AC1E26"-->
+                                <!--                                android:textSize="15sp"></TextView>-->
+                            </LinearLayout>
+
+
+                            <EditText
+                                android:id="@+id/sign_in_et1"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:background="#FFFFFF"
+                                android:gravity="right"
+                                android:hint="请输入姓名"
+                                android:textColor="#ff666666"
+                                android:textSize="15sp" />
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#EEEEEE"></LinearLayout>
+                        <!--手机号-->
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:background="#FFFFFF">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="15dp"
+                                    android:text="手机号"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16sp" />
+
+                                <!--                            <TextView-->
+                                <!--                                android:layout_width="wrap_content"-->
+                                <!--                                android:layout_height="wrap_content"-->
+                                <!--                                android:text="*"-->
+                                <!--                                android:textColor="#AC1E26"-->
+                                <!--                                android:textSize="15sp"></TextView>-->
+                            </LinearLayout>
+
+
+                            <EditText
+                                android:id="@+id/sign_in_et2"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:background="#FFFFFF"
+                                android:digits="0123456789"
+                                android:gravity="right"
+                                android:hint="请输入手机号"
+                                android:inputType="number"
+                                android:maxLength="11"
+                                android:textColor="#ff666666"
+                                android:textSize="15sp" />
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#EEEEEE"></LinearLayout>
+
+                        <!--登录账号-->
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:background="#FFFFFF">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="15dp"
+                                    android:text="登录账号"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16sp" />
+
+                                <!--                            <TextView-->
+                                <!--                                android:layout_width="wrap_content"-->
+                                <!--                                android:layout_height="wrap_content"-->
+                                <!--                                android:text="*"-->
+                                <!--                                android:textColor="#AC1E26"-->
+                                <!--                                android:textSize="15sp"></TextView>-->
+                            </LinearLayout>
+
+
+                            <EditText
+                                android:id="@+id/sign_in_et3"
+                                android:layout_width="215dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:background="#FFFFFF"
+                                android:gravity="right"
+                                android:hint="登录名为5-12位数字与字母组合"
+                                android:textColor="#ff666666"
+                                android:textSize="15sp" />
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#EEEEEE"></LinearLayout>
+
+                        <!--经纪人类型-->
+                        <RelativeLayout
+                            android:id="@+id/sign_in_rl1"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:background="#FFFFFF">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="15dp"
+                                    android:text="经纪人类型"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16sp" />
+
+                                <!--                            <TextView-->
+                                <!--                                android:layout_width="wrap_content"-->
+                                <!--                                android:layout_height="wrap_content"-->
+                                <!--                                android:text="*"-->
+                                <!--                                android:textColor="#AC1E26"-->
+                                <!--                                android:textSize="15sp"></TextView>-->
+                            </LinearLayout>
+
+
+                            <TextView
+                                android:id="@+id/sign_in_tv1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="30dp"
+                                android:gravity="right"
+                                android:hint="点击输入经纪人类型"
+                                android:textColor="#ff666666"
+                                android:textSize="15sp" />
+
+                            <ImageView
+                                android:layout_width="8dp"
+                                android:layout_height="15dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:src="@mipmap/next" />
+
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#EEEEEE"></LinearLayout>
+
+                        <!--经纪门店-->
+                        <RelativeLayout
+                            android:id="@+id/sign_in_rl2"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:background="#FFFFFF">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="15dp"
+                                    android:text="选择经纪门店"
+                                    android:textColor="#ff333333"
+                                    android:textSize="16sp" />
+
+                                <!--                            <TextView-->
+                                <!--                                android:layout_width="wrap_content"-->
+                                <!--                                android:layout_height="wrap_content"-->
+                                <!--                                android:text="*"-->
+                                <!--                                android:textColor="#AC1E26"-->
+                                <!--                                android:textSize="15sp"></TextView>-->
+                            </LinearLayout>
+
+
+                            <TextView
+                                android:id="@+id/sign_in_tv2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="120dp"
+                                android:layout_marginRight="30dp"
+                                android:gravity="right"
+                                android:hint="点击输入经纪门店"
+                                android:maxLines="1"
+                                android:textColor="#ff666666"
+                                android:textSize="15sp" />
+
+                            <ImageView
+                                android:layout_width="8dp"
+                                android:layout_height="15dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:src="@mipmap/next" />
+
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:id="@+id/add_ll4_s"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#EEEEEE"
+                            android:orientation="vertical"></LinearLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/add_broker_rl_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="15dp"
+                            android:background="#FFFFFF">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="本版本仅开放经纪人角色注册,请持续关注下个版本"
+                                android:textColor="#ff999999"
+                                android:textSize="12sp" />
+                        </RelativeLayout>
+                    </LinearLayout>
+                    <!--注册-->
+                    <Button
+                        android:id="@+id/sign_in_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="38dp"
+                        android:layout_marginTop="50dp"
+                        android:layout_marginRight="38dp"
+                        android:layout_marginBottom="57dp"
+                        android:background="@drawable/points_dialog_but"
+                        android:text="注册"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="34dp"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/sign_in_checkboxed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:button="@null"
+                            android:checked="true"
+                            android:drawableLeft="@drawable/checkbox_check_s"
+                            android:gravity="center_vertical"
+                            android:text="  注册即代表阅读并同意"
+                            android:textColor="#ff666666"
+                            android:textSize="9sp" />
+
+                        <TextView
+                            android:id="@+id/sign_in_fuwu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/checkboxed"
+                            android:text="《房坐标用户服务条款(包含隐私条款)》"
+                            android:textColor="#334485"
+                            android:textSize="9sp" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sign_in_ll1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#99000000"
+            android:orientation="vertical"
+            android:visibility="gone"></LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sign_in_ll2"
+            android:layout_width="match_parent"
+            android:layout_height="475dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/sign_in_backet"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:text="请选择所在经纪门店"
+                android:textColor="#ff111111"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/sign_in_edit"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/sign_in_edit_background"
+                android:drawableLeft="@mipmap/search"
+                android:hint="  搜索"
+                android:maxLines="1"
+                android:paddingLeft="15dp"
+                android:textColor="#ff333333"
+                android:textSize="15sp" />
+
+            <!--            <com.google.android.material.tabs.TabLayout-->
+            <!--                android:id="@+id/sign_in_tab_layout"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="25dp"-->
+            <!--                android:background="#FFFFFF"-->
+            <!--                android:visibility="gone"-->
+            <!--                app:tabIndicatorColor="#334485"-->
+            <!--                app:tabIndicatorFullWidth="false"-->
+            <!--                app:tabIndicatorHeight="2dp"-->
+            <!--                app:tabMode="scrollable"-->
+            <!--                app:tabSelectedTextColor="#334485"-->
+            <!--                app:tabTextColor="#333333" />-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/sign_in_ll_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/sign_in_tv_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="请选择"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:id="@+id/sign_in_ll_2"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="2.5dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/sign_in_shape"></LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sign_in_ll_3"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="35dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/sign_in_tv_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="请选择"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:id="@+id/sign_in_ll_4"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="2.5dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/sign_in_shape"></LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sign_in_ll_5"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="35dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/sign_in_tv_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="请选择"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:id="@+id/sign_in_ll_6"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="2.5dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/sign_in_shape"></LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sign_in_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mcxtzhang.swipemenulib.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:clickable="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/adapter_housing_supermarket_Relativelayout"
+            android:layout_marginTop="17dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/adapter_housing_supermarket_image"
+                android:layout_marginLeft="15dp"
+                app:riv_corner_radius="5dp"
+                android:layout_width="110dp"
+                android:layout_height="80dp"/>
+
+            <ImageView
+                android:id="@+id/adapter_housing_supermarket_icon"
+                android:src="@mipmap/hot_push"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/adapter_housing_supermarket_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/adapter_housing_supermarket_title"
+                android:layout_toRightOf="@id/adapter_housing_supermarket_icon"
+                android:layout_marginLeft="6dp"
+                android:text="[河东区]书香蓝郡-住宅"
+                android:textSize="15sp"
+                android:textColor="#111111"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <co.lujun.androidtagview.TagContainerLayout
+                android:id="@+id/adapter_housing_supermarket_tagView"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:layout_below="@id/adapter_housing_supermarket_title"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/adapter_housing_supermarket_image"
+                android:text="标签"
+                android:textColor="#ff8296aa"
+                app:container_background_color="#fff"
+                app:container_border_color="#fff"
+                app:horizontal_interval="2dp"
+                app:tag_background_color="#ffeceff3"
+                app:tag_border_color="#fff"
+                app:tag_clickable="true"
+                app:tag_corner_radius="2dp"
+                app:tag_horizontal_padding="3dp"
+                app:tag_text_color="#ff8296aa"
+                app:tag_text_size="10sp"
+                app:tag_theme="pure_teal"
+                app:tag_vertical_padding="3dp" />
+
+            <TextView
+                android:id="@+id/adapter_housing_supermarket_area"
+                android:text="80-102㎡"
+                android:textSize="10sp"
+                android:textColor="#666666"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/adapter_housing_supermarket_tagView"
+                android:layout_toRightOf="@id/adapter_housing_supermarket_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/adapter_housing_supermarket_price"
+                android:text="5000"
+                android:textSize="14sp"
+                android:textColor="#AC1E26"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_below="@id/adapter_housing_supermarket_area"
+                android:layout_toRightOf="@id/adapter_housing_supermarket_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <TextView
+                android:id="@+id/adapter_housing_supermarket_unit"
+                android:text="元/㎡"
+                android:textSize="9sp"
+                android:textColor="#AC1E26"
+                android:textStyle="bold"
+                android:layout_marginTop="14dp"
+                android:layout_below="@id/adapter_housing_supermarket_area"
+                android:layout_toRightOf="@id/adapter_housing_supermarket_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_marginTop="16.5dp"
+            android:layout_below="@id/adapter_housing_supermarket_Relativelayout"
+            android:layout_marginLeft="60dp"
+            android:background="#EEEEEE"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/adapter_housing_supermarket_delete"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:background="#D2D2D2"
+        android:gravity="center"
+        android:text="移除"
+        android:textSize="14sp"
+        android:textColor="#FFFFFF"/>
+
+    <Button
+        android:id="@+id/adapter_housing_supermarket_select"
+        android:layout_width="120dp"
+        android:layout_height="match_parent"
+        android:background="#F95742"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="取消热推"
+        android:textSize="14sp"
+        android:textColor="#FFFFFF"/>
+
+
+</com.mcxtzhang.swipemenulib.SwipeMenuLayout>

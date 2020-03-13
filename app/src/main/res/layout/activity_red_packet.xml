@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#FCF9F4"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+    android:id="@+id/red_packet_relative_title"
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    android:background="#CD3E3C">
+
+    <RelativeLayout
+        android:id="@+id/red_packet_return"
+        android:layout_width="50dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="12dp"
+            android:src="@mipmap/return2" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/red_packet_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="11dp"
+        android:text="红包推店"
+        android:textColor="#E8CD96"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/red_packet_record"
+        android:text="红包记录"
+        android:textColor="#E8CD96"
+        android:textSize="15sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="11dp"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>
+
+    <RelativeLayout
+        android:layout_below="@id/red_packet_relative_title"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+        android:id="@+id/red_packet_list_relative1"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/red_packet_linear_background"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <TextView
+            android:id="@+id/red_packet_unit_price"
+            android:text="单个金额"
+            android:textColor="#111111"
+            android:textSize="16sp"
+            android:layout_marginLeft="17dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/red_packet_unit_price_et"
+            android:layout_toRightOf="@id/red_packet_unit_price"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="13dp"
+            android:hint="填写金额"
+            android:background="@null"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical|right"
+            android:textColor="#111111"
+            android:textSize="16sp"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/red_packet_list_relative2"
+            android:layout_below="@id/red_packet_list_relative1"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/red_packet_linear_background"
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <TextView
+                android:id="@+id/red_packet_number"
+                android:text="红包个数"
+                android:textColor="#111111"
+                android:textSize="16sp"
+                android:layout_marginLeft="17dp"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:id="@+id/red_packet_number_et"
+                android:layout_toRightOf="@id/red_packet_number"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="13dp"
+                android:hint="填写个数"
+                android:background="@null"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical|right"
+                android:textColor="#111111"
+                android:textSize="16sp"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_below="@id/red_packet_list_relative2"
+            android:id="@+id/red_packet_list_relative3"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/red_packet_linear_background"
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <TextView
+                android:id="@+id/red_packet_people"
+                android:text="助力人数"
+                android:textColor="#111111"
+                android:textSize="16sp"
+                android:layout_marginLeft="17dp"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:id="@+id/red_packet_people_et"
+                android:layout_toRightOf="@id/red_packet_people"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="13dp"
+                android:hint="填写人数"
+                android:background="@null"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical|right"
+                android:textColor="#111111"
+                android:textSize="16sp"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:layout_below="@id/red_packet_list_relative3"
+            android:id="@+id/red_packet_list_relative0"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/red_packet_linear_background"
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <TextView
+                android:text="选择项目"
+                android:textColor="#111111"
+                android:textSize="16sp"
+                android:layout_marginLeft="17dp"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="13dp"
+                android:src="@mipmap/return1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/red_packet_list_relative4"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/red_packet_list_relative0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/red_packet_check_hint"
+                android:text="当前为红包推店，"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/red_packet_check_text"
+                android:text="改为红包推项目"
+                android:textColor="#334485"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/red_packet_list_relative5"
+            android:layout_marginTop="26dp"
+            android:layout_below="@id/red_packet_list_relative4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="规则:
+1.输入单个金额/红包个数/助力人数,用小程序付款,分享到微信
+2.客户点击会得到领取资格,助力成功后客户领取红包,你会得到用户联系方式
+3.单个红包金额不能少于一块,红包个数最低1个
+4.24小时内未成功领取红包金额将原路返回
+5.需支付手续费百分之3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/red_packet_list_relative6"
+            android:layout_below="@id/red_packet_list_relative5"
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/red_packet_pay"
+                android:text="需支付金额"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:background="@drawable/red_packet_pay_button_background"
+                android:layout_marginLeft="26dp"
+                android:layout_marginRight="19dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

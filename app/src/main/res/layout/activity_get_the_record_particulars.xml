@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@drawable/my_brokerage">
+
+        <LinearLayout
+            android:id="@+id/activity_get_the_record_particulars_return"
+            android:layout_width="50dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/return2"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="34dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="热推列表"
+            android:textColor="#ffffffff"
+            android:textSize="18sp"
+            />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/activity_get_the_record_particulars_relative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/adapter_get_the_record_particulars_image"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10.5dp"
+            app:riv_oval="true"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+
+        <TextView
+            android:id="@+id/adapter_get_the_record_particulars_title"
+            android:layout_toRightOf="@id/adapter_get_the_record_particulars_image"
+            android:layout_marginLeft="12.5dp"
+            android:layout_marginTop="13dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_marginLeft="13.5dp"
+            android:layout_marginTop="15.5dp"
+            android:layout_toRightOf="@id/adapter_get_the_record_particulars_image"
+            android:layout_below="@id/adapter_get_the_record_particulars_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="已领："
+                android:textSize="12sp"
+                android:textColor="#999999"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/adapter_get_the_record_particulars_price"
+                android:text="25"
+                android:textSize="18sp"
+                android:textColor="#F4933D"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_marginLeft="7.5dp"
+                android:text="元"
+                android:textSize="12sp"
+                android:textColor="#999999"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/adapter_get_the_record_particulars_time"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:text="2018-03-03 13:56:00"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_marginTop="21dp"
+        android:background="#F5F5F5"
+        android:layout_width="match_parent"
+        android:layout_height="9dp"/>
+
+    <TextView
+        android:layout_marginTop="22dp"
+        android:layout_marginLeft="15dp"
+        android:text="助力客户"
+        android:textSize="16sp"
+        android:textColor="#111111"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/adapter_get_the_record_particulars_recyclerview"
+        android:layout_marginTop="7dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</LinearLayout>
