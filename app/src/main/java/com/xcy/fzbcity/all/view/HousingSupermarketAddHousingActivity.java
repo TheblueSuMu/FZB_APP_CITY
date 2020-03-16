@@ -23,6 +23,9 @@ import com.xcy.fzbcity.all.persente.MyLinearLayoutManager;
 import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -37,6 +40,9 @@ public class HousingSupermarketAddHousingActivity extends AllActivity implements
     private EditText housing_supermarket_add_housing_search;
     private TextView housing_supermarket_add_housing_sure;
     private RecyclerView housing_supermarket_add_housing_recyclerview;
+    private HousingSupermarketAddHousingAdapter housingSupermarketAddHousingAdapter;
+    private List<String> arrayList;
+    private String projectId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +71,27 @@ public class HousingSupermarketAddHousingActivity extends AllActivity implements
                 break;
             case R.id.housing_supermarket_add_housing_sure :
                 //      TODO    添加完成
+                projectId = "";
+                arrayList = housingSupermarketAddHousingAdapter.getArrayList();
+                boolean flag = false;
+                for (int index = 0;index < arrayList.size();index++){
+                    if (!arrayList.get(index).equals("")) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag) {
+                    ToastUtil.showLongToast(HousingSupermarketAddHousingActivity.this,"请选择要添加的项目");
+                    return;
+                }
+
+                for (int i = 0;i < arrayList.size();i++){
+                    if (i == 0) {
+                        projectId = arrayList.get(i);
+                    }else {
+                        projectId = projectId + "," + arrayList.get(i);
+                    }
+                }
                 initDataAdd();
                 break;
 
@@ -91,12 +118,18 @@ public class HousingSupermarketAddHousingActivity extends AllActivity implements
                     @SuppressLint("WrongConstant")
                     @Override
                     public void onNext(HotBean hotBean) {
+                        arrayList = new ArrayList<>();
+                        for (int i = 0;i < hotBean.getData().getRows().size();i++){
+                            arrayList.add("");
+                        }
                         LinearLayoutManager layoutManager = new LinearLayoutManager(HousingSupermarketAddHousingActivity.this);
                         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                         housing_supermarket_add_housing_recyclerview.setLayoutManager(layoutManager);
-                        HousingSupermarketAddHousingAdapter housingSupermarketAddHousingAdapter = new HousingSupermarketAddHousingAdapter(hotBean.getData().getRows());
+                        housingSupermarketAddHousingAdapter = new HousingSupermarketAddHousingAdapter(hotBean.getData().getRows());
                         housing_supermarket_add_housing_recyclerview.setAdapter(housingSupermarketAddHousingAdapter);
+                        housingSupermarketAddHousingAdapter.setArrayList(arrayList);
                         housingSupermarketAddHousingAdapter.notifyDataSetChanged();
+
                     }
 
                     @Override
@@ -119,7 +152,7 @@ public class HousingSupermarketAddHousingActivity extends AllActivity implements
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<ProjectAddBean> userMessage = fzbInterface.getProjectAdd(FinalContents.getUserID(),FinalContents.getProjectID(), RedEnvelopesAllTalk.getWebshopId());
+        Observable<ProjectAddBean> userMessage = fzbInterface.getProjectAdd(FinalContents.getUserID(),projectId, RedEnvelopesAllTalk.getWebshopId());
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ProjectAddBean>() {

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,23 +38,19 @@ public class SpecialOfferHistoryAdapter extends RecyclerView.Adapter<SpecialOffe
         holder.adapter_special_offer_history_price.setText(list.get(position).getDenomination()+"");
         if (list.get(position).getType().equals("1")) {
             holder.adapter_special_offer_history_discount_coupon.setText("带看券");
+            holder.adapter_special_offer_history_item.setBackgroundResource(R.mipmap.adapter_special_offer_background_image);
         }else if (list.get(position).getType().equals("2")){
             holder.adapter_special_offer_history_discount_coupon.setText("成交券");
+            holder.adapter_special_offer_history_item.setBackgroundResource(R.mipmap.adapter_special_offer_background_image_make_a_bargain);
         }
 
         holder.adapter_special_offer_history_name.setText(list.get(position).getProjectName());
         holder.adapter_special_offer_history_time.setText(list.get(position).getStartDate()+"-"+list.get(position).getEndDate()+"有效");
 //        holder.adapter_special_offer_history_button.setText(list.get(position).getLotteryState());
-        if (list.get(position).getLotteryState().equals("0")) {
-
-        } else if (list.get(position).getLotteryState().equals("1")) {
-
-        }else if (list.get(position).getLotteryState().equals("2")) {
-
-        }else if (list.get(position).getLotteryState().equals("3")) {
-
+        if (list.get(position).getLotteryState().equals("3")) {
+            holder.adapter_special_offer_history_button.setImageResource(R.mipmap.adapter_special_offer_history_has_change);
         }else if (list.get(position).getLotteryState().equals("4")) {
-
+            holder.adapter_special_offer_history_button.setImageResource(R.mipmap.adapter_special_offer_history_lose_efficacy);
         }
     }
 
@@ -68,9 +65,11 @@ public class SpecialOfferHistoryAdapter extends RecyclerView.Adapter<SpecialOffe
         TextView adapter_special_offer_history_name;
         TextView adapter_special_offer_history_time;
         ImageView adapter_special_offer_history_button;
+        LinearLayout adapter_special_offer_history_item;
 
         public SpecialOfferHistoryViewHolder(@NonNull View itemView) {
             super(itemView);
+            adapter_special_offer_history_item = itemView.findViewById(R.id.adapter_special_offer_history_item);
             adapter_special_offer_history_price = itemView.findViewById(R.id.adapter_special_offer_history_price);
             adapter_special_offer_history_discount_coupon = itemView.findViewById(R.id.adapter_special_offer_history_discount_coupon);
             adapter_special_offer_history_name = itemView.findViewById(R.id.adapter_special_offer_history_name);

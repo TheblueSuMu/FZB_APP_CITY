@@ -58,6 +58,7 @@ public class RedPacketActivity extends AllActivity implements View.OnClickListen
     private Button red_packet_pay_relative_button;
     private ImageView red_packet_pay_relative_cancle;
     private RechargeRedbagBean rechargeRedbag;
+    private TextView red_packet_list_hint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +81,17 @@ public class RedPacketActivity extends AllActivity implements View.OnClickListen
         red_packet_pay_relative_price = findViewById(R.id.red_packet_pay_relative_price);
         red_packet_pay_relative_button = findViewById(R.id.red_packet_pay_relative_button);
         red_packet_pay_relative_cancle = findViewById(R.id.red_packet_pay_relative_cancle);
+        red_packet_list_hint = findViewById(R.id.red_packet_list_hint);
 
         //可以合并一起写为：
         red_packet_check_text.getPaint().setFlags(Paint. UNDERLINE_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
+
+        red_packet_list_hint.setText("规则:"
+                +"\n"+"1.输入单个金额/红包个数/助力人数,用小程序付款,分享到微信"
+                +"\n"+"2.客户点击会得到领取资格,助力成功后客户领取红包,你会得到用户联系方式"
+                +"\n"+"3.单个红包金额不能少于一块,红包个数最低1个"
+                +"\n"+"4.24小时内未成功领取红包金额将原路返回"
+                +"\n"+"5.需支付手续费百分之3");
 
         red_packet_return.setOnClickListener(this);
         red_packet_record.setOnClickListener(this);

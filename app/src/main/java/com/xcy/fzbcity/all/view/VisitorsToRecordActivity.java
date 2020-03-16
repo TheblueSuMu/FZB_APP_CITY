@@ -2,6 +2,7 @@ package com.xcy.fzbcity.all.view;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -39,6 +40,7 @@ public class VisitorsToRecordActivity extends AllActivity implements View.OnClic
     private TextView visitors_to_record_all_people;
     private TextView visitors_to_record_all_money_send;
     private RecyclerView visitors_to_record_recycler;
+    private String searchName = "";     //  搜索使用
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,19 @@ public class VisitorsToRecordActivity extends AllActivity implements View.OnClic
         visitors_to_record_search_img.setOnClickListener(this);
         initData();
         initDataList();
+
+        visitors_to_record_search.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (KeyEvent.KEYCODE_ENTER == i && KeyEvent.ACTION_DOWN == keyEvent.getAction()) {
+                    searchName = visitors_to_record_search.getText().toString();
+                    initDataList();
+                    return true;
+                }
+                return false;
+            }
+
+        });
     }
 
 
@@ -71,7 +86,8 @@ public class VisitorsToRecordActivity extends AllActivity implements View.OnClic
                 break;
             case R.id.visitors_to_record_search_img :
                 //  TODO    搜索
-
+                searchName = visitors_to_record_search.getText().toString();
+                initDataList();
                 break;
         }
     }
@@ -120,7 +136,7 @@ public class VisitorsToRecordActivity extends AllActivity implements View.OnClic
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        final Observable<CustomerVisitorStatisticsBean> code = fzbInterface.getCustomerVisitorStatistics(FinalContents.getUserID(), RedEnvelopesAllTalk.getWebshopId(),"","10","1");
+        final Observable<CustomerVisitorStatisticsBean> code = fzbInterface.getCustomerVisitorStatistics(FinalContents.getUserID(), RedEnvelopesAllTalk.getWebshopId(),searchName,"10","1");
         code.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<CustomerVisitorStatisticsBean>() {

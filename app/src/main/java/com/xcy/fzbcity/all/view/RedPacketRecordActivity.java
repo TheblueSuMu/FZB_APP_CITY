@@ -70,7 +70,7 @@ public class RedPacketRecordActivity extends AllActivity{
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        final Observable<RedBagSumStatisticsBean> code = fzbInterface.getRedbagSumStatistics("1");
+        final Observable<RedBagSumStatisticsBean> code = fzbInterface.getRedbagSumStatistics(FinalContents.getUserID());
         code.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<RedBagSumStatisticsBean>() {
@@ -115,7 +115,7 @@ public class RedPacketRecordActivity extends AllActivity{
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        final Observable<RedbagStatisticsBean> code = fzbInterface.getRedbagStatistics("1","10","1");
+        final Observable<RedbagStatisticsBean> code = fzbInterface.getRedbagStatistics(FinalContents.getUserID(),"10","1");
         code.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<RedbagStatisticsBean>() {

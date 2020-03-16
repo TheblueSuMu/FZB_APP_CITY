@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
+    android:id="@+id/adapter_special_offer_item"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="7.5dp"
+    android:layout_marginRight="3.5dp"
     android:background="@mipmap/adapter_special_offer_background_image"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">

@@ -221,12 +221,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:text="规则:
-1.输入单个金额/红包个数/助力人数,用小程序付款,分享到微信
-2.客户点击会得到领取资格,助力成功后客户领取红包,你会得到用户联系方式
-3.单个红包金额不能少于一块,红包个数最低1个
-4.24小时内未成功领取红包金额将原路返回
-5.需支付手续费百分之3"
+                android:id="@+id/red_packet_list_hint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -259,6 +254,7 @@
         android:id="@+id/red_packet_pay_relative"
         android:background="@mipmap/red_packet_pay_succeed"
         android:layout_centerInParent="true"
+        android:visibility="gone"
         android:layout_width="274dp"
         android:layout_height="372.5dp">
 

@@ -34,11 +34,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private Context context;
     private List<HotBean.DataBean.RowsBean> beanList;
     private String project = "0";
-    private OnItemClickLisenter onItemClickLisenter;
-
     public void setProject(String project) {
         this.project = project;
     }
+
+    private OnItemClickLisenter onItemClickLisenter;
 
     public interface OnItemClickLisenter {
         void onItemClick(int postion);

@@ -64,6 +64,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/housing_supermarket_recycler"
             android:layout_marginTop="14dp"
+            android:background="#FFFFFF"
             android:layout_above="@id/housing_supermarket_add_housing"
             android:layout_below="@id/housing_supermarket_hint"
             android:layout_width="match_parent"

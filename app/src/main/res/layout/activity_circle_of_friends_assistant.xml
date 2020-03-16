@@ -87,6 +87,7 @@
                     android:id="@+id/circle_of_friends_assistant_caption_view"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="9.5dp"
+                    android:visibility="invisible"
                     android:background="#FFFFFF"
                     android:layout_width="57.5dp"
                     android:layout_height="2.5dp"/>

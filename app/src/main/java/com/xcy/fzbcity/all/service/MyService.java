@@ -911,6 +911,10 @@ public interface MyService {
     @POST("ordinaryUpdate/projectSort")
     Observable<ProjectSortBean> getProjectSort(@Query("userId") String userId,@Query("webshopId") String webshopId,@Query("projects") String projects,@Query("type") String type);
 
+    //房源超市--热推/取消热推/删除
+    @POST("ordinaryUpdate/hotPush")
+    Observable<HotPushBean> getHotPush(@Query("userId") String userId,@Query("webshopId") String webshopId,@Query("projectId") String projectId,@Query("type") String type);
+
     //网店添加项目
     @POST("ordinaryUpdate/projectAdd")
     Observable<ProjectAddBean> getProjectAdd(@Query("userId") String userId,@Query("projectId") String projectId,@Query("webshopId") String webshopId);
@@ -930,6 +934,10 @@ public interface MyService {
     //优惠活动列表
     @POST("ordinarySelect/preferentialActList")
     Observable<PreferentialActListBean> getPreferentialActList(@Query("userId") String userId,@Query("type") String type);
+
+    //优惠活动列表
+    @POST("ordinaryUpdate/addCash")
+    Observable<AddCashBean> getAddCash(@Query("userId") String userId,@Query("lotteryUseId") String lotteryUseId);
 
     //访客记录--客户足迹列表
     @POST("commonSelect/customerVisitorStatistics")

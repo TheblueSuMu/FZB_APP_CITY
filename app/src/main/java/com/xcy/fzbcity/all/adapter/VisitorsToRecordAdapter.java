@@ -1,10 +1,13 @@
 package com.xcy.fzbcity.all.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +18,7 @@ import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.modle.CustomerVisitorStatisticsBean;
 import com.xcy.fzbcity.all.utils.ToastUtil;
+import com.xcy.fzbcity.all.view.ProjectDetails;
 
 import java.util.List;
 
@@ -49,18 +53,28 @@ public class VisitorsToRecordAdapter extends RecyclerView.Adapter<VisitorsToReco
         } else if (list.get(position).getBrowseMode().equals("3")) {
             holder.adapter_visitors_to_record_hint.setText("通过官方引流在小程序中浏览");
         }
-
-        holder.adapter_visitors_to_record_hint.setText("通过"+list.get(position).getBrowseMode()+"在小程序中浏览");
         if (list.get(position).getGender().equals("男")) {
             holder.adapter_visitors_to_record_gender.setImageResource(R.mipmap.adapter_visitors_to_record_gender_select_nan_image);
         } else if (list.get(position).getGender().equals("女")) {
             holder.adapter_visitors_to_record_gender.setImageResource(R.mipmap.adapter_visitors_to_record_gender_select_nv_image);
         }
-        Glide.with(context).load(FinalContents.getImageUrl() + list.get(position).getEstateImg()).into(holder.adapter_visitors_to_record_project_image);
+        if (!list.get(position).getEstateImg().equals("")) {
+            Glide.with(context).load(FinalContents.getImageUrl() + list.get(position).getEstateImg()).into(holder.adapter_visitors_to_record_project_image);
+        }
+        Log.i("项目图片","地址："+FinalContents.getImageUrl() + list.get(position).getEstateImg());
         holder.adapter_visitors_to_record_chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ToastUtil.showLongToast(context,"即将进入聊天界面!");
+            }
+        });
+
+        holder.adapter_visitors_to_record_project.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FinalContents.setProjectID(list.get(position).getProjectId());
+                Intent intent = new Intent(context, ProjectDetails.class);
+                context.startActivity(intent);
             }
         });
     }
@@ -80,6 +94,7 @@ public class VisitorsToRecordAdapter extends RecyclerView.Adapter<VisitorsToReco
         TextView adapter_visitors_to_record_project_name;
         TextView adapter_visitors_to_record_time;
         TextView adapter_visitors_to_record_hint;
+        LinearLayout adapter_visitors_to_record_project;
 
         public VisitorsToRecordViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -92,6 +107,7 @@ public class VisitorsToRecordAdapter extends RecyclerView.Adapter<VisitorsToReco
             adapter_visitors_to_record_project_name = itemView.findViewById(R.id.adapter_visitors_to_record_project_name);
             adapter_visitors_to_record_time = itemView.findViewById(R.id.adapter_visitors_to_record_time);
             adapter_visitors_to_record_hint = itemView.findViewById(R.id.adapter_visitors_to_record_hint);
+            adapter_visitors_to_record_project = itemView.findViewById(R.id.adapter_visitors_to_record_project);
         }
     }
 

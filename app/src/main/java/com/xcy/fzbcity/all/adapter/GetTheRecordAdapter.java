@@ -41,10 +41,8 @@ public class GetTheRecordAdapter extends RecyclerView.Adapter<GetTheRecordAdapte
     @Override
     public void onBindViewHolder(@NonNull GetTheRecordViewHolder holder, int position) {
         Glide.with(context).load(FinalContents.getImageUrl() + list.get(position).getCustomerImg()).into(holder.adapter_get_the_record_image);
-//        Glide.with(context).load(FinalContents.getImageUrl() + list.get(position).getCustomerImg()).into(holder.adapter_get_the_record_icon1);
-//        Glide.with(context).load(FinalContents.getImageUrl() + list.get(position).getCustomerImg()).into(holder.adapter_get_the_record_icon2);
-//        Glide.with(context).load(FinalContents.getImageUrl() + list.get(position).getCustomerImg()).into(holder.adapter_get_the_record_icon3);
-//        Glide.with(context).load(FinalContents.getImageUrl() + list.get(position).getCustomerImg()).into(holder.adapter_get_the_record_icon4);
+
+
         holder.adapter_get_the_record_title.setText(list.get(position).getCustomerName());
         holder.adapter_get_the_record_price.setText(list.get(position).getDenomination());
         holder.adapter_get_the_record_time.setText(list.get(position).getClaimDate());
@@ -60,6 +58,36 @@ public class GetTheRecordAdapter extends RecyclerView.Adapter<GetTheRecordAdapte
                 context.startActivity(intent);
             }
         });
+
+        if (list.get(position).getAssistList().size() != 0) {
+            if (list.get(position).getAssistList().size() == 1) {
+                //  只有一人
+                Glide.with(context).load(FinalContents.getImageUrl() + list.get(position).getAssistList().get(0).getCustomerImg()).into(holder.adapter_get_the_record_icon1);
+                holder.adapter_get_the_record_icon1.setVisibility(View.VISIBLE);
+                holder.adapter_get_the_record_icon2.setVisibility(View.GONE);
+                holder.adapter_get_the_record_icon3.setVisibility(View.GONE);
+                holder.adapter_get_the_record_icon4.setVisibility(View.GONE);
+            } else if (list.get(position).getAssistList().size() == 2) {
+                //  只有二人
+                Glide.with(context).load(FinalContents.getImageUrl() + list.get(position).getAssistList().get(0).getCustomerImg()).into(holder.adapter_get_the_record_icon1);
+                Glide.with(context).load(FinalContents.getImageUrl() + list.get(position).getAssistList().get(1).getCustomerImg()).into(holder.adapter_get_the_record_icon2);
+                holder.adapter_get_the_record_icon1.setVisibility(View.VISIBLE);
+                holder.adapter_get_the_record_icon2.setVisibility(View.VISIBLE);
+                holder.adapter_get_the_record_icon3.setVisibility(View.GONE);
+                holder.adapter_get_the_record_icon4.setVisibility(View.GONE);
+            } else if (list.get(position).getAssistList().size() >= 3) {
+                //  有三人或大于
+                holder.adapter_get_the_record_icon1.setVisibility(View.VISIBLE);
+                holder.adapter_get_the_record_icon2.setVisibility(View.VISIBLE);
+                holder.adapter_get_the_record_icon3.setVisibility(View.VISIBLE);
+                holder.adapter_get_the_record_icon4.setVisibility(View.VISIBLE);
+                holder.adapter_get_the_record_icon1.setImageResource(R.mipmap.adapter_get_the_record_icon);
+                Glide.with(context).load(FinalContents.getImageUrl() + list.get(position).getAssistList().get(0).getCustomerImg()).into(holder.adapter_get_the_record_icon2);
+                Glide.with(context).load(FinalContents.getImageUrl() + list.get(position).getAssistList().get(1).getCustomerImg()).into(holder.adapter_get_the_record_icon3);
+                Glide.with(context).load(FinalContents.getImageUrl() + list.get(position).getAssistList().get(2).getCustomerImg()).into(holder.adapter_get_the_record_icon4);
+            }
+        }
+
 
     }
 

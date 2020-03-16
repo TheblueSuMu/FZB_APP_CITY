@@ -25,10 +25,11 @@
 
         <EditText
             android:id="@+id/get_the_record_title"
+            android:layout_toLeftOf="@id/get_the_record_select_linear"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginLeft="47.5dp"
-            android:layout_marginRight="67.5dp"
+            android:layout_marginRight="13dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
             android:gravity="center"
@@ -38,6 +39,8 @@
             />
 
         <LinearLayout
+            android:id="@+id/get_the_record_select_linear"
+            android:layout_marginLeft="13dp"
             android:layout_marginRight="15dp"
             android:layout_alignParentRight="true"
             android:layout_marginTop="35dp"
@@ -53,7 +56,8 @@
                 android:layout_height="wrap_content"/>
 
             <ImageView
-
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/ic_stat_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -112,6 +116,7 @@
                     android:id="@+id/circle_of_friends_assistant_caption_view"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="9.5dp"
+                    android:visibility="invisible"
                     android:background="#FFFFFF"
                     android:layout_width="57.5dp"
                     android:layout_height="2.5dp"/>

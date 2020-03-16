@@ -21,9 +21,11 @@ import com.xcy.fzbcity.all.adapter.HousingSupermarketAdapter;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.api.RedEnvelopesAllTalk;
 import com.xcy.fzbcity.all.modle.CustomerVisitorSumStatisticsBean;
+import com.xcy.fzbcity.all.modle.HotPushBean;
 import com.xcy.fzbcity.all.modle.ProjectSortBean;
 import com.xcy.fzbcity.all.modle.RedBagSumStatisticsBean;
 import com.xcy.fzbcity.all.modle.SupermarketBean;
+import com.xcy.fzbcity.all.persente.MyItemTouchHelper;
 import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
@@ -41,6 +43,7 @@ public class HousingSupermarketActivity extends AllActivity implements View.OnCl
     private TextView housing_supermarket_hot_list;
     private RecyclerView housing_supermarket_recycler;
     private Button housing_supermarket_add_housing;
+    private HousingSupermarketAdapter housingSupermarketAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +97,6 @@ public class HousingSupermarketActivity extends AllActivity implements View.OnCl
         code.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<SupermarketBean>() {
-
-                    private HousingSupermarketAdapter housingSupermarketAdapter;
-
                     @Override
                     public void onSubscribe(Disposable d) {
 
@@ -110,105 +110,57 @@ public class HousingSupermarketActivity extends AllActivity implements View.OnCl
                         housingSupermarketAdapter = new HousingSupermarketAdapter(supermarketBean.getData().getRows());
                         housing_supermarket_recycler.setAdapter(housingSupermarketAdapter);
                         housingSupermarketAdapter.notifyDataSetChanged();
-                        ItemTouchHelper.Callback mItemTouchCallBack = new ItemTouchHelper.Callback() {
-                            /**
-                             * 设置滑动类型标记
-                             *
-                             * @param recyclerView
-                             * @param viewHolder
-                             * @return
-                             *          返回一个整数类型的标识，用于判断Item那种移动行为是允许的
-                             */
+
+                        housingSupermarketAdapter.setOnItemClickListener(new HousingSupermarketAdapter.OnItemClickLisenter() {
                             @Override
-                            public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-                                return makeMovementFlags(ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT | ItemTouchHelper.DOWN | ItemTouchHelper.UP, 0);
+                            public void onItemClick(int postion) {
+                                initHotPush(supermarketBean.getData().getRows().get(postion).getProjectId());
                             }
+                        });
 
-                            /**
-                             * Item是否支持长按拖动
-                             *
-                             * @return
-                             *          true  支持长按操作
-                             *          false 不支持长按操作
-                             */
-                            @Override
-                            public boolean isLongPressDragEnabled() {
-                                return true;
-                            }
+                        ItemTouchHelper helper = new ItemTouchHelper(new MyItemTouchHelper(housingSupermarketAdapter));
+                        helper.attachToRecyclerView(housing_supermarket_recycler);
 
-                            /**
-                             * Item是否支持滑动
-                             *
-                             * @return
-                             *          true  支持滑动操作
-                             *          false 不支持滑动操作
-                             */
-                            @Override
-                            public boolean isItemViewSwipeEnabled() {
-                                return false;
-                            }
-
-                            @Override
-                            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
-                            }
-
-                            /**
-                             * 拖拽切换Item的回调
-                             *
-                             * @param recyclerView
-                             * @param viewHolder
-                             * @param target
-                             * @return
-                             *          如果Item切换了位置，返回true；反之，返回false
-                             */
-                            @Override
-                            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                                housingSupermarketAdapter.move(viewHolder.getAdapterPosition(), target.getAdapterPosition());
-                                return true;
-                            }
-
-                            /**
-                             * Item被选中时候回调
-                             *
-                             * @param viewHolder
-                             * @param actionState
-                             *          当前Item的状态
-                             *          ItemTouchHelper.ACTION_STATE_IDLE   闲置状态
-                             *          ItemTouchHelper.ACTION_STATE_SWIPE  滑动中状态
-                             *          ItemTouchHelper#ACTION_STATE_DRAG   拖拽中状态
-                             */
-                            @Override
-                            public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
-                                //  item被选中的操作
-                                if(actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
-                                    viewHolder.itemView.setBackgroundResource(R.color.color);
-                                }
-                                super.onSelectedChanged(viewHolder, actionState);
-                            }
-
-                            /**
-                             * 用户操作完毕或者动画完毕后会被调用
-                             *
-                             * @param recyclerView
-                             * @param viewHolder
-                             */
-                            @Override
-                            public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-                                // 操作完毕后恢复颜色
-                                viewHolder.itemView.setBackgroundResource(R.color.color);
-                                initProjectSort();
-                                super.clearView(recyclerView, viewHolder);
-                            }
-                        };
-                        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(mItemTouchCallBack);
-
-                        mItemTouchHelper.attachToRecyclerView(housing_supermarket_recycler);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Log.i("房源超市列表", "房源超市列表错误信息:" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    //  TODO    房源超市--热推/取消热推/删除
+    private void initHotPush(String projectId){
+        Retrofit.Builder builder = new Retrofit.Builder();
+        builder.baseUrl(FinalContents.getBaseUrl());
+        builder.addConverterFactory(GsonConverterFactory.create());
+        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+        Retrofit build = builder.build();
+        MyService fzbInterface = build.create(MyService.class);
+        final Observable<HotPushBean> code = fzbInterface.getHotPush(FinalContents.getUserID(), RedEnvelopesAllTalk.getWebshopId(),projectId,RedEnvelopesAllTalk.getType());
+        code.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<HotPushBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(HotPushBean hotPushBean) {
+                        ToastUtil.showLongToast(HousingSupermarketActivity.this,hotPushBean.getData().getMessage());
+                        initData();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("房源超市--热推/取消热推/删除", "房源超市--热推/取消热推/删除的错误信息:" + e.getMessage());
                     }
 
                     @Override
@@ -237,6 +189,7 @@ public class HousingSupermarketActivity extends AllActivity implements View.OnCl
                     @Override
                     public void onNext(ProjectSortBean projectSortBean) {
                         ToastUtil.showLongToast(HousingSupermarketActivity.this,projectSortBean.getData().getMessage());
+
                     }
 
                     @Override

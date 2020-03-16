@@ -27,10 +27,19 @@ import co.lujun.androidtagview.TagContainerLayout;
 public class HousingSupermarketAddHousingAdapter extends RecyclerView.Adapter<HousingSupermarketAddHousingAdapter.HousingSupermarketAddHousingViewHolder>{
     private View view;
     private List<HotBean.DataBean.RowsBean> list;
+    private List<String> arrayList = new ArrayList<>();
     private Context context;
+
+    public void setArrayList(List<String> arrayList) {
+        this.arrayList = arrayList;
+    }
 
     public HousingSupermarketAddHousingAdapter(List<HotBean.DataBean.RowsBean> list) {
         this.list = list;
+    }
+
+    public List<String> getArrayList() {
+        return arrayList;
     }
 
     @NonNull
@@ -107,6 +116,26 @@ public class HousingSupermarketAddHousingAdapter extends RecyclerView.Adapter<Ho
                 holder.adapter_housing_supermarket_add_housing_unit.setVisibility(View.VISIBLE);
             }
         }
+
+        holder.adapter_housing_supermarket_add_housing_select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (holder.adapter_housing_supermarket_add_housing_select.isChecked()) {
+                    for (int i = 0;i < arrayList.size(); ++i){
+                        if (i == position) {
+                            arrayList.set(position,list.get(position).getProjectId());
+                        }
+                    }
+                }else {
+                    for (int i = 0;i < arrayList.size(); ++i){
+                        if (i == position) {
+                            arrayList.set(position,"");
+                        }
+                    }
+                }
+            }
+        });
+
     }
 
     @Override

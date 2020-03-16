@@ -13,10 +13,12 @@
 
         <CheckBox
             android:id="@+id/adapter_housing_supermarket_add_housing_select"
+            android:drawableLeft="@drawable/item_phone_check_select"
+            android:button="@null"
             android:layout_marginTop="31dp"
             android:layout_marginLeft="16.5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="18.5dp"
+            android:layout_height="18.5dp"/>
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/adapter_housing_supermarket_add_housing_image"

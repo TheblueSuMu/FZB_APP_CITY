@@ -52,7 +52,6 @@ public class CirclOfFriendsAssistantActivity extends AllActivity implements View
         FragmentTransaction transaction = manager.beginTransaction();
         circleOfFriendsAssistantIllustrationFragment = new CircleOfFriendsAssistantIllustrationFragment();
         circleOfFriendsAssistantCaptionFragment = new CircleOfFriendsAssistantCaptionFragment();
-
         transaction.replace(R.id.circle_of_friends_assistant_framelayout, circleOfFriendsAssistantIllustrationFragment);
         transaction.commit();
     }
@@ -69,10 +68,14 @@ public class CirclOfFriendsAssistantActivity extends AllActivity implements View
             case R.id.circle_of_friends_assistant_caption_linear :
                 //  TODO    朋友圈配文
                 transaction.replace(R.id.circle_of_friends_assistant_framelayout, circleOfFriendsAssistantCaptionFragment);
+                circle_of_friends_assistant_caption_view.setVisibility(View.VISIBLE);
+                circle_of_friends_assistant_illustration_view.setVisibility(View.INVISIBLE);
                 break;
             case R.id.circle_of_friends_assistant_illustration_linear :
                 //  TODO    朋友圈配图
                 transaction.replace(R.id.circle_of_friends_assistant_framelayout, circleOfFriendsAssistantIllustrationFragment);
+                circle_of_friends_assistant_caption_view.setVisibility(View.INVISIBLE);
+                circle_of_friends_assistant_illustration_view.setVisibility(View.VISIBLE);
                 break;
 
         }

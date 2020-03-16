@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,10 +14,13 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.adapter.HousingSupermarketAdapter;
 import com.xcy.fzbcity.all.adapter.HousingSupermarketAddHousingAdapter;
+import com.xcy.fzbcity.all.adapter.HousingSupermarketHotListAdapter;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.api.RedEnvelopesAllTalk;
 import com.xcy.fzbcity.all.modle.HotBean;
 import com.xcy.fzbcity.all.modle.SupermarketBean;
+import com.xcy.fzbcity.all.persente.MyItemTouchHelper;
+import com.xcy.fzbcity.all.persente.MyItemTouchHelper2;
 import com.xcy.fzbcity.all.service.MyService;
 
 import io.reactivex.Observable;
@@ -31,6 +35,7 @@ public class HousingSupermarketHotListActivity extends AllActivity implements Vi
 
     private LinearLayout housing_supermarket_hot_list_return;
     private RecyclerView housing_supermarket_hot_list_recyclerview;
+    private HousingSupermarketHotListAdapter housingSupermarketHotListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,7 @@ public class HousingSupermarketHotListActivity extends AllActivity implements Vi
 
     //  TODO    热推列表
     private void initData(){
+//        HousingSupermarketHotList
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(FinalContents.getBaseUrl());
         builder.addConverterFactory(GsonConverterFactory.create());
@@ -79,9 +85,12 @@ public class HousingSupermarketHotListActivity extends AllActivity implements Vi
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(HousingSupermarketHotListActivity.this);
                         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                         housing_supermarket_hot_list_recyclerview.setLayoutManager(linearLayoutManager);
-                        HousingSupermarketAdapter housingSupermarketAdapter = new HousingSupermarketAdapter(supermarketBean.getData().getRows());
-                        housing_supermarket_hot_list_recyclerview.setAdapter(housingSupermarketAdapter);
-                        housingSupermarketAdapter.notifyDataSetChanged();
+                        housingSupermarketHotListAdapter = new HousingSupermarketHotListAdapter(supermarketBean.getData().getRows());
+                        housing_supermarket_hot_list_recyclerview.setAdapter(housingSupermarketHotListAdapter);
+                        housingSupermarketHotListAdapter.notifyDataSetChanged();
+
+                        ItemTouchHelper helper = new ItemTouchHelper(new MyItemTouchHelper2(housingSupermarketHotListAdapter));
+                        helper.attachToRecyclerView(housing_supermarket_hot_list_recyclerview);
                     }
 
                     @Override

@@ -16,6 +16,16 @@ public class RedEnvelopesAllTalk {
 
     static int index = 0;
 
+    static String Type = "";
+
+    public static String getType() {
+        return Type;
+    }
+
+    public static void setType(String type) {
+        Type = type;
+    }
+
     static List<RedbagReceiveRecordBean.DataBean.RowsBean> RedbagReceiveRecordList = new ArrayList<>();
 
     public static List<RedbagReceiveRecordBean.DataBean.RowsBean> getRedbagReceiveRecordList() {

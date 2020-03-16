@@ -40,12 +40,12 @@ import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class HousingSupermarketAdapter extends RecyclerView.Adapter<HousingSupermarketAdapter.HousingSupermarketViewHolder>{
+public class HousingSupermarketHotListAdapter extends RecyclerView.Adapter<HousingSupermarketHotListAdapter.HousingSupermarketHotListViewHolder>{
     private List<SupermarketBean.DataBean.RowsBean> list;
     private Context context;
     private View view;
 
-    public HousingSupermarketAdapter(List<SupermarketBean.DataBean.RowsBean> list) {
+    public HousingSupermarketHotListAdapter(List<SupermarketBean.DataBean.RowsBean> list) {
         this.list = list;
     }
 
@@ -66,14 +66,14 @@ public class HousingSupermarketAdapter extends RecyclerView.Adapter<HousingSuper
 
     @NonNull
     @Override
-    public HousingSupermarketViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_housing_supermarket, null);
+    public HousingSupermarketHotListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_housing_supermarket_hot_list, null);
         context = parent.getContext();
-        return new HousingSupermarketViewHolder(view);
+        return new HousingSupermarketHotListViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HousingSupermarketViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull HousingSupermarketHotListViewHolder holder, int position) {
         Glide.with(context).load(FinalContents.getImageUrl() + list.get(position).getProjectListVo().getProjectImg()).into(holder.adapter_housing_supermarket_image);
 
         holder.adapter_housing_supermarket_title.setText("[" + list.get(position).getProjectListVo().getArea() + "]" + list.get(position).getProjectListVo().getProjectName());
@@ -140,47 +140,6 @@ public class HousingSupermarketAdapter extends RecyclerView.Adapter<HousingSuper
             }
         }
 
-        if (list.get(position).getHotPush().equals("1")) {
-            //  TODO    热门
-            holder.adapter_housing_supermarket_select.setBackgroundColor(Color.parseColor("#F95742"));
-            holder.adapter_housing_supermarket_select.setText("取消热推");
-        }else {
-            //  TODO    非热门
-            holder.adapter_housing_supermarket_select.setBackgroundColor(Color.parseColor("#334485"));
-            holder.adapter_housing_supermarket_select.setText("热推");
-        }
-
-        // TODO  移除
-        holder.adapter_housing_supermarket_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                RedEnvelopesAllTalk.setType("2");
-                if (onItemClickLisenter != null) {
-                    onItemClickLisenter.onItemClick(position);
-                }
-            }
-        });
-
-        // TODO  热推或取消热推
-        holder.adapter_housing_supermarket_select.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (list.get(position).getHotPush().equals("1")) {
-                    //  TODO    热门
-                    RedEnvelopesAllTalk.setType("0");
-                }else {
-                    //  TODO    非热门
-                    RedEnvelopesAllTalk.setType("1");
-                }
-
-                if (onItemClickLisenter != null) {
-                    onItemClickLisenter.onItemClick(position);
-                }
-            }
-        });
-
-
 
     }
 
@@ -195,7 +154,7 @@ public class HousingSupermarketAdapter extends RecyclerView.Adapter<HousingSuper
         return list.size();
     }
 
-    class HousingSupermarketViewHolder extends RecyclerView.ViewHolder{
+    class HousingSupermarketHotListViewHolder extends RecyclerView.ViewHolder{
         ImageView adapter_housing_supermarket_image;
         ImageView adapter_housing_supermarket_icon;
         TextView adapter_housing_supermarket_title;
@@ -203,12 +162,9 @@ public class HousingSupermarketAdapter extends RecyclerView.Adapter<HousingSuper
         TextView adapter_housing_supermarket_area;
         TextView adapter_housing_supermarket_price;
         TextView adapter_housing_supermarket_unit;
-        Button adapter_housing_supermarket_delete;
-        Button adapter_housing_supermarket_select;
-        SwipeMenuLayout adapter_housing_supermarket_SwipeMenuLayout;
 
 
-        public HousingSupermarketViewHolder(@NonNull View itemView) {
+        public HousingSupermarketHotListViewHolder(@NonNull View itemView) {
             super(itemView);
             adapter_housing_supermarket_image = itemView.findViewById(R.id.adapter_housing_supermarket_image);
             adapter_housing_supermarket_icon = itemView.findViewById(R.id.adapter_housing_supermarket_icon);
@@ -217,9 +173,6 @@ public class HousingSupermarketAdapter extends RecyclerView.Adapter<HousingSuper
             adapter_housing_supermarket_area = itemView.findViewById(R.id.adapter_housing_supermarket_area);
             adapter_housing_supermarket_price = itemView.findViewById(R.id.adapter_housing_supermarket_price);
             adapter_housing_supermarket_unit = itemView.findViewById(R.id.adapter_housing_supermarket_unit);
-            adapter_housing_supermarket_delete = itemView.findViewById(R.id.adapter_housing_supermarket_delete);
-            adapter_housing_supermarket_select = itemView.findViewById(R.id.adapter_housing_supermarket_select);
-            adapter_housing_supermarket_SwipeMenuLayout = itemView.findViewById(R.id.adapter_housing_supermarket_SwipeMenuLayout);
         }
     }
 }

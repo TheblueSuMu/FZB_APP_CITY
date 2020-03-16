@@ -81,6 +81,7 @@
             android:id="@+id/adapter_visitors_to_record_project_image"
             android:layout_marginTop="5.5dp"
             android:layout_marginBottom="5.5dp"
+            android:src="@mipmap/logo_city"
             android:layout_marginLeft="6dp"
             android:layout_width="40dp"
             android:layout_height="40dp"/>
