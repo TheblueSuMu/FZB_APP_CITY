@@ -12,9 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
-
-import com.netease.nim.uikit.api.NimUIKit;
-import com.netease.nim.uikit.common.activity.UI;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.fragment.app.FragmentManager;
@@ -34,7 +31,7 @@ import com.xcy.fzbcity.all.view.ReportActivity;
 import com.xcy.fzbcity.broker.fragment.DFragment;
 import com.xcy.fzbcity.broker.fragment.EFragment;
 
-public class Broker_MainActivity extends UI implements View.OnClickListener,HomeFragment.FragmentInteraction {
+public class Broker_MainActivity extends AllActivity implements View.OnClickListener,HomeFragment.FragmentInteraction {
 
     private RadioButton button_home;
     private RadioButton button_message;
@@ -98,68 +95,67 @@ public class Broker_MainActivity extends UI implements View.OnClickListener,Home
     // 3.2 +实现接口，实现回调
     @Override
     public void process(String str) {
-        Log.i("文字轮播点击","str：" + str);
         if (str != null) {
             if (str.equals("0")) {
                 init_No_Network();
                 FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
 //                MessageFragment messageFragment = new MessageFragment();
-                dFragment.setType("2");
+                message_fragment.setType("2");
 //                transaction.replace(R.id.main_framelayout,messageFragment);
 
                 transaction.hide(home_fragment);
-                transaction.hide(message_fragment);
-                transaction.show(dFragment);
+                transaction.hide(dFragment);
+                transaction.show(message_fragment);
                 transaction.hide(eFragment);
 
                 transaction.commit();
-                button_economics.setChecked(true);
+                button_message.setChecked(true);
             } else if (str.equals("2")) {
                 init_No_Network();
                 FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
 //                MessageFragment messageFragment = new MessageFragment();
-                dFragment.setType("3");
+                message_fragment.setType("3");
 //                transaction.replace(R.id.main_framelayout,messageFragment);
 
                 transaction.hide(home_fragment);
-                transaction.hide(message_fragment);
-                transaction.show(dFragment);
+                transaction.hide(dFragment);
+                transaction.show(message_fragment);
                 transaction.hide(eFragment);
 
                 transaction.commit();
-                button_economics.setChecked(true);
+                button_message.setChecked(true);
             } else if (str.equals("5")) {
                 init_No_Network();
                 FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
 //                MessageFragment messageFragment = new MessageFragment();
-                dFragment.setType("4");
+                message_fragment.setType("4");
 //                transaction.replace(R.id.main_framelayout,messageFragment);
 
                 transaction.hide(home_fragment);
-                transaction.hide(message_fragment);
-                transaction.show(dFragment);
+                transaction.hide(dFragment);
+                transaction.show(message_fragment);
                 transaction.hide(eFragment);
 
                 transaction.commit();
-                button_economics.setChecked(true);
+                button_message.setChecked(true);
             } else if (str.equals("10")) {
                 init_No_Network();
                 FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
 //                MessageFragment messageFragment = new MessageFragment();
-                dFragment.setType("1");
+                message_fragment.setType("1");
 //                transaction.replace(R.id.main_framelayout,messageFragment);
 
                 transaction.hide(home_fragment);
-                transaction.hide(message_fragment);
-                transaction.show(dFragment);
+                transaction.hide(dFragment);
+                transaction.show(message_fragment);
                 transaction.hide(eFragment);
 
                 transaction.commit();
-                button_economics.setChecked(true);
+                button_message.setChecked(true);
             }
         }
 
@@ -220,8 +216,8 @@ public class Broker_MainActivity extends UI implements View.OnClickListener,Home
                 transaction.hide(eFragment);
                 break;
             case R.id.button_backup:
-                if (FinalContents.getCityID().equals(FinalContents.getOldCityId())) {
-                    ToastUtil.showToast(this, "");
+                if (!FinalContents.getCityID().equals(FinalContents.getOldCityId())) {
+                    ToastUtil.showToast(this, "该城市不是您的主营城市，请切换到您的主营城市后再报备客户");
                 }else {
                     Intent intent = new Intent(Broker_MainActivity.this, ReportActivity.class);
                     startActivity(intent);

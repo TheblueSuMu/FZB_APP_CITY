@@ -178,7 +178,6 @@ public class NoticeFragment extends Fragment {
                         MessageBean.DataBean data1 = messageBean.getData();
                         rows = data1.getRows();
                         Log.i("列表数据加载", "加载");
-                        Log.i("列表数据加载", "通知rows.size():" + rows.size());
                         if (rows.size() != 0) {
                             try {
                                 all_no_information_notice.setVisibility(View.GONE);
@@ -394,13 +393,6 @@ public class NoticeFragment extends Fragment {
             initData();
             //TODO now invisible to user 显示fragment
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (EventBus.getDefault().isRegistered(this))//加上判断
-            EventBus.getDefault().unregister(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100

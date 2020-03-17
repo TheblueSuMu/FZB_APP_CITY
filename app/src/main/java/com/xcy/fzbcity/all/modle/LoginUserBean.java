@@ -6,11 +6,10 @@ package com.xcy.fzbcity.all.modle;
  */
 public class LoginUserBean {
 
-
     /**
      * code : 1
      * msg : 成功
-     * data : {"id":"623f85bb900d4dadb74921390509301a","loginName":"wyyceshi","name":"网易云测试","email":"2529785659@qq.com","phone":"17602638197","mobile":"","loginIp":"0:0:0:0:0:0:0:1","loginDate":1583301407000,"loginFlag":"1","photo":"/fangfang/userfiles/1/attachment//ff/server/sysUser/2020/3/1583287617166.jpg","qrCode":"","oldLoginName":"","newPassword":"","sign":"","oldLoginIp":"0:0:0:0:0:0:0:1","oldLoginDate":1583301407000,"sex":"男","province":"吉林省","city":"长春市","county":"南关区","identity":"3","companyManage":{"id":"7c1b500778774cbd80ab61091dadb72d","remarks":"","createBy":"","createDate":"2020-01-13 15:42:48","updateBy":"","updateDate":"2020-01-13 15:42:48","filterField":"","companyCityName":"吉海旅居（长春）","companyName":"珠穆朗玛峰公司","area":"吉林省/长春市/南关区","zoneId":"","location":"125.31432828345758,43.794024368449705","address":"吉林省长春市南关区X001(永春街)","companyInfo":"","attacheId":"62a59be0914b487186d287ed4e490d9c","managerId":"","directorId":"","flag":"1","state":"","officeId":"c241db93cbd247f5a8aadf501806b56a","sysUserId":"","userName":"","phone":"","loginName":"","password":"","startTime":"","endTime":"","type":"","attacheName":"yyy","identity":"5","lprovince":"吉林省","lcity":"长春市","lregion":"南关区","isSecond":"普通专员"},"storeManage":{"id":"758f0b0f0f00488e8fcf29baea9dff8b","remarks":"","createBy":"","createDate":"2020-01-13 15:43:32","updateBy":"","updateDate":"2020-01-13 15:43:32","filterField":"","company1":"","company":"","storeName":"修木门店","area":"吉林省/长春市/南关区","zoneId":"","location":"125.31428336818209,43.794115470366265","address":"吉林省长春市南关区X001(永春街)","storeInfo":"","attache":"","managerId":"","directorId":"","flag":"1","state":"1","lProvince":"吉林省","lCity":"长春市","lRegion":"南关区","officeId":"c241db93cbd247f5a8aadf501806b56a","storeRise":"","storeImg":"","reason":"","userId":"","storeNum":"0002455","userName":"","phone":"","loginName":"","password":"","attacheName":"yyy","attachePhone":"13944619975","startTime":"","endTime":"","officeName":"吉海旅居（长春）","identity":"5","lprovince":"吉林省","lcity":"长春市","lregion":"南关区","isSecond":"普通专员"},"storeManagePhone":"13944619975","storeManageName":"yyy","cityId":"c241db93cbd247f5a8aadf501806b56a","cityName":"吉海旅居（长春）","team":"","layerTeamVo":"","manageFlag":"","codeImg":"/fangfang/static/down/appTwoCode.png","wechatOpenid":"","wechatData":"","codeHref":"/fangfang/static/down/index.html","uId":"4c07dcfacdb6ee63719d66ed79200f8a01c243706537e4fa262c218a15e5f5af8d85d48153555e494b79cfa0d9ae3cf1","status":"1","message":"","token":"3a388f9033774d9486e9db02d745db1e","webshopId":"83f4460f9b724db3ae85b3de0ac2b5f7"}
+     * data : {"id":"0c70b51834e94792b94a966c0472c667","loginName":"hh","name":"刚刚","email":"","phone":"13587787888","mobile":"","loginIp":"117.10.132.220","loginDate":1583569476300,"loginFlag":"1","photo":"/fangfang/static/common/images/flat-avatar.png","qrCode":"","oldLoginName":"","newPassword":"","sign":"","oldLoginIp":"117.10.132.220","oldLoginDate":1583568545000,"sex":"男","province":"天津天津市南开区","city":"长春市","county":"","identity":"3","companyManage":{"id":"9c049743478b4e5f9b335cd419ddba88","remarks":"","createBy":"","createDate":"2019-12-17 15:15:48","updateBy":"","updateDate":"2019-12-17 15:17:50","filterField":"","companyCityName":"吉海旅居（长春）","companyName":"测试一下吧","area":"天津天津市南开区","zoneId":"","location":"117.162926,39.117104","address":"白堤路222号招商银行(天津新技术产业园区支行)","companyInfo":"","attacheId":"5d94cbc2b8214fea8c272fad89ca7f9f","managerId":"","directorId":"","flag":"1","state":"","officeId":"c241db93cbd247f5a8aadf501806b56a","sysUserId":"de12e38e7427400ea639a7935d82b63c","userName":"房价","phone":"13477699499","loginName":"fj","password":"","startTime":"","endTime":"","type":"","attacheName":"专员","identity":"5","isSecond":"普通专员","lprovince":"天津天津市南开区","lcity":"","lregion":""},"storeManage":{"id":"2ad45e2d492548669f2e8e86c593fe94","remarks":"","createBy":"","createDate":"2019-12-17 15:16:49","updateBy":"","updateDate":"2019-12-17 15:16:49","filterField":"","company1":"","company":"","storeName":"测试一下吧","area":"天津天津市南开区","zoneId":"","location":"117.162979,39.117081","address":"白堤路222号招商银行(天津新技术产业园区支行)","storeInfo":"","attache":"","managerId":"","directorId":"","flag":"1","state":"2","lProvince":"天津天津市南开区","lCity":"","lRegion":"","officeId":"c241db93cbd247f5a8aadf501806b56a","storeRise":"","storeImg":"","reason":"","userId":"","storeNum":"0002298","userName":"","phone":"","loginName":"","password":"","attacheName":"专员","attachePhone":"13546232345","startTime":"","endTime":"","officeName":"吉海旅居（长春）","identity":"5","isSecond":"普通专员","lprovince":"天津天津市南开区","lcity":"","lregion":""},"storeManagePhone":"13546232345","storeManageName":"专员","cityId":"c241db93cbd247f5a8aadf501806b56a","cityName":"吉海旅居（长春）","team":"","layerTeamVo":"","manageFlag":"","codeImg":"/fangfang/static/down/appTwoCode.png","wechatOpenid":"","wechatData":"","codeHref":"/fangfang/static/down/index.html","uId":"e5b3e54c9776a9c7c86c6f97ef2f0981f52f59450c58e7df6ec49912aa646da18d85d48153555e494b79cfa0d9ae3cf1","status":"1","message":"","token":"","webshopId":"0c70b51834e94792b94a966c0472c667"}
      */
 
     private String code;
@@ -43,31 +42,31 @@ public class LoginUserBean {
 
     public static class DataBean {
         /**
-         * id : 623f85bb900d4dadb74921390509301a
-         * loginName : wyyceshi
-         * name : 网易云测试
-         * email : 2529785659@qq.com
-         * phone : 17602638197
+         * id : 0c70b51834e94792b94a966c0472c667
+         * loginName : hh
+         * name : 刚刚
+         * email :
+         * phone : 13587787888
          * mobile :
-         * loginIp : 0:0:0:0:0:0:0:1
-         * loginDate : 1583301407000
+         * loginIp : 117.10.132.220
+         * loginDate : 1583569476300
          * loginFlag : 1
-         * photo : /fangfang/userfiles/1/attachment//ff/server/sysUser/2020/3/1583287617166.jpg
+         * photo : /fangfang/static/common/images/flat-avatar.png
          * qrCode :
          * oldLoginName :
          * newPassword :
          * sign :
-         * oldLoginIp : 0:0:0:0:0:0:0:1
-         * oldLoginDate : 1583301407000
+         * oldLoginIp : 117.10.132.220
+         * oldLoginDate : 1583568545000
          * sex : 男
-         * province : 吉林省
+         * province : 天津天津市南开区
          * city : 长春市
-         * county : 南关区
+         * county :
          * identity : 3
-         * companyManage : {"id":"7c1b500778774cbd80ab61091dadb72d","remarks":"","createBy":"","createDate":"2020-01-13 15:42:48","updateBy":"","updateDate":"2020-01-13 15:42:48","filterField":"","companyCityName":"吉海旅居（长春）","companyName":"珠穆朗玛峰公司","area":"吉林省/长春市/南关区","zoneId":"","location":"125.31432828345758,43.794024368449705","address":"吉林省长春市南关区X001(永春街)","companyInfo":"","attacheId":"62a59be0914b487186d287ed4e490d9c","managerId":"","directorId":"","flag":"1","state":"","officeId":"c241db93cbd247f5a8aadf501806b56a","sysUserId":"","userName":"","phone":"","loginName":"","password":"","startTime":"","endTime":"","type":"","attacheName":"yyy","identity":"5","lprovince":"吉林省","lcity":"长春市","lregion":"南关区","isSecond":"普通专员"}
-         * storeManage : {"id":"758f0b0f0f00488e8fcf29baea9dff8b","remarks":"","createBy":"","createDate":"2020-01-13 15:43:32","updateBy":"","updateDate":"2020-01-13 15:43:32","filterField":"","company1":"","company":"","storeName":"修木门店","area":"吉林省/长春市/南关区","zoneId":"","location":"125.31428336818209,43.794115470366265","address":"吉林省长春市南关区X001(永春街)","storeInfo":"","attache":"","managerId":"","directorId":"","flag":"1","state":"1","lProvince":"吉林省","lCity":"长春市","lRegion":"南关区","officeId":"c241db93cbd247f5a8aadf501806b56a","storeRise":"","storeImg":"","reason":"","userId":"","storeNum":"0002455","userName":"","phone":"","loginName":"","password":"","attacheName":"yyy","attachePhone":"13944619975","startTime":"","endTime":"","officeName":"吉海旅居（长春）","identity":"5","lprovince":"吉林省","lcity":"长春市","lregion":"南关区","isSecond":"普通专员"}
-         * storeManagePhone : 13944619975
-         * storeManageName : yyy
+         * companyManage : {"id":"9c049743478b4e5f9b335cd419ddba88","remarks":"","createBy":"","createDate":"2019-12-17 15:15:48","updateBy":"","updateDate":"2019-12-17 15:17:50","filterField":"","companyCityName":"吉海旅居（长春）","companyName":"测试一下吧","area":"天津天津市南开区","zoneId":"","location":"117.162926,39.117104","address":"白堤路222号招商银行(天津新技术产业园区支行)","companyInfo":"","attacheId":"5d94cbc2b8214fea8c272fad89ca7f9f","managerId":"","directorId":"","flag":"1","state":"","officeId":"c241db93cbd247f5a8aadf501806b56a","sysUserId":"de12e38e7427400ea639a7935d82b63c","userName":"房价","phone":"13477699499","loginName":"fj","password":"","startTime":"","endTime":"","type":"","attacheName":"专员","identity":"5","isSecond":"普通专员","lprovince":"天津天津市南开区","lcity":"","lregion":""}
+         * storeManage : {"id":"2ad45e2d492548669f2e8e86c593fe94","remarks":"","createBy":"","createDate":"2019-12-17 15:16:49","updateBy":"","updateDate":"2019-12-17 15:16:49","filterField":"","company1":"","company":"","storeName":"测试一下吧","area":"天津天津市南开区","zoneId":"","location":"117.162979,39.117081","address":"白堤路222号招商银行(天津新技术产业园区支行)","storeInfo":"","attache":"","managerId":"","directorId":"","flag":"1","state":"2","lProvince":"天津天津市南开区","lCity":"","lRegion":"","officeId":"c241db93cbd247f5a8aadf501806b56a","storeRise":"","storeImg":"","reason":"","userId":"","storeNum":"0002298","userName":"","phone":"","loginName":"","password":"","attacheName":"专员","attachePhone":"13546232345","startTime":"","endTime":"","officeName":"吉海旅居（长春）","identity":"5","isSecond":"普通专员","lprovince":"天津天津市南开区","lcity":"","lregion":""}
+         * storeManagePhone : 13546232345
+         * storeManageName : 专员
          * cityId : c241db93cbd247f5a8aadf501806b56a
          * cityName : 吉海旅居（长春）
          * team :
@@ -77,11 +76,11 @@ public class LoginUserBean {
          * wechatOpenid :
          * wechatData :
          * codeHref : /fangfang/static/down/index.html
-         * uId : 4c07dcfacdb6ee63719d66ed79200f8a01c243706537e4fa262c218a15e5f5af8d85d48153555e494b79cfa0d9ae3cf1
+         * uId : e5b3e54c9776a9c7c86c6f97ef2f0981f52f59450c58e7df6ec49912aa646da18d85d48153555e494b79cfa0d9ae3cf1
          * status : 1
          * message :
-         * token : 3a388f9033774d9486e9db02d745db1e
-         * webshopId : 83f4460f9b724db3ae85b3de0ac2b5f7
+         * token :
+         * webshopId : 0c70b51834e94792b94a966c0472c667
          */
 
         private String id;
@@ -438,40 +437,40 @@ public class LoginUserBean {
 
         public static class CompanyManageBean {
             /**
-             * id : 7c1b500778774cbd80ab61091dadb72d
+             * id : 9c049743478b4e5f9b335cd419ddba88
              * remarks :
              * createBy :
-             * createDate : 2020-01-13 15:42:48
+             * createDate : 2019-12-17 15:15:48
              * updateBy :
-             * updateDate : 2020-01-13 15:42:48
+             * updateDate : 2019-12-17 15:17:50
              * filterField :
              * companyCityName : 吉海旅居（长春）
-             * companyName : 珠穆朗玛峰公司
-             * area : 吉林省/长春市/南关区
+             * companyName : 测试一下吧
+             * area : 天津天津市南开区
              * zoneId :
-             * location : 125.31432828345758,43.794024368449705
-             * address : 吉林省长春市南关区X001(永春街)
+             * location : 117.162926,39.117104
+             * address : 白堤路222号招商银行(天津新技术产业园区支行)
              * companyInfo :
-             * attacheId : 62a59be0914b487186d287ed4e490d9c
+             * attacheId : 5d94cbc2b8214fea8c272fad89ca7f9f
              * managerId :
              * directorId :
              * flag : 1
              * state :
              * officeId : c241db93cbd247f5a8aadf501806b56a
-             * sysUserId :
-             * userName :
-             * phone :
-             * loginName :
+             * sysUserId : de12e38e7427400ea639a7935d82b63c
+             * userName : 房价
+             * phone : 13477699499
+             * loginName : fj
              * password :
              * startTime :
              * endTime :
              * type :
-             * attacheName : yyy
+             * attacheName : 专员
              * identity : 5
-             * lprovince : 吉林省
-             * lcity : 长春市
-             * lregion : 南关区
              * isSecond : 普通专员
+             * lprovince : 天津天津市南开区
+             * lcity :
+             * lregion :
              */
 
             private String id;
@@ -504,10 +503,10 @@ public class LoginUserBean {
             private String type;
             private String attacheName;
             private String identity;
+            private String isSecond;
             private String lprovince;
             private String lcity;
             private String lregion;
-            private String isSecond;
 
             public String getId() {
                 return id;
@@ -749,6 +748,14 @@ public class LoginUserBean {
                 this.identity = identity;
             }
 
+            public String getIsSecond() {
+                return isSecond;
+            }
+
+            public void setIsSecond(String isSecond) {
+                this.isSecond = isSecond;
+            }
+
             public String getLprovince() {
                 return lprovince;
             }
@@ -772,61 +779,53 @@ public class LoginUserBean {
             public void setLregion(String lregion) {
                 this.lregion = lregion;
             }
-
-            public String getIsSecond() {
-                return isSecond;
-            }
-
-            public void setIsSecond(String isSecond) {
-                this.isSecond = isSecond;
-            }
         }
 
         public static class StoreManageBean {
             /**
-             * id : 758f0b0f0f00488e8fcf29baea9dff8b
+             * id : 2ad45e2d492548669f2e8e86c593fe94
              * remarks :
              * createBy :
-             * createDate : 2020-01-13 15:43:32
+             * createDate : 2019-12-17 15:16:49
              * updateBy :
-             * updateDate : 2020-01-13 15:43:32
+             * updateDate : 2019-12-17 15:16:49
              * filterField :
              * company1 :
              * company :
-             * storeName : 修木门店
-             * area : 吉林省/长春市/南关区
+             * storeName : 测试一下吧
+             * area : 天津天津市南开区
              * zoneId :
-             * location : 125.31428336818209,43.794115470366265
-             * address : 吉林省长春市南关区X001(永春街)
+             * location : 117.162979,39.117081
+             * address : 白堤路222号招商银行(天津新技术产业园区支行)
              * storeInfo :
              * attache :
              * managerId :
              * directorId :
              * flag : 1
-             * state : 1
-             * lProvince : 吉林省
-             * lCity : 长春市
-             * lRegion : 南关区
+             * state : 2
+             * lProvince : 天津天津市南开区
+             * lCity :
+             * lRegion :
              * officeId : c241db93cbd247f5a8aadf501806b56a
              * storeRise :
              * storeImg :
              * reason :
              * userId :
-             * storeNum : 0002455
+             * storeNum : 0002298
              * userName :
              * phone :
              * loginName :
              * password :
-             * attacheName : yyy
-             * attachePhone : 13944619975
+             * attacheName : 专员
+             * attachePhone : 13546232345
              * startTime :
              * endTime :
              * officeName : 吉海旅居（长春）
              * identity : 5
-             * lprovince : 吉林省
-             * lcity : 长春市
-             * lregion : 南关区
              * isSecond : 普通专员
+             * lprovince : 天津天津市南开区
+             * lcity :
+             * lregion :
              */
 
             private String id;
@@ -868,10 +867,10 @@ public class LoginUserBean {
             private String endTime;
             private String officeName;
             private String identity;
+            private String isSecond;
             private String lprovince;
             private String lcity;
             private String lregion;
-            private String isSecond;
 
             public String getId() {
                 return id;
@@ -1185,6 +1184,14 @@ public class LoginUserBean {
                 this.identity = identity;
             }
 
+            public String getIsSecond() {
+                return isSecond;
+            }
+
+            public void setIsSecond(String isSecond) {
+                this.isSecond = isSecond;
+            }
+
             public String getLprovince() {
                 return lprovince;
             }
@@ -1207,14 +1214,6 @@ public class LoginUserBean {
 
             public void setLregion(String lregion) {
                 this.lregion = lregion;
-            }
-
-            public String getIsSecond() {
-                return isSecond;
-            }
-
-            public void setIsSecond(String isSecond) {
-                this.isSecond = isSecond;
             }
         }
     }

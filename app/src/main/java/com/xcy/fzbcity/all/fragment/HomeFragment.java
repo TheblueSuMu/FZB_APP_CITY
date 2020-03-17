@@ -611,7 +611,6 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                             textBannerAdapter.setOnItemClickListener(new TextBannerAdapter.OnItemClickLisenter() {
                                 @Override
                                 public void onItemClick(int postion) {
-                                    Log.i("文字轮播点击","messagelist.get(postion).getType()：" + messagelist.get(postion).getType());
                                     if (messagelist.get(postion).getType().equals("0")) {
                                         listterner.process("0"); // 3.1 执行回调
                                     } else if (messagelist.get(postion).getType().equals("2")) {
@@ -621,7 +620,6 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                     }else if (messagelist.get(postion).getType().equals("10")){
                                         listterner.process("10"); // 3.1 执行回调
                                     }
-
                                 }
                             });
 
@@ -659,7 +657,6 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                             textBannerAdapter_s.setOnItemClickListener(new TextBannerAdapter_S.OnItemClickLisenter() {
                                 @Override
                                 public void onItemClick(int postion) {
-                                    Log.i("文字轮播点击","messagelist.get(postion).getType()：" + messagelist.get(postion).getType());
                                     if (messagelist.get(postion+1).getType().equals("0")) {
                                         listterner.process("0"); // 3.1 执行回调
                                     } else if (messagelist.get(postion+1).getType().equals("2")) {
@@ -669,7 +666,6 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                     }else if (messagelist.get(postion+1).getType().equals("10")){
                                         listterner.process("10"); // 3.1 执行回调
                                     }
-
                                 }
                             });
                             Log.i("文字轮播","*********************************************************************");
@@ -811,7 +807,6 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                 }else if (messagelist.get(postion).getType().equals("10")){
                                     listterner.process("10"); // 3.1 执行回调
                                 }
-                                Log.i("文字轮播点击","messagelist.get(postion).getType()：" + messagelist.get(postion).getType());
                             }
                         });
                         textBannerAdapter_s.setOnItemClickListener(new TextBannerAdapter_S.OnItemClickLisenter() {
@@ -826,7 +821,6 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                 }else if (messagelist.get(postion+1).getType().equals("10")){
                                     listterner.process("10"); // 3.1 执行回调
                                 }
-                                Log.i("文字轮播点击","messagelist.get(postion).getType()：" + messagelist.get(postion).getType());
                             }
                         });
                         Log.i("下拉刷新","istvBean == 0");

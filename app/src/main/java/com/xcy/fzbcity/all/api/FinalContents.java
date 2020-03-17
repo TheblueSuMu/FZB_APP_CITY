@@ -44,7 +44,8 @@ public class FinalContents {
     public static final String SP_FILE_NAME = "fzb";
     public static final String SP_LOGIN_NAME = "fzbLogin";
 
-        static String ImageUrl = "http://39.98.237.23:8080";
+    static String ImageUrl = "http://39.98.237.23:8080";
+//        static String ImageUrl = "http://39.98.237.23:8080";
 //        static String ImageUrl = "http://192.168.0.121:8080";
 //    static String ImageUrl = "http://39.98.173.250:8081";
 //    static String ImageUrl = "http://test.fangzuobiao.com:88";
@@ -60,8 +61,9 @@ public class FinalContents {
 //    static String ImageUrl = "http://39.98.224.67:8080";
 //    static String ImageUrl = "http://admin.fangzuobiao.com:88";
 
+        static String AdminUrl = "http://39.98.237.23:8080";
     //    static String AdminUrl = "http://admin.fangzuobiao.com:88";
-    static String AdminUrl = "http://city1.fangzuobiao.com:88";
+//    static String AdminUrl = "http://city1.fangzuobiao.com:88";
 //    static String AdminUrl = "http://city.fangzuobiao.com:88";
 //    static String AdminUrl = "http://yanshi.fangzuobiao.com:88";
 //    static String AdminUrl = "http://sojo.fangzuobiao.com:88";
@@ -85,6 +87,7 @@ public class FinalContents {
     }
 
         static String BaseUrl = "http://39.98.237.23:8080/fangfang/app/v2/";
+//        static String BaseUrl = "http://39.98.237.23:8080/fangfang/app/v1/";
 //        static String BaseUrl = "http://39.98.209.175:8181/fangfang/app/v1/";
 //        static String BaseUrl = "http://39.98.173.250:8082/fangfang/app/v1/";
 //        static String BaseUrl = "http://192.168.0.121:8080/fangfang/app/v1/";

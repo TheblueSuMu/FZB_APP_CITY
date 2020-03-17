@@ -17,11 +17,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.netease.nim.uikit.api.NimUIKit;
-import com.netease.nimlib.sdk.RequestCallback;
-import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.xcy.fzbcity.all.api.RedEnvelopesAllTalk;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.annotation.Nullable;
@@ -41,11 +41,17 @@ import com.xcy.fzbcity.all.persente.CleanDataUtils;
 import com.xcy.fzbcity.all.persente.StatusBar;
 import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.view.AboutFZBActivity;
+import com.xcy.fzbcity.all.view.CirclOfFriendsAssistantActivity;
 import com.xcy.fzbcity.all.view.CollectActivity;
 import com.xcy.fzbcity.all.view.FeedbackActivity;
+import com.xcy.fzbcity.all.view.GetTheRecordActivity;
+import com.xcy.fzbcity.all.view.HousingSupermarketActivity;
 import com.xcy.fzbcity.all.view.MyBrokerageActivity;
 import com.xcy.fzbcity.all.view.MyClientActivity;
 import com.xcy.fzbcity.all.view.PersonalInformationActivity;
+import com.xcy.fzbcity.all.view.RedPacketActivity;
+import com.xcy.fzbcity.all.view.SpecialOfferActivity;
+import com.xcy.fzbcity.all.view.VisitorsToRecordActivity;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -63,10 +69,6 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
     RelativeLayout my_empty;
     RelativeLayout my_exit;
     RelativeLayout me_gr;
-    LinearLayout me_brokerage;
-    LinearLayout me_Client;
-    TextView e_client_tv;
-    TextView e_commissions_tv;
 
     ImageView me_photo;
     TextView me_name;
@@ -82,6 +84,16 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
     private TextView my_tv_huancun;
 
     private SwipeRefreshLayout layout;
+    private TextView icon_shoppingbag;
+    private TextView icon_label;
+    private TextView icon_home;
+    private TextView icon_mine;
+    private TextView icon_money;
+    private TextView icon_redpacket;
+    private TextView icon_emoticon;
+    private TextView icon_time;
+    private TextView icon_file;
+    private TextView icon_list;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,9 +109,7 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
 //TODO 设置导航栏、标题栏透明
         StatusBar.makeStatusBarTransparent(getActivity());
         my_tv_huancun = getActivity().findViewById(R.id.my_tv_huancun);
-        me_gr = getActivity().findViewById(R.id.me_gr_S);//个人中心
-        me_Client = getActivity().findViewById(R.id.me_Client);//我的客户
-        me_brokerage = getActivity().findViewById(R.id.me_Brokerage);//我的佣金
+        me_gr = getActivity().findViewById(R.id.me_gr);//个人中心
         my_collect = getActivity().findViewById(R.id.my_collect);//我的收藏
         my_comment = getActivity().findViewById(R.id.my_comment);//意见反馈
         my_about = getActivity().findViewById(R.id.my_about);//关于房坐标
@@ -112,15 +122,37 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
 
         layout = getActivity().findViewById(R.id.e_ssrfl_1);
 
-        e_client_tv = getActivity().findViewById(R.id.e_client_tv);
-        e_commissions_tv = getActivity().findViewById(R.id.e_commissions_tv);
-
         me_photo = getActivity().findViewById(R.id.me_photo);
         me_name = getActivity().findViewById(R.id.me_name);
         me_identity = getActivity().findViewById(R.id.me_identity);
         me_city = getActivity().findViewById(R.id.me_city);
         me_store = getActivity().findViewById(R.id.me_store);
 
+        //TODO 拓客功能开发  开始
+        icon_shoppingbag = getActivity().findViewById(R.id.icon_shoppingbag);
+        icon_home = getActivity().findViewById(R.id.icon_home);
+        icon_mine = getActivity().findViewById(R.id.icon_mine);
+        icon_money = getActivity().findViewById(R.id.icon_money);
+        icon_redpacket = getActivity().findViewById(R.id.icon_redpacket);
+        icon_emoticon = getActivity().findViewById(R.id.icon_emoticon);
+        icon_time = getActivity().findViewById(R.id.icon_time);
+        icon_file = getActivity().findViewById(R.id.icon_file);
+        icon_list = getActivity().findViewById(R.id.icon_list);
+        icon_label = getActivity().findViewById(R.id.icon_label);
+
+        icon_shoppingbag.setOnClickListener(this);
+        icon_home.setOnClickListener(this);
+        icon_mine.setOnClickListener(this);
+        icon_money.setOnClickListener(this);
+        icon_redpacket.setOnClickListener(this);
+
+        icon_emoticon.setOnClickListener(this);
+        icon_time.setOnClickListener(this);
+        icon_file.setOnClickListener(this);
+        icon_list.setOnClickListener(this);
+        icon_label.setOnClickListener(this);
+
+        //TODO 拓客功能开发  结束
 
         try {
             my_tv_huancun.setText(CleanDataUtils.getTotalCacheSize(getActivity()));
@@ -130,8 +162,6 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
 
         me_img_phone.setOnClickListener(this);
         me_gr.setOnClickListener(this);
-        me_Client.setOnClickListener(this);
-        me_brokerage.setOnClickListener(this);
         my_collect.setOnClickListener(this);
         my_comment.setOnClickListener(this);
         my_about.setOnClickListener(this);
@@ -140,8 +170,6 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
         layout.setOnRefreshListener(this);
         //        根据用户Id获取用户信息
         initUserMessage();
-//        我的佣金和客户数量
-        initClientCommissions();
     }
 
     private void initUserMessage() {
@@ -172,6 +200,8 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
                         Glide.with(getActivity()).load(FinalContents.getImageUrl() + data.getPhoto()).into(me_photo);
 
                         me_name.setText(data.getName());
+                        RedEnvelopesAllTalk.setUserName(data.getName());
+                        RedEnvelopesAllTalk.setUserPhone(data.getPhone());
                         if (data.getIdentity().equals("1") || data.getIdentity().equals("2") || data.getIdentity().equals("3")) {
                             me_identity.setText("经纪人");
                         }
@@ -208,14 +238,6 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
 //            TODO 个人信息
             intent = new Intent(getContext(), PersonalInformationActivity.class);
             startActivity(intent);
-        } else if (id == R.id.me_Client) {
-//            TODO 我的客户
-            intent = new Intent(getContext(), MyClientActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.me_Brokerage) {
-//            TODO 我的佣金
-            intent = new Intent(getContext(), MyBrokerageActivity.class);
-            startActivity(intent);
         } else if (id == R.id.me_img_phone) {
 //            TODO 拨打手机号
             Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + me_tv_phone.getText().toString()));//跳转到拨号界面，同时传递电话号码
@@ -234,25 +256,6 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
 //            TODO 关于房坐标
             intent = new Intent(getContext(), AboutFZBActivity.class);
             startActivity(intent);
-//            NimUIKit.login(new LoginInfo("test1","123456"), new RequestCallback<LoginInfo>() {
-//                @Override
-//                public void onSuccess(LoginInfo loginInfo) {
-//                    Log.e("TAG", "登录成功");
-//                    //TODO 页面间的跳转
-//
-//                }
-//
-//                @Override
-//                public void onFailed(int i) {
-//
-//                }
-//
-//                @Override
-//                public void onException(Throwable throwable) {
-//                    Toast.makeText(getContext(), "登录失败" + throwable, Toast.LENGTH_SHORT).show();
-//                    Log.e("TAG", "登录失败" + throwable);
-//                }
-//            });
         } else if (id == R.id.my_empty) {
 //            TODO 清空缓存
 
@@ -324,7 +327,8 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
 //            AlertDialog show = builder.show();
 //            show.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#334485"));
 //            show.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#334485"));
-        } else if (id == R.id.my_exit) {
+        }
+        else if (id == R.id.my_exit) {
 //            TODO 退出登录
 
             AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
@@ -384,45 +388,94 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
 //            AlertDialog show = builder.show();
 //            show.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#334485"));
 
+        } else if (id == R.id.icon_shoppingbag) {
+//            TODO 预览网店
+            IWXAPI api = WXAPIFactory.createWXAPI(getContext(), "wxf9a42b48a61cfd62");// 填对应开发平台移动应用AppId
+
+            WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
+            req.userName = "gh_f55c0afa4b0b"; // 填小程序原始id（官方实例请填写自己的小程序id）
+            req.path = "pages/project/index?agentId="+FinalContents.getUserID();                  //拉起小程序页面的可带参路径，不填默认拉起小程序首页
+
+            req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 正式版
+
+            //req.miniprogramType = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_TEST;// 可选打开 开发版
+
+            //req.miniprogramType = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW;// 可选打开 体验版
+
+            api.sendReq(req);
+
+        }else if (id == R.id.icon_home) {
+//            TODO 房源超市
+            intent = new Intent(getContext(), HousingSupermarketActivity.class);
+            startActivity(intent);
+        }else if (id == R.id.icon_mine) {
+//            TODO 我的客户
+            intent = new Intent(getContext(), MyClientActivity.class);
+            startActivity(intent);
+        }else if (id == R.id.icon_money) {
+//            TODO 我的佣金
+            intent = new Intent(getContext(), MyBrokerageActivity.class);
+            startActivity(intent);
+        }else if (id == R.id.icon_redpacket) {
+//            TODO 红包拓客
+            intent = new Intent(getContext(), RedPacketActivity.class);
+            startActivity(intent);
+        }else if (id == R.id.icon_emoticon) {
+//            TODO 朋友圈助手
+            intent = new Intent(getContext(), CirclOfFriendsAssistantActivity.class);
+            startActivity(intent);
+        }else if (id == R.id.icon_time) {
+//            TODO 访客记录
+            intent = new Intent(getContext(), VisitorsToRecordActivity.class);
+            startActivity(intent);
+        }else if (id == R.id.icon_file) {
+//            TODO 常用语
+
+        }else if (id == R.id.icon_list) {
+//            TODO 领取记录
+            intent = new Intent(getContext(), GetTheRecordActivity.class);
+            startActivity(intent);
+        }else if (id == R.id.icon_label) {
+//            TODO 优惠活动
+            intent = new Intent(getContext(), SpecialOfferActivity.class);
+            startActivity(intent);
         }
 
     }
 
-    private void initClientCommissions() {
-
-        Retrofit.Builder builder = new Retrofit.Builder();
-        builder.baseUrl(FinalContents.getBaseUrl());
-        builder.addConverterFactory(GsonConverterFactory.create());
-        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
-        Retrofit build = builder.build();
-        MyService fzbInterface = build.create(MyService.class);
-        Observable<ClientCommissionsBean> clientCommissions = fzbInterface.getClientCommissions(FinalContents.getUserID() + "");
-        clientCommissions.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ClientCommissionsBean>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(ClientCommissionsBean clientCommissionsBean) {
-                        ClientCommissionsBean.DataBean data = clientCommissionsBean.getData();
-                        e_client_tv.setText(data.getMyCustomerCount() + "");
-                        e_commissions_tv.setText(data.getTotalAmount() + "");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.i("MyCL", "我的佣金、用户数量:" + e.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-    }
+//    private void initClientCommissions() {
+//
+//        Retrofit.Builder builder = new Retrofit.Builder();
+//        builder.baseUrl(FinalContents.getBaseUrl());
+//        builder.addConverterFactory(GsonConverterFactory.create());
+//        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+//        Retrofit build = builder.build();
+//        MyService fzbInterface = build.create(MyService.class);
+//        Observable<ClientCommissionsBean> clientCommissions = fzbInterface.getClientCommissions(FinalContents.getUserID() + "");
+//        clientCommissions.subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<ClientCommissionsBean>() {
+//                    @Override
+//                    public void onSubscribe(Disposable d) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(ClientCommissionsBean clientCommissionsBean) {
+//                        ClientCommissionsBean.DataBean data = clientCommissionsBean.getData();
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        Log.i("MyCL", "我的佣金、用户数量:" + e.getMessage());
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//
+//                    }
+//                });
+//    }
 
 
     private void init() {
@@ -458,7 +511,6 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
 //            initView();
 //            initHotList();
             initUserMessage();
-            initClientCommissions();
             layout.setRefreshing(false);//取消刷新
         }
 

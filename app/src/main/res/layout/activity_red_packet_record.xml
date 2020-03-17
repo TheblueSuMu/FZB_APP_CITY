@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#FCF9F4"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/red_packet_record_relative_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#CD3E3C">
+
+        <RelativeLayout
+            android:id="@+id/red_packet_record_return"
+            android:layout_width="50dp"
+            android:layout_height="70dp">
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="18dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="20dp"
+                android:src="@mipmap/return2" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/red_packet_record_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="26dp"
+            android:text="红包记录"
+            android:textColor="#E8CD96"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_below="@id/red_packet_record_title"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="20dp"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="总领红包金额"
+                    android:textSize="11sp"
+                    android:textColor="#E8CD98"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/red_packet_record_all_money_get"
+                    android:layout_marginTop="10dp"
+                    android:text="1,666.00"
+                    android:textSize="18sp"
+                    android:textColor="#E8CD98"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="6dp"
+                android:background="#E8CD98"
+                android:layout_width="1dp"
+                android:layout_height="25dp"/>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="总获客数"
+                    android:textSize="11sp"
+                    android:textColor="#E8CD98"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/red_packet_record_all_people"
+                    android:layout_marginTop="10dp"
+                    android:text="1,666.00"
+                    android:textSize="18sp"
+                    android:textColor="#E8CD98"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="6dp"
+                android:background="#E8CD98"
+                android:layout_width="1dp"
+                android:layout_height="25dp"/>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="总发放金额"
+                    android:textSize="11sp"
+                    android:textColor="#E8CD98"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/red_packet_record_all_money_send"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="334.00"
+                    android:textColor="#E8CD98"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/red_packet_record_recycler"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

@@ -53,7 +53,6 @@ import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface MyService {
-    String PAGE_SIZE = "pageSize";
 
     //http://192.168.79.28:8080/webapi/post?username=itheima&password=123
     //@POST标注当前方法 使用POST请求
@@ -883,24 +882,68 @@ public interface MyService {
     @POST("commonSelect/mapFindCompanyList")
     Observable<CompaniesBean> getCompaniesBean(@Query("userId") String userId, @Query("search") String search, @Query("status") String status, @Query("pageSize") String pageSize);
 
+    //      TODO    拓客功能 接口
+    //检查店铺或者项目是否已发过红包
+    @POST("ordinarySelect/checkRedbagPayProject")
+    Observable<CheckRedbagPayProjectBean> getCheckRedbagPayProject(@Query("userId") String userId,@Query("projectId") String projectId,@Query("webshopId") String webshopId);
 
-    //常用语查询
-    @POST("ordinarySelect/findLanguage")
-    Observable<SetPhraseBean> getSetPhraseBean(@Query("agentId") String agentId, @Query("type") String type, @Query("pageSize") String pageSize);
+    //红包下单接口
+    @POST("ordinaryUpdate/rechargeRedbag")
+    Observable<RechargeRedbagBean> getRechargeRedbag(@Query("userId") String userId,@Query("projectId") String projectId,@Query("webshopId") String webshopId,@Query("cityCompanyId") String cityCompanyId,@Query("denomination") String denomination,@Query("quantity") String quantity,@Query("assistanceNum") String assistanceNum);
 
-    //修改常用语
-    @POST("ordinaryUpdate/updateLanguage")
-    Observable<AmendUsefulExpressionsBean> getAmendUsefulExpressionsBean(@Query("languageId") String languageId, @Query("content") String content);
+    //红包记录统计总领红包金额、总获客数、总发放金额
+    @POST("ordinarySelect/redbagSumStatistics")
+    Observable<RedBagSumStatisticsBean> getRedbagSumStatistics(@Query("userId") String userId);
 
-    //删除常用语
-    @POST("ordinaryUpdate/delLanguage")
-    Observable<DeleteLanguageBean> getDeleteLanguageBean(@Query("languageId") String languageId);
+    //红包记录页兑付列表
+    @POST("ordinarySelect/redbagStatistics")
+    Observable<RedbagStatisticsBean> getRedbagStatistics(@Query("userId") String userId,@Query("pageSize") String pageSize,@Query("pageNo") String pageNo);
 
-    //新增常用语
-    @POST("ordinaryUpdate/addLanguage")
-    Observable<AddLanguageBean> getAddLanguageBean(@Query("agentId") String agentId, @Query("content") String content);
+    //红包查单接口
+    @POST("ordinarySelect/checkRedbagPay")
+    Observable<CheckRedbagPayBean> getCheckRedbagPay(@Query("userId") String userId,@Query("redbagOrder") String redbagOrder);
 
-    //通知消息
-    @POST("commonSelect/systemMessage")
-    Observable<InformTheDetailsBean> getInformTheDetailsBean(@Query("userId") String userId, @Query("pageSize") String pageSize);
+    //房源超市接口
+    @POST("ordinarySelect/supermarket")
+    Observable<SupermarketBean> getSupermarket(@Query("userId") String userId,@Query("webshopId") String webshopId,@Query("hotPush") String hotPush);
+
+    //房源超市--项目拖动排序
+    @POST("ordinaryUpdate/projectSort")
+    Observable<ProjectSortBean> getProjectSort(@Query("userId") String userId,@Query("webshopId") String webshopId,@Query("projects") String projects,@Query("type") String type);
+
+    //房源超市--热推/取消热推/删除
+    @POST("ordinaryUpdate/hotPush")
+    Observable<HotPushBean> getHotPush(@Query("userId") String userId,@Query("webshopId") String webshopId,@Query("projectId") String projectId,@Query("type") String type);
+
+    //网店添加项目
+    @POST("ordinaryUpdate/projectAdd")
+    Observable<ProjectAddBean> getProjectAdd(@Query("userId") String userId,@Query("projectId") String projectId,@Query("webshopId") String webshopId);
+
+    //朋友圈助手
+    @POST("ordinarySelect/friendsAssistant")
+    Observable<FriendsAssistantBean> getFriendsAssistant(@Query("userId") String userId,@Query("classType") String classType);
+
+    //生成微信小程序二维码
+    @POST("commonSelect/appletWechatImage")
+    Observable<AppletWechatImageBean> getAppletWechatImage(@Query("userId") String userId);
+
+    //领取记录与领取详情共用接口
+    @POST("ordinarySelect/redbagReceiveRecord")
+    Observable<RedbagReceiveRecordBean> getRedbagReceiveRecord(@Query("userId") String userId,@Query("redbagType") String redbagType,@Query("timeType") String timeType,@Query("searchName") String searchName,@Query("pageSize") String pageSize,@Query("pageNo") String pageNo);
+
+    //优惠活动列表
+    @POST("ordinarySelect/preferentialActList")
+    Observable<PreferentialActListBean> getPreferentialActList(@Query("userId") String userId,@Query("type") String type);
+
+    //优惠活动列表
+    @POST("ordinaryUpdate/addCash")
+    Observable<AddCashBean> getAddCash(@Query("userId") String userId,@Query("lotteryUseId") String lotteryUseId);
+
+    //访客记录--客户足迹列表
+    @POST("commonSelect/customerVisitorStatistics")
+    Observable<CustomerVisitorStatisticsBean> getCustomerVisitorStatistics(@Query("userId") String userId,@Query("webshopId") String webshopId,@Query("searchName") String searchName,@Query("pageSize") String pageSize,@Query("pageNo") String pageNo);
+
+    //访客记录--网店访客量
+    @POST("commonSelect/customerVisitorSumStatistics")
+    Observable<CustomerVisitorSumStatisticsBean> getCustomerVisitorSumStatistics(@Query("userId") String userId,@Query("webshopId") String webshopId);
 }
