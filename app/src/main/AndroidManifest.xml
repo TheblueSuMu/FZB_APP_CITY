@@ -106,6 +106,7 @@
         <activity android:name=".all.view.CityWideActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 同城项目或跨城项目 -->
         <activity android:name=".all.view.PhoneActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 通讯录 -->
         <activity android:name=".all.view.WeChatBindingActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 微信绑定或解绑 -->
+        <activity android:name="com.xcy.fzbcity.wxapi.WXPayEntryActivity" android:exported="true"/> <!-- TODO 公用 微信官方activity -->
         <activity
             android:name=".FinMag"
             android:theme="@style/LunchTheme"> <!-- TODO 域名 -->
@@ -164,6 +165,7 @@
         <!-- TODO 拓客新增区域 start -->
         <activity android:name=".all.view.RedPacketActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 红包拓客界面 -->
         <activity android:name=".all.view.RedPacketRecordActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 红包记录界面 -->
+        <activity android:name=".all.view.RedPacketGeneralizeActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 红包推广界面 -->
         <activity android:name=".all.view.HousingSupermarketActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 房源超市 -->
         <activity android:name=".all.view.CirclOfFriendsAssistantActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 朋友圈助手 -->
         <activity android:name=".all.view.VisitorsToRecordActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 访客记录 -->
@@ -174,7 +176,6 @@
         <activity android:name=".all.view.HousingSupermarketHotListActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 热推列表  -->
         <activity android:name=".all.view.CirclOfFriendsAssistantAppletActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 朋友圈助手 小程序推广  -->
         <activity android:name=".all.view.GetTheRecordParticularsActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 领取记录 领取详情  -->
-
 
         <!-- TODO 拓客新增区域 end -->
 

@@ -1,5 +1,7 @@
 package com.xcy.fzbcity.all.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.modle.RedbagStatisticsBean;
+import com.xcy.fzbcity.all.view.RedPacketGeneralizeActivity;
 
 import java.util.List;
 
 public class RedPacketRecordAdapter extends RecyclerView.Adapter<RedPacketRecordAdapter.RedPacketRecordViewHolder>{
     private List<RedbagStatisticsBean.DataBean.RowsBean> list;
     private View view;
+    private Context context;
 
     public RedPacketRecordAdapter(List<RedbagStatisticsBean.DataBean.RowsBean> list) {
         this.list = list;
@@ -26,6 +30,7 @@ public class RedPacketRecordAdapter extends RecyclerView.Adapter<RedPacketRecord
     @Override
     public RedPacketRecordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.red_packet_record_adapter, parent,false);
+        context = parent.getContext();
         return new RedPacketRecordViewHolder(view);
     }
 
@@ -33,7 +38,14 @@ public class RedPacketRecordAdapter extends RecyclerView.Adapter<RedPacketRecord
     public void onBindViewHolder(@NonNull RedPacketRecordViewHolder holder, int position) {
         holder.red_packet_record_adapter_content.setText("已领取"+list.get(position).getConverted()+"/"+list.get(position).getQuantity()+"个,共"+list.get(position).getConvertedAmount()+"/"+list.get(position).getQuantityAmount()+"元");
         holder.red_packet_record_adapter_time.setText("有效期至："+list.get(position).getStartDate()+"-"+list.get(position).getEndDate());
-
+        holder.red_packet_record_adapter_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                list.get(position).getProjectId();
+                Intent intent = new Intent(context, RedPacketGeneralizeActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

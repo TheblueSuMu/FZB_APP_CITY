@@ -903,6 +903,10 @@ public interface MyService {
     @POST("ordinarySelect/checkRedbagPay")
     Observable<CheckRedbagPayBean> getCheckRedbagPay(@Query("userId") String userId,@Query("redbagOrder") String redbagOrder);
 
+    //红包推广接口
+    @POST("ordinarySelect/redbagShare")
+    Observable<RedbagShareBean> getRedbagShare(@Query("userId") String userId,@Query("projectId") String projectId);
+
     //房源超市接口
     @POST("ordinarySelect/supermarket")
     Observable<SupermarketBean> getSupermarket(@Query("userId") String userId,@Query("webshopId") String webshopId,@Query("hotPush") String hotPush);

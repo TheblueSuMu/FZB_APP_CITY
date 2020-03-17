@@ -1,66 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/my_brokerage">
-
-        <RelativeLayout
-            android:id="@+id/housing_supermarket_add_housing_return"
-            android:layout_width="50dp"
-            android:layout_height="70dp">
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="18dp"
-                android:src="@mipmap/return2"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="34dp"/>
-
-        </RelativeLayout>
-
-        <EditText
-            android:id="@+id/housing_supermarket_add_housing_search"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="51.5dp"
-            android:layout_marginRight="63.5dp"
-            android:hint="搜索"
-            android:gravity="center"
-            android:textColor="#ffffffff"
-            android:textSize="18sp"
-            android:background="@drawable/comment"
-            />
-
-        <TextView
-            android:id="@+id/housing_supermarket_add_housing_sure"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="35dp"
-            android:text="完成"
-            android:textColor="#ffffffff"
-            android:textSize="15sp"
-            />
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:background="#FFFFFF"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/housing_supermarket_add_housing_recyclerview"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_brokerage">
+
+            <RelativeLayout
+                android:id="@+id/housing_supermarket_add_housing_return"
+                android:layout_width="50dp"
+                android:layout_height="70dp">
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="18dp"
+                    android:src="@mipmap/return2"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="34dp"/>
+
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/housing_supermarket_add_housing_search"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="51.5dp"
+                android:layout_marginRight="63.5dp"
+                android:hint="搜索"
+                android:gravity="center"
+                android:textColor="#ffffffff"
+                android:textSize="18sp"
+                android:background="@drawable/comment"
+                />
+
+            <TextView
+                android:id="@+id/housing_supermarket_add_housing_sure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="35dp"
+                android:text="完成"
+                android:textColor="#ffffffff"
+                android:textSize="15sp"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:background="#FFFFFF"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/housing_supermarket_add_housing_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <ImageView
+                android:id="@+id/housing_supermarket_add_housing_all_no_information"
+                android:background="#fff"
+                android:visibility="gone"
+                android:src="@mipmap/no_information"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/housing_supermarket_add_housing_all_no_network"
+        android:background="#fff"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageimage"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/no_network"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_below="@id/imageimage"
+            android:id="@+id/housing_supermarket_add_housing_all_no_reload"
+            android:layout_marginTop="-40dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button_back"
+            android:text="重新加载"
+            android:textSize="12sp"
+            android:textColor="#334485"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>

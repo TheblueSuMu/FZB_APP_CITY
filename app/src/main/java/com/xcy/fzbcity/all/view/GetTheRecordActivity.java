@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,6 +27,8 @@ import com.xcy.fzbcity.all.modle.AppletWechatImageBean;
 import com.xcy.fzbcity.all.modle.RedbagReceiveRecordBean;
 import com.xcy.fzbcity.all.persente.SharItOff;
 import com.xcy.fzbcity.all.service.MyService;
+import com.xcy.fzbcity.all.utils.CommonUtil;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,12 +55,33 @@ public class GetTheRecordActivity extends AllActivity implements View.OnClickLis
     private LinearLayout get_the_record_select_linear;
     private TextView get_the_record_select;
     private EditText get_the_record_title;
+    private ImageView get_the_record_all_no_information;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_the_record);
-        initfvb();
+        init_No_Network();
+    }
+
+    private void init_No_Network(){
+        boolean networkAvailable = CommonUtil.isNetworkAvailable(this);
+        if (networkAvailable) {
+            initfvb();
+        } else {
+            RelativeLayout all_no_network = findViewById(R.id.get_the_record_all_no_network);
+            Button all_no_reload = findViewById(R.id.get_the_record_all_no_reload);
+
+            all_no_network.setVisibility(View.VISIBLE);
+            all_no_reload.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                    startActivity(getIntent());
+                }
+            });
+            ToastUtil.showToast(this, "当前无网络，请检查网络后再进行登录");
+        }
     }
 
     private void initfvb(){
@@ -69,6 +94,9 @@ public class GetTheRecordActivity extends AllActivity implements View.OnClickLis
         circle_of_friends_assistant_caption_view = findViewById(R.id.circle_of_friends_assistant_caption_view);
         get_the_record_recyclerview = findViewById(R.id.get_the_record_recyclerview);
         get_the_record_return = findViewById(R.id.get_the_record_return);
+
+        get_the_record_all_no_information = findViewById(R.id.get_the_record_all_no_information);
+
         get_the_record_return.setOnClickListener(this);
         get_the_record_linear.setOnClickListener(this);
         circle_of_friends_assistant_caption_linear.setOnClickListener(this);
@@ -123,11 +151,11 @@ public class GetTheRecordActivity extends AllActivity implements View.OnClickLis
                     public void onOptionsSelect(int options1, int option2, int options3, View v) {
                         //               返回的分别是三个级别的选中位置
                         //              展示选中数据
-                        if (!list.get(options1).equals("今日")) {
+                        if (list.get(options1).equals("今日")) {
                             timeType = "0";
-                        } else if (!list.get(options1).equals("七日")){
+                        } else if (list.get(options1).equals("七日")){
                             timeType = "6";
-                        } else if (!list.get(options1).equals("全部")){
+                        } else if (list.get(options1).equals("全部")){
                             timeType = "7";
                         }
                         get_the_record_select.setText(list.get(options1));
@@ -164,16 +192,26 @@ public class GetTheRecordActivity extends AllActivity implements View.OnClickLis
 
                     @Override
                     public void onNext(RedbagReceiveRecordBean redbagReceiveRecordBean) {
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(GetTheRecordActivity.this);
-                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        get_the_record_recyclerview.setLayoutManager(linearLayoutManager);
-                        GetTheRecordAdapter getTheRecordAdapter = new GetTheRecordAdapter(redbagReceiveRecordBean.getData().getRows());
-                        get_the_record_recyclerview.setAdapter(getTheRecordAdapter);
-                        getTheRecordAdapter.notifyDataSetChanged();
+                        if (redbagReceiveRecordBean.getData().getRows().size() != 0) {
+                            get_the_record_all_no_information.setVisibility(View.GONE);
+                            get_the_record_recyclerview.setVisibility(View.VISIBLE);
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(GetTheRecordActivity.this);
+                            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                            get_the_record_recyclerview.setLayoutManager(linearLayoutManager);
+                            GetTheRecordAdapter getTheRecordAdapter = new GetTheRecordAdapter(redbagReceiveRecordBean.getData().getRows());
+                            get_the_record_recyclerview.setAdapter(getTheRecordAdapter);
+                            getTheRecordAdapter.notifyDataSetChanged();
+                        }else {
+                            get_the_record_all_no_information.setVisibility(View.VISIBLE);
+                            get_the_record_recyclerview.setVisibility(View.GONE);
+                        }
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        get_the_record_all_no_information.setVisibility(View.VISIBLE);
+                        get_the_record_recyclerview.setVisibility(View.GONE);
                         Log.i("领取记录列表", "领取记录列表错误信息:" + e.getMessage());
                     }
 

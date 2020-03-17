@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,6 +22,7 @@ import com.xcy.fzbcity.all.modle.AddCashBean;
 import com.xcy.fzbcity.all.modle.PreferentialActListBean;
 import com.xcy.fzbcity.all.modle.SupermarketBean;
 import com.xcy.fzbcity.all.service.MyService;
+import com.xcy.fzbcity.all.utils.CommonUtil;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import io.reactivex.Observable;
@@ -36,19 +39,40 @@ public class SpecialOfferActivity extends AllActivity implements View.OnClickLis
     private TextView special_offer_history_list;
     private RecyclerView special_offer_recyclerview;
     private SpecialOfferAdapter specialOfferAdapter;
+    private ImageView special_offer_all_no_information;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_special_offer);
-        initfvb();
+        init_No_Network();
+    }
+
+    private void init_No_Network(){
+        boolean networkAvailable = CommonUtil.isNetworkAvailable(this);
+        if (networkAvailable) {
+            initfvb();
+        } else {
+            RelativeLayout all_no_network = findViewById(R.id.special_offer_all_no_network);
+            Button all_no_reload = findViewById(R.id.red_packet_record_all_no_reload);
+
+            all_no_network.setVisibility(View.VISIBLE);
+            all_no_reload.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                    startActivity(getIntent());
+                }
+            });
+            ToastUtil.showToast(this, "当前无网络，请检查网络后再进行登录");
+        }
     }
 
     private void initfvb(){
         special_offer_return = findViewById(R.id.special_offer_return);
         special_offer_history_list = findViewById(R.id.special_offer_history_list);
         special_offer_recyclerview = findViewById(R.id.special_offer_recyclerview);
-
+        special_offer_all_no_information = findViewById(R.id.special_offer_all_no_information);
         special_offer_return.setOnClickListener(this);
         special_offer_history_list.setOnClickListener(this);
         initData();
@@ -88,23 +112,33 @@ public class SpecialOfferActivity extends AllActivity implements View.OnClickLis
 
                     @Override
                     public void onNext(PreferentialActListBean preferentialActListBean) {
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(SpecialOfferActivity.this);
-                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        special_offer_recyclerview.setLayoutManager(linearLayoutManager);
-                        specialOfferAdapter = new SpecialOfferAdapter(preferentialActListBean.getData().getRows());
-                        special_offer_recyclerview.setAdapter(specialOfferAdapter);
-                        specialOfferAdapter.notifyDataSetChanged();
-                        specialOfferAdapter.setOnItemClickListener(new SpecialOfferAdapter.OnItemClickLisenter() {
-                            @Override
-                            public void onItemClick(int postion) {
-                                Log.i("奖券","奖券ID："+preferentialActListBean.getData().getRows().get(postion).getLotteryId());
-                                initAddCash(preferentialActListBean.getData().getRows().get(postion).getLotteryId());
-                            }
-                        });
+                        if (preferentialActListBean.getData().getRows().size() != 0) {
+                            special_offer_all_no_information.setVisibility(View.GONE);
+                            special_offer_recyclerview.setVisibility(View.VISIBLE);
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(SpecialOfferActivity.this);
+                            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                            special_offer_recyclerview.setLayoutManager(linearLayoutManager);
+                            specialOfferAdapter = new SpecialOfferAdapter(preferentialActListBean.getData().getRows());
+                            special_offer_recyclerview.setAdapter(specialOfferAdapter);
+                            specialOfferAdapter.notifyDataSetChanged();
+                            specialOfferAdapter.setOnItemClickListener(new SpecialOfferAdapter.OnItemClickLisenter() {
+                                @Override
+                                public void onItemClick(int postion) {
+                                    Log.i("奖券","奖券ID："+preferentialActListBean.getData().getRows().get(postion).getLotteryId());
+                                    initAddCash(preferentialActListBean.getData().getRows().get(postion).getLotteryId());
+                                }
+                            });
+                        }else {
+                            special_offer_all_no_information.setVisibility(View.VISIBLE);
+                            special_offer_recyclerview.setVisibility(View.GONE);
+                        }
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        special_offer_all_no_information.setVisibility(View.VISIBLE);
+                        special_offer_recyclerview.setVisibility(View.GONE);
                         Log.i("优惠活动列表", "优惠活动列表错误信息:" + e.getMessage());
                     }
 

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -22,6 +23,8 @@ import com.xcy.fzbcity.all.modle.CustomerVisitorStatisticsBean;
 import com.xcy.fzbcity.all.modle.CustomerVisitorSumStatisticsBean;
 import com.xcy.fzbcity.all.modle.PreferentialActListBean;
 import com.xcy.fzbcity.all.service.MyService;
+import com.xcy.fzbcity.all.utils.CommonUtil;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -41,12 +44,33 @@ public class VisitorsToRecordActivity extends AllActivity implements View.OnClic
     private TextView visitors_to_record_all_money_send;
     private RecyclerView visitors_to_record_recycler;
     private String searchName = "";     //  搜索使用
+    private ImageView visitors_to_record_all_no_information;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visitors_to_record);
-        initfvb();
+        init_No_Network();
+    }
+
+    private void init_No_Network(){
+        boolean networkAvailable = CommonUtil.isNetworkAvailable(this);
+        if (networkAvailable) {
+            initfvb();
+        } else {
+            RelativeLayout all_no_network = findViewById(R.id.visitors_to_record_all_no_network);
+            Button all_no_reload = findViewById(R.id.visitors_to_record_all_no_reload);
+
+            all_no_network.setVisibility(View.VISIBLE);
+            all_no_reload.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                    startActivity(getIntent());
+                }
+            });
+            ToastUtil.showToast(this, "当前无网络，请检查网络后再进行登录");
+        }
     }
 
     private void initfvb(){
@@ -57,6 +81,8 @@ public class VisitorsToRecordActivity extends AllActivity implements View.OnClic
         visitors_to_record_all_people = findViewById(R.id.visitors_to_record_all_people);
         visitors_to_record_all_money_send = findViewById(R.id.visitors_to_record_all_money_send);
         visitors_to_record_recycler = findViewById(R.id.visitors_to_record_recycler);
+        visitors_to_record_all_no_information = findViewById(R.id.visitors_to_record_all_no_information);
+
         visitors_to_record_return.setOnClickListener(this);
         visitors_to_record_search_img.setOnClickListener(this);
         initData();
@@ -147,17 +173,26 @@ public class VisitorsToRecordActivity extends AllActivity implements View.OnClic
 
                     @Override
                     public void onNext(CustomerVisitorStatisticsBean customerVisitorStatisticsBean) {
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(VisitorsToRecordActivity.this);
-                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        visitors_to_record_recycler.setLayoutManager(linearLayoutManager);
-                        VisitorsToRecordAdapter visitorsToRecordAdapter = new VisitorsToRecordAdapter(customerVisitorStatisticsBean.getData().getRows());
-                        visitors_to_record_recycler.setAdapter(visitorsToRecordAdapter);
-                        visitorsToRecordAdapter.notifyDataSetChanged();
-
+                        if (customerVisitorStatisticsBean.getData().getRows().size() != 0) {
+                            visitors_to_record_all_no_information.setVisibility(View.GONE);
+                            visitors_to_record_recycler.setVisibility(View.VISIBLE);
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(VisitorsToRecordActivity.this);
+                            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                            visitors_to_record_recycler.setLayoutManager(linearLayoutManager);
+                            VisitorsToRecordAdapter visitorsToRecordAdapter = new VisitorsToRecordAdapter(customerVisitorStatisticsBean.getData().getRows());
+                            visitors_to_record_recycler.setAdapter(visitorsToRecordAdapter);
+                            visitorsToRecordAdapter.notifyDataSetChanged();
+                        }else {
+                            visitors_to_record_all_no_information.setVisibility(View.VISIBLE);
+                            visitors_to_record_recycler.setVisibility(View.GONE);
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        visitors_to_record_all_no_information.setVisibility(View.VISIBLE);
+                        visitors_to_record_recycler.setVisibility(View.GONE);
+
                         Log.i("访客记录列表", "访客记录列表错误信息:" + e.getMessage());
                     }
 

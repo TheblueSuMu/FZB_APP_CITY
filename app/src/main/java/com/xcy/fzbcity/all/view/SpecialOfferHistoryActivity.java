@@ -3,6 +3,8 @@ package com.xcy.fzbcity.all.view;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +17,8 @@ import com.xcy.fzbcity.all.adapter.SpecialOfferHistoryAdapter;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.modle.PreferentialActListBean;
 import com.xcy.fzbcity.all.service.MyService;
+import com.xcy.fzbcity.all.utils.CommonUtil;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -28,18 +32,39 @@ public class SpecialOfferHistoryActivity extends AllActivity implements View.OnC
 
     private RecyclerView special_offer_history_recyclerview;
     private RelativeLayout special_offer_history_return;
+    private ImageView special_offer_history_all_no_information;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_special_offer_history);
-        initfvb();
+        init_No_Network();
+    }
+
+    private void init_No_Network(){
+        boolean networkAvailable = CommonUtil.isNetworkAvailable(this);
+        if (networkAvailable) {
+            initfvb();
+        } else {
+            RelativeLayout all_no_network = findViewById(R.id.special_offer_history_all_no_network);
+            Button all_no_reload = findViewById(R.id.special_offer_history_all_no_reload);
+
+            all_no_network.setVisibility(View.VISIBLE);
+            all_no_reload.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                    startActivity(getIntent());
+                }
+            });
+            ToastUtil.showToast(this, "当前无网络，请检查网络后再进行登录");
+        }
     }
 
     private void initfvb(){
         special_offer_history_return = findViewById(R.id.special_offer_history_return);
         special_offer_history_recyclerview = findViewById(R.id.special_offer_history_recyclerview);
-
+        special_offer_history_all_no_information = findViewById(R.id.special_offer_history_all_no_information);
         special_offer_history_return.setOnClickListener(this);
         initData();
     }
@@ -73,17 +98,25 @@ public class SpecialOfferHistoryActivity extends AllActivity implements View.OnC
 
                     @Override
                     public void onNext(PreferentialActListBean preferentialActListBean) {
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(SpecialOfferHistoryActivity.this);
-                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        special_offer_history_recyclerview.setLayoutManager(linearLayoutManager);
-                        SpecialOfferHistoryAdapter specialOfferHistoryAdapter = new SpecialOfferHistoryAdapter(preferentialActListBean.getData().getRows());
-                        special_offer_history_recyclerview.setAdapter(specialOfferHistoryAdapter);
-                        specialOfferHistoryAdapter.notifyDataSetChanged();
-
+                        if (preferentialActListBean.getData().getRows().size() != 0) {
+                            special_offer_history_all_no_information.setVisibility(View.GONE);
+                            special_offer_history_recyclerview.setVisibility(View.VISIBLE);
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(SpecialOfferHistoryActivity.this);
+                            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                            special_offer_history_recyclerview.setLayoutManager(linearLayoutManager);
+                            SpecialOfferHistoryAdapter specialOfferHistoryAdapter = new SpecialOfferHistoryAdapter(preferentialActListBean.getData().getRows());
+                            special_offer_history_recyclerview.setAdapter(specialOfferHistoryAdapter);
+                            specialOfferHistoryAdapter.notifyDataSetChanged();
+                        }else {
+                            special_offer_history_all_no_information.setVisibility(View.VISIBLE);
+                            special_offer_history_recyclerview.setVisibility(View.GONE);
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        special_offer_history_all_no_information.setVisibility(View.VISIBLE);
+                        special_offer_history_recyclerview.setVisibility(View.GONE);
                         Log.i("优惠活动历史记录列表", "优惠活动历史记录列表错误信息:" + e.getMessage());
                     }
 

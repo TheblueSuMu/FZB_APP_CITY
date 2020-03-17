@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/redPacketGeneralizeBackgroundImage"
+        android:scaleType="fitXY"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:id="@+id/redPacketGeneralizeReturn"
+        android:layout_width="50dp"
+        android:layout_height="70dp">
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="12dp"
+            android:src="@mipmap/return2" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/redPacketGeneralizeWeChatImage"
+            app:riv_oval="true"
+            android:layout_marginRight="43.5dp"
+            android:layout_toLeftOf="@id/redPacketGeneralizeCirclOfFriendsImage"
+            android:src="@mipmap/red_packet_generalize_wechat_image"
+            android:layout_width="42.5dp"
+            android:layout_height="42.5dp"/>
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/redPacketGeneralizeCirclOfFriendsImage"
+            app:riv_oval="true"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/red_packet_generalize_circl_of_friends_image"
+            android:layout_width="42.5dp"
+            android:layout_height="42.5dp"/>
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/redPacketGeneralizeSaveImage"
+            app:riv_oval="true"
+            android:layout_marginLeft="43.5dp"
+            android:layout_toRightOf="@id/redPacketGeneralizeCirclOfFriendsImage"
+            android:src="@mipmap/red_packet_generalize_save_image"
+            android:layout_width="42.5dp"
+            android:layout_height="42.5dp"/>
+
+        <TextView
+            android:id="@+id/redPacketGeneralizeWeChatTV"
+            android:layout_marginRight="43.5dp"
+            android:layout_below="@id/redPacketGeneralizeWeChatImage"
+            android:layout_toLeftOf="@id/redPacketGeneralizeCirclOfFriendsImage"
+            android:layout_marginBottom="12.5dp"
+            android:layout_marginTop="8.5dp"
+            android:text="微信好友"
+            android:textSize="10.99sp"
+            android:textColor="#FFFFFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/redPacketGeneralizeCirclOfFriendsTV"
+            android:layout_below="@id/redPacketGeneralizeCirclOfFriendsImage"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12.5dp"
+            android:layout_marginTop="8.5dp"
+            android:text="朋友圈"
+            android:textSize="10.99sp"
+            android:textColor="#FFFFFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/redPacketGeneralizeSaveTV"
+            android:layout_marginLeft="43.5dp"
+            android:layout_below="@id/redPacketGeneralizeSaveImage"
+            android:layout_toRightOf="@id/redPacketGeneralizeCirclOfFriendsImage"
+            android:layout_marginBottom="12.5dp"
+            android:layout_marginTop="8.5dp"
+            android:text="保存图片"
+            android:textSize="10.99sp"
+            android:textColor="#FFFFFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

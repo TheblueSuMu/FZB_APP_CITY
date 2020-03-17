@@ -4,7 +4,10 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +25,8 @@ import com.xcy.fzbcity.all.modle.SupermarketBean;
 import com.xcy.fzbcity.all.persente.MyItemTouchHelper;
 import com.xcy.fzbcity.all.persente.MyItemTouchHelper2;
 import com.xcy.fzbcity.all.service.MyService;
+import com.xcy.fzbcity.all.utils.CommonUtil;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -36,18 +41,39 @@ public class HousingSupermarketHotListActivity extends AllActivity implements Vi
     private LinearLayout housing_supermarket_hot_list_return;
     private RecyclerView housing_supermarket_hot_list_recyclerview;
     private HousingSupermarketHotListAdapter housingSupermarketHotListAdapter;
+    private ImageView housing_supermarket_hot_list_all_no_information;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_housing_supermarket_hot_list);
-        initfvb();
+        init_No_Network();
+    }
+
+    private void init_No_Network(){
+        boolean networkAvailable = CommonUtil.isNetworkAvailable(this);
+        if (networkAvailable) {
+            initfvb();
+        } else {
+            RelativeLayout all_no_network = findViewById(R.id.housing_supermarket_hot_list_all_no_network);
+            Button all_no_reload = findViewById(R.id.housing_supermarket_hot_list_all_no_reload);
+
+            all_no_network.setVisibility(View.VISIBLE);
+            all_no_reload.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                    startActivity(getIntent());
+                }
+            });
+            ToastUtil.showToast(this, "当前无网络，请检查网络后再进行登录");
+        }
     }
 
     private void initfvb(){
         housing_supermarket_hot_list_return = findViewById(R.id.housing_supermarket_hot_list_return);
         housing_supermarket_hot_list_recyclerview = findViewById(R.id.housing_supermarket_hot_list_recyclerview);
-
+        housing_supermarket_hot_list_all_no_information = findViewById(R.id.housing_supermarket_hot_list_all_no_information);
         housing_supermarket_hot_list_return.setOnClickListener(this);
         initData();
     }
@@ -82,19 +108,29 @@ public class HousingSupermarketHotListActivity extends AllActivity implements Vi
 
                     @Override
                     public void onNext(SupermarketBean supermarketBean) {
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(HousingSupermarketHotListActivity.this);
-                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        housing_supermarket_hot_list_recyclerview.setLayoutManager(linearLayoutManager);
-                        housingSupermarketHotListAdapter = new HousingSupermarketHotListAdapter(supermarketBean.getData().getRows());
-                        housing_supermarket_hot_list_recyclerview.setAdapter(housingSupermarketHotListAdapter);
-                        housingSupermarketHotListAdapter.notifyDataSetChanged();
+                        if (supermarketBean.getData().getRows().size() != 0) {
+                            housing_supermarket_hot_list_all_no_information.setVisibility(View.GONE);
+                            housing_supermarket_hot_list_recyclerview.setVisibility(View.VISIBLE);
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(HousingSupermarketHotListActivity.this);
+                            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                            housing_supermarket_hot_list_recyclerview.setLayoutManager(linearLayoutManager);
+                            housingSupermarketHotListAdapter = new HousingSupermarketHotListAdapter(supermarketBean.getData().getRows());
+                            housing_supermarket_hot_list_recyclerview.setAdapter(housingSupermarketHotListAdapter);
+                            housingSupermarketHotListAdapter.notifyDataSetChanged();
 
-                        ItemTouchHelper helper = new ItemTouchHelper(new MyItemTouchHelper2(housingSupermarketHotListAdapter));
-                        helper.attachToRecyclerView(housing_supermarket_hot_list_recyclerview);
+                            ItemTouchHelper helper = new ItemTouchHelper(new MyItemTouchHelper2(housingSupermarketHotListAdapter));
+                            helper.attachToRecyclerView(housing_supermarket_hot_list_recyclerview);
+                        }else {
+                            housing_supermarket_hot_list_all_no_information.setVisibility(View.VISIBLE);
+                            housing_supermarket_hot_list_recyclerview.setVisibility(View.GONE);
+                        }
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        housing_supermarket_hot_list_all_no_information.setVisibility(View.VISIBLE);
+                        housing_supermarket_hot_list_recyclerview.setVisibility(View.GONE);
                         Log.i("热推列表", "热推列表错误信息:" + e.getMessage());
                     }
 
