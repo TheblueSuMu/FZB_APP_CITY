@@ -29,10 +29,12 @@ import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.api.RedEnvelopesAllTalk;
 import com.xcy.fzbcity.all.modle.AppletWechatImageBean;
 import com.xcy.fzbcity.all.modle.SupermarketBean;
+import com.xcy.fzbcity.all.persente.BitmapUtils;
 import com.xcy.fzbcity.all.persente.ImageDispose;
 import com.xcy.fzbcity.all.service.MyService;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.onekeyshare.OnekeyShare;
@@ -107,7 +109,9 @@ public class CirclOfFriendsAssistantAppletActivity extends AllActivity implement
         WXMediaMessage mediaMessage = new WXMediaMessage(miniProgram);
         mediaMessage.title = "cgw miniProgram";//自定义
         mediaMessage.description = "this is miniProgram's description";//自定义
-        mediaMessage.thumbData = ImageDispose.Bitmap2Bytes(imageZoom(scrollViewScreenShot(circle_of_friends_assistant_applet_scrollview)));
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.logo_city, null);
+//        imageZoom(scrollViewScreenShot(circle_of_friends_assistant_applet_scrollview))
+        mediaMessage.thumbData = ImageDispose.Bitmap2Bytes(BitmapUtils.scaleBitmap(bitmap, 2));
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = "";
         req.scene = SendMessageToWX.Req.WXSceneSession;
@@ -122,6 +126,7 @@ public class CirclOfFriendsAssistantAppletActivity extends AllActivity implement
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitMap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] b = baos.toByteArray();
+        System.out.println("XXX压缩后byte.length " + b.length);
         //将字节换成KB
         double mid = b.length/1024;
         //判断bitmap占用空间是否大于允许最大空间  如果大于则压缩 小于则不压缩

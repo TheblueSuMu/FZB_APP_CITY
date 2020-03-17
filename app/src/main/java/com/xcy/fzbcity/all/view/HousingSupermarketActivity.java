@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import com.xcy.fzbcity.all.modle.RedBagSumStatisticsBean;
 import com.xcy.fzbcity.all.modle.SupermarketBean;
 import com.xcy.fzbcity.all.persente.MyItemTouchHelper;
 import com.xcy.fzbcity.all.service.MyService;
+import com.xcy.fzbcity.all.utils.CommonUtil;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import io.reactivex.Observable;
@@ -44,12 +46,33 @@ public class HousingSupermarketActivity extends AllActivity implements View.OnCl
     private RecyclerView housing_supermarket_recycler;
     private Button housing_supermarket_add_housing;
     private HousingSupermarketAdapter housingSupermarketAdapter;
+    private ImageView housing_supermarket_all_no_information;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_housing_supermarket);
-        initfvb();
+        init_No_Network();
+    }
+
+    private void init_No_Network(){
+        boolean networkAvailable = CommonUtil.isNetworkAvailable(this);
+        if (networkAvailable) {
+            initfvb();
+        } else {
+            RelativeLayout all_no_network = findViewById(R.id.housing_supermarket_all_no_network);
+            Button all_no_reload = findViewById(R.id.housing_supermarket_all_no_reload);
+
+            all_no_network.setVisibility(View.VISIBLE);
+            all_no_reload.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                    startActivity(getIntent());
+                }
+            });
+            ToastUtil.showToast(this, "当前无网络，请检查网络后再进行登录");
+        }
     }
 
     private void initfvb(){
@@ -57,6 +80,7 @@ public class HousingSupermarketActivity extends AllActivity implements View.OnCl
         housing_supermarket_hot_list = findViewById(R.id.housing_supermarket_hot_list);
         housing_supermarket_recycler = findViewById(R.id.housing_supermarket_recycler);
         housing_supermarket_add_housing = findViewById(R.id.housing_supermarket_add_housing);
+        housing_supermarket_all_no_information = findViewById(R.id.housing_supermarket_all_no_information);
 
         housing_supermarket_return.setOnClickListener(this);
         housing_supermarket_hot_list.setOnClickListener(this);
@@ -104,27 +128,34 @@ public class HousingSupermarketActivity extends AllActivity implements View.OnCl
 
                     @Override
                     public void onNext(SupermarketBean supermarketBean) {
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(HousingSupermarketActivity.this);
-                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        housing_supermarket_recycler.setLayoutManager(linearLayoutManager);
-                        housingSupermarketAdapter = new HousingSupermarketAdapter(supermarketBean.getData().getRows());
-                        housing_supermarket_recycler.setAdapter(housingSupermarketAdapter);
-                        housingSupermarketAdapter.notifyDataSetChanged();
+                        if (supermarketBean.getData().getRows().size() != 0) {
+                            housing_supermarket_all_no_information.setVisibility(View.GONE);
+                            housing_supermarket_recycler.setVisibility(View.VISIBLE);
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(HousingSupermarketActivity.this);
+                            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                            housing_supermarket_recycler.setLayoutManager(linearLayoutManager);
+                            housingSupermarketAdapter = new HousingSupermarketAdapter(supermarketBean.getData().getRows());
+                            housing_supermarket_recycler.setAdapter(housingSupermarketAdapter);
+                            housingSupermarketAdapter.notifyDataSetChanged();
 
-                        housingSupermarketAdapter.setOnItemClickListener(new HousingSupermarketAdapter.OnItemClickLisenter() {
-                            @Override
-                            public void onItemClick(int postion) {
-                                initHotPush(supermarketBean.getData().getRows().get(postion).getProjectId());
-                            }
-                        });
-
-                        ItemTouchHelper helper = new ItemTouchHelper(new MyItemTouchHelper(housingSupermarketAdapter));
-                        helper.attachToRecyclerView(housing_supermarket_recycler);
-
+                            housingSupermarketAdapter.setOnItemClickListener(new HousingSupermarketAdapter.OnItemClickLisenter() {
+                                @Override
+                                public void onItemClick(int postion) {
+                                    initHotPush(supermarketBean.getData().getRows().get(postion).getProjectId());
+                                }
+                            });
+                            ItemTouchHelper helper = new ItemTouchHelper(new MyItemTouchHelper(housingSupermarketAdapter));
+                            helper.attachToRecyclerView(housing_supermarket_recycler);
+                        }else {
+                            housing_supermarket_all_no_information.setVisibility(View.VISIBLE);
+                            housing_supermarket_recycler.setVisibility(View.GONE);
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        housing_supermarket_all_no_information.setVisibility(View.VISIBLE);
+                        housing_supermarket_recycler.setVisibility(View.GONE);
                         Log.i("房源超市列表", "房源超市列表错误信息:" + e.getMessage());
                     }
 

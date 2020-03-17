@@ -5,7 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +30,7 @@ import com.xcy.fzbcity.all.modle.CodeBean;
 import com.xcy.fzbcity.all.modle.RechargeRedbagBean;
 import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.utils.CountDownTimerUtils;
+import com.xcy.fzbcity.all.utils.MoneyValueFilter;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import cn.sharesdk.wechat.utils.WXMediaMessage;
@@ -59,6 +62,7 @@ public class RedPacketActivity extends AllActivity implements View.OnClickListen
     private ImageView red_packet_pay_relative_cancle;
     private RechargeRedbagBean rechargeRedbag;
     private TextView red_packet_list_hint;
+    private double sum = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +95,48 @@ public class RedPacketActivity extends AllActivity implements View.OnClickListen
                 +"\n"+"2.客户点击会得到领取资格,助力成功后客户领取红包,你会得到用户联系方式"
                 +"\n"+"3.单个红包金额不能少于一块,红包个数最低1个"
                 +"\n"+"4.24小时内未成功领取红包金额将原路返回"
-                +"\n"+"5.需支付手续费百分之3");
+                +"\n"+"5.需支付手续费百分之2");
 
+
+
+        red_packet_unit_price_et.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (!red_packet_number_et.getText().toString().equals("") && !red_packet_unit_price_et.getText().toString().equals("")) {
+                    if (KeyEvent.KEYCODE_ENTER == i && KeyEvent.ACTION_DOWN == keyEvent.getAction()) {
+                        double price = Double.parseDouble(red_packet_unit_price_et.getText().toString());
+                        double num = Double.parseDouble(red_packet_number_et.getText().toString());
+                        sum = (price * num) + (price * num * 0.02);
+                        red_packet_pay.setText("需支付"+sum+"元");
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+
+
+        red_packet_number_et.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (!red_packet_number_et.getText().toString().equals("") && !red_packet_unit_price_et.getText().toString().equals("")) {
+                    if (KeyEvent.KEYCODE_ENTER == i && KeyEvent.ACTION_DOWN == keyEvent.getAction()) {
+                        double price = Double.parseDouble(red_packet_unit_price_et.getText().toString());
+                        double num = Double.parseDouble(red_packet_number_et.getText().toString());
+                        sum = (price * num) + (price * num * 0.02);
+                        red_packet_pay.setText("需支付"+sum+"元");
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+        //默认两位小数
+        red_packet_unit_price_et.setFilters(new InputFilter[]{new MoneyValueFilter()});
+        red_packet_pay_relative_cancle.setOnClickListener(this);
+        red_packet_pay_relative_button.setOnClickListener(this);
         red_packet_return.setOnClickListener(this);
         red_packet_record.setOnClickListener(this);
         red_packet_unit_price_et.setOnClickListener(this);
@@ -140,7 +184,12 @@ public class RedPacketActivity extends AllActivity implements View.OnClickListen
                 break;
             case R.id.red_packet_pay:
                 //  TODO    支付按钮
-                initPayDetection();
+                if (!red_packet_number_et.getText().toString().equals("") && !red_packet_unit_price_et.getText().toString().equals("") && !red_packet_people_et.getText().toString().equals("")) {
+                    initPayDetection();
+                }else {
+                    ToastUtil.showLongToast(RedPacketActivity.this,"请填写完整");
+                }
+
                 break;
             case R.id.red_packet_list_relative0:
                 //  TODO    推广项目按钮
@@ -152,7 +201,8 @@ public class RedPacketActivity extends AllActivity implements View.OnClickListen
             case R.id.red_packet_pay_relative_button:
                 //  TODO    支付界面推广或重新支付按钮
                 if (red_packet_pay_relative_button.getText().toString().equals("推广")) {
-
+                    Intent Generalizeintent = new Intent(RedPacketActivity.this,RedPacketActivity.class);
+                    startActivity(Generalizeintent);
                 } else if (red_packet_pay_relative_button.getText().toString().equals("重新支付")) {
                     final IWXAPI msgApi = WXAPIFactory.createWXAPI(RedPacketActivity.this, null);// 将该app注册到微信
                     msgApi.registerApp("wxf9a42b48a61cfd62");
@@ -221,7 +271,7 @@ public class RedPacketActivity extends AllActivity implements View.OnClickListen
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        final Observable<RechargeRedbagBean> code = fzbInterface.getRechargeRedbag(FinalContents.getUserID(),"", ""+RedEnvelopesAllTalk.getWebshopId(),FinalContents.getCityID(),"2.95","1","1");
+        final Observable<RechargeRedbagBean> code = fzbInterface.getRechargeRedbag(FinalContents.getUserID(),"", ""+RedEnvelopesAllTalk.getWebshopId(),FinalContents.getCityID(),red_packet_unit_price_et.getText().toString(),red_packet_number_et.getText().toString(),red_packet_people_et.getText().toString());
         code.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<RechargeRedbagBean>() {
@@ -283,16 +333,14 @@ public class RedPacketActivity extends AllActivity implements View.OnClickListen
     }
 
 
-    public void onResp(BaseResp resp){
-        if(resp.getType()== ConstantsAPI.COMMAND_PAY_BY_WX){
-            Log.d("支付","onPayFinish,errCode="+resp.errCode);
-            if (resp.errCode == 0) {
-                initCheckRedbagPay();
-            } else{
-                red_packet_pay_relative.setVisibility(View.VISIBLE);
-                red_packet_pay_relative.setBackgroundResource(R.mipmap.red_packet_pay_nothing);
-                red_packet_pay_relative_button.setText("重新支付");
-            }
+
+    public void onResp(){
+        if (RedEnvelopesAllTalk.getErrCode() == 0) {
+            initCheckRedbagPay();
+        } else{
+            red_packet_pay_relative.setVisibility(View.VISIBLE);
+            red_packet_pay_relative.setBackgroundResource(R.mipmap.red_packet_pay_nothing);
+            red_packet_pay_relative_button.setText("重新支付");
         }
     }
 
@@ -320,6 +368,7 @@ public class RedPacketActivity extends AllActivity implements View.OnClickListen
                             red_packet_pay_relative.setBackgroundResource(R.mipmap.red_packet_pay_succeed);
                             red_packet_pay_relative_button.setText("推广");
                         } else {
+                            red_packet_pay_relative_price.setText(checkRedbagPayBean.getData().getMessage());
                             red_packet_pay_relative.setVisibility(View.VISIBLE);
                             red_packet_pay_relative.setBackgroundResource(R.mipmap.red_packet_pay_nothing);
                             red_packet_pay_relative_button.setText("重新支付");
@@ -336,5 +385,25 @@ public class RedPacketActivity extends AllActivity implements View.OnClickListen
 
                     }
                 });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        RedEnvelopesAllTalk.setErrCode(1);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (RedEnvelopesAllTalk.getErrCode() != 1) {
+            onResp();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RedEnvelopesAllTalk.setErrCode(1);
     }
 }

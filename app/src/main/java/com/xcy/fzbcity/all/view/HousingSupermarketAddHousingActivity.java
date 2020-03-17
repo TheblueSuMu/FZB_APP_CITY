@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,6 +23,7 @@ import com.xcy.fzbcity.all.modle.HotBean;
 import com.xcy.fzbcity.all.modle.ProjectAddBean;
 import com.xcy.fzbcity.all.persente.MyLinearLayoutManager;
 import com.xcy.fzbcity.all.service.MyService;
+import com.xcy.fzbcity.all.utils.CommonUtil;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -43,12 +46,33 @@ public class HousingSupermarketAddHousingActivity extends AllActivity implements
     private HousingSupermarketAddHousingAdapter housingSupermarketAddHousingAdapter;
     private List<String> arrayList;
     private String projectId = "";
+    private ImageView housing_supermarket_add_housing_all_no_information;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_housing_supermarket_add_housing);
-        initfvb();
+        init_No_Network();
+    }
+
+    private void init_No_Network(){
+        boolean networkAvailable = CommonUtil.isNetworkAvailable(this);
+        if (networkAvailable) {
+            initfvb();
+        } else {
+            RelativeLayout all_no_network = findViewById(R.id.housing_supermarket_add_housing_all_no_network);
+            Button all_no_reload = findViewById(R.id.housing_supermarket_add_housing_all_no_reload);
+
+            all_no_network.setVisibility(View.VISIBLE);
+            all_no_reload.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                    startActivity(getIntent());
+                }
+            });
+            ToastUtil.showToast(this, "当前无网络，请检查网络后再进行登录");
+        }
     }
 
     private void initfvb(){
@@ -56,7 +80,7 @@ public class HousingSupermarketAddHousingActivity extends AllActivity implements
         housing_supermarket_add_housing_search = findViewById(R.id.housing_supermarket_add_housing_search);
         housing_supermarket_add_housing_sure = findViewById(R.id.housing_supermarket_add_housing_sure);
         housing_supermarket_add_housing_recyclerview = findViewById(R.id.housing_supermarket_add_housing_recyclerview);
-
+        housing_supermarket_add_housing_all_no_information = findViewById(R.id.housing_supermarket_add_housing_all_no_information);
         housing_supermarket_add_housing_return.setOnClickListener(this);
         housing_supermarket_add_housing_sure.setOnClickListener(this);
         initDataList();
@@ -118,22 +142,32 @@ public class HousingSupermarketAddHousingActivity extends AllActivity implements
                     @SuppressLint("WrongConstant")
                     @Override
                     public void onNext(HotBean hotBean) {
-                        arrayList = new ArrayList<>();
-                        for (int i = 0;i < hotBean.getData().getRows().size();i++){
-                            arrayList.add("");
+                        if (hotBean.getData().getRows().size() != 0) {
+                            housing_supermarket_add_housing_all_no_information.setVisibility(View.GONE);
+                            housing_supermarket_add_housing_recyclerview.setVisibility(View.VISIBLE);
+                            arrayList = new ArrayList<>();
+                            for (int i = 0;i < hotBean.getData().getRows().size();i++){
+                                arrayList.add("");
+                            }
+                            LinearLayoutManager layoutManager = new LinearLayoutManager(HousingSupermarketAddHousingActivity.this);
+                            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                            housing_supermarket_add_housing_recyclerview.setLayoutManager(layoutManager);
+                            housingSupermarketAddHousingAdapter = new HousingSupermarketAddHousingAdapter(hotBean.getData().getRows());
+                            housing_supermarket_add_housing_recyclerview.setAdapter(housingSupermarketAddHousingAdapter);
+                            housingSupermarketAddHousingAdapter.setArrayList(arrayList);
+                            housingSupermarketAddHousingAdapter.notifyDataSetChanged();
+                        }else {
+                            housing_supermarket_add_housing_all_no_information.setVisibility(View.VISIBLE);
+                            housing_supermarket_add_housing_recyclerview.setVisibility(View.GONE);
                         }
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(HousingSupermarketAddHousingActivity.this);
-                        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        housing_supermarket_add_housing_recyclerview.setLayoutManager(layoutManager);
-                        housingSupermarketAddHousingAdapter = new HousingSupermarketAddHousingAdapter(hotBean.getData().getRows());
-                        housing_supermarket_add_housing_recyclerview.setAdapter(housingSupermarketAddHousingAdapter);
-                        housingSupermarketAddHousingAdapter.setArrayList(arrayList);
-                        housingSupermarketAddHousingAdapter.notifyDataSetChanged();
+
 
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        housing_supermarket_add_housing_all_no_information.setVisibility(View.VISIBLE);
+                        housing_supermarket_add_housing_recyclerview.setVisibility(View.GONE);
                         Log.i("添加房源列表", "添加房源列表错误信息：" + e.getMessage());
                     }
 

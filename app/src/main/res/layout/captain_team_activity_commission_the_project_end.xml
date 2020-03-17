@@ -7,7 +7,7 @@
     android:id="@+id/mDlMain"
     android:background="#EEEEED">
 
-   <LinearLayout
+    <LinearLayout
        android:orientation="vertical"
        android:background="#EEEEED"
        android:visibility="visible"

@@ -3,6 +3,8 @@ package com.xcy.fzbcity.all.view;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,6 +20,7 @@ import com.xcy.fzbcity.all.modle.CheckRedbagPayProjectBean;
 import com.xcy.fzbcity.all.modle.RedBagSumStatisticsBean;
 import com.xcy.fzbcity.all.modle.RedbagStatisticsBean;
 import com.xcy.fzbcity.all.service.MyService;
+import com.xcy.fzbcity.all.utils.CommonUtil;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import io.reactivex.Observable;
@@ -36,12 +39,33 @@ public class RedPacketRecordActivity extends AllActivity{
     private TextView red_packet_record_all_money_get;
     private TextView red_packet_record_all_people;
     private TextView red_packet_record_all_money_send;
+    private ImageView red_packet_record_all_no_information;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_red_packet_record);
-        initfvb();
+        init_No_Network();
+    }
+
+    private void init_No_Network(){
+        boolean networkAvailable = CommonUtil.isNetworkAvailable(this);
+        if (networkAvailable) {
+            initfvb();
+        } else {
+            RelativeLayout all_no_network = findViewById(R.id.red_packet_record_all_no_network);
+            Button all_no_reload = findViewById(R.id.red_packet_record_all_no_reload);
+
+            all_no_network.setVisibility(View.VISIBLE);
+            all_no_reload.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                    startActivity(getIntent());
+                }
+            });
+            ToastUtil.showToast(this, "当前无网络，请检查网络后再进行登录");
+        }
     }
 
 
@@ -51,6 +75,7 @@ public class RedPacketRecordActivity extends AllActivity{
         red_packet_record_all_people = findViewById(R.id.red_packet_record_all_people);
         red_packet_record_all_money_send = findViewById(R.id.red_packet_record_all_money_send);
         red_packet_record_recycler = findViewById(R.id.red_packet_record_recycler);
+        red_packet_record_all_no_information = findViewById(R.id.red_packet_record_all_no_information);
 
         red_packet_record_return.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,16 +151,26 @@ public class RedPacketRecordActivity extends AllActivity{
 
                     @Override
                     public void onNext(RedbagStatisticsBean redbagStatisticsBean) {
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(RedPacketRecordActivity.this);
-                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        red_packet_record_recycler.setLayoutManager(linearLayoutManager);
-                        final RedPacketRecordAdapter redPacketRecordAdapter = new RedPacketRecordAdapter(redbagStatisticsBean.getData().getRows());
-                        red_packet_record_recycler.setAdapter(redPacketRecordAdapter);
-                        redPacketRecordAdapter.notifyDataSetChanged();
+                        if (redbagStatisticsBean.getData().getRows().size() != 0) {
+                            red_packet_record_all_no_information.setVisibility(View.GONE);
+                            red_packet_record_recycler.setVisibility(View.VISIBLE);
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(RedPacketRecordActivity.this);
+                            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                            red_packet_record_recycler.setLayoutManager(linearLayoutManager);
+                            final RedPacketRecordAdapter redPacketRecordAdapter = new RedPacketRecordAdapter(redbagStatisticsBean.getData().getRows());
+                            red_packet_record_recycler.setAdapter(redPacketRecordAdapter);
+                            redPacketRecordAdapter.notifyDataSetChanged();
+                        } else {
+                            red_packet_record_all_no_information.setVisibility(View.VISIBLE);
+                            red_packet_record_recycler.setVisibility(View.GONE);
+                        }
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        red_packet_record_all_no_information.setVisibility(View.VISIBLE);
+                        red_packet_record_recycler.setVisibility(View.GONE);
                         Log.i("红包记录列表", "红包记录列表错误信息:" + e.getMessage());
                     }
 

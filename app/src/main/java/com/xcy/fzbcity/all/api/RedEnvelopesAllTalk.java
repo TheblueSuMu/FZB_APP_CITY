@@ -18,6 +18,16 @@ public class RedEnvelopesAllTalk {
 
     static String Type = "";
 
+    static int errCode = 1;
+
+    public static int getErrCode() {
+        return errCode;
+    }
+
+    public static void setErrCode(int errCode) {
+        RedEnvelopesAllTalk.errCode = errCode;
+    }
+
     public static String getType() {
         return Type;
     }

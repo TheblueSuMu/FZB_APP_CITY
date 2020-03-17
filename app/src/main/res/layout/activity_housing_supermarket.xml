@@ -3,86 +3,135 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@drawable/my_brokerage">
-
-        <LinearLayout
-            android:id="@+id/housing_supermarket_return"
-            android:layout_width="50dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="18dp"
-                android:src="@mipmap/return2"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="34dp"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:text="房源超市"
-            android:textColor="#ffffffff"
-            android:textSize="18sp"
-            />
-
-        <TextView
-            android:id="@+id/housing_supermarket_hot_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="30dp"
-            android:text="热推列表"
-            android:textColor="#ffffffff"
-            android:textSize="15sp"
-            />
-
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/housing_supermarket_hint"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="15dp"
-            android:text="长按拖动调整排序,左划设置项目热推/删除"
-            android:textSize="12sp"
-            android:textColor="#999999"
+        <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@drawable/my_brokerage">
+
+            <LinearLayout
+                android:id="@+id/housing_supermarket_return"
+                android:layout_width="50dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="18dp"
+                    android:src="@mipmap/return2"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="34dp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:text="房源超市"
+                android:textColor="#ffffffff"
+                android:textSize="18sp"
+                />
+
+            <TextView
+                android:id="@+id/housing_supermarket_hot_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="30dp"
+                android:text="热推列表"
+                android:textColor="#ffffffff"
+                android:textSize="15sp"
+                />
+
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/housing_supermarket_hint"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:text="长按拖动调整排序,左划设置项目热推/删除"
+                android:textSize="12sp"
+                android:textColor="#999999"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <RelativeLayout
+                android:layout_above="@id/housing_supermarket_add_housing"
+                android:layout_below="@id/housing_supermarket_hint"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/housing_supermarket_recycler"
+                    android:layout_marginTop="14dp"
+                    android:background="#FFFFFF"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:id="@+id/housing_supermarket_all_no_information"
+                    android:background="#fff"
+                    android:visibility="gone"
+                    android:src="@mipmap/no_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/housing_supermarket_add_housing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="37.5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="37.5dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/points_dialog_but"
+                android:text="新增楼盘"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/housing_supermarket_all_no_network"
+        android:background="#fff"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageimage"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/no_network"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/housing_supermarket_recycler"
-            android:layout_marginTop="14dp"
-            android:background="#FFFFFF"
-            android:layout_above="@id/housing_supermarket_add_housing"
-            android:layout_below="@id/housing_supermarket_hint"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
         <Button
-            android:id="@+id/housing_supermarket_add_housing"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="37.5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="37.5dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/points_dialog_but"
-            android:text="新增楼盘"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp" />
+            android:layout_below="@id/imageimage"
+            android:id="@+id/housing_supermarket_all_no_reload"
+            android:layout_marginTop="-40dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button_back"
+            android:text="重新加载"
+            android:textSize="12sp"
+            android:textColor="#334485"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
     </RelativeLayout>
 
