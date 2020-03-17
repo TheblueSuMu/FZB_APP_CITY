@@ -116,10 +116,10 @@ public class InformTheDetailsActivity extends AllActivity implements InformTheDe
 //            intent = new Intent(InformTheDetailsActivity.this,);
         } else if (informeDataNewBases.get(position).getSubtype().equals("5")) {//红包领取详情
             Log.i("状态","红包领取详情");
-//            intent = new Intent(InformTheDetailsActivity.this,);
+            intent = new Intent(InformTheDetailsActivity.this,HousingSupermarketHotListActivity.class);
         } else if (informeDataNewBases.get(position).getSubtype().equals("6")) {//优惠活动
             Log.i("状态","优惠活动");
-//            intent = new Intent(InformTheDetailsActivity.this,);
+            intent = new Intent(InformTheDetailsActivity.this,SpecialOfferActivity.class);
         }else {//状态为空
             Log.i("状态","状态为空");
         }

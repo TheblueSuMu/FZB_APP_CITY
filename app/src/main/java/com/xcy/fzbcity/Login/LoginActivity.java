@@ -514,11 +514,6 @@ public class LoginActivity extends AllActivity implements View.OnClickListener{
     }
 
     private void click() {
-        login_tv_username.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
         login_tv_password.setOnClickListener(this);
         login_tv_get_code.setOnClickListener(this);
         login_tv_select_type.setOnClickListener(this);

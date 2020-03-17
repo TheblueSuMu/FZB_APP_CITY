@@ -50,6 +50,7 @@ import com.xcy.fzbcity.all.view.MyBrokerageActivity;
 import com.xcy.fzbcity.all.view.MyClientActivity;
 import com.xcy.fzbcity.all.view.PersonalInformationActivity;
 import com.xcy.fzbcity.all.view.RedPacketActivity;
+import com.xcy.fzbcity.all.view.SetPhraseAcitvity;
 import com.xcy.fzbcity.all.view.SpecialOfferActivity;
 import com.xcy.fzbcity.all.view.VisitorsToRecordActivity;
 
@@ -430,7 +431,8 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
             startActivity(intent);
         }else if (id == R.id.icon_file) {
 //            TODO 常用语
-
+            intent = new Intent(getContext(), SetPhraseAcitvity.class);
+            startActivity(intent);
         }else if (id == R.id.icon_list) {
 //            TODO 领取记录
             intent = new Intent(getContext(), GetTheRecordActivity.class);

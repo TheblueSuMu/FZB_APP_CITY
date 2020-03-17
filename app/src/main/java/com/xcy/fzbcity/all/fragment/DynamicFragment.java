@@ -147,7 +147,7 @@ public class DynamicFragment extends Fragment {
         recyclerView = view.findViewById(R.id.dynamic_rv);
         all_no_information = view.findViewById(R.id.all_no_information);
         textView = view.findViewById(R.id.dynamic_text);
-        ptrClassicFrameLayout = (PtrClassicFrameLayout) getActivity().findViewById(R.id.store_house_ptr_frame_11);
+        ptrClassicFrameLayout = getActivity().findViewById(R.id.store_house_ptr_frame_11);
         ptrClassicFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
