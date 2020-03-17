@@ -1,34 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="118dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/my_brokerage">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="28dp"
-            android:text="消息"
-            android:textColor="#ffffffff"
-            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="71dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/information_ll_1"
+                android:id="@+id/new_information_ll_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -36,13 +27,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="楼盘动态"
+                    android:text="聊天"
                     android:textColor="#ffffffff"
                     android:textSize="15sp" />
 
                 <LinearLayout
-                    android:id="@+id/information_ll_5"
-                    android:layout_width="58dp"
+                    android:id="@+id/new_information_ll_2"
+                    android:layout_width="match_parent"
                     android:layout_height="3dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/back_all"
@@ -50,69 +41,21 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/information_ll_2"
+                android:id="@+id/new_information_ll_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="75dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="通知"
                     android:textColor="#ffffffff"
                     android:textSize="15sp" />
 
                 <LinearLayout
-                    android:id="@+id/information_ll_6"
-                    android:layout_width="28dp"
-                    android:layout_height="3dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/back_all"
-                    android:orientation="vertical"
-                    android:visibility="invisible"></LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/information_ll_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="房客"
-                    android:textColor="#ffffffff"
-                    android:textSize="15sp" />
-
-                <LinearLayout
-                    android:id="@+id/information_ll_7"
-                    android:layout_width="28dp"
-                    android:layout_height="3dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/back_all"
-                    android:orientation="vertical"
-                    android:visibility="invisible"></LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/information_ll_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="喜报"
-                    android:textColor="#ffffffff"
-                    android:textSize="15sp" />
-
-                <LinearLayout
-                    android:id="@+id/information_ll_8"
+                    android:id="@+id/new_information_ll_4"
                     android:layout_width="28dp"
                     android:layout_height="3dp"
                     android:layout_marginTop="10dp"
@@ -125,9 +68,33 @@
 
     </RelativeLayout>
 
-    <FrameLayout
-        android:id="@+id/information_fl"
+    <!--    <androidx.recyclerview.widget.RecyclerView-->
+    <!--        android:id="@+id/new_information_rv"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"/>-->
+
+    <com.xcy.fzbcity.all.myim.PagerSlidingTabStrip
+        android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="wrap_content"
+        android:background="@drawable/skin_global_bg"
+        android:visibility="gone"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/main_tab_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <FrameLayout
+            android:id="@+id/information_fl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"></FrameLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>

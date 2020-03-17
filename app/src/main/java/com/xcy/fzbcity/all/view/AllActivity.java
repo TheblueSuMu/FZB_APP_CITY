@@ -25,6 +25,8 @@ import com.xcy.fzbcity.all.persente.StatusBar;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.huantansheng.easyphotos.constant.Code.REQUEST_PERMISSION;
+
 public class AllActivity extends AppCompatActivity {
 
     public static boolean exit = false;
@@ -86,6 +88,24 @@ public class AllActivity extends AppCompatActivity {
 
             }
         }
+
+        PackageManager pkgManager= getPackageManager();
+
+        boolean audioSatePermission =
+
+                pkgManager.checkPermission(Manifest.permission.RECORD_AUDIO, getPackageName()) == PackageManager.PERMISSION_GRANTED;
+
+        if(Build.VERSION.SDK_INT>=23&&!audioSatePermission) {
+            requestPermission();
+        }
+
+    }
+
+    private void requestPermission() {
+
+        ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.RECORD_AUDIO},
+
+        REQUEST_PERMISSION);
 
 
     }

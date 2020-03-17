@@ -950,4 +950,25 @@ public interface MyService {
     //访客记录--网店访客量
     @POST("commonSelect/customerVisitorSumStatistics")
     Observable<CustomerVisitorSumStatisticsBean> getCustomerVisitorSumStatistics(@Query("userId") String userId,@Query("webshopId") String webshopId);
+
+    //常用语查询
+    @POST("ordinarySelect/findLanguage")
+    Observable<SetPhraseBean> getSetPhraseBean(@Query("agentId") String agentId, @Query("type") String type, @Query("pageSize") String pageSize);
+
+    //修改常用语
+    @POST("ordinaryUpdate/updateLanguage")
+    Observable<AmendUsefulExpressionsBean> getAmendUsefulExpressionsBean(@Query("languageId") String languageId, @Query("content") String content);
+
+    //删除常用语
+    @POST("ordinaryUpdate/delLanguage")
+    Observable<DeleteLanguageBean> getDeleteLanguageBean(@Query("languageId") String languageId);
+
+    //新增常用语
+    @POST("ordinaryUpdate/addLanguage")
+    Observable<AddLanguageBean> getAddLanguageBean(@Query("agentId") String agentId, @Query("content") String content);
+
+    //通知消息
+    @POST("commonSelect/systemMessage")
+    Observable<InformTheDetailsBean> getInformTheDetailsBean(@Query("userId") String userId, @Query("pageSize") String pageSize);
+
 }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/project_view_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_size_15"
+        android:paddingRight="@dimen/dp_10"
+        android:text="项目名称显示不下就安检设..."
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="#ff333333"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/project_view_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_size_10"
+        android:paddingRight="@dimen/dp_10"
+        android:text="配套丰富,文旅圣地"
+        android:textColor="#ff999999"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_size_10"
+        android:paddingRight="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_size_20">
+
+        <TextView
+            android:id="@+id/project_view_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5000元/㎡"
+            android:textColor="#ffac1e26"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/project_view_square"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="80-102㎡"
+            android:textColor="#ff666666"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -37,19 +37,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.netease.nim.uikit.api.NimUIKit;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.adapter.PopAdapter;
 import com.xcy.fzbcity.all.api.APKVersionCodeUtils;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.api.NewlyIncreased;
-import com.xcy.fzbcity.all.api.RedEnvelopesAllTalk;
 import com.xcy.fzbcity.all.database.AppPackageBean;
 import com.xcy.fzbcity.all.database.CaptainBean;
 import com.xcy.fzbcity.all.database.ExemplaryUserBean;
+import com.xcy.fzbcity.all.downloadapk.OKManger;
 import com.xcy.fzbcity.all.modle.CodeBean;
+import com.xcy.fzbcity.all.modle.InformTheDetailsBean;
 import com.xcy.fzbcity.all.modle.LoginUserBean;
 import com.xcy.fzbcity.all.modle.OnLineBean;
+import com.xcy.fzbcity.all.modle.Preferences;
 import com.xcy.fzbcity.all.modle.UserIdentity;
 import com.xcy.fzbcity.all.modle.UserSaveBean;
 import com.xcy.fzbcity.all.persente.SharItOff;
@@ -59,6 +64,7 @@ import com.xcy.fzbcity.all.utils.CommonUtil;
 import com.xcy.fzbcity.all.utils.CountDownTimerUtils;
 import com.xcy.fzbcity.all.utils.DataBase;
 import com.xcy.fzbcity.all.utils.DataBaseUtil;
+import com.xcy.fzbcity.all.utils.InformeDataBaseUtil;
 import com.xcy.fzbcity.all.utils.MatcherUtils;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 import com.xcy.fzbcity.all.view.AllActivity;
@@ -97,7 +103,9 @@ import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class LoginActivity extends AllActivity implements View.OnClickListener {
+//, OKManger.IProgress
+
+public class LoginActivity extends AllActivity implements View.OnClickListener{
     private TextView login_tv_username;
     private TextView login_tv_password;
     private TextView login_tv_get_code;
@@ -244,11 +252,13 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
         avi = findViewById(R.id.avi_login);
         avi_login_rl = findViewById(R.id.avi_login_rl);
 
+//        String account = Preferences.getUserAccount();
+
 
         login_select_password.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     //选择状态 显示明文--设置为可见的密码
                     login_et_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     login_et_password.setSelection(login_et_password.getText().length());
@@ -306,19 +316,41 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
             } else {
                 if (pref.getString("login", "").equals("1")) {
-                    login_et_username.setText(pref.getString("user_name"+(index-1), ""));
-                    login_et_password.setText(pref.getString("user_password"+(index-1), ""));
+                    login_et_username.setText(pref.getString("user_name" + (index - 1), ""));
+                    login_et_password.setText(pref.getString("user_password" + (index - 1), ""));
                     Log.i("mmm", "用户成功登录" + pref.getString("userID", ""));
-                    Intent intent = new Intent(this, Broker_MainActivity.class);
-                    FinalContents.setUserID(pref.getString("userID", ""));
-                    FinalContents.setCityID(pref.getString("cityID", ""));
-                    FinalContents.setCityName(pref.getString("cityname", ""));
-                    FinalContents.setOldCityName(pref.getString("cityname", ""));
-                    FinalContents.setOldCityId(pref.getString("cityID", ""));
-                    FinalContents.setIdentity(pref.getString("identity", ""));
-                    RedEnvelopesAllTalk.setWebshopId(pref.getString("WebshopId", ""));
-                    startActivity(intent);
-                    finish();
+                    Log.i("mmm", "用户成功登录" + pref.getString("getToken", ""));
+                    NimUIKit.login(new LoginInfo(pref.getString("userID", ""), pref.getString("getToken", "")), new RequestCallback<LoginInfo>() {
+                        @Override
+                        public void onSuccess(LoginInfo loginInfo) {
+                            Log.i("TAG", "登录成功");
+                            //TODO 页面间的跳转
+                            Intent intent = new Intent(LoginActivity.this, Broker_MainActivity.class);
+                            FinalContents.setUserID(pref.getString("userID", ""));
+                            FinalContents.setCityID(pref.getString("cityID", ""));
+                            FinalContents.setCityName(pref.getString("cityname", ""));
+                            FinalContents.setOldCityName(pref.getString("cityname", ""));
+                            FinalContents.setOldCityId(pref.getString("cityID", ""));
+                            FinalContents.setIdentity(pref.getString("identity", ""));
+
+//                            Preferences.saveUserAccount(pref.getString("userID", ""));
+//                            Preferences.saveUserToken(pref.getString("getToken", ""));
+
+                            startActivity(intent);
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailed(int i) {
+
+                        }
+
+                        @Override
+                        public void onException(Throwable throwable) {
+                            Log.i("TAG", "登录失败" + throwable);
+                        }
+                    });
+
                 } else {
                     editor.putString("login", "1");
                     editor.commit();
@@ -329,8 +361,8 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
             } else {
                 if (pref.getString("login", "").equals("1")) {
-                    login_et_username.setText(pref.getString("user_name"+(index-1), ""));
-                    login_et_password.setText(pref.getString("user_password"+(index-1), ""));
+                    login_et_username.setText(pref.getString("user_name" + (index - 1), ""));
+                    login_et_password.setText(pref.getString("user_password" + (index - 1), ""));
                     Log.i("mmm", "用户成功登录" + pref.getString("userID", ""));
                     Intent intent = new Intent(this, Captain_Market_MainActivity.class);
                     FinalContents.setUserID(pref.getString("userID", ""));
@@ -351,8 +383,8 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
             } else {
                 if (pref.getString("login", "").equals("1")) {
-                    login_et_username.setText(pref.getString("user_name"+(index-1), ""));
-                    login_et_password.setText(pref.getString("user_password"+(index-1), ""));
+                    login_et_username.setText(pref.getString("user_name" + (index - 1), ""));
+                    login_et_password.setText(pref.getString("user_password" + (index - 1), ""));
                     Log.i("mmm", "用户成功登录" + pref.getString("userID", ""));
                     Intent intent = new Intent(this, Captain_Counselor_MainActivity.class);
                     FinalContents.setUserID(pref.getString("userID", ""));
@@ -373,8 +405,8 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
             } else {
                 if (pref.getString("login", "").equals("1")) {
-                    login_et_username.setText(pref.getString("user_name"+(index-1), ""));
-                    login_et_password.setText(pref.getString("user_password"+(index-1), ""));
+                    login_et_username.setText(pref.getString("user_name" + (index - 1), ""));
+                    login_et_password.setText(pref.getString("user_password" + (index - 1), ""));
                     Log.i("mmm", "用户成功登录" + pref.getString("userID", ""));
                     Intent intent = new Intent(this, Captain_Team_MainActivity.class);
                     FinalContents.setUserID(pref.getString("userID", ""));
@@ -395,8 +427,8 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
             } else {
                 if (pref.getString("login", "").equals("1")) {
-                    login_et_username.setText(pref.getString("user_name"+(index-1), ""));
-                    login_et_password.setText(pref.getString("user_password"+(index-1), ""));
+                    login_et_username.setText(pref.getString("user_name" + (index - 1), ""));
+                    login_et_password.setText(pref.getString("user_password" + (index - 1), ""));
                     Log.i("mmm", "用户成功登录" + pref.getString("userID", ""));
                     Intent intent = new Intent(this, Captain_Assistant_MainActivity.class);
                     FinalContents.setUserID(pref.getString("userID", ""));
@@ -417,8 +449,8 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
             } else {
                 if (pref.getString("login", "").equals("1")) {
-                    login_et_username.setText(pref.getString("user_name"+(index-1), ""));
-                    login_et_password.setText(pref.getString("user_password"+(index-1), ""));
+                    login_et_username.setText(pref.getString("user_name" + (index - 1), ""));
+                    login_et_password.setText(pref.getString("user_password" + (index - 1), ""));
                     Log.i("mmm", "用户成功登录" + pref.getString("userID", ""));
                     Intent intent = new Intent(this, Project_Attache_MainActivity.class);
                     FinalContents.setUserID(pref.getString("userID", ""));
@@ -439,8 +471,8 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
             } else {
                 if (pref.getString("login", "").equals("1")) {
-                    login_et_username.setText(pref.getString("user_name"+(index-1), ""));
-                    login_et_password.setText(pref.getString("user_password"+(index-1), ""));
+                    login_et_username.setText(pref.getString("user_name" + (index - 1), ""));
+                    login_et_password.setText(pref.getString("user_password" + (index - 1), ""));
                     Log.i("mmm", "用户成功登录" + pref.getString("userID", ""));
                     Intent intent = new Intent(this, Project_Side_MainActivity.class);
                     FinalContents.setUserID(pref.getString("userID", ""));
@@ -461,8 +493,8 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
             } else {
                 if (pref.getString("login", "").equals("1")) {
-                    login_et_username.setText(pref.getString("user_name"+(index-1), ""));
-                    login_et_password.setText(pref.getString("user_password"+(index-1), ""));
+                    login_et_username.setText(pref.getString("user_name" + (index - 1), ""));
+                    login_et_password.setText(pref.getString("user_password" + (index - 1), ""));
                     Log.i("mmm", "用户成功登录" + pref.getString("userID", ""));
                     Intent intent = new Intent(this, Shopping_Guide_MainActivity.class);
                     FinalContents.setUserID(pref.getString("userID", ""));
@@ -644,7 +676,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<CodeBean> userMessage = fzbInterface.getSendCode(userName,"");
+        Observable<CodeBean> userMessage = fzbInterface.getSendCode(userName, "");
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<CodeBean>() {
@@ -655,9 +687,9 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                     @Override
                     public void onNext(CodeBean codeBean) {
-                        if(codeBean.getData().getStatus().equals("0")){
+                        if (codeBean.getData().getStatus().equals("0")) {
                             ToastUtil.showLongToast(LoginActivity.this, codeBean.getData().getMessage());
-                        }else if(codeBean.getData().getStatus().equals("1")){
+                        } else if (codeBean.getData().getStatus().equals("1")) {
                             CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(login_tv_get_code, 60000, 1000);
                             mCountDownTimerUtils.start();
                             ToastUtil.showLongToast(LoginActivity.this, codeBean.getData().getMessage());
@@ -717,7 +749,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                     @Override
                     public void onNext(UserIdentity userIdentity) {
                         if (userIdentity.getData().getStatus().equals("2")) {
-                            ToastUtil.showLongToast(LoginActivity.this,userIdentity.getData().getMessage());
+                            ToastUtil.showLongToast(LoginActivity.this, userIdentity.getData().getMessage());
                             avi.setVisibility(View.GONE);
                             avi_login_rl.setVisibility(View.GONE);
                             return;
@@ -765,7 +797,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<OnLineBean> userMessage = fzbInterface.getOnLine("android",FinalContents.getVersionNumBer());
+        Observable<OnLineBean> userMessage = fzbInterface.getOnLine("android", FinalContents.getVersionNumBer());
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<OnLineBean>() {
@@ -849,7 +881,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                     @Override
                     public void onNext(UserIdentity userIdentity) {
                         if (userIdentity.getData().getStatus().equals("2")) {
-                            ToastUtil.showLongToast(LoginActivity.this,userIdentity.getData().getMessage());
+                            ToastUtil.showLongToast(LoginActivity.this, userIdentity.getData().getMessage());
                             avi.setVisibility(View.GONE);
                             avi_login_rl.setVisibility(View.GONE);
                             return;
@@ -942,26 +974,49 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                         boolean networkAvailable = CommonUtil.isNetworkAvailable(LoginActivity.this);
                         if (networkAvailable) {
-                            Intent intent = new Intent(LoginActivity.this, Broker_MainActivity.class);
-                            FinalContents.setUserID(loginUserBean.getData().getId());
-                            FinalContents.setCityID(loginUserBean.getData().getCityId());
-                            FinalContents.setOldCityId(loginUserBean.getData().getCityId());
-                            FinalContents.setCityName(loginUserBean.getData().getCity());
-                            FinalContents.setOldCityName(loginUserBean.getData().getCity());
-                            FinalContents.setIdentity(loginUserBean.getData().getIdentity());
-                            RedEnvelopesAllTalk.setWebshopId(loginUserBean.getData().getWebshopId());
-                            Log.i("登录", "数据中：" + pref.getString("denglu", ""));
-                            editor.putString("denglu", "经纪人");
-                            editor.putString("login", "1");
-                            editor.putString("userID", FinalContents.getUserID());
-                            editor.putString("cityID", FinalContents.getCityID());
-                            editor.putString("cityname", FinalContents.getCityName());
-                            editor.putString("identity", FinalContents.getIdentity());
-                            editor.putString("forget", "");
-                            editor.putString("WebshopId",RedEnvelopesAllTalk.getWebshopId());
-                            editor.commit();
-                            startActivity(intent);
-                            finish();
+                            Log.i("TAG", "getId:" + loginUserBean.getData().getId());
+                            Log.i("TAG", "getToken:" + loginUserBean.getData().getToken());
+                            NimUIKit.login(new LoginInfo(loginUserBean.getData().getId(), loginUserBean.getData().getToken()), new RequestCallback<LoginInfo>() {
+                                @Override
+                                public void onSuccess(LoginInfo loginInfo) {
+                                    Log.i("TAG", "登录成功");
+                                    //TODO 页面间的跳转
+                                    Intent intent = new Intent(LoginActivity.this, Broker_MainActivity.class);
+                                    FinalContents.setUserID(loginUserBean.getData().getId());
+                                    FinalContents.setCityID(loginUserBean.getData().getCityId());
+                                    FinalContents.setOldCityId(loginUserBean.getData().getCityId());
+                                    FinalContents.setCityName(loginUserBean.getData().getCity());
+                                    FinalContents.setOldCityName(loginUserBean.getData().getCity());
+                                    FinalContents.setIdentity(loginUserBean.getData().getIdentity());
+                                    Log.i("登录", "数据中：" + pref.getString("denglu", ""));
+                                    editor.putString("denglu", "经纪人");
+                                    editor.putString("login", "1");
+                                    editor.putString("userID", FinalContents.getUserID());
+                                    editor.putString("cityID", FinalContents.getCityID());
+                                    editor.putString("cityname", FinalContents.getCityName());
+                                    editor.putString("identity", FinalContents.getIdentity());
+                                    editor.putString("getToken", loginUserBean.getData().getToken());
+                                    editor.putString("forget", "");
+                                    editor.commit();
+                                    startActivity(intent);
+//                                    Preferences.saveUserAccount(loginUserBean.getData().getId());
+//                                    Preferences.saveUserToken(loginUserBean.getData().getToken());
+
+                                    initInformeData();
+
+                                    finish();
+                                }
+
+                                @Override
+                                public void onFailed(int i) {
+                                    Log.i("TAG", "onFailed");
+                                }
+
+                                @Override
+                                public void onException(Throwable throwable) {
+                                    Log.i("TAG", "登录失败" + throwable);
+                                }
+                            });
                         } else {
                             ToastUtil.showLongToast(LoginActivity.this, "当前无网络，请检查网络后再重新登录APP");
                             finish();
@@ -987,6 +1042,45 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                     }
                 });
+    }
+
+    private void initInformeData() {
+
+        Retrofit.Builder builder = new Retrofit.Builder();
+        builder.baseUrl(FinalContents.getBaseUrl());
+        builder.addConverterFactory(GsonConverterFactory.create());
+        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+        Retrofit build = builder.build();
+        MyService fzbInterface = build.create(MyService.class);
+        Observable<InformTheDetailsBean> InformTheDetailsBean = fzbInterface.getInformTheDetailsBean(FinalContents.getUserID(), "100000");
+        InformTheDetailsBean.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<InformTheDetailsBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(InformTheDetailsBean informTheDetailsBean) {
+
+                        List<InformTheDetailsBean.DataBean.ListBean> list = informTheDetailsBean.getData().getList();
+                        for (int i = 0; i < list.size(); ++i) {
+                            InformeDataBaseUtil.initAdd(LoginActivity.this, list.get(i).getId(), list.get(i).getTitle(), list.get(i).getContent(), list.get(i).getType(), list.get(i).getDate(), FinalContents.getUserID(), "1", list.get(i).getSubType(), list.get(i).getCommonId(), list.get(i).getState(), list.get(i).getIsEnable());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
     }
 
     private void initExemplary() {
@@ -1431,10 +1525,10 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
 
                     @Override
                     public void onNext(final AppPackageBean appPackageBean) {
-                        if(appPackageBean.getData().getIsUpgrade().equals("0")){
+                        if (appPackageBean.getData().getIsUpgrade().equals("0")) {
                             login_upload_relative.setVisibility(View.GONE);
                             initfvb();
-                        }else if(appPackageBean.getData().getIsUpgrade().equals("1")){
+                        } else if (appPackageBean.getData().getIsUpgrade().equals("1")) {
                             login_upload_relative.setVisibility(View.VISIBLE);
                             try {
                                 Glide.with(LoginActivity.this).load(FinalContents.getImageUrl() + appPackageBean.getData().getImg()).into(login_upload_image);
@@ -1458,7 +1552,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                                 }
                             });
 
-                        }else if(appPackageBean.getData().getIsUpgrade().equals("2")){
+                        } else if (appPackageBean.getData().getIsUpgrade().equals("2")) {
                             login_upload_relative.setVisibility(View.VISIBLE);
                             login_cancle_image.setVisibility(View.GONE);
                             try {
@@ -1531,6 +1625,10 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
      * 开启新线程下载apk文件
      */
     private void downloadAPK() {
+
+//        OKManger downLoad = new OKManger(url,this);
+//        downLoad.start();
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -1554,7 +1652,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                         FileOutputStream fos = new FileOutputStream(apkFile);
 
                         int count = 0;
-                        byte[] buffer = new byte[1024];
+                        byte[] buffer = new byte[4096];
                         while (!mIsCancel) {
                             int numread = is.read(buffer);
                             count += numread;
@@ -1579,6 +1677,11 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
             }
         }).start();
     }
+
+//    @Override
+//    public void onProgress(int progress) {
+//
+//    }
 
     /**
      * 接收消息
@@ -1632,28 +1735,6 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
             LoginActivity.this.startActivity(intent);
         }
         Log.e("TAG", "安装apk");
-
-
-//        File apkFile = new File(mSavePath, mVersion_name);
-//        if (!apkFile.exists()){
-//            return;
-//        }
-////        Uri apkUri = FileProvider.getUriForFile(AboutFZBActivity.this, "com.zidian.qingframe.fileprovider", apkPath);
-//        Intent intent = new Intent(Intent.ACTION_VIEW);
-////      安装完成后，启动app（源码中少了这句话）
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        Uri uri = Uri.parse("file://" + apkFile.toString());
-//        intent.setDataAndType(uri, "application/vnd.android.package-archive");
-//        AboutFZBActivity.this.startActivity(intent);
-//
-//        startInstallPermissionSettingActivity();
-//        String fileName = mSavePath;
-//        Intent i = new Intent();
-//        i.setAction(Intent.ACTION_VIEW);
-//        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        i.setDataAndType(Uri.fromFile(new File(fileName) ), "application/vnd.android.package-archive");
-//        startActivity(i);
     }
 
     /**
@@ -1705,7 +1786,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
                         userName = json.toString();
                         passWord = "";
                         if (userIdentity.getData().getStatus().equals("2")) {
-                            ToastUtil.showLongToast(LoginActivity.this,userIdentity.getData().getMessage());
+                            ToastUtil.showLongToast(LoginActivity.this, userIdentity.getData().getMessage());
                             avi.setVisibility(View.GONE);
                             avi_login_rl.setVisibility(View.GONE);
                             return;
@@ -1754,13 +1835,14 @@ public class LoginActivity extends AllActivity implements View.OnClickListener {
     protected void onRestart() {
         super.onRestart();
 
-        if(FinalContents.getIfSignIn().equals("注册")){
+        if (FinalContents.getIfSignIn().equals("注册")) {
             login_et_username.setText(FinalContents.getSignInName());
             login_et_password.setText("");
-        }else {
+        } else {
             login_et_username.setText(login_et_username.getText().toString());
             login_et_password.setText(login_et_password.getText().toString());
         }
 
     }
+
 }

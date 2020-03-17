@@ -12,35 +12,43 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.xcy.fzbcity.R;
+import com.xcy.fzbcity.all.adapter.MainTabPagerAdapter;
 import com.xcy.fzbcity.all.api.FinalContents;
+import com.xcy.fzbcity.all.modle.MainTab;
+import com.xcy.fzbcity.all.myim.FadeInOutPageTransformer;
 import com.xcy.fzbcity.all.persente.SingleClick;
 import com.xcy.fzbcity.all.persente.StatusBar;
 
+
 //TODO 消息界面
-public class MessageFragment extends Fragment implements View.OnClickListener {
+public class MessageFragment extends Fragment implements View.OnClickListener, ViewPager.OnPageChangeListener {
     private View view;
-    LinearLayout information_ll_1;
-    LinearLayout information_ll_2;
-    LinearLayout information_ll_3;
-    LinearLayout information_ll_4;
-    LinearLayout information_ll_5;
-    LinearLayout information_ll_6;
-    LinearLayout information_ll_7;
-    LinearLayout information_ll_8;
+
+    LinearLayout new_information_ll_1;
+    LinearLayout new_information_ll_2;
+    LinearLayout new_information_ll_3;
+    LinearLayout new_information_ll_4;
+
+    private MainTabPagerAdapter adapter;
+
+    private ViewPager pager;
 
     FrameLayout information_fl;
 
+    private int scrollState;
+
     FragmentManager manager;
     FragmentTransaction transaction;
-    DynamicFragment dynamicFragment = new DynamicFragment();
-    NoticeFragment noticeFragment = new NoticeFragment();
-    GuestRoomFragment guestRoomFragment = new GuestRoomFragment();
-    GoodNewsFragment goodNewsFragment = new GoodNewsFragment();
-
+    TestInformeFragment testInformeFragment = new TestInformeFragment();
     private String type = "1";
 
+    //
     public void setType(String type) {
         this.type = type;
     }
@@ -55,79 +63,27 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        manager = getActivity().getSupportFragmentManager();
-        transaction = manager.beginTransaction();
-        if (FinalContents.isLuo()) {
-
-            transaction.add(R.id.information_fl, dynamicFragment);
-            transaction.add(R.id.information_fl, noticeFragment);
-            transaction.add(R.id.information_fl, guestRoomFragment);
-            transaction.add(R.id.information_fl, goodNewsFragment);
-            transaction.hide(noticeFragment);
-            transaction.hide(guestRoomFragment);
-            transaction.hide(goodNewsFragment);
-            FinalContents.setLuo(false);
-        }
-        if (type.equals("1")) {
-            information_ll_5.setVisibility(View.VISIBLE);
-            information_ll_6.setVisibility(View.INVISIBLE);
-            information_ll_7.setVisibility(View.INVISIBLE);
-            information_ll_8.setVisibility(View.INVISIBLE);
-            transaction.show(dynamicFragment);
-            transaction.hide(noticeFragment);
-            transaction.hide(guestRoomFragment);
-            transaction.hide(goodNewsFragment);
-        } else if (type.equals("2")) {
-            information_ll_5.setVisibility(View.INVISIBLE);
-            information_ll_6.setVisibility(View.VISIBLE);
-            information_ll_7.setVisibility(View.INVISIBLE);
-            information_ll_8.setVisibility(View.INVISIBLE);
-            transaction.show(noticeFragment);
-            transaction.hide(dynamicFragment);
-            transaction.hide(guestRoomFragment);
-            transaction.hide(goodNewsFragment);
-        } else if (type.equals("3")) {
-            information_ll_5.setVisibility(View.INVISIBLE);
-            information_ll_6.setVisibility(View.INVISIBLE);
-            information_ll_7.setVisibility(View.VISIBLE);
-            information_ll_8.setVisibility(View.INVISIBLE);
-            transaction.show(guestRoomFragment);
-            transaction.hide(dynamicFragment);
-            transaction.hide(noticeFragment);
-            transaction.hide(goodNewsFragment);
-        } else if (type.equals("4")) {
-            information_ll_5.setVisibility(View.INVISIBLE);
-            information_ll_6.setVisibility(View.INVISIBLE);
-            information_ll_7.setVisibility(View.INVISIBLE);
-            information_ll_8.setVisibility(View.VISIBLE);
-            transaction.show(goodNewsFragment);
-            transaction.hide(dynamicFragment);
-            transaction.hide(guestRoomFragment);
-            transaction.hide(noticeFragment);
-        }
-        transaction.commit();
-    }
-
     private void initView() {
 
         information_fl = view.findViewById(R.id.information_fl);
+        pager = view.findViewById(R.id.main_tab_pager);
 
-        information_ll_1 = view.findViewById(R.id.information_ll_1);
-        information_ll_2 = view.findViewById(R.id.information_ll_2);
-        information_ll_3 = view.findViewById(R.id.information_ll_3);
-        information_ll_4 = view.findViewById(R.id.information_ll_4);
-        information_ll_5 = view.findViewById(R.id.information_ll_5);
-        information_ll_6 = view.findViewById(R.id.information_ll_6);
-        information_ll_7 = view.findViewById(R.id.information_ll_7);
-        information_ll_8 = view.findViewById(R.id.information_ll_8);
+        new_information_ll_1 = view.findViewById(R.id.new_information_ll_1);
+        new_information_ll_2 = view.findViewById(R.id.new_information_ll_2);
+        new_information_ll_3 = view.findViewById(R.id.new_information_ll_3);
+        new_information_ll_4 = view.findViewById(R.id.new_information_ll_4);
 
-        information_ll_1.setOnClickListener(this);
-        information_ll_2.setOnClickListener(this);
-        information_ll_3.setOnClickListener(this);
-        information_ll_4.setOnClickListener(this);
+        pager.setVisibility(View.VISIBLE);
+        adapter = new MainTabPagerAdapter(getActivity().getSupportFragmentManager(), getContext(), pager);
+        pager.setOffscreenPageLimit(adapter.getCacheCount());
+        pager.setPageTransformer(true, new FadeInOutPageTransformer());
+        pager.setAdapter(adapter);
+        pager.setOnPageChangeListener(this);
+
+
+
+        new_information_ll_1.setOnClickListener(this);
+        new_information_ll_3.setOnClickListener(this);
 
 
     }
@@ -135,75 +91,84 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
     @SingleClick(1000)
     @Override
     public void onClick(View view) {
-        manager = getActivity().getSupportFragmentManager();
-        transaction = manager.beginTransaction();
         switch (view.getId()) {
-            case R.id.information_ll_1:
-                type = "1";
-                information_ll_5.setVisibility(View.VISIBLE);
-                information_ll_6.setVisibility(View.INVISIBLE);
-                information_ll_7.setVisibility(View.INVISIBLE);
-                information_ll_8.setVisibility(View.INVISIBLE);
-                transaction.show(dynamicFragment);
-                transaction.hide(noticeFragment);
-                transaction.hide(guestRoomFragment);
-                transaction.hide(goodNewsFragment);
+            case R.id.new_information_ll_1:
+                new_information_ll_2.setVisibility(View.VISIBLE);
+                new_information_ll_4.setVisibility(View.GONE);
+                initChat();
                 break;
-            case R.id.information_ll_2:
-                type = "2";
-                information_ll_5.setVisibility(View.INVISIBLE);
-                information_ll_6.setVisibility(View.VISIBLE);
-                information_ll_7.setVisibility(View.INVISIBLE);
-                information_ll_8.setVisibility(View.INVISIBLE);
-                transaction.show(noticeFragment);
-                transaction.hide(dynamicFragment);
-                transaction.hide(guestRoomFragment);
-                transaction.hide(goodNewsFragment);
-                break;
-            case R.id.information_ll_3:
-                type = "3";
-                information_ll_5.setVisibility(View.INVISIBLE);
-                information_ll_6.setVisibility(View.INVISIBLE);
-                information_ll_7.setVisibility(View.VISIBLE);
-                information_ll_8.setVisibility(View.INVISIBLE);
-                transaction.show(guestRoomFragment);
-                transaction.hide(dynamicFragment);
-                transaction.hide(noticeFragment);
-                transaction.hide(goodNewsFragment);
-                break;
-            case R.id.information_ll_4:
-                type = "4";
-                information_ll_5.setVisibility(View.INVISIBLE);
-                information_ll_6.setVisibility(View.INVISIBLE);
-                information_ll_7.setVisibility(View.INVISIBLE);
-                information_ll_8.setVisibility(View.VISIBLE);
-                transaction.show(goodNewsFragment);
-                transaction.hide(dynamicFragment);
-                transaction.hide(guestRoomFragment);
-                transaction.hide(noticeFragment);
+            case R.id.new_information_ll_3:
+                new_information_ll_2.setVisibility(View.GONE);
+                new_information_ll_4.setVisibility(View.VISIBLE);
+                initInform();
                 break;
         }
+    }
+
+    //通知
+    private void initInform() {
+
+        pager.setVisibility(View.GONE);
+        information_fl.setVisibility(View.VISIBLE);
+
+        manager = getActivity().getSupportFragmentManager();
+        transaction = manager.beginTransaction();
+        transaction.replace(R.id.information_fl, testInformeFragment);
         transaction.commit();
+
+    }
+
+    //聊天
+    private void initChat() {
+
+
+        pager.setVisibility(View.VISIBLE);
+        information_fl.setVisibility(View.GONE);
+
+
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (FinalContents.isHidden()) {             //TODO 非消息内部
-            if(hidden){
-                type = "1";
-                //TODO now visible to user 不显示fragment
-            } else {
-                onResume();
-                //TODO now invisible to user 显示fragment
-            }
-        }else {                                     //TODO  消息内部
-            if(hidden){
-                //TODO now visible to user 不显示fragment
-            } else {
-                onResume();
-                //TODO now invisible to user 显示fragment
-            }
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//        tabs.onPageScrolled(position, positionOffset, positionOffsetPixels);
+        adapter.onPageScrolled(position);
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+//        tabs.onPageSelected(position);
+        selectPage();
+        enableMsgNotification(false);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+//        tabs.onPageScrollStateChanged(state);
+        scrollState = state;
+        selectPage();
+    }
+    private void selectPage() {
+        if (scrollState == ViewPager.SCROLL_STATE_IDLE) {
+            adapter.onPageSelected(pager.getCurrentItem());
         }
     }
+
+    /**
+     * 设置最近联系人的消息为已读
+     * <p>
+     * account, 聊天对象帐号，或者以下两个值：
+     * {@link MsgService#MSG_CHATTING_ACCOUNT_ALL} 目前没有与任何人对话，但能看到消息提醒（比如在消息列表界面），不需要在状态栏做消息通知
+     * {@link MsgService#MSG_CHATTING_ACCOUNT_NONE} 目前没有与任何人对话，需要状态栏消息通知
+     */
+    private void enableMsgNotification(boolean enable) {
+        boolean msg = (pager.getCurrentItem() != MainTab.RECENT_CONTACTS.tabIndex);
+        if (enable | msg) {
+            NIMClient.getService(MsgService.class).setChattingAccount(
+                    MsgService.MSG_CHATTING_ACCOUNT_NONE, SessionTypeEnum.None);
+        } else {
+            NIMClient.getService(MsgService.class).setChattingAccount(
+                    MsgService.MSG_CHATTING_ACCOUNT_ALL, SessionTypeEnum.None);
+        }
+    }
+
 }

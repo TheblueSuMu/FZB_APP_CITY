@@ -144,8 +144,6 @@ public class DynamicFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        EventBus.getDefault().register(this);
-
         recyclerView = view.findViewById(R.id.dynamic_rv);
         all_no_information = view.findViewById(R.id.all_no_information);
         textView = view.findViewById(R.id.dynamic_text);
@@ -455,6 +453,23 @@ public class DynamicFragment extends Fragment {
         }
         Log.i("MyCL", "11");
         return bitmap;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this))//加上判断
+            EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if(!EventBus.getDefault().isRegistered(this)){//加上判断
+            EventBus.getDefault().register(this);
+        }
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100

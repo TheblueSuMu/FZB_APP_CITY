@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="34dp"
-            android:text="经纪圈"
+            android:text="动态"
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
 
@@ -33,16 +33,74 @@
             android:scaleType="fitXY"
             android:src="@mipmap/icon_1" />
 
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:layout_marginBottom="20dp"-->
+<!--            android:orientation="horizontal">-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/d_all"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="全部"-->
+<!--                    android:textColor="#FFFFFF"-->
+<!--                    android:textSize="15sp" />-->
+
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/d_all_l"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:layout_width="25dp"-->
+<!--                    android:layout_height="3dp"-->
+<!--                    android:layout_gravity="center_horizontal"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:background="@drawable/back_all"-->
+<!--                    ></LinearLayout>-->
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/d_my"-->
+<!--                android:layout_marginLeft="50dp"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="我的"-->
+<!--                    android:textColor="#FFFFFF"-->
+<!--                    android:textSize="15sp" />-->
+
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/d_my_l"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:layout_width="25dp"-->
+<!--                    android:layout_height="3dp"-->
+<!--                    android:layout_gravity="center_horizontal"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:visibility="invisible"-->
+<!--                    android:background="@drawable/back_all"-->
+<!--                    ></LinearLayout>-->
+<!--            </LinearLayout>-->
+<!--        </LinearLayout>-->
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="71dp"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/d_all"
+                android:id="@+id/new_ll_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -50,46 +108,115 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="全部"
-                    android:textColor="#FFFFFF"
+                    android:text="楼盘动态"
+                    android:textColor="#ffffffff"
                     android:textSize="15sp" />
 
                 <LinearLayout
-                    android:id="@+id/d_all_l"
-                    android:orientation="horizontal"
-                    android:layout_width="25dp"
+                    android:id="@+id/new_ll_2"
+                    android:layout_width="match_parent"
                     android:layout_height="3dp"
-                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/back_all"
-                    ></LinearLayout>
+                    android:orientation="vertical"></LinearLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/d_my"
-                android:layout_marginLeft="50dp"
+                android:id="@+id/new_ll_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="我的"
-                    android:textColor="#FFFFFF"
+                    android:text="经济圈"
+                    android:textColor="#ffffffff"
                     android:textSize="15sp" />
 
                 <LinearLayout
-                    android:id="@+id/d_my_l"
-                    android:orientation="horizontal"
-                    android:layout_width="25dp"
+                    android:id="@+id/new_ll_4"
+                    android:layout_width="match_parent"
                     android:layout_height="3dp"
-                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:visibility="invisible"
                     android:background="@drawable/back_all"
-                    ></LinearLayout>
+                    android:visibility="invisible"
+                    android:orientation="vertical"></LinearLayout>
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/new_ll_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="通知"
+                    android:textColor="#ffffffff"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:id="@+id/new_ll_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/back_all"
+                    android:orientation="vertical"
+                    android:visibility="invisible"></LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/new_ll_7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="房客"
+                    android:textColor="#ffffffff"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:id="@+id/new_ll_8"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/back_all"
+                    android:orientation="vertical"
+                    android:visibility="invisible"></LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/new_ll_9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="喜报"
+                    android:textColor="#ffffffff"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:id="@+id/new_ll_10"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/back_all"
+                    android:orientation="vertical"
+                    android:visibility="invisible"></LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
 
     </RelativeLayout>

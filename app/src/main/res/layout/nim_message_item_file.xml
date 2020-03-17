@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/message_item_file_detail_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="left|top"
+    android:background="#FFFFFF"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/message_item_file_icon_image"
+        android:layout_marginLeft="@dimen/dp_size_15"
+        android:layout_width="@dimen/dp_size_30"
+        android:layout_height="@dimen/dp_size_34"
+        android:src="@mipmap/myfile"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@+id/message_item_file_name_label"
+        android:layout_toRightOf="@id/message_item_file_name_label" />
+
+    <TextView
+        android:id="@+id/message_item_file_name_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:autoLink="none"
+        android:layout_centerVertical="true"
+        android:text=""
+        android:maxWidth="160dp"
+        android:maxLines="2"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_marginLeft="@dimen/dp_size_15"
+        android:layout_below="@id/message_item_file_icon_image"
+        android:layout_toRightOf="@+id/message_item_file_name_label">
+
+        <TextView
+            android:id="@+id/message_item_file_status_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:text=""
+            android:singleLine="true"
+            android:textColor="#999999"
+            android:textSize="12sp" />
+
+        <ProgressBar
+            android:id="@+id/message_item_file_transfer_progress_bar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="150dp"
+            android:layout_height="6dip"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="5dp"
+            android:indeterminate="false"
+            android:max="100"
+            android:progressDrawable="@drawable/nim_progress_bar_background"
+            android:visibility="gone" />
+    </FrameLayout>
+</RelativeLayout>

@@ -31,6 +31,7 @@ import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.netease.nim.uikit.api.NimUIKit;
 import com.xcy.fzbcity.Login.LoginActivity;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.api.APKVersionCodeUtils;
@@ -92,6 +93,7 @@ public class AboutFZBActivity extends AllActivity implements View.OnClickListene
     private String url = "http://test.fangzuobiao.com:88/fangfang/static/down/fangzuobiao.apk";
     private ImageView fzb_img;
     private RelativeLayout fzb_zx;
+
     //https://download.dgstaticresources.net/fusion/android/app-c6-release.apk
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,9 +174,12 @@ public class AboutFZBActivity extends AllActivity implements View.OnClickListene
                 intent = new Intent(AboutFZBActivity.this, DisclaimerActivity.class);
                 startActivity(intent);
                 break;
- //                TODO 注销账号
+            //                TODO 注销账号
             case R.id.fzb_zx:
-                intent = new Intent(AboutFZBActivity.this, Close_An_Account.class);
+//                NimUIKit.startP2PSession(AboutFZBActivity.this, "test");
+//                intent = new Intent(AboutFZBActivity.this, Close_An_Account.class);
+//                startActivity(intent);
+                intent = new Intent(AboutFZBActivity.this, SetPhraseAcitvity.class);
                 startActivity(intent);
                 break;
         }

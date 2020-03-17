@@ -523,6 +523,7 @@ public class MapActivity extends AllActivity implements View.OnClickListener, Po
     }
 
     //    TODO 动态打开gps
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

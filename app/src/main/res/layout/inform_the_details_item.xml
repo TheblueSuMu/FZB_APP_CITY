@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/inform_the_details_item_ll"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/inform_the_details_item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text=""
+        android:textColor="#ff999999"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/inform_the_details_shape"
+        android:layout_marginRight="@dimen/dp_size_15"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/inform_the_details_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_size_15"
+            android:layout_marginTop="@dimen/dp_size_15"
+            android:text=""
+            android:textColor="#ff111111"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/inform_the_details_item_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_size_15"
+            android:layout_marginTop="@dimen/dp_size_15"
+            android:text=""
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="#ff111111"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EEEEEE"
+            android:layout_marginTop="@dimen/dp_size_15"/>
+
+        <RelativeLayout
+            android:id="@+id/inform_the_details_item_rl"
+            android:layout_marginTop="@dimen/dp_size_15"
+            android:layout_marginBottom="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/inform_the_details_item_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_size_15"
+                android:text="查看详情 "
+                android:textColor="#ff334485"
+                android:textSize="15sp"
+                />
+            <ImageView
+                android:layout_width="7dp"
+                android:layout_height="@dimen/dp_size_12"
+                android:src="@mipmap/item_details_yj_jr"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_size_15"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

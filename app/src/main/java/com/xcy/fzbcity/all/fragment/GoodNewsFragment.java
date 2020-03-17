@@ -90,10 +90,13 @@ public class GoodNewsFragment extends Fragment {
                 return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
             }
         });
-
+        initData();
 
     }
     private void initData() {
+
+        Log.i("列表数据加载", "喜报initData:");
+
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(FinalContents.getBaseUrl());
         builder.addConverterFactory(GsonConverterFactory.create());
@@ -114,6 +117,7 @@ public class GoodNewsFragment extends Fragment {
                     public void onNext(GoodNewsBean goodNewsBean) {
                         GoodNewsBean.DataBean data1 = goodNewsBean.getData();
                         List<GoodNewsBean.DataBean.RowsBean> rows = data1.getRows();
+                        Log.i("列表数据加载", "喜报rows.size():" + rows.size());
                         try {
                             if (rows.size() != 0) {
                                 all_no_information.setVisibility(View.GONE);

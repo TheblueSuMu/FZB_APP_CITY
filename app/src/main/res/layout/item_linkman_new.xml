@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:paddingLeft="15dp"
+    android:paddingRight="@dimen/dp_size_15">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/item_linkman_new_img"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:layout_alignParentBottom="true"
+            android:scaleType="fitXY"
+            app:riv_oval="true"
+            android:layout_marginTop="@dimen/dp_size_15"
+            android:layout_marginBottom="@dimen/dp_size_15"
+            android:src="@mipmap/logo_garden" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/dp_size_15"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="top"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/item_linkman_new_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textColor="#333333"
+                    android:text=""
+                    android:layout_gravity="center_vertical"
+                    android:textSize="15sp"/>
+
+                <ImageView
+                    android:id="@+id/item_linkman_new_sex1"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/newnan"
+                    android:visibility="gone"
+                    android:layout_marginLeft="5dp"/>
+
+                <ImageView
+                    android:id="@+id/item_linkman_new_sex2"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/newnv"
+                    android:visibility="gone"
+                    android:layout_marginLeft="5dp"/>
+
+                <ImageView
+                    android:id="@+id/item_linkman_new_tk"
+                    android:layout_width="@dimen/dp_size_50"
+                    android:layout_height="15dp"
+                    android:src="@mipmap/wxtk"
+                    android:visibility="gone"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/item_linkman_new_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#666666"
+                android:layout_gravity="bottom"
+                android:text=""
+                android:textSize="12sp"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EEEEEE"/>
+
+<!--    <TextView-->
+<!--        android:id="@+id/item_linkman_name"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:textColor="#111111"-->
+<!--        android:textSize="15sp"/>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/item_linkman_phone"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textColor="#666666"-->
+<!--        android:textSize="12sp"-->
+<!--        />-->
+</LinearLayout>

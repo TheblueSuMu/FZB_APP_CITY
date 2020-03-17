@@ -8,4 +8,8 @@
     <dimen name="poi_title_size">14sp</dimen>
     <dimen name="ui_size">12sp</dimen>
     <dimen name="actionbar_size">35sp</dimen>
+
+    <!-- map -->
+    <dimen name="friend_map_btn_height">42dp</dimen>
+    <dimen name="friend_map_bound_padding">80dp</dimen>
 </resources>

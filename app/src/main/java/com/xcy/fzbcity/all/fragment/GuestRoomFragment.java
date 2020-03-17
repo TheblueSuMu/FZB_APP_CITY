@@ -171,7 +171,7 @@ public class GuestRoomFragment extends Fragment{
                     public void onNext(MessageBean messageBean) {
                         MessageBean.DataBean data1 = messageBean.getData();
                         rows = data1.getRows();
-
+                        Log.i("列表数据加载", "房客rows.size():" + rows.size());
                         if (rows.size() != 0) {
                             all_no_information.setVisibility(View.GONE);
                             guest_room_rv.setVisibility(View.VISIBLE);

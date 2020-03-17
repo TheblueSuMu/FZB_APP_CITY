@@ -32,7 +32,7 @@
                     android:background="@drawable/my_brokerage">
 
                     <RelativeLayout
-                        android:id="@+id/me_gr"
+                        android:id="@+id/me_gr_S"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
