@@ -1009,7 +1009,7 @@ public class LoginActivity extends AllActivity implements View.OnClickListener{
 
                                 @Override
                                 public void onFailed(int i) {
-
+                                    Log.i("TAG", "onFailed");
                                 }
 
                                 @Override

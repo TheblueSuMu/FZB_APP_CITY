@@ -123,8 +123,6 @@ public class NoticeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        EventBus.getDefault().register(this);
-
         notice_rv = getActivity().findViewById(R.id.notice_rv);
         all_no_information_notice = getActivity().findViewById(R.id.all_no_information_notice);
 
@@ -394,7 +392,22 @@ public class NoticeFragment extends Fragment {
             //TODO now invisible to user 显示fragment
         }
     }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this))//加上判断
+            EventBus.getDefault().unregister(this);
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if(!EventBus.getDefault().isRegistered(this)){//加上判断
+            EventBus.getDefault().register(this);
+        }
+
+    }
     @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
     public void onEvent(String nam) {
         if(nam.equals("切换")){

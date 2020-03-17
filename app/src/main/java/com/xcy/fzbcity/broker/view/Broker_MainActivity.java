@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+
+import com.netease.nim.uikit.common.activity.UI;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.fragment.app.FragmentManager;
@@ -31,7 +33,7 @@ import com.xcy.fzbcity.all.view.ReportActivity;
 import com.xcy.fzbcity.broker.fragment.DFragment;
 import com.xcy.fzbcity.broker.fragment.EFragment;
 
-public class Broker_MainActivity extends AllActivity implements View.OnClickListener,HomeFragment.FragmentInteraction {
+public class Broker_MainActivity extends UI implements View.OnClickListener,HomeFragment.FragmentInteraction {
 
     private RadioButton button_home;
     private RadioButton button_message;

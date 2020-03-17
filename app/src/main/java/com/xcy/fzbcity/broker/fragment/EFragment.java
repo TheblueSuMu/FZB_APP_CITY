@@ -109,7 +109,7 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
 //TODO 设置导航栏、标题栏透明
         StatusBar.makeStatusBarTransparent(getActivity());
         my_tv_huancun = getActivity().findViewById(R.id.my_tv_huancun);
-        me_gr = getActivity().findViewById(R.id.me_gr);//个人中心
+        me_gr = getActivity().findViewById(R.id.me_gr_S);//个人中心
         my_collect = getActivity().findViewById(R.id.my_collect);//我的收藏
         my_comment = getActivity().findViewById(R.id.my_comment);//意见反馈
         my_about = getActivity().findViewById(R.id.my_about);//关于房坐标
