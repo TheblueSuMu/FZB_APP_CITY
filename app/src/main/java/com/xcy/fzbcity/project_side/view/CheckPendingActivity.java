@@ -2,6 +2,7 @@ package com.xcy.fzbcity.project_side.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -58,8 +60,6 @@ public class CheckPendingActivity extends AllActivity implements View.OnClickLis
     TextView check_pending_bt2;
 
     Project_Side_MakeABargainAdapter adapter;
-
-
     private ReportProcessDetailsBean.DataBean.InfoDataBean infoData;
     private List<ReportProcessDetailsBean.DataBean.ProcessDataBean> processData;
     private List<String> list;
@@ -75,6 +75,7 @@ public class CheckPendingActivity extends AllActivity implements View.OnClickLis
     private Button check_pending_b2;
     private LinearLayout check_pending_l;
     private RecyclerView check_pending_nameRv;
+    private ImageView check_pending_img2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +116,7 @@ public class CheckPendingActivity extends AllActivity implements View.OnClickLis
         check_pending_tv1 = findViewById(R.id.check_pending_tv1);
         check_pending_tv2 = findViewById(R.id.check_pending_tv2);
         check_pending_tv3 = findViewById(R.id.check_pending_tv3);
+        check_pending_img2 = findViewById(R.id.check_pending_img2);
         check_pending_rv = findViewById(R.id.check_pending_rv);
         check_pending_bt1 = findViewById(R.id.check_pending_bt1);
         check_pending_bt2 = findViewById(R.id.check_pending_bt2);
@@ -165,26 +167,53 @@ public class CheckPendingActivity extends AllActivity implements View.OnClickLis
                     @Override
                     public void onNext(ReportProcessDetailsBean reportProcessDetailsBean) {
                         infoData = reportProcessDetailsBean.getData().getInfoData();
-                        if (infoData.getCustomerImg() != null) {
-                            if (!infoData.getCustomerImg().equals("")) {
-                                Glide.with(CheckPendingActivity.this).load(FinalContents.getImageUrl() + infoData.getCustomerImg()).into(check_pending_img1);
+                        try {
+                            if (infoData.getCustomerImg() != null) {
+                                if (!infoData.getCustomerImg().equals("")) {
+                                    Glide.with(CheckPendingActivity.this).load(FinalContents.getImageUrl() + infoData.getCustomerImg()).into(check_pending_img1);
+                                }
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
 
                         check_pending_tv1.setText(infoData.getCustomerName());
 
                         processData = reportProcessDetailsBean.getData().getProcessData();
                         check_pending_tv2.setText(infoData.getProjectName());
-                        if (reportProcessDetailsBean.getData().getAttacheList().size() == 0) {
-                            check_pending_tv3.setVisibility(View.GONE);
+
+                        if (FinalContents.getIdentity().equals("4")) {
+                            check_pending_tv3.setVisibility(View.VISIBLE);
+                            check_pending_tv3.setText("电话："+infoData.getCustomerPhone());
+                            check_pending_img2.setVisibility(View.VISIBLE);
+                            check_pending_img2.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + infoData.getCustomerPhone()));//跳转到拨号界面，同时传递电话号码
+                                    startActivity(dialIntent);
+                                }
+                            });
+                            check_pending_tv3.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + infoData.getCustomerPhone()));//跳转到拨号界面，同时传递电话号码
+                                    startActivity(dialIntent);
+                                }
+                            });
+                            check_pending_nameRv.setVisibility(View.GONE);
                         }else {
-                            GridLayoutManager gridLayoutManager = new GridLayoutManager(CheckPendingActivity.this,2);
-                            gridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
-                            check_pending_nameRv.setLayoutManager(gridLayoutManager);
-                            ReviewTheSuccessPhoneAdapter reviewTheSuccessPhoneAdapter = new ReviewTheSuccessPhoneAdapter(reportProcessDetailsBean.getData().getAttacheList());
-                            check_pending_nameRv.setAdapter(reviewTheSuccessPhoneAdapter);
-                            reviewTheSuccessPhoneAdapter.notifyDataSetChanged();
-                            check_pending_tv3.setText("项目负责人：");
+                            check_pending_img2.setVisibility(View.GONE);
+                            if (reportProcessDetailsBean.getData().getAttacheList().size() == 0) {
+                                check_pending_tv3.setVisibility(View.GONE);
+                            }else {
+                                GridLayoutManager gridLayoutManager = new GridLayoutManager(CheckPendingActivity.this,2);
+                                gridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
+                                check_pending_nameRv.setLayoutManager(gridLayoutManager);
+                                ReviewTheSuccessPhoneAdapter reviewTheSuccessPhoneAdapter = new ReviewTheSuccessPhoneAdapter(reportProcessDetailsBean.getData().getAttacheList());
+                                check_pending_nameRv.setAdapter(reviewTheSuccessPhoneAdapter);
+                                reviewTheSuccessPhoneAdapter.notifyDataSetChanged();
+                                check_pending_tv3.setText("项目负责人：");
+                            }
                         }
 //                        check_pending_tv3.setText(infoData.getCustomerName() + "[" + infoData.getCustomerPhone() + "]");
                         FinalContents.setJJrID(infoData.getAgentId());

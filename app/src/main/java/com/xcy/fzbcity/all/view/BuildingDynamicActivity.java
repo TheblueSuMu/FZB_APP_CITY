@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -98,7 +99,7 @@ public class BuildingDynamicActivity extends AllActivity implements Dynamic2Adap
         init_No_Network();
     }
 
-    private void init_No_Network(){
+    private void init_No_Network() {
         boolean networkAvailable = CommonUtil.isNetworkAvailable(this);
         if (networkAvailable) {
             initView();
@@ -114,7 +115,7 @@ public class BuildingDynamicActivity extends AllActivity implements Dynamic2Adap
                     startActivity(getIntent());
                 }
             });
-            ToastUtil.showToast(this,"当前无网络，请检查网络后再进行登录");
+            ToastUtil.showToast(this, "当前无网络，请检查网络后再进行登录");
         }
     }
 
@@ -152,7 +153,10 @@ public class BuildingDynamicActivity extends AllActivity implements Dynamic2Adap
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<Dynamic2Bean> dynamicBean1 = fzbInterface.getDynamicBean(FinalContents.getUserID(), FinalContents.getProjectID(),"1000");
+        Log.i("MyCL", "FinalContents.getUserID()：" + FinalContents.getUserID());
+        Log.i("MyCL", "FinalContents.getCityID()：" + FinalContents.getCityID());
+        Log.i("MyCL", "FinalContents.getProjectID()：" + FinalContents.getProjectID());
+        Observable<Dynamic2Bean> dynamicBean1 = fzbInterface.getDynamicBean(FinalContents.getUserID(), FinalContents.getCityID(), FinalContents.getProjectID(), "1000");
         dynamicBean1.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Dynamic2Bean>() {
@@ -174,7 +178,7 @@ public class BuildingDynamicActivity extends AllActivity implements Dynamic2Adap
                                 @Override
                                 public void tp(int position) {
                                     Intent intent = new Intent(BuildingDynamicActivity.this, BigPhotoActivity.class);
-                                    intent.putExtra("index",position);
+                                    intent.putExtra("index", position);
                                     intent.putExtra("bigPhotoimg", list.get(position).getImg());
                                     startActivity(intent);
                                 }
@@ -183,7 +187,7 @@ public class BuildingDynamicActivity extends AllActivity implements Dynamic2Adap
                             recyclerAdapter.setBuiling(1);
                             dynamic_rv.setAdapter(recyclerAdapter);
                             recyclerAdapter.notifyDataSetChanged();
-                        }else {
+                        } else {
                             all_no_information.setVisibility(View.VISIBLE);
                             dynamic_rv.setVisibility(View.GONE);
                         }
@@ -220,7 +224,7 @@ public class BuildingDynamicActivity extends AllActivity implements Dynamic2Adap
     public void FuZhi(int position) {
         if (list.get(position).getImgUrl().equals("")) {
 
-        }else {
+        } else {
             lists = new ArrayList<>();
             //        TODO 文本复制
             ClipboardManager clip = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
@@ -229,21 +233,21 @@ public class BuildingDynamicActivity extends AllActivity implements Dynamic2Adap
             //        TODO 图片保存到本地
 
             String UrlImage = list.get(position).getImgUrl();
-            final String[] a  = list.get(position).getImgUrl().split("[|]");
-            for (int i = 0; i < a.length; i++){
-                final  int finalI = i;
+            final String[] a = list.get(position).getImgUrl().split("[|]");
+            for (int i = 0; i < a.length; i++) {
+                final int finalI = i;
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         url = a[finalI];
-                        imgURl =FinalContents.getImageUrl() + url;
+                        imgURl = FinalContents.getImageUrl() + url;
                         mHandler.obtainMessage(SAVE_BEGIN).sendToTarget();
                         Bitmap bp = returnBitMap(imgURl);
                         saveImageToPhotos(BuildingDynamicActivity.this, bp);
                     }
                 }).start();
             }
-            ToastUtil.showToast(this,"复制成功");
+            ToastUtil.showToast(this, "复制成功");
             num = 0;
 
         }
@@ -254,7 +258,7 @@ public class BuildingDynamicActivity extends AllActivity implements Dynamic2Adap
 
         String phone = list.get(position).getAttaches().get(0).getPhone();
         if (phone.equals("")) {
-            ToastUtil.showToast(this,"暂无电话信息，无法拨打");
+            ToastUtil.showToast(this, "暂无电话信息，无法拨打");
         } else {
             final List<String> arrayList = new ArrayList<>();
             for (int i = 0; i < list.get(position).getAttaches().size(); i++) {

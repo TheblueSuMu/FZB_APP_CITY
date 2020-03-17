@@ -3,9 +3,11 @@ package com.xcy.fzbcity.all.view;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
@@ -29,8 +31,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class DisclaimerActivity extends AllActivity implements View.OnClickListener {
 
     RelativeLayout disclaimer_return;
-    TextView disclaimer_title;
-    TextView disclaimer_message;
+
+    WebView web_disclaimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,7 @@ public class DisclaimerActivity extends AllActivity implements View.OnClickListe
         init_No_Network();
     }
 
-    private void init_No_Network(){
+    private void init_No_Network() {
         boolean networkAvailable = CommonUtil.isNetworkAvailable(this);
         if (networkAvailable) {
             initView();
@@ -55,7 +57,7 @@ public class DisclaimerActivity extends AllActivity implements View.OnClickListe
                     startActivity(getIntent());
                 }
             });
-            ToastUtil.showToast(this,"当前无网络，请检查网络后再进行登录");
+            ToastUtil.showToast(this, "当前无网络，请检查网络后再进行登录");
         }
     }
 
@@ -64,8 +66,8 @@ public class DisclaimerActivity extends AllActivity implements View.OnClickListe
         StatusBar.makeStatusBarTransparent(this);
 
         disclaimer_return = findViewById(R.id.disclaimer_return);
-        disclaimer_title = findViewById(R.id.disclaimer_title);
-        disclaimer_message = findViewById(R.id.disclaimer_message);
+
+        web_disclaimer = findViewById(R.id.web_disclaimer);
 
         disclaimer_return.setOnClickListener(this);
 
@@ -87,35 +89,8 @@ public class DisclaimerActivity extends AllActivity implements View.OnClickListe
 
                     @Override
                     public void onNext(DisclaimerBean disclaimerBean) {
-                        DisclaimerBean.DataBean data = disclaimerBean.getData();
-                        disclaimer_title.setText(data.getTilte());
-                        String content = data.getContent();
-                        StringBuffer stringBuffer = new StringBuffer();
-                        stringBuffer.append(content);
-                        for (int i = 0; i < stringBuffer.length(); ++i) {
-                            if (stringBuffer.substring(i, i + 1).equals("<")) {
-                                stringBuffer.replace(i, i + 1, " ");
-                            } else if (stringBuffer.substring(i, i + 1).equals(">")) {
-                                stringBuffer.replace(i, i + 1, " ");
-                            } else if (stringBuffer.substring(i, i + 1).equals("/")) {
-                                stringBuffer.replace(i, i + 1, " ");
-                            }else if (stringBuffer.substring(i, i + 1).equals("p")) {
-                                stringBuffer.replace(i, i + 1, " ");
-                            } else if (stringBuffer.substring(i, i + 1).equals("d")) {
-                                stringBuffer.replace(i, i + 1, " ");
-                            } else if (stringBuffer.substring(i, i + 1).equals("i")) {
-                                stringBuffer.replace(i, i + 1, " ");
-                            } else if (stringBuffer.substring(i, i + 1).equals("v")) {
-                                stringBuffer.replace(i, i + 1, " ");
-                            } else if (stringBuffer.substring(i, i + 1).equals("b")) {
-                                stringBuffer.replace(i, i + 1, " ");
-                            } else if (stringBuffer.substring(i, i + 1).equals("r")) {
-                                stringBuffer.replace(i, i + 1, "\n");
-                            }else if (stringBuffer.substring(i, i + 1).equals("免")) {
-                                stringBuffer.replace(i-4, i, "\n");
-                            }
-                        }
-                        disclaimer_message.setText("\t\t\t\t" + stringBuffer.toString());
+
+                        web_disclaimer.loadData(disclaimerBean.getData().getContent(), "text/html", "UTF-8");
 
                     }
 

@@ -31,12 +31,11 @@ public class WeChatBindingActivity extends AllActivity{
 
 
     private Button change_wechat_yanzhengma_1;
-    private EditText change_wechat_et;
+    private TextView change_wechat_et;
     private RelativeLayout change_wechat_return;
     private EditText change_wechat_yanzhengma;
     private Button change_wechat_ensure;
-
-    TextView change_wechat_title;
+    private TextView change_wechat_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,17 +67,20 @@ public class WeChatBindingActivity extends AllActivity{
     private void initfvb(){
 
         change_wechat_return = findViewById(R.id.change_wechat_return);
-        change_wechat_title = findViewById(R.id.change_wechat_title);
         change_wechat_et = findViewById(R.id.change_wechat_et);
         change_wechat_yanzhengma_1 = findViewById(R.id.change_wechat_yanzhengma_1);
         change_wechat_yanzhengma = findViewById(R.id.change_wechat_yanzhengma);
         change_wechat_ensure = findViewById(R.id.change_wechat_ensure);
+        change_wechat_title = findViewById(R.id.change_wechat_title);
 
-        if(CityContents.getWeChatType().equals("1")){
+        if (CityContents.getWeChatType().equals("1")) {
             change_wechat_title.setText("绑定微信");
         }else {
             change_wechat_title.setText("解绑微信");
         }
+
+        change_wechat_et.setText(CityContents.getPhone().replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2"));
+
 
         change_wechat_yanzhengma_1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +107,7 @@ public class WeChatBindingActivity extends AllActivity{
                     ToastUtil.showLongToast(WeChatBindingActivity.this, "验证码不能为空");
                     return;
                 }
-                initData(change_wechat_et.getText().toString(),change_wechat_yanzhengma.getText().toString(), CityContents.getWeChatType(),CityContents.getWeChatJson());
+                initData(CityContents.getPhone(),change_wechat_yanzhengma.getText().toString(), CityContents.getWeChatType(),CityContents.getWeChatJson());
             }
         });
     }
@@ -121,7 +123,7 @@ public class WeChatBindingActivity extends AllActivity{
             builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
             Retrofit build = builder.build();
             MyService fzbInterface = build.create(MyService.class);
-            Observable<CodeBean> userMessage = fzbInterface.getSendCode(change_wechat_et.getText().toString(),"");
+            Observable<CodeBean> userMessage = fzbInterface.getSendCode(CityContents.getPhone(),"");
             userMessage.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<CodeBean>() {
@@ -132,14 +134,11 @@ public class WeChatBindingActivity extends AllActivity{
 
                         @Override
                         public void onNext(CodeBean codeBean) {
-                            if(codeBean.getData().getStatus().equals("0")){
-                                ToastUtil.showLongToast(WeChatBindingActivity.this, codeBean.getData().getMessage());
-                            }else if(codeBean.getData().getStatus().equals("1")){
+                            if (codeBean.getData().getStatus().equals("1")) {
                                 CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(change_wechat_yanzhengma_1, 60000, 1000);
                                 mCountDownTimerUtils.start();
-                                ToastUtil.showLongToast(WeChatBindingActivity.this, codeBean.getData().getMessage());
                             }
-
+                            ToastUtil.showLongToast(WeChatBindingActivity.this, codeBean.getData().getMessage());
                         }
 
                         @Override

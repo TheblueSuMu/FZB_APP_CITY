@@ -3,6 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.xcy.fzbcity">
 
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission
+        android:name="android.permission.CHANGE_CONFIGURATION"
+        tools:ignore="ProtectedPermissions" />
+    <!--  oppo推送配置权限-->
+    <uses-permission android:name="com.coloros.mcs.permission.RECIEVE_MCS_MESSAGE" />
+    <uses-permission android:name="com.heytap.mcs.permission.RECIEVE_MCS_MESSAGE" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -17,8 +25,6 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 用于读取手机当前的状态 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- TODO bugly start -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission
         android:name="android.permission.READ_LOGS"
@@ -37,6 +43,74 @@
         android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" />
 
+
+    <!-- TODO 网易云信-->
+    <!-- 权限声明 -->
+    <!-- 访问网络状态-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 控制呼吸灯，振动器等，用于新消息提醒 -->
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- 外置存储存取权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- 8.0 系统需要-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <!-- 多媒体相关 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <!-- 如果需要实时音视频通话模块，下面的权限也是必须的。否则，可以不加 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <!-- SDK 权限申明, 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 -->
+    <!-- 和下面的 uses-permission 一起加入到你的 AndroidManifest 文件中。 -->
+    <permission
+        android:name="com.xcy.fzbcity.permission.RECEIVE_MSG"
+        android:protectionLevel="signature" />
+    <!-- 接收 SDK 消息广播权限， 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 -->
+    <uses-permission android:name="com.xcy.fzbcity.permission.RECEIVE_MSG" />
+
+
+    <!--TODO 推送-->
+    <!--TODO 小米推送 -->
+<!--    <permission-->
+<!--        android:name="com.netease.nim.demo.permission.MIPUSH_RECEIVE"-->
+<!--        android:protectionLevel="signature" />-->
+<!--    <uses-permission android:name="com.netease.nim.demo.permission.MIPUSH_RECEIVE" />-->
+
+<!--    <uses-sdk tools:overrideLibrary="com.huawei.android.hms.base,com.huawei.android.hms.push" />-->
+<!--    &lt;!&ndash;TODO 魅族推送&ndash;&gt;-->
+
+<!--    &lt;!&ndash; 兼容flyme5.0以下版本，魅族内部集成pushSDK必填，不然无法收到消息&ndash;&gt;-->
+<!--    <uses-permission android:name="com.meizu.flyme.push.permission.RECEIVE" />-->
+<!--    <permission-->
+<!--        android:name="com.netease.nim.demo.push.permission.MESSAGE"-->
+<!--        android:protectionLevel="signature" />-->
+<!--    <uses-permission android:name="com.netease.nim.demo.push.permission.MESSAGE" />-->
+<!--    &lt;!&ndash;  兼容flyme3.0配置权限&ndash;&gt;-->
+<!--    <uses-permission android:name="com.meizu.c2dm.permission.RECEIVE" />-->
+<!--    <permission-->
+<!--        android:name="com.netease.nim.demo.permission.C2D_MESSAGE"-->
+<!--        android:protectionLevel="signature" />-->
+<!--    <uses-permission android:name="com.netease.nim.demo.permission.C2D_MESSAGE" />-->
+
+
     <application
         android:name=".all.application.DemoApplication"
         android:allowBackup="true"
@@ -44,177 +118,771 @@
         android:label="@string/app_name"
         android:launchMode="singleInstance"
         android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/logo_city"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <provider android:name="androidx.core.content.FileProvider" android:authorities="com.xcy.fzbcity.fileprovider" android:exported="false" android:grantUriPermissions="true">
-            <!-- 元数据 -->
-            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths" />
-        </provider> <!-- TODO 百度地图 start -->
-        <meta-data android:name="com.baidu.lbsapi.API_KEY" android:value="q9lWQwTiiYiAqQ85uaCiaM79G9D3rrCu" />
+        <!--TODO 网易云信start-->
+        <!-- APP key, 可以在这里设置，也可以在 SDKOptions 中提供。
+            如果 SDKOptions 中提供了，取 SDKOptions 中的值。 -->
+        <meta-data
+            android:name="com.netease.nim.appKey"
+            android:value="22131a6080ea9235ae59e5e28c8204f7" />
 
-        <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote" /> <!-- TODO 百度地图 end -->
+        <!--         云信后台服务，请使用独立进程。 -->
+        <service
+            android:name="com.netease.nimlib.service.NimService"
+            android:process=":core" />
+
+        <!-- 云信后台辅助服务 -->
+        <service
+            android:name="com.netease.nimlib.service.NimService$Aux"
+            android:process=":core" />
+
+        <!-- 云信后台辅助服务 -->
+        <service
+            android:name="com.netease.nimlib.job.NIMJobService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":core" />
+
+        <!-- 云信监视系统启动和网络变化的广播接收器，保持和 NimService 同一进程 -->
+        <receiver
+            android:name="com.netease.nimlib.service.NimReceiver"
+            android:exported="false"
+            android:process=":core">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <!-- 云信进程间通信 Receiver -->
+        <receiver android:name="com.netease.nimlib.service.ResponseReceiver" />
+
+        <!-- 云信进程间通信service -->
+        <service android:name="com.netease.nimlib.service.ResponseService" />
+
+        <!-- 云信进程间通信provider -->
+        <!-- android:authorities="{包名}.ipc.provider", 请将com.netease.nim.demo替换为自己的包名 -->
+        <provider
+            android:name="com.netease.nimlib.ipc.NIMContentProvider"
+            android:authorities="com.xcy.fzbcity.ipc.provider"
+            android:exported="false"
+            android:process=":core" />
+
+        <!--TODO 网易云信end-->
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.xcy.fzbcity.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <!-- 元数据 -->
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider> <!-- TODO 百度地图 start -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="q9lWQwTiiYiAqQ85uaCiaM79G9D3rrCu" />
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" /> <!-- TODO 百度地图 end -->
         <!-- TODO 高德地图 start -->
-        <meta-data android:name="com.amap.api.v2.apikey" android:value="52cc7d9774194a5e323c55d2c2b6cdd3" />
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="2cd5db928099aa5b784feae4e2306fe5" />
         <service android:name="com.amap.api.location.APSService" /> <!-- TODO 高德地图 end -->
+
         <activity android:name=".all.view.ATestActivity" /> <!-- TODO 数据库测试数据 -->
-        <activity android:name=".all.view.MessageCommentActivity" android:launchMode="singleTop" android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 公用 楼盘动态详情 -->
-        <activity android:name=".all.view.MapActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".all.view.BannerPhotoActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".all.view.CollectActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 我的收藏 -->
-        <activity android:name=".all.view.WebViewActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".all.view.BuildingDynamicActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".all.view.MyClientAddActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".all.view.ReportActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 报备 (adjustResize) -->
-        <activity android:name=".all.view.OverSeaActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 旅居或海外 -->
-        <activity android:name=".all.view.SearchInterfaceActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 搜索 -->
-        <activity android:name=".all.view.BuildingInformationActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 楼栋信息 -->
-        <activity android:name=".all.view.PhotoActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".all.view.MoreInformationActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 更多信息 -->
-        <activity android:name=".all.view.NickNameActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 修改昵称 -->
-        <activity android:name=".all.view.ForgetActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".all.view.AllActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".all.view.WebActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".all.view.BigPhotoActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".all.view.ClientParticularsActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 客户管理 -->
-        <activity android:name=".all.view.MyClientActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 我的客户 -->
-        <activity android:name=".all.view.AboutFZBActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".all.view.RecyclerViewActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".all.view.EconomicCircleParticularsActivity" android:launchMode="singleTop" android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 公用 经济圈详情 -->
-        <activity android:name=".all.view.AnalysisActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 户型解析 -->
-        <activity android:name=".all.view.CityWideActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 同城项目或跨城项目 -->
-        <activity android:name=".all.view.PhoneActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 通讯录 -->
-        <activity android:name=".all.view.WeChatBindingActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 微信绑定或解绑 -->
-        <activity android:name=".FinMag" android:theme="@style/LunchTheme"> <!-- TODO 域名 -->
+
+        <!--TODO 推送-->
+        <!--TODO 小米推送-->
+<!--        <service-->
+<!--            android:name="com.xiaomi.push.service.XMJobService"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="false"-->
+<!--            android:permission="android.permission.BIND_JOB_SERVICE"-->
+<!--            android:process=":mixpush" />-->
+
+<!--        <service-->
+<!--            android:name="com.xiaomi.push.service.XMPushService"-->
+<!--            android:enabled="true"-->
+<!--            android:process=":mixpush" />-->
+
+<!--        <receiver-->
+<!--            android:name="com.xiaomi.push.service.receivers.PingReceiver"-->
+<!--            android:exported="false"-->
+<!--            android:process=":mixpush">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.xiaomi.push.PING_TIMER" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
+
+<!--        <receiver-->
+<!--            android:name="com.xiaomi.push.service.receivers.NetworkStatusReceiver"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
+
+<!--        <service-->
+<!--            android:name="com.xiaomi.mipush.sdk.PushMessageHandler"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="true" />-->
+
+<!--        <service-->
+<!--            android:name="com.xiaomi.mipush.sdk.MessageHandleService"-->
+<!--            android:enabled="true" />-->
+        <!--        <receiver-->
+        <!--            android:name="com.netease.nimlib.mixpush.mi.MiPushReceiver"-->
+        <!--            android:exported="true">-->
+        <!--            <intent-filter android:priority="0x7fffffff">-->
+        <!--                <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE"/>-->
+        <!--                <action android:name="com.xiaomi.mipush.MESSAGE_ARRIVED"/>-->
+        <!--                <action android:name="com.xiaomi.mipush.ERROR"/>-->
+        <!--            </intent-filter>-->
+        <!--        </receiver>-->
+        <!--TODO 华为推送-->
+        <!--        <service-->
+        <!--            android:name="com.netease.nimlib.mixpush.hw.HWPushService"-->
+        <!--            android:exported="false">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="com.huawei.push.action.MESSAGING_EVENT" />-->
+        <!--            </intent-filter>-->
+
+        <!--        </service>-->
+        <!--TODO 魅族推送-->
+        <!--        <receiver android:name="com.netease.nimlib.mixpush.mz.MZPushReceiver">-->
+        <!--            <intent-filter android:priority="0x7fffffff">-->
+        <!--                &lt;!&ndash; 接收push消息 &ndash;&gt;-->
+        <!--                <action android:name="com.meizu.flyme.push.intent.MESSAGE"/>-->
+        <!--                &lt;!&ndash; 接收register消息 &ndash;&gt;-->
+        <!--                <action android:name="com.meizu.flyme.push.intent.REGISTER.FEEDBACK"/>-->
+        <!--                &lt;!&ndash; 接收unregister消息&ndash;&gt;-->
+        <!--                <action android:name="com.meizu.flyme.push.intent.UNREGISTER.FEEDBACK"/>-->
+        <!--                &lt;!&ndash; 兼容低版本Flyme3推送服务配置 &ndash;&gt;-->
+        <!--                <action android:name="com.meizu.c2dm.intent.REGISTRATION"/>-->
+        <!--                <action android:name="com.meizu.c2dm.intent.RECEIVE"/>-->
+
+        <!--                <category android:name="com.netease.nim.demo"/>-->
+        <!--            </intent-filter>-->
+        <!--        </receiver>-->
+        <!--TODO 谷歌推送-->
+        <!--        <service-->
+        <!--            android:name="com.netease.nimlib.mixpush.fcm.FCMTokenService"-->
+        <!--            android:exported="false">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+        <!--            </intent-filter>-->
+        <!--        </service>-->
+        <!--        <meta-data-->
+        <!--            android:name="com.google.firebase.messaging.default_notification_icon"-->
+        <!--            android:resource="@drawable/ic_stat_notify_msg"/>-->
+        <!--        <meta-data-->
+        <!--            android:name="com.google.firebase.messaging.default_notification_color"-->
+        <!--            android:resource="@color/color_blue_3a9efb"/>-->
+        <!--TODO vivo推送-->
+<!--        <service-->
+<!--            android:name="com.vivo.push.sdk.service.CommandClientService"-->
+<!--            android:exported="true" />-->
+<!--        <activity-->
+<!--            android:name="com.vivo.push.sdk.LinkProxyClientActivity"-->
+<!--            android:exported="false"-->
+<!--            android:screenOrientation="portrait"-->
+<!--            android:theme="@android:style/Theme.Translucent.NoTitleBar" />-->
+
+<!--        <meta-data-->
+<!--            android:name="com.vivo.push.api_key"-->
+<!--            android:value="2e8c38a8-604a-4c96-9bc0-e102f72728e9" />-->
+<!--        <meta-data-->
+<!--            android:name="com.vivo.push.app_id"-->
+<!--            android:value="17757" />-->
+
+        <!--        <receiver android:name="com.netease.nimlib.mixpush.vivo.VivoPushReceiver">-->
+        <!--            <intent-filter>-->
+        <!--                &lt;!&ndash; 接收 push 消息 &ndash;&gt;-->
+        <!--                <action android:name="com.vivo.pushclient.action.RECEIVE"/>-->
+        <!--            </intent-filter>-->
+        <!--        </receiver>-->
+        <!--TODO oppo推送-->
+        <!--        <service-->
+        <!--            android:name="com.netease.nimlib.mixpush.oppo.OppoPushService"-->
+        <!--            android:permission="com.coloros.mcs.permission.SEND_MCS_MESSAGE">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="com.coloros.mcs.action.RECEIVE_MCS_MESSAGE"/>-->
+        <!--            </intent-filter>-->
+        <!--        </service>-->
+        <!--        <service-->
+        <!--            android:name="com.netease.nimlib.mixpush.oppo.OppoAppPushService"-->
+        <!--            android:permission="com.heytap.mcs.permission.SEND_MCS_MESSAGE">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="com.heytap.mcs.action.RECEIVE_MCS_MESSAGE"/>-->
+        <!--            </intent-filter>-->
+        <!--        </service>-->
+
+        <activity
+            android:name=".all.view.MessageCommentActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 公用 楼盘动态详情 -->
+        <activity
+            android:name=".all.view.MapActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".all.view.BannerPhotoActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".all.view.CollectActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 我的收藏 -->
+        <activity
+            android:name=".all.view.WebViewActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".all.view.BuildingDynamicActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".all.view.MyClientAddActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".all.view.ReportActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 报备 (adjustResize) -->
+        <activity
+            android:name=".all.view.OverSeaActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 旅居或海外 -->
+        <activity
+            android:name=".all.view.SearchInterfaceActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 搜索 -->
+        <activity
+            android:name=".all.view.BuildingInformationActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 楼栋信息 -->
+        <activity
+            android:name=".all.view.PhotoActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".all.view.MoreInformationActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 更多信息 -->
+        <activity
+            android:name=".all.view.NickNameActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 修改昵称 -->
+        <activity
+            android:name=".all.view.ForgetActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".all.view.AllActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".all.view.WebActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".all.view.BigPhotoActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".all.view.ClientParticularsActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 客户管理 -->
+        <activity
+            android:name=".all.view.MyClientActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 我的客户 -->
+        <activity
+            android:name=".all.view.AboutFZBActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".all.view.RecyclerViewActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".all.view.EconomicCircleParticularsActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 公用 经济圈详情 -->
+        <activity
+            android:name=".all.view.AnalysisActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 户型解析 -->
+        <activity
+            android:name=".all.view.CityWideActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 同城项目或跨城项目 -->
+        <activity
+            android:name=".all.view.PhoneActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 通讯录 -->
+        <activity
+            android:name=".all.view.WeChatBindingActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 微信绑定或解绑 -->
+        <activity
+            android:name=".all.view.SetPhraseAcitvity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 常用语 -->
+        <activity
+            android:name=".all.view.AmendUsefulExpressionsActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 修改常用语 -->
+        <activity
+            android:name=".all.view.InformTheDetailsActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 通知详情 -->
+        <activity
+            android:name=".FinMag"
+            android:theme="@style/LunchTheme"> <!-- TODO 域名 -->
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".BaseUrl" android:theme="@style/LunchTheme"> <!-- TODO 启动页 -->
+        <activity
+            android:name=".BaseUrl"
+            android:theme="@style/LunchTheme"> <!-- TODO 启动页 -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Introduction" android:launchMode="singleTop" /> <!-- TODO 引导页 -->
-        <activity android:name=".Login.LoginActivity" android:launchMode="singleTop" /> <!-- TODO 登录页 -->
-        <activity android:name=".broker.view.Broker_MainActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 经纪人 主页 -->
-        <activity android:name=".all.view.FeedbackActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 意见反馈 -->
-        <activity android:name=".all.view.DisclaimerActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 免责声明 -->
-        <activity android:name=".all.view.BindingPhoneActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 绑定手机号 -->
-        <activity android:name=".all.view.CentreActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 项目详情页 医疗中心 -->
-        <activity android:name=".all.view.ChangePhoneActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 更换手机号 -->
-        <activity android:name=".all.view.MyBrokerageActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 我的佣金 -->
-        <activity android:name=".all.view.PersonalInformationActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 个人信息 -->
-        <activity android:name=".all.view.ProjectPointsActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 项目海报 -->
-        <activity android:name=".all.view.ProjectSellingPointsnActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 项目卖点 -->
-        <activity android:name=".all.view.PhotoTileActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 相册 -->
-        <activity android:name=".all.view.ProjectVideoActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 项目视频 -->
-        <activity android:name=".all.view.PurchaseNoticeActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 购房须知 -->
-        <activity android:name=".all.view.ReleaseActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 经济圈发布 -->
-        <activity android:name=".all.view.SetPasswordActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 设置或修改密码 -->
-        <activity android:name=".all.view.SexActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 性别 没有用到 -->
-        <activity android:name=".all.view.ToLoginActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 第三方账号登录 -->
-        <activity android:name=".all.view.ProjectDetails" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 项目详情 -->
-        <activity android:name=".all.view.SpellingMassTimeActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 拼团 -->
-        <activity android:name=".all.view.SpellingMassActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 拼团时间 -->
-        <activity android:name=".all.view.TestMapActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 百度定位返回经纬度 -->
-        <activity android:name=".all.view.MapHouseActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 地图找房 start -->
-        <activity android:name=".all.view.DynamicConditionActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 我的动态 start -->
-        <activity android:name=".all.view.DynamicDetailsActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 我的动态详情 start -->
+        <activity
+            android:name=".Introduction"
+            android:launchMode="singleTop" /> <!-- TODO 引导页 -->
 
+        <activity
+            android:name=".all.view.MultiportActivity"
+            android:launchMode="singleTop"></activity><!-- TODO 测试 -->
+        <activity
+            android:name=".all.myim.RecentSessionActivity"
+            android:launchMode="singleTop"></activity><!-- TODO 测试 -->
+        <activity
+            android:name=".all.myim.file.FileBrowserActivity"
+            android:launchMode="singleTop"></activity><!-- TODO 测试 -->
+        <activity
+            android:name=".all.myim.location.LocationAmapActivity"
+            android:launchMode="singleTop"></activity><!-- TODO 测试 -->
+        <activity
+            android:name=".all.myim.location.NavigationAmapActivity"
+            android:launchMode="singleTop"></activity><!-- TODO 测试 -->
+        <activity
+            android:name=".all.myim.file.FileDownloadActivity"
+            android:launchMode="singleTop"></activity><!-- TODO 测试 -->
+        <activity
+            android:name=".all.myim.itemclick.WatchMultiRetweetActivity"
+            android:launchMode="singleTop"></activity><!-- TODO 测试 -->
+
+
+        <activity
+            android:name=".all.view.SignInActivity"
+            android:launchMode="singleTop"></activity><!-- TODO 公用 注册 -->
+        <activity
+            android:name=".Login.LoginActivity"
+            android:launchMode="singleTop" /> <!-- TODO 登录页 -->
+        <activity
+            android:name=".broker.view.Broker_MainActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 经纪人 主页 -->
+        <activity
+            android:name=".all.view.FeedbackActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 意见反馈 -->
+        <activity
+            android:name=".all.view.DisclaimerActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 免责声明 -->
+        <activity
+            android:name=".all.view.BindingPhoneActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 绑定手机号 -->
+        <activity
+            android:name=".all.view.CentreActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 项目详情页 医疗中心 -->
+        <activity
+            android:name=".all.view.ChangePhoneActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 更换手机号 -->
+        <activity
+            android:name=".all.view.MyBrokerageActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 我的佣金 -->
+        <activity
+            android:name=".all.view.PersonalInformationActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 个人信息 -->
+        <activity
+            android:name=".all.view.ProjectPointsActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 项目海报 -->
+        <activity
+            android:name=".all.view.ProjectSellingPointsnActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 项目卖点 -->
+        <activity
+            android:name=".all.view.PhotoTileActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 相册 -->
+        <activity
+            android:name=".all.view.ProjectVideoActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 项目视频 -->
+        <activity
+            android:name=".all.view.PurchaseNoticeActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 购房须知 -->
+        <activity
+            android:name=".all.view.ReleaseActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 经济圈发布 -->
+        <activity
+            android:name=".all.view.SetPasswordActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 设置或修改密码 -->
+        <activity
+            android:name=".all.view.SexActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 性别 没有用到 -->
+        <activity
+            android:name=".all.view.ToLoginActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 第三方账号登录 -->
+        <activity
+            android:name=".all.view.ProjectDetails"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 项目详情 -->
+        <activity
+            android:name=".all.view.SpellingMassTimeActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 拼团 -->
+        <activity
+            android:name=".all.view.SpellingMassActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 拼团时间 -->
+        <activity
+            android:name=".all.view.TestMapActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 百度定位返回经纬度 -->
+        <activity
+            android:name=".all.view.MapHouseActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 地图找房 start -->
+        <activity
+            android:name=".all.view.DynamicConditionActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 我的动态 start -->
+        <activity
+            android:name=".all.view.DynamicDetailsActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 我的动态详情 start -->
         <!-- TODO 可能会修改区域 start -->
-        <activity android:name=".all.view.ReviewTheSuccessActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 项目进度 -->
-        <activity android:name=".all.view.FieldActivity" android:launchMode="singleTop" android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 公用 同行人员 -->
-        <activity android:name=".all.view.ToApplyForAnIslandActivity" android:launchMode="singleTop" android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 公用 申请登岛1 -->
-        <activity android:name=".all.view.ToApplyForAnlsland2Activity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 申请登岛2 最后确认界面 -->
-        <activity android:name=".all.view.ConfirmTheVisitActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 确认到访 -->
-        <activity android:name=".all.view.EssentialInformationActivity" android:launchMode="singleTop" android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 公用 用戶基本信息描摹 -->
-
+        <activity
+            android:name=".all.view.ReviewTheSuccessActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 项目进度 -->
+        <activity
+            android:name=".all.view.FieldActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 公用 同行人员 -->
+        <activity
+            android:name=".all.view.ToApplyForAnIslandActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 公用 申请登岛1 -->
+        <activity
+            android:name=".all.view.ToApplyForAnlsland2Activity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 申请登岛2 最后确认界面 -->
+        <activity
+            android:name=".all.view.ConfirmTheVisitActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 公用 确认到访 -->
+        <activity
+            android:name=".all.view.EssentialInformationActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 公用 用戶基本信息描摹 -->
         <!-- TODO 可能会修改区域 end -->
         <!-- TODO 圈层 -->
-        <activity android:name=".captain_team.view.Captain_Team_MainActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 圈层 主页 -->
-        <activity android:name=".captain_team.view.Captain_Team_TeamMemberActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 团队人员 -->
-        <activity android:name=".captain_team.view.Captain_Team_AddAConsultantActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 添加顾问 -->
-        <activity android:name=".captain_team.view.Captain_Team_AddSalesActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 添加销售 -->
-        <activity android:name=".captain_team.view.Captain_Team_BatchModifyingActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 批量修改级别 -->
-        <activity android:name=".captain_team.view.Captain_Team_SelectBrokerActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 选择经纪人 -->
-        <activity android:name=".captain_team.view.Captain_Team_SalesDetails" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 销售详情-他的顾问 -->
-        <activity android:name=".captain_team.view.Captain_Team_CommissionLevelActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 佣金级别设置 -->
-        <activity android:name=".captain_team.view.Captain_Team_MarketActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 销售-下级顾问 -->
-        <activity android:name=".captain_team.view.Captain_Team_MyTeamActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 我的团队 -->
-        <activity android:name=".captain_team.view.Captain_Team_CommissionTheProjectEndActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 团队佣金 -->
-        <activity android:name=".captain_team.view.Captain_Team_SalesDetailsDetailsActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 真·销售详情 -->
-        <activity android:name=".captain_team.view.Captain_Team_MyClientActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 圈层 我的客户 -->
-        <activity android:name=".captain_team.view.CommissionDetailsActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 圈层 项目佣金详情 -->
-
+        <activity
+            android:name=".captain_team.view.Captain_Team_MainActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 圈层 主页 -->
+        <activity
+            android:name=".captain_team.view.Captain_Team_TeamMemberActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 团队人员 -->
+        <activity
+            android:name=".captain_team.view.Captain_Team_AddAConsultantActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 添加顾问 -->
+        <activity
+            android:name=".captain_team.view.Captain_Team_AddSalesActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 添加销售 -->
+        <activity
+            android:name=".captain_team.view.Captain_Team_BatchModifyingActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 批量修改级别 -->
+        <activity
+            android:name=".captain_team.view.Captain_Team_SelectBrokerActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 选择经纪人 -->
+        <activity
+            android:name=".captain_team.view.Captain_Team_SalesDetails"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 销售详情-他的顾问 -->
+        <activity
+            android:name=".captain_team.view.Captain_Team_CommissionLevelActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 佣金级别设置 -->
+        <activity
+            android:name=".captain_team.view.Captain_Team_MarketActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 销售-下级顾问 -->
+        <activity
+            android:name=".captain_team.view.Captain_Team_MyTeamActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 我的团队 -->
+        <activity
+            android:name=".captain_team.view.Captain_Team_CommissionTheProjectEndActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 团队佣金 -->
+        <activity
+            android:name=".captain_team.view.Captain_Team_SalesDetailsDetailsActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 真·销售详情 -->
+        <activity
+            android:name=".captain_team.view.Captain_Team_MyClientActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 圈层 我的客户 -->
+        <activity
+            android:name=".captain_team.view.CommissionDetailsActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 圈层 项目佣金详情 -->
         <!-- TODO 专案 -->
-        <activity android:name=".project_side.view.Project_Side_MainActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 主页 -->
-        <activity android:name=".project_side.view.BackToRaiseThatActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 填写退筹说明 -->
-        <activity android:name=".project_side.view.CheckPendingActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 项目进度 -->
-        <activity android:name=".project_side.view.CheckPendingTheProjectEndActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 待我审核 -->
-        <activity android:name=".project_side.view.CommissionTheProjectEndActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 佣金 -->
-        <activity android:name=".project_side.view.ConfessToRaiseInformationActivity" android:screenOrientation="portrait" android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 专案 填写认筹信息 -->
-        <activity android:name=".project_side.view.DetailsTheProjectEndActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 项目详情 -->
-        <activity android:name=".project_side.view.FillInTransactionInformationActivity" android:launchMode="singleTop" android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 专案 填写成交信息 -->
-        <activity android:name=".project_side.view.InitiatedActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 项目进度 -->
-        <activity android:name=".project_side.view.InitiatedTheReviewActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 发起审核 -->
-        <activity android:name=".project_side.view.ListOfBackActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 填写退单说明 -->
-        <activity android:name=".project_side.view.MessageIssueActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 消息发布 -->
-        <activity android:name=".project_side.view.ModifyTheRecognitionToRaiseActivity" android:launchMode="singleTop" android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 专案 修改认筹信息 -->
-        <activity android:name=".project_side.view.VisitingScheduleActivity" android:launchMode="singleTop" android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 专案 修改成交信息 -->
-        <activity android:name=".project_side.view.MyClientActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 我的客户 -->
-        <activity android:name=".project_side.view.MyProjectActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 我的项目 -->
-        <activity android:name=".project_side.view.RefuseTheProjectEndActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 发起审核 拒绝记录 -->
-        <activity android:name=".project_side.view.TheReasonForRefusalActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 拒绝原因 -->
-        <activity android:name=".project_side.view.CheckPendingTheProjectActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 待我审核 拒绝记录 -->
-        <activity android:name=".project_side.view.OneKeyActivity" android:launchMode="singleTop" android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 专案 一键成交 -->
-        <activity android:name=".project_side.view.Commission_To_Choose" android:launchMode="singleTop" android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 专案 佣金选择 -->
+        <activity
+            android:name=".project_side.view.Project_Side_MainActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 主页 -->
+        <activity
+            android:name=".project_side.view.BackToRaiseThatActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 填写退筹说明 -->
+        <activity
+            android:name=".project_side.view.CheckPendingActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 项目进度 -->
+        <activity
+            android:name=".project_side.view.CheckPendingTheProjectEndActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 待我审核 -->
+        <activity
+            android:name=".project_side.view.CommissionTheProjectEndActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 佣金 -->
+        <activity
+            android:name=".project_side.view.ConfessToRaiseInformationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 专案 填写认筹信息 -->
+        <activity
+            android:name=".project_side.view.DetailsTheProjectEndActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 项目详情 -->
+        <activity
+            android:name=".project_side.view.FillInTransactionInformationActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 专案 填写成交信息 -->
+        <activity
+            android:name=".project_side.view.InitiatedActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 项目进度 -->
+        <activity
+            android:name=".project_side.view.InitiatedTheReviewActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 发起审核 -->
+        <activity
+            android:name=".project_side.view.ListOfBackActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 填写退单说明 -->
+        <activity
+            android:name=".project_side.view.MessageIssueActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 消息发布 -->
+        <activity
+            android:name=".project_side.view.ModifyTheRecognitionToRaiseActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 专案 修改认筹信息 -->
+        <activity
+            android:name=".project_side.view.VisitingScheduleActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 专案 修改成交信息 -->
+        <activity
+            android:name=".project_side.view.MyClientActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 我的客户 -->
+        <activity
+            android:name=".project_side.view.MyProjectActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 我的项目 -->
+        <activity
+            android:name=".project_side.view.RefuseTheProjectEndActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 发起审核 拒绝记录 -->
+        <activity
+            android:name=".project_side.view.TheReasonForRefusalActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 拒绝原因 -->
+        <activity
+            android:name=".project_side.view.CheckPendingTheProjectActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专案 待我审核 拒绝记录 -->
+        <activity
+            android:name=".project_side.view.OneKeyActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 专案 一键成交 -->
+        <activity
+            android:name=".project_side.view.Commission_To_Choose"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 专案 佣金选择 -->
         <!-- TODO 导购 -->
-
-        <activity android:name=".shopping_guide.view.Shopping_Guide_MainActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 导购 主页 -->
-        <activity android:name=".shopping_guide.view.ReviewTheSuccessActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 导购 项目进度 -->
-        <activity android:name=".shopping_guide.view.TaskDetailsActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 导购 任务详情 -->
-        <activity android:name=".shopping_guide.view.TaskHistoryListActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 导购 历史任务 -->
-        <activity android:name=".shopping_guide.view.WCJActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 导购 未成交 -->
-
+        <activity
+            android:name=".shopping_guide.view.Shopping_Guide_MainActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 导购 主页 -->
+        <activity
+            android:name=".shopping_guide.view.ReviewTheSuccessActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 导购 项目进度 -->
+        <activity
+            android:name=".shopping_guide.view.TaskDetailsActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 导购 任务详情 -->
+        <activity
+            android:name=".shopping_guide.view.TaskHistoryListActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 导购 历史任务 -->
+        <activity
+            android:name=".shopping_guide.view.WCJActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 导购 未成交 -->
         <!-- TODO 专员 -->
-        <activity android:name=".project_attache.view.Project_Attache_MainActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专员 主页 -->
-        <activity android:name=".project_attache.view.AddBrokerActivity" android:launchMode="singleTop" android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 专员 添加经纪人 -->
-        <activity android:name=".project_attache.view.AddCompanyActivity" android:launchMode="singleTop" android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 专员 添加经纪公司 -->
-        <activity android:name=".project_attache.view.BrokersListActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专员 经纪人列表 -->
-        <activity android:name=".project_attache.view.CommissionActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专员 佣金 -->
-        <activity android:name=".project_attache.view.CompanyDetailsActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专员 门店详情 -->
-        <activity android:name=".project_attache.view.StoreListActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专员 公司列表 -->
-        <activity android:name=".project_attache.view.BrokerActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专员 经纪人详情 -->
-        <activity android:name=".project_attache.view.AddStoreActivity" android:launchMode="singleTop" android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 专员 添加门店 -->
-        <activity android:name=".project_attache.view.ContentActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专员 添加 -->
-        <activity android:name=".project_attache.view.StoreDetailsActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 专员 公司详情 -->
-        <activity android:name=".project_attache.view.ClockStoresActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 门店打卡 start -->
-        <activity android:name=".project_attache.view.PunchingCardRecordActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 打卡记录 start -->
-        <activity android:name=".all.view.TheNationalCityActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" ></activity><!--TODO 地图找地址 获取全国城市列表-->
-
+        <activity
+            android:name=".project_attache.view.Project_Attache_MainActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专员 主页 -->
+        <activity
+            android:name=".project_attache.view.AddBrokerActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 专员 添加经纪人 -->
+        <activity
+            android:name=".project_attache.view.AddCompanyActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 专员 添加经纪公司 -->
+        <activity
+            android:name=".project_attache.view.BrokersListActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专员 经纪人列表 -->
+        <activity
+            android:name=".project_attache.view.CommissionActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专员 佣金 -->
+        <activity
+            android:name=".project_attache.view.CompanyDetailsActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专员 门店详情 -->
+        <activity
+            android:name=".project_attache.view.StoreListActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专员 公司列表 -->
+        <activity
+            android:name=".project_attache.view.BrokerActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专员 经纪人详情 -->
+        <activity
+            android:name=".project_attache.view.AddStoreActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- TODO 专员 添加门店 -->
+        <activity
+            android:name=".project_attache.view.ContentActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专员 添加 -->
+        <activity
+            android:name=".project_attache.view.StoreDetailsActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 专员 公司详情 -->
+        <activity
+            android:name=".project_attache.view.ClockStoresActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 门店打卡 start -->
+        <activity
+            android:name=".project_attache.view.PunchingCardRecordActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 打卡记录 start -->
+        <activity
+            android:name=".all.view.TheNationalCityActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 地图找地址 获取全国城市列表 -->
         <!-- TODO 圈层 顾问 -->
-        <activity android:name=".captain_counselor.view.Captain_Counselor_MainActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 顾问 主页 -->
-        <activity android:name=".captain_counselor.view.Captain_Counselor_CommissionTheProjectEndActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 顾问 团队佣金 -->
-
+        <activity
+            android:name=".captain_counselor.view.Captain_Counselor_MainActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 顾问 主页 -->
+        <activity
+            android:name=".captain_counselor.view.Captain_Counselor_CommissionTheProjectEndActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 顾问 团队佣金 -->
         <!-- TODO 圈层 销售 -->
-        <activity android:name=".captain_market.view.Captain_Market_MainActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 销售 主页 -->
-        <activity android:name=".captain_market.view.Captain_Market_MyTeamActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 销售 我的团队 -->
-        <activity android:name=".captain_market.view.TeamMemberActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 销售 团队人员 -->
-
+        <activity
+            android:name=".captain_market.view.Captain_Market_MainActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 销售 主页 -->
+        <activity
+            android:name=".captain_market.view.Captain_Market_MyTeamActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 销售 我的团队 -->
+        <activity
+            android:name=".captain_market.view.TeamMemberActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 销售 团队人员 -->
         <!-- TODO 圈层 团助 -->
-        <activity android:name=".captain_assistant.view.Assistant_Addteam_Activity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 团助 添加团队长 -->
-        <activity android:name=".captain_assistant.view.Assistant_Teams_Activity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 团助 团队人员 -->
-        <activity android:name=".captain_assistant.view.Captain_Assistant_MainActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan" /> <!-- TODO 团助 主页 -->
-
+        <activity
+            android:name=".captain_assistant.view.Assistant_Addteam_Activity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 团助 添加团队长 -->
+        <activity
+            android:name=".captain_assistant.view.Assistant_Teams_Activity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" /> <!-- TODO 团助 团队人员 -->
+        <activity
+            android:name=".captain_assistant.view.Captain_Assistant_MainActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" />
+        <!--        <activity android:name=".all.fragment.TestFragment" /> &lt;!&ndash; TODO 团助 主页 &ndash;&gt;-->
         <!-- TODO 今日头条 start -->
-        <meta-data android:name="design_width_in_dp" android:value="375" />
-        <meta-data android:name="design_height_in_dp" android:value="667" />
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="375" />
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="667" />
     </application>
 
 </manifest>

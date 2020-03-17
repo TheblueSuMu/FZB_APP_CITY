@@ -7,9 +7,10 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="130dp"
@@ -19,6 +20,7 @@
                 android:id="@+id/more_img"
                 android:layout_width="50dp"
                 android:layout_height="80dp">
+
                 <ImageView
                     android:layout_width="10dp"
                     android:layout_height="18dp"
@@ -51,20 +53,20 @@
                     android:layout_alignParentBottom="true"
                     android:background="#00000000"
                     app:tabIndicatorColor="#fff"
-                    app:tabIndicatorHeight="3dp"
                     app:tabIndicatorFullWidth="false"
+                    app:tabIndicatorHeight="3dp"
                     app:tabSelectedTextColor="#fff"
-                    app:tabTextColor="#fff"/>
+                    app:tabTextColor="#fff" />
 
             </LinearLayout>
 
         </RelativeLayout>
 
         <androidx.viewpager.widget.ViewPager
-            android:layout_marginBottom="55dp"
             android:id="@+id/more_viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="55dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         </androidx.viewpager.widget.ViewPager>

@@ -44,6 +44,9 @@ import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
+import com.netease.nim.uikit.api.NimUIKit;
+import com.netease.nim.uikit.impl.NimUIKitImpl;
+import com.netease.nim.uikit.impl.cache.NimUserInfoCache;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.adapter.TestMapPopwindowAdapter;
 import com.xcy.fzbcity.all.adapter.TestMapPopwindowAdapter_S;
@@ -88,6 +91,8 @@ public class TestMapActivity extends AppCompatActivity implements LocationSource
     private Intent intent;
     private InputMethodManager imm;
     private AMapLocation aMapLocation1;
+
+    int isMap = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,17 +213,34 @@ public class TestMapActivity extends AppCompatActivity implements LocationSource
                 //拖拽结束监听
                 Log.i("高德地图", "onCameraChangeFinish：" + cameraPosition.target);
 
-                RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(cameraPosition.target.latitude, cameraPosition.target.longitude), 200, GeocodeSearch.AMAP);
-                geocoderSearch.getFromLocationAsyn(query);
 
-                poiSearch.setBound(new PoiSearch.SearchBound(new LatLonPoint(cameraPosition.target.latitude,
-                        cameraPosition.target.longitude), 10000));//设置周边搜索的中心点以及半径
-                poiSearch.searchPOIAsyn();
                 if (la.equals("") || la.equals("")) {
+                    RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(cameraPosition.target.latitude, cameraPosition.target.longitude), 200, GeocodeSearch.AMAP);
+                    geocoderSearch.getFromLocationAsyn(query);
 
+                    poiSearch.setBound(new PoiSearch.SearchBound(new LatLonPoint(cameraPosition.target.latitude,
+                            cameraPosition.target.longitude), 10000));//设置周边搜索的中心点以及半径
+                    poiSearch.searchPOIAsyn();
                 } else {
-                    CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(Double.parseDouble(la), Double.parseDouble(lo)), 10, 0, 0));
-                    aMap.moveCamera(mCameraUpdate);
+                    if(isMap == 0){
+
+                        CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(Double.parseDouble(la), Double.parseDouble(lo)), 10, 0, 0));
+                        aMap.moveCamera(mCameraUpdate);
+                        RegeocodeQuery query1 = new RegeocodeQuery(new LatLonPoint(Double.parseDouble(la), Double.parseDouble(lo)), 200, GeocodeSearch.AMAP);
+                        geocoderSearch.getFromLocationAsyn(query1);
+
+                        poiSearch.setBound(new PoiSearch.SearchBound(new LatLonPoint(cameraPosition.target.latitude,
+                                cameraPosition.target.longitude), 10000));//设置周边搜索的中心点以及半径
+                        poiSearch.searchPOIAsyn();
+                        isMap = 1;
+                    }else {
+                        RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(cameraPosition.target.latitude, cameraPosition.target.longitude), 200, GeocodeSearch.AMAP);
+                        geocoderSearch.getFromLocationAsyn(query);
+
+                        poiSearch.setBound(new PoiSearch.SearchBound(new LatLonPoint(cameraPosition.target.latitude,
+                                cameraPosition.target.longitude), 10000));//设置周边搜索的中心点以及半径
+                        poiSearch.searchPOIAsyn();
+                    }
                 }
 
                 FinalContents.setMylatLng(cameraPosition.target);
@@ -380,6 +402,7 @@ public class TestMapActivity extends AppCompatActivity implements LocationSource
 
         switch (v.getId()) {
             case R.id.test_map_back://返回上一层
+                isMap = 0;
                 intent = new Intent();
                 //纬度
                 intent.putExtra("getLatitude", la);
@@ -506,7 +529,7 @@ public class TestMapActivity extends AppCompatActivity implements LocationSource
 
         Log.i("高德地图", " getCity():" + regeocodeResult.getRegeocodeAddress().getCity());
         test_map_city.setText(regeocodeResult.getRegeocodeAddress().getCity());
-        query = new PoiSearch.Query("写字楼|小区|学校|医院|公交车站", "", "");
+        query = new PoiSearch.Query("写字楼|小区|学校|医院|公交车站|街道|村庄", "", "");
         poiSearch = new PoiSearch(TestMapActivity.this, query);
         poiSearch.setOnPoiSearchListener(TestMapActivity.this);
 

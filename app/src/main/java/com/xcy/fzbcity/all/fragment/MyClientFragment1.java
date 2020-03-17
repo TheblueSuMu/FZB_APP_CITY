@@ -18,13 +18,16 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.mcxtzhang.indexlib.IndexBar.widget.IndexBar;
 import com.mcxtzhang.indexlib.suspension.SuspensionDecoration;
 import com.nanchen.wavesidebar.WaveSideBarView;
+import com.netease.nim.uikit.api.NimUIKit;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.adapter.ContactsAdapter;
 import com.xcy.fzbcity.all.adapter.LinkmanAdapter;
+import com.xcy.fzbcity.all.adapter.LinkmanNewAdapter;
 import com.xcy.fzbcity.all.api.CityContents;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.api.NewlyIncreased;
 import com.xcy.fzbcity.all.database.LinkmanBean;
+import com.xcy.fzbcity.all.database.LinkmanNewBean;
 import com.xcy.fzbcity.all.modle.ClientBean;
 import com.xcy.fzbcity.all.persente.ContactModel;
 import com.xcy.fzbcity.all.persente.DividerItemDecoration;
@@ -75,10 +78,10 @@ public class MyClientFragment1 extends Fragment implements ContactsAdapter.ItemO
      * 显示指示器DialogText
      */
     private TextView main_indexbar;
-    private List<LinkmanBean> list = new ArrayList<>();
+    private List<LinkmanNewBean> list = new ArrayList<>();
     private LinearLayoutManager linearLayoutManager;
     private SuspensionDecoration mDecoration;
-    private LinkmanAdapter linkmanAdapter;
+    private LinkmanNewAdapter linkmanAdapter;
 
     public MyClientFragment1() {
         // Required empty public constructor
@@ -155,10 +158,11 @@ public class MyClientFragment1 extends Fragment implements ContactsAdapter.ItemO
                             mRecyclerView.setVisibility(View.VISIBLE);
 
                             for (int i = 0; i < data.size(); i++) {
-                                list.add(new LinkmanBean(data.get(i).getCustomerName() + "", data.get(i).getId() + "", data.get(i).getContactsPhone1() + ""));
+                                list.add(new LinkmanNewBean(data.get(i).getCustomerName() + "", data.get(i).getId() + "",
+                                        data.get(i).getContactsPhone1() + "",data.get(i).getGender() +"",data.get(i).getWay() +"",data.get(i).getCustomerImg() +""));
                             }
 
-                            linkmanAdapter = new LinkmanAdapter(context, list);
+                            linkmanAdapter = new LinkmanNewAdapter(context, list);
                             mRecyclerView.setAdapter(linkmanAdapter);
                             linkmanAdapter.notifyDataSetChanged();
 
@@ -166,7 +170,7 @@ public class MyClientFragment1 extends Fragment implements ContactsAdapter.ItemO
                                     .invalidate();
                             mDecoration.setmDatas(list);
 
-                            linkmanAdapter.setItemOnClick(new LinkmanAdapter.ItemOnClick() {
+                            linkmanAdapter.setItemOnClick(new LinkmanNewAdapter.ItemOnClick() {
                                                               @Override
                                                               public void itemClick(int position) {
                                                                   Log.i("数据对比", "1客户名" + list.get(position).getCity());
@@ -179,8 +183,9 @@ public class MyClientFragment1 extends Fragment implements ContactsAdapter.ItemO
                                                                       getActivity().finish();
                                                                   } else {
                                                                       FinalContents.setCustomerID(list.get(position).getClientId());
-                                                                      Intent intent = new Intent(getContext(), ClientParticularsActivity.class);
-                                                                      startActivity(intent);
+//                                                                      Intent intent = new Intent(getContext(), ClientParticularsActivity.class);
+//                                                                      startActivity(intent);
+                                                                      NimUIKit.startP2PSession(getActivity(), list.get(position).getClientId());
                                                                       Log.i("团队长", "contacts.get(position).getName()：" + list.get(position).getCity());
 
                                                                   }
@@ -254,10 +259,11 @@ public class MyClientFragment1 extends Fragment implements ContactsAdapter.ItemO
                             mRecyclerView.setVisibility(View.VISIBLE);
 
                             for (int i = 0; i < data.size(); i++) {
-                                list.add(new LinkmanBean(data.get(i).getCustomerName() + "", data.get(i).getId() + "", data.get(i).getContactsPhone1() + ""));
+                                list.add(new LinkmanNewBean(data.get(i).getCustomerName() + "", data.get(i).getId() + "",
+                                        data.get(i).getContactsPhone1() + "",data.get(i).getGender() +"",data.get(i).getWay() +"",data.get(i).getCustomerImg() +""));
                             }
 
-                            linkmanAdapter = new LinkmanAdapter(context, list);
+                            linkmanAdapter = new LinkmanNewAdapter(context, list);
                             mRecyclerView.setAdapter(linkmanAdapter);
                             linkmanAdapter.notifyDataSetChanged();
 
@@ -265,7 +271,7 @@ public class MyClientFragment1 extends Fragment implements ContactsAdapter.ItemO
                                     .invalidate();
                             mDecoration.setmDatas(list);
 
-                            linkmanAdapter.setItemOnClick(new LinkmanAdapter.ItemOnClick() {
+                            linkmanAdapter.setItemOnClick(new LinkmanNewAdapter.ItemOnClick() {
                                                               @Override
                                                               public void itemClick(int position) {
                                                                   Log.i("数据对比", "1客户名" + list.get(position).getCity());

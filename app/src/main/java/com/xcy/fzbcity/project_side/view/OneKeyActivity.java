@@ -170,7 +170,7 @@ public class OneKeyActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private void initfvb(){
+    private void initfvb() {
         one_key_relative_1 = findViewById(R.id.one_key_relative_1);
         one_key_relative_et3 = findViewById(R.id.one_key_relative_et3);
 
@@ -296,7 +296,6 @@ public class OneKeyActivity extends AppCompatActivity implements View.OnClickLis
         });
 
 
-
         if (fill_in_transaction_information_et6.getText().toString().equals("")) {
         } else {
             fill_in_transaction_information_tishi.setVisibility(View.GONE);
@@ -402,12 +401,12 @@ public class OneKeyActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             //            TODO 提交
             case R.id.one_key_btn:
-                if (one_key_relative_et1.getText().toString().equals("")){
+                if (one_key_relative_et1.getText().toString().equals("")) {
                     ToastUtil.showToast(this, "请输入经纪人姓名");
                     return;
                 }
 
-                if (!MatcherUtils.isMobile(one_key_relative_et2.getText().toString())){
+                if (!MatcherUtils.isMobile(one_key_relative_et2.getText().toString())) {
                     ToastUtil.showToast(this, "请输入正确的手机号");
                     return;
                 }
@@ -540,7 +539,7 @@ public class OneKeyActivity extends AppCompatActivity implements View.OnClickLis
                 hideInput();
                 Calendar selectedDate = Calendar.getInstance();//系统当前时间
                 Calendar startDate = Calendar.getInstance();
-                startDate.set(year-2, month, dayOfMonth);
+                startDate.set(year - 2, month, dayOfMonth);
                 final Calendar endDate = Calendar.getInstance();
                 endDate.set(year, month, dayOfMonth);
                 TimePickerView pvTime = new TimePickerBuilder(OneKeyActivity.this, new OnTimeSelectListener() {
@@ -555,20 +554,26 @@ public class OneKeyActivity extends AppCompatActivity implements View.OnClickLis
                         .isCenterLabel(false)
                         .setDate(selectedDate)
                         .setLineSpacingMultiplier(1.5f)
-                        .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
+                        .setTextXOffset(-10, 0, 10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
                         .setRangDate(startDate, endDate)
                         .build();
                 pvTime.show();
                 break;
             //            TODO 佣金
             case R.id.fill_in_transaction_information_rl6:
+
+                if (FinalContents.getProjectID().equals("")) {
+                    ToastUtil.showLongToast(OneKeyActivity.this,"请选择项目后，再进行佣金选择");
+                    return;
+                }
+
                 if (project_time.getText().toString().equals("")) {
-                    ToastUtil.showLongToast(OneKeyActivity.this,"请选择时间后，再进行佣金选择");
+                    ToastUtil.showLongToast(OneKeyActivity.this, "请选择时间后，再进行佣金选择");
                     return;
                 }
                 project_time.getText().toString();
-                Intent intent = new Intent(OneKeyActivity.this,Commission_To_Choose.class);
-                intent.putExtra("time",project_time.getText().toString());
+                Intent intent = new Intent(OneKeyActivity.this, Commission_To_Choose.class);
+                intent.putExtra("time", project_time.getText().toString());
                 startActivity(intent);
                 break;
             //            TODO 佣金选择
@@ -600,7 +605,7 @@ public class OneKeyActivity extends AppCompatActivity implements View.OnClickLis
                     @SuppressLint("WrongConstant")
                     @Override
                     public void onNext(final BrokerBean brokerBean) {
-                        if(brokerBean.getData().size() != 0){
+                        if (brokerBean.getData().size() != 0) {
                             transition_layout.setVisibility(View.VISIBLE);
                             MyLinearLayoutManager layoutManager = new MyLinearLayoutManager(OneKeyActivity.this);
                             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -619,8 +624,8 @@ public class OneKeyActivity extends AppCompatActivity implements View.OnClickLis
                                 }
                             });
                             timeRangeAdapter.notifyDataSetChanged();
-                        }else {
-                            ToastUtil.showLongToast(OneKeyActivity.this,"暂无佣金");
+                        } else {
+                            ToastUtil.showLongToast(OneKeyActivity.this, "暂无佣金");
                             transition_layout.setVisibility(View.GONE);
                         }
 
@@ -628,7 +633,7 @@ public class OneKeyActivity extends AppCompatActivity implements View.OnClickLis
 
                     @Override
                     public void onError(Throwable e) {
-                        ToastUtil.showLongToast(OneKeyActivity.this,"佣金列表数据获取错误");
+                        ToastUtil.showLongToast(OneKeyActivity.this, "佣金列表数据获取错误");
                         transition_layout.setVisibility(View.GONE);
                         Log.i("佣金列表数据获取错误", "错误" + e);
                     }
@@ -686,10 +691,10 @@ public class OneKeyActivity extends AppCompatActivity implements View.OnClickLis
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Log.i("MyCL","FinalContents.getUserID():" + FinalContents.getUserID());
-        Log.i("MyCL","one_key_relative_et1.getText().toString():" + one_key_relative_et1.getText().toString());
-        Log.i("MyCL","one_key_relative_et2.getText().toString():" + one_key_relative_et2.getText().toString());
-        Observable<PhoneByUserBean> userMessage = fzbInterface.getPhoneByUser(FinalContents.getUserID(),one_key_relative_et2.getText().toString(),one_key_relative_et1.getText().toString());
+        Log.i("MyCL", "FinalContents.getUserID():" + FinalContents.getUserID());
+        Log.i("MyCL", "one_key_relative_et1.getText().toString():" + one_key_relative_et1.getText().toString());
+        Log.i("MyCL", "one_key_relative_et2.getText().toString():" + one_key_relative_et2.getText().toString());
+        Observable<PhoneByUserBean> userMessage = fzbInterface.getPhoneByUser(FinalContents.getUserID(), one_key_relative_et2.getText().toString(), one_key_relative_et1.getText().toString());
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<PhoneByUserBean>() {
@@ -701,15 +706,15 @@ public class OneKeyActivity extends AppCompatActivity implements View.OnClickLis
                     @SuppressLint("WrongConstant")
                     @Override
                     public void onNext(PhoneByUserBean phoneByUserBean) {
-                        Log.i("MyCL","phoneByUserBean:" + phoneByUserBean.getData().getMsg());
+                        Log.i("MyCL", "phoneByUserBean:" + phoneByUserBean.getData().getMsg());
                         FinalContents.setJJrID(phoneByUserBean.getData().getData().getUserId());
                         if (phoneByUserBean.getData().getCode().equals("1")) {
                             FinalContents.setProject("1");
                             FinalContents.setChecked2(true);
                             Intent project_intent = new Intent(OneKeyActivity.this, MyProjectActivity.class);
                             startActivity(project_intent);
-                        }else if (phoneByUserBean.getData().getCode().equals("0")){
-                           ToastUtil.showLongToast(OneKeyActivity.this, "请确保输入的经纪人信息是否正确");
+                        } else if (phoneByUserBean.getData().getCode().equals("0")) {
+                            ToastUtil.showLongToast(OneKeyActivity.this, "请确保输入的经纪人信息是否正确");
                         }
                     }
 
@@ -756,53 +761,48 @@ public class OneKeyActivity extends AppCompatActivity implements View.OnClickLis
         Log.i("判断", "getUserID：" + FinalContents.getUserID());
         initselect();
 
+        Retrofit.Builder builder = new Retrofit.Builder();
+        builder.baseUrl(FinalContents.getBaseUrl());
+        builder.addConverterFactory(GsonConverterFactory.create());
+        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+        Retrofit build = builder.build();
+        MyService fzbInterface = build.create(MyService.class);
+        Observable<OneKeyTradeBean> userMessage = fzbInterface.getOneKeyTrade(projecttype + "", fill_in_transaction_information_et1.getText().toString() + "", gender + "", fill_in_transaction_information_et2.getText().toString() + "", fill_in_transaction_information_et3.getText().toString() + "", fang_hao_et1.getText().toString() + "栋" + fang_hao_et2.getText().toString() + "单元" + fang_hao_et3.getText().toString() + "室", apartment + "", fill_in_transaction_information_et4.getText().toString() + "", fill_in_transaction_information_et5.getText().toString() + "", str + "", payment_way.getText().toString() + "", one_key_et.getText().toString() + "", FinalContents.getCommissionId() + "", FinalContents.getProjectID() + "", FinalContents.getUserID() + "", one_key_relative_et1.getText().toString() + "", one_key_relative_et2.getText().toString() + "", project_time.getText().toString() + "");
+        userMessage.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<OneKeyTradeBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-        if (whethe) {
-            Retrofit.Builder builder = new Retrofit.Builder();
-            builder.baseUrl(FinalContents.getBaseUrl());
-            builder.addConverterFactory(GsonConverterFactory.create());
-            builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
-            Retrofit build = builder.build();
-            MyService fzbInterface = build.create(MyService.class);
-            Observable<OneKeyTradeBean> userMessage = fzbInterface.getOneKeyTrade(projecttype+"", fill_in_transaction_information_et1.getText().toString()+"", gender+"", fill_in_transaction_information_et2.getText().toString()+"", fill_in_transaction_information_et3.getText().toString()+"", fang_hao_et1.getText().toString() + "栋" + fang_hao_et2.getText().toString() + "单元" + fang_hao_et3.getText().toString() + "室", apartment+"", fill_in_transaction_information_et4.getText().toString()+"", fill_in_transaction_information_et5.getText().toString()+"", str+"", payment_way.getText().toString()+"", one_key_et.getText().toString()+"", FinalContents.getCommissionId()+"", FinalContents.getProjectID()+"", FinalContents.getUserID()+"", one_key_relative_et1.getText().toString()+"", one_key_relative_et2.getText().toString()+"", project_time.getText().toString()+"");
-            userMessage.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<OneKeyTradeBean>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
+                    }
 
+                    @SuppressLint("WrongConstant")
+                    @Override
+                    public void onNext(OneKeyTradeBean oneKeyTradeBean) {
+                        ToastUtil.showToast(OneKeyActivity.this, oneKeyTradeBean.getData().getMsg());
+                        if (oneKeyTradeBean.getData().getStatus().equals("1")) {
+                            finish();
+                            Log.i("判断", "shuju2：" + ifnum6);
                         }
+                        ifnum6 = 0;
+                    }
 
-                        @SuppressLint("WrongConstant")
-                        @Override
-                        public void onNext(OneKeyTradeBean oneKeyTradeBean) {
-                            ToastUtil.showToast(OneKeyActivity.this, oneKeyTradeBean.getData().getMsg());
-                            if (oneKeyTradeBean.getData().getStatus().equals("1")) {
-                                finish();
-                                Log.i("判断", "shuju2：" + ifnum6);
-                            }
-                            ifnum6 = 0;
-                        }
+                    @Override
+                    public void onError(Throwable e) {
+                        ifnum6 = 0;
+                        ToastUtil.showToast(OneKeyActivity.this, "请查看所输入的信息是否正确");
+                        Log.i("一键成交信息", "错误" + e);
+                    }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            ifnum6 = 0;
-                            ToastUtil.showToast(OneKeyActivity.this, "请查看所输入的信息是否正确");
-                            Log.i("一键成交信息", "错误" + e);
-                        }
+                    @Override
+                    public void onComplete() {
 
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
-            if (FinalContents.getCommissionId().equals("")) {
-                ToastUtil.showToast(OneKeyActivity.this, "请选择佣金");
-            } else {
-                FinalContents.setTiaozhuang("成交");
-            }
-        } else {
+                    }
+                });
+        if (FinalContents.getCommissionId().equals("")) {
             ToastUtil.showToast(OneKeyActivity.this, "请选择佣金");
+        } else {
+            FinalContents.setTiaozhuang("成交");
         }
     }
 

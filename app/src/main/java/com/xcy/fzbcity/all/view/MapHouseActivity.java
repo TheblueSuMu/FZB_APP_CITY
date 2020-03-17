@@ -1,72 +1,79 @@
 package com.xcy.fzbcity.all.view;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.SyncStateContract;
 import android.text.Html;
 import android.text.InputType;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.MapStatusUpdateFactory;
-import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.core.SearchResult;
-import com.baidu.mapapi.search.geocode.GeoCodeOption;
-import com.baidu.mapapi.search.geocode.GeoCodeResult;
-import com.baidu.mapapi.search.geocode.GeoCoder;
-import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
-import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
-import com.baidu.mapapi.utils.route.BaiduMapRoutePlan;
-import com.baidu.mapapi.utils.route.RouteParaOption;
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdate;
+import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.MapView;
+import com.amap.api.maps.UiSettings;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.CameraPosition;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.services.geocoder.GeocodeQuery;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeResult;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bumptech.glide.Glide;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import com.makeramen.roundedimageview.RoundedImageView;
 import com.xcy.fzbcity.R;
+import com.xcy.fzbcity.all.adapter.CompaniesBean;
+import com.xcy.fzbcity.all.adapter.ProjectsBean;
+import com.xcy.fzbcity.all.adapter.StoresBean;
 import com.xcy.fzbcity.all.api.FinalContents;
-import com.xcy.fzbcity.all.database.StoreListBean;
 import com.xcy.fzbcity.all.modle.CityBean;
-import com.xcy.fzbcity.all.modle.HotBean;
-import com.xcy.fzbcity.all.persente.SingleClick;
 import com.xcy.fzbcity.all.persente.StatusBar;
 import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.utils.ToastUtil;
-import com.xcy.fzbcity.project_attache.adapter.ClusterItem;
-import com.xcy.fzbcity.project_attache.adapter.ClusterManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import co.lujun.androidtagview.ColorFactory;
 import co.lujun.androidtagview.TagContainerLayout;
 import io.reactivex.Observable;
@@ -77,92 +84,95 @@ import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MapHouseActivity extends AppCompatActivity implements View.OnClickListener, BaiduMap.OnMapLoadedCallback {
+public class MapHouseActivity extends AppCompatActivity implements View.OnClickListener, GeocodeSearch.OnGeocodeSearchListener {
 
+    public static String GAODE_MAP = "com.autonavi.minimap";
+
+    private int height;// 屏幕高度(px)
+    private int width;// 屏幕宽度(px)
+    MapView mMapView = null;
+    private AMap aMap = null;
+    private UiSettings mUiSettings;
+    private List<CityBean.DataBean> data;
     LinearLayout map_house_return;
     EditText map_house_search;
     TextView map_house_check;
+    private String mapCityId = "";
+    private List<ProjectsBean.DataBean> projectsData1;
+    private MarkerOptions markerOption;
+    private List<StoresBean.DataBean> storesData;
 
-    private MapView mMapView;
-    private BaiduMap mBaiduMap;
-    private MapStatus mMapStatus;
-    private ClusterManager<MyItem> mClusterManager;
-    private List<MyItem> items = new ArrayList<>();
-    private LayoutInflater mLayoutIn;
+    int ifStores = 0;
+    private List<CompaniesBean.DataBean> companysData;
+    private float zoom;
+    private String ifMarkerClick = "";
     private View view;
-    private PopupWindow popupWindow;
-    private List<StoreListBean.DataBean.RowsBean> rows = new ArrayList<>();
-    private List<String> strings = new ArrayList<>();
-    private StringBuffer sb;
-    private TextView pop_name;
+
+    LinearLayout map_house_ll1;
+    LinearLayout map_house_ll2;
+    LinearLayout map_house_ll3;
     private TextView pop_title;
     private TextView pop_address;
-    private LinearLayout layout;
-    private double vs1;
-    private double vs2;
-
-    // 定位相关
-    LocationClient mLocClient;
-    //定位监听
-    public MyLocationListenner myListener = new MyLocationListenner();
-    boolean isFirstLoc = true; // 是否首次定位
-    BDLocation mlocation;
-    private LatLng ll;
-    private MyItem item1;
+    private TextView pop_name;
     private LinearLayout pop_ll_1;
+    private Button pop_btn1;
 
-    int ifMG = 0;
-    private List<StoreListBean.DataBean.RowsBean> rows1 = new ArrayList<>();
-    private double ssv;
-    private double ssvs;
-
-    int ifKeyListener = 0;
-    private List<CityBean.DataBean> data = new ArrayList<>();
-    private List<HotBean.DataBean.RowsBean> rows2 = new ArrayList<>();
-
-    //城市弹窗数据
-    RoundedImageView imageAvatar;
-    TextView nameText;
-    TagContainerLayout tagView;
-    TextView chick;
-    TextView attention;
-    TextView collect;
-    TextView transmit;
-    TextView price;
-    TextView price_money;
-    TextView square;
-    TextView group_booking;
-    ViewHolder mViewHolder;
-
-    String isName = "";
-
-    int ifStart = 0;
-    private LatLng position;
-    private LatLng mPosition1;
-    private LatLng ll1;
-    int ifMapStart = 0;
-    private String projectId;
-    private String projectType;
-    private GeoCoder mCoder;
-    private double latitude;
+    private LocationManager locationManager;
+    private String locationProvider;
     private double longitude;
-
-    private int ifSearch = 0;
+    private double latitude;
+    private String vs2;
+    private String vs1;
+    private ImageView imageAvatar;
+    private TextView nameText;
+    private TagContainerLayout tagView;
+    private TextView chick;
+    private TextView attention;
+    private TextView collect;
+    private TextView transmit;
+    private TextView price_money;
+    private TextView price;
+    private TextView square;
+    private Button item_pop_btn;
+    private TextView group_booking;
+    private String projectType;
+    private String projectId = "";
+    private String ifClick = "0";
+    private String title;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_house);
 
         StatusBar.makeStatusBarTransparent(this);
+        map_house_check = findViewById(R.id.map_house_check);
 
-        mMapView = findViewById(R.id.map_house_mapView);
+        //获取手机屏幕的宽和高
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        width = dm.widthPixels;
+        height = dm.heightPixels;
+        mMapView = findViewById(R.id.map_s);
+        //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
+        mMapView.onCreate(savedInstanceState);
+        if (aMap == null) {
+            aMap = mMapView.getMap();
+//            setUpMap();
+            mUiSettings = aMap.getUiSettings();
+            mUiSettings.setTiltGesturesEnabled(false);// 禁用倾斜手势。
+            mUiSettings.setRotateGesturesEnabled(false);// 禁用旋转手势。
+        }
+
 
         if (ContextCompat.checkSelfPermission(MapHouseActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
             //开启定位权限,200是标识码
             ActivityCompat.requestPermissions(MapHouseActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         } else {
             if (FinalContents.getIfCity().equals("")) {
+                Log.i("城市名","FinalContents.getOldCityName():" + FinalContents.getOldCityName());
+                initLocation(FinalContents.getOldCityName());
+                map_house_check.setText("门店");
                 initView();
             } else {
                 initCityData();//城市名字 + ID
@@ -174,6 +184,384 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
 
     //城市名字 + ID
     private void initCityData() {
+        Retrofit.Builder builder = new Retrofit.Builder();
+        builder.baseUrl(FinalContents.getBaseUrl());
+        builder.addConverterFactory(GsonConverterFactory.create());
+        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+        Retrofit build = builder.build();
+        MyService fzbInterface = build.create(MyService.class);
+        Log.i("归根到底", "mapCityId:" + mapCityId);
+        final Observable<ProjectsBean> ProjectsBean = fzbInterface.getProjectsBean(FinalContents.getCityID(), "", FinalContents.getUserID(), FinalContents.getIfCityType(), "1000");
+        ProjectsBean.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ProjectsBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(ProjectsBean projectsBean) {
+                        Log.i("归根到底", "initProjects:");
+                        int isCityName = 0;
+                        int isCityNameNum = 0;
+//                        map_house_check.setText(data.get(i).getCity());
+//                        mapCityId = data.get(i).getId();
+//                        initLocation(data.get(i).getCity());
+//                        initView();
+                        if (projectsBean.getData().size() == 0) {
+                            map_house_check.setText(FinalContents.getCityName());
+                            initLocation(FinalContents.getCityName());
+                            mapCityId = FinalContents.getCityID();
+                        } else {
+                            for (int i = 0; i < projectsBean.getData().size(); ++i) {
+                                if (FinalContents.getOldCityName().equals(projectsBean.getData().get(i).getList().get(0).getName())) {
+                                    isCityName = 1;
+                                    isCityNameNum = i;
+                                    break;
+                                }
+                            }
+                            if (isCityName == 0) {
+                                map_house_check.setText(projectsBean.getData().get(0).getList().get(0).getName());
+                                mapCityId = FinalContents.getCityID();
+                                initLocation(projectsBean.getData().get(0).getList().get(0).getName());
+                            } else {
+                                map_house_check.setText(projectsBean.getData().get(isCityNameNum).getList().get(0).getName());
+                                mapCityId = FinalContents.getCityID();
+                                initLocation(projectsBean.getData().get(isCityNameNum).getList().get(0).getName());
+                            }
+
+                        }
+                        initView();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    //初始化数据
+    private void initView() {
+
+        map_house_return = findViewById(R.id.map_house_return);
+        map_house_search = findViewById(R.id.map_house_search_S1);
+
+        map_house_ll1 = findViewById(R.id.map_house_ll1);
+        map_house_ll2 = findViewById(R.id.map_house_ll2);
+        map_house_ll3 = findViewById(R.id.map_house_ll3);
+
+        pop_title = findViewById(R.id.pop_title1);
+        pop_address = findViewById(R.id.pop_address1);
+        pop_name = findViewById(R.id.pop_name1);
+        pop_ll_1 = findViewById(R.id.pop_ll_11);
+        pop_btn1 = findViewById(R.id.pop_btn1);
+
+        imageAvatar = findViewById(R.id.ImageViewss1);
+        nameText = (TextView) findViewById(R.id.TextViewNamess1);
+        tagView = findViewById(R.id.tagViewss1);
+        chick = (TextView) findViewById(R.id.chickss1);
+        attention = (TextView) findViewById(R.id.attentionss1);
+        collect = (TextView) findViewById(R.id.collectss1);
+        transmit = (TextView) findViewById(R.id.transmitss1);
+        price_money = (TextView) findViewById(R.id.price_moneyss1);
+        price = (TextView) findViewById(R.id.pricess1);
+        square = (TextView) findViewById(R.id.squaress1);
+        item_pop_btn = (Button) findViewById(R.id.item_pop_btn1);
+        group_booking = findViewById(R.id.group_booking_itemss1);
+        item_pop_btn.setVisibility(View.VISIBLE);
+
+//        map_house_search.setInputType(InputType.TYPE_NULL);
+
+        if (mapCityId.equals("")) {
+            initStores();
+        } else {
+            initProjects();
+        }
+
+        item_pop_btn.setOnClickListener(this);
+        map_house_return.setOnClickListener(this);
+        map_house_check.setOnClickListener(this);
+        map_house_ll1.setOnClickListener(this);
+        pop_btn1.setOnClickListener(this);
+        map_house_ll3.setOnClickListener(this);
+
+        //输入框回车事件监听
+//        map_house_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+//                if ((keyEvent != null && KeyEvent.KEYCODE_ENTER == keyEvent.getKeyCode() && KeyEvent.ACTION_DOWN == keyEvent.getAction())) {
+//                    title = map_house_search.getText().toString();
+//                    if(title.equals("")){
+//
+//                    }else {
+//                        if (ifClick.equals("")) {
+//                            ifClick = "1";
+//                            if (mapCityId.equals("")) {
+//                                if (ifStores == 0) {
+//                                    initStoresMarkerClick1(title);
+//                                } else if (ifStores == 1) {
+//                                    initCompaniesMarkerClick1(title);
+//                                }
+//                            } else {
+//                                initProjectsMarkerClick1(title);
+//                            }
+//                        }
+//                    }
+//
+//
+//                }
+//                return false;
+//            }
+//        });
+        //输入框搜索事件监听
+        map_house_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId,
+                                          KeyEvent event) {
+                if ((actionId == 0 || actionId == 3) && event != null) {
+                    title = map_house_search.getText().toString();
+                    if (title.equals("")) {
+                        ToastUtil.showToast(MapHouseActivity.this, "输入框为空，请输入内容再进行查找");
+                    } else {
+                        if (ifClick.equals("0")) {
+                            ifClick = "1";
+                            if (mapCityId.equals("")) {
+                                if (ifStores == 0) {
+                                    initStoresMarkerClick1(title);
+                                } else if (ifStores == 1) {
+                                    initCompaniesMarkerClick1(title);
+                                }
+                            } else {
+                                initProjectsMarkerClick1(title);
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+        });
+
+    }
+
+    //定位地址
+    private void initLocation(String name) {
+        Log.i("MyCL", "name: " + name);
+        GeocodeSearch geocoderSearch = new GeocodeSearch(this);
+        geocoderSearch.setOnGeocodeSearchListener(this);
+
+        GeocodeQuery query = new GeocodeQuery(name, name);
+        geocoderSearch.getFromLocationNameAsyn(query);
+
+
+    }
+
+    //点击事件
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.map_house_return:
+                finish();
+                break;
+            case R.id.map_house_check:
+                initCheck();
+                break;
+            case R.id.map_house_ll1:
+                if (mapCityId.equals("")) {
+                    if (ifStores == 0) {
+                        map_house_ll1.setVisibility(View.GONE);
+                        map_house_ll2.setVisibility(View.GONE);
+                        ifMarkerClick = "";
+                        initStoresMarker4();
+                    } else if (ifStores == 1) {
+                        map_house_ll1.setVisibility(View.GONE);
+                        map_house_ll2.setVisibility(View.GONE);
+                        ifMarkerClick = "";
+                        initCompanyMarker4();
+                    }
+                } else {
+                    map_house_ll1.setVisibility(View.GONE);
+                    map_house_ll3.setVisibility(View.GONE);
+                    ifMarkerClick = "";
+                    initProjectsMarker4();
+                }
+                break;
+            case R.id.pop_btn1:
+                //路线
+                initPath();
+                break;
+            case R.id.item_pop_btn1:
+                //路线
+                initPath();
+                break;
+            case R.id.map_house_ll3:
+                //路线
+                FinalContents.setProjectID(projectId);
+                FinalContents.setProjectType(projectType);
+                Log.i("阿士大夫", "projectId:" + projectId);
+                Log.i("阿士大夫", "projectType:" + projectType);
+                Intent intent = new Intent(MapHouseActivity.this, ProjectDetails.class);
+                startActivity(intent);
+                break;
+        }
+    }
+
+    //路线规划
+    private void initPath() {
+
+        boolean installed = isInstalled(MapHouseActivity.this, GAODE_MAP);
+        if (installed == true) {
+            Log.i("路线规划", "vs2:" + vs2);
+            Log.i("路线规划", "vs1:" + vs1);
+            toGaoDeRoute(MapHouseActivity.this, GAODE_MAP, "", latitude + "", longitude + "", "", "", vs2 + "", vs1 + "", "", "0", "0");
+        } else {
+            ToastUtil.showLongToast(MapHouseActivity.this, "未安装高德地图,下载安装后重试");
+        }
+
+    }
+
+    //门店/城市选择
+    private void initCheck() {
+
+        final List<String> list = new ArrayList<>();
+
+        if (mapCityId.equals("")) {
+            list.add("公司");
+            list.add("门店");
+        } else {
+            if (projectsData1.size() == 0) {
+                list.add(FinalContents.getCityName());
+            } else {
+                for (int i = 0; i < projectsData1.size(); ++i) {
+                    for (int j = 0; j < projectsData1.get(i).getList().size(); ++j) {
+                        list.add(projectsData1.get(i).getList().get(j).getName());
+                    }
+                }
+            }
+        }
+
+
+//        list.add("经纪人");
+
+
+        OptionsPickerView pvOptions = new OptionsPickerBuilder(MapHouseActivity.this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                //              展示选中数据
+                map_house_check.setText(list.get(options1));
+//                if (FinalContents.getIfCity().equals("")) {
+//                    if (options1 == 1) {//门店
+//                        ifMG = 0;
+////                    initMy();
+//                        ifStart = 0;
+//                        aMap.clear(true);
+//                        markerOptionsList.clear();
+//                        initView();
+//                    } else if (options1 == 0) {//公司
+//                        ifStart = 0;
+//                        ifMG = 1;
+////                    initMy();
+//                        aMap.clear(true);
+//                        markerOptionsList.clear();
+//                        initView();
+//                    }
+//                } else {
+//                    for (int i = 0; i < data.size(); ++i) {
+//                        if (list.get(options1).equals(data.get(i).getCity())) {
+//                            Log.i("", "");
+//                            FinalContents.setIfCity(data.get(i).getId());
+//                            geocoderSearch = new GeocodeSearch(MapHousesActivity.this);
+//                            GeocodeQuery query = new GeocodeQuery(data.get(i).getCity(), data.get(i).getCity());
+//                            geocoderSearch.getFromLocationNameAsyn(query);
+//                            geocoderSearch.setOnGeocodeSearchListener(new GeocodeSearch.OnGeocodeSearchListener() {
+//                                @Override
+//                                public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
+//
+//                                }
+//
+//                                @Override
+//                                public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+////                                    geocodeResult.getGeocodeAddressList().get(0).getLatLonPoint();
+//                                    CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(geocodeResult.getGeocodeAddressList().get(0).getLatLonPoint().getLatitude(), geocodeResult.getGeocodeAddressList().get(0).getLatLonPoint().getLongitude()), 12, 0, 0));
+//                                    aMap.moveCamera(mCameraUpdate);
+//                                }
+//                            });
+//                            ifStart = 0;
+//                            aMap.clear(true);
+//                            markerOptionsList.clear();
+//                            ifMapStart = 1;
+//                            initView();
+//                        }
+//                    }
+//                }
+
+                if (mapCityId.equals("")) {
+                    aMap.clear();
+                    if (options1 == 1) {//门店
+                        ifStores = 0;
+                        initStores();
+                    } else if (options1 == 0) {//公司
+                        ifStores = 1;
+                        initCompanies();
+                    }
+                    initLocation(FinalContents.getOldCityName());
+                } else {
+//                    initProjectsData(list.get(options1));
+//                    initLocation(list.get(options1));
+                    if (projectsData1.size() == 0) {
+                        initLocation(FinalContents.getCityName());
+                    } else {
+                        int i1 = projectsData1.get(options1).getList().get(0).getLatLon().indexOf(",");
+                        CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(Double.parseDouble(projectsData1.get(options1).getList().get(0).getLatLon().substring(i1 + 1)), Double.parseDouble(projectsData1.get(options1).getList().get(0).getLatLon().substring(0, i1))), 11, 0, 0));
+                        aMap.moveCamera(mCameraUpdate);
+                    }
+
+                }
+
+            }
+        })
+//                .setSelectOptions(1)
+                .setOutSideCancelable(false)//点击背的地方不消失
+                .build();//创建
+
+        if (mapCityId.equals("")) {
+            if (map_house_check.getText().equals("门店")) {
+                pvOptions.setSelectOptions(1);
+            } else if (map_house_check.getText().equals("公司")) {
+                pvOptions.setSelectOptions(0);
+            }
+
+        } else {
+            if (projectsData1.size() == 0) {
+                pvOptions.setSelectOptions(0);
+            } else {
+                for (int i = 0; i < projectsData1.size(); ++i) {
+                    for (int j = 0; j < projectsData1.get(i).getList().size(); ++j) {
+                        if (map_house_check.getText().equals(projectsData1.get(i).getList().get(j).getName())) {
+                            pvOptions.setSelectOptions(i);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        //      把数据绑定到控件上面
+        pvOptions.setPicker(list);
+        //      展示
+        pvOptions.show();
+
+    }
+
+    //城市切换数据
+    private void initProjectsData(String title) {
 
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(FinalContents.getBaseUrl());
@@ -192,9 +580,17 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
 
                     @Override
                     public void onNext(CityBean cityBean) {
-                        Log.i("MyCL", "cityBean:" + cityBean.getData().size());
+                        Log.i("归根到底", "initProjectsData:");
                         data = cityBean.getData();
-                        initView();
+                        for (int i = 0; i < data.size(); ++i) {
+                            if (data.get(i).getId().equals(title)) {
+                                mapCityId = data.get(i).getId();
+//                                initLocation(data.get(i).getCity());
+                                initView();
+                                break;
+                            }
+                        }
+
                     }
 
                     @Override
@@ -210,1165 +606,1164 @@ public class MapHouseActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    //声明控件
-    private void initView() {
+    //项目数据
+    private void initProjects() {
+        Retrofit.Builder builder = new Retrofit.Builder();
+        builder.baseUrl(FinalContents.getBaseUrl());
+        builder.addConverterFactory(GsonConverterFactory.create());
+        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+        Retrofit build = builder.build();
+        MyService fzbInterface = build.create(MyService.class);
+        Log.i("归根到底", "mapCityId:" + mapCityId);
+        final Observable<ProjectsBean> ProjectsBean = fzbInterface.getProjectsBean(mapCityId, "", FinalContents.getUserID(), FinalContents.getIfCityType(), "1000");
+        ProjectsBean.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ProjectsBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-        map_house_return = findViewById(R.id.map_house_return);
-        map_house_search = findViewById(R.id.map_house_search_S);
-        map_house_check = findViewById(R.id.map_house_check);
+                    }
 
-        map_house_search.setInputType(InputType.TYPE_NULL);
+                    @Override
+                    public void onNext(ProjectsBean projectsBean) {
+                        Log.i("归根到底", "initProjects:");
+                        projectsData1 = projectsBean.getData();
+                        if (projectsData1.size() == 0) {
 
-        //输入框回车事件监听
-        map_house_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if ((keyEvent != null && KeyEvent.KEYCODE_ENTER == keyEvent.getKeyCode() && KeyEvent.ACTION_DOWN == keyEvent.getAction())) {
-                    if (ifKeyListener == 0) {
-                        String s = map_house_search.getText().toString();
-                        if (s.equals("")) {
-                            //提示用户输入内容再搜索
-                            ToastUtil.showToast(MapHouseActivity.this, "输入框为空，请输入内容再进行查找");
                         } else {
-                            if (FinalContents.getIfCity().equals("")) {
-                                if (ifMG == 0) {//门店
-                                    for (int p = 0; p < rows.size(); ++p) {
-                                        if (s.equals(rows.get(p).getStoreName())) {
-                                            StringBuffer stringBuffer = new StringBuffer();
-                                            StringBuffer append = stringBuffer.append(rows.get(p).getLocation());
-                                            for (int j = 0; j < append.length(); ++j) {
-                                                if (append.substring(j, j + 1).equals(",")) {
-                                                    //lo 后
-                                                    ssv = Double.parseDouble(append.substring(0, j));
-                                                    //la 前
-                                                    ssvs = Double.parseDouble(append.substring(j + 1));
-                                                    ifKeyListener = 1;
-                                                }
-                                            }
-                                        }else {
-                                            ToastUtil.showLongToast(MapHouseActivity.this,"未找到该门店");
-                                        }
-                                    }
-                                } else if (ifMG == 1) {//公司
-                                    for (int p = 0; p < rows1.size(); ++p) {
-                                        if (s.equals(rows1.get(p).getCompanyName())) {
-                                            StringBuffer stringBuffer = new StringBuffer();
-                                            StringBuffer append = stringBuffer.append(rows1.get(p).getComLocation());
-                                            for (int j = 0; j < append.length(); ++j) {
-                                                if (append.substring(j, j + 1).equals(",")) {
-                                                    ssv = Double.parseDouble(append.substring(0, j));//lo 后
-
-                                                    ssvs = Double.parseDouble(append.substring(j + 1));//la 前
-
-                                                    ifKeyListener = 1;
-                                                }
-                                            }
-                                        }else {
-                                            ToastUtil.showLongToast(MapHouseActivity.this,"未找到该公司");
-                                        }
-                                    }
-                                }
-                            } else {
-                                for (int p = 0; p < rows2.size(); ++p) {
-                                    if (s.equals(rows2.get(p).getProjectName())) {
-                                        StringBuffer stringBuffer = new StringBuffer();
-                                        StringBuffer append = stringBuffer.append(rows2.get(p).getLocation());
-                                        for (int j = 0; j < append.length(); ++j) {
-                                            if (append.substring(j, j + 1).equals(",")) {
-                                                ssv = Double.parseDouble(append.substring(0, j));//lo 后
-
-                                                ssvs = Double.parseDouble(append.substring(j + 1));//la 前
-
-                                                ifKeyListener = 1;
-                                            }
-                                        }
-                                    }else {
-                                        ToastUtil.showLongToast(MapHouseActivity.this,"未找到该项目");
-                                    }
-                                }
-                            }
+                            initAmp();
                         }
                     }
-                    return true;
-                }
-                return false;
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    //缩放比例
+    private void initAmp() {
+
+        if(mapCityId.equals("")){
+            if (ifStores == 0) {
+                initStoresMarker2();
+            } else if (ifStores == 1) {
+                initCompanyMarker2();
             }
-        });
-        //输入框搜索事件监听
-        map_house_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        }else {
+            initProjectsMarker2();
+        }
+
+        aMap.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition cameraPosition) {
+
+            }
 
             @Override
-            public boolean onEditorAction(TextView v, int actionId,
-                                          KeyEvent event) {
-                if ((actionId == 0 || actionId == 3) && event != null) {
-
-                    if (ifKeyListener == 0) {
-                        String s = map_house_search.getText().toString();
-                        if (s.equals("")) {
-                            //提示用户输入内容再搜索
-                            ToastUtil.showToast(MapHouseActivity.this, "输入框为空，请输入内容再进行查找");
-                        } else {
-                            if (FinalContents.getIfCity().equals("")) {
-                                if (ifMG == 0) {//门店
-                                    for (int p = 0; p < rows.size(); ++p) {
-                                        if (s.equals(rows.get(p).getStoreName())) {
-                                            StringBuffer stringBuffer = new StringBuffer();
-                                            StringBuffer append = stringBuffer.append(rows.get(p).getLocation());
-                                            for (int j = 0; j < append.length(); ++j) {
-                                                if (append.substring(j, j + 1).equals(",")) {
-                                                    //lo 后
-                                                    ssv = Double.parseDouble(append.substring(0, j));
-                                                    //la 前
-                                                    ssvs = Double.parseDouble(append.substring(j + 1));
-                                                    ifKeyListener = 1;
-                                                }
-                                            }
-                                            ifSearch = 0;
-                                            break;
-                                        }else {
-                                            ifSearch = 1;
-                                        }
-                                    }
-                                } else if (ifMG == 1) {//公司
-                                    for (int p = 0; p < rows1.size(); ++p) {
-                                        if (s.equals(rows1.get(p).getCompanyName())) {
-                                            StringBuffer stringBuffer = new StringBuffer();
-                                            StringBuffer append = stringBuffer.append(rows1.get(p).getComLocation());
-                                            for (int j = 0; j < append.length(); ++j) {
-                                                if (append.substring(j, j + 1).equals(",")) {
-                                                    ssv = Double.parseDouble(append.substring(0, j));//lo 后
-
-                                                    ssvs = Double.parseDouble(append.substring(j + 1));//la 前
-
-                                                    ifKeyListener = 1;
-                                                }
-                                            }
-                                            ifSearch = 0;
-                                            break;
-                                        }else {
-                                            ifSearch = 1;
-                                        }
-                                    }
-                                }
-                            } else {
-                                for (int p = 0; p < rows2.size(); ++p) {
-                                    if (s.equals(rows2.get(p).getProjectName())) {
-                                        StringBuffer stringBuffer = new StringBuffer();
-                                        StringBuffer append = stringBuffer.append(rows2.get(p).getLocation());
-                                        for (int j = 0; j < append.length(); ++j) {
-                                            if (append.substring(j, j + 1).equals(",")) {
-                                                ssv = Double.parseDouble(append.substring(0, j));//lo 后
-
-                                                ssvs = Double.parseDouble(append.substring(j + 1));//la 前
-
-                                                ifKeyListener = 1;
-                                            }
-                                        }
-                                        ifSearch = 0;
-                                        break;
-                                    }else {
-                                        ifSearch = 1;
-                                    }
-                                }
-                            }
+            public void onCameraChangeFinish(CameraPosition cameraPosition) {
+                float zoom = cameraPosition.zoom;
+                Log.i("归根到底彻底", "zoom:" + zoom);
+                if (mapCityId.equals("")) {
+//                    if (zoom < 11) {
+//                        Log.i("归根到底", "zoom < 10:");
+//                        if (ifStores == 0) {
+//                            initStoresMarker1();
+//                        } else if (ifStores == 1) {
+//                            initCompanyMarker1();
+//                        }
+//                    } else
+                    if (zoom <= 11) {
+                        Log.i("归根到底", "zoom >= 10 && zoom < 14:");
+                        if (ifStores == 0) {
+                            initStoresMarker2();
+                        } else if (ifStores == 1) {
+                            initCompanyMarker2();
                         }
-                        if(ifSearch == 1){
-                            ToastUtil.showLongToast(MapHouseActivity.this,"搜索暂无结果");
+                    } else if (zoom > 11 && zoom < 13) {
+                        Log.i("归根到底", "zoom >= 14 && zoom < 18:");
+                        if (ifStores == 0) {
+                            initStoresMarker3();
+                        } else if (ifStores == 1) {
+                            initCompanyMarker3();
+                        }
+                    } else if (zoom >= 13) {
+                        Log.i("归根到底", "zoom >= 18:");
+                        if (ifStores == 0) {
+                            initStoresMarker4();
+                        } else if (ifStores == 1) {
+                            initCompanyMarker4();
                         }
                     }
 
+                } else {
+//                    if (zoom < 11) {
+//                        initProjectsMarker1();
+//                    } else
+                    if (zoom < 11) {
+                        initProjectsMarker2();
+                    } else if (zoom >= 11 && zoom < 13) {
+                        initProjectsMarker3();
+                    } else if (zoom >= 13) {
+                        initProjectsMarker4();
+                    }
+
                 }
-                return false;
             }
         });
 
-        map_house_return.setOnClickListener(this);
-        map_house_check.setOnClickListener(this);
-
-        mBaiduMap = mMapView.getMap();
-        // 开启定位图层
-        mBaiduMap.setMyLocationEnabled(true);
-
-        mCoder = GeoCoder.newInstance();
-        mCoder.setOnGetGeoCodeResultListener(listenerS);
-
-        // 定位初始化
-        mLocClient = new
-
-                LocationClient(this);
-        mLocClient.registerLocationListener(myListener);
-        LocationClientOption option = new LocationClientOption();
-        option.setOpenGps(true); // 打开gps
-        option.setCoorType("bd09ll"); // 设置坐标类型
-        option.setScanSpan(1000);
-        option.setAddrType("all");
-        mLocClient.setLocOption(option);
-        mLocClient.start();
-
-//        initMap();
-
-        if (FinalContents.getIfCity().
-
-                equals("")) {
-            if (ifMG == 0) {
-                map_house_check.setText("门店");
-                initMapData();//门店数据
-            } else if (ifMG == 1) {
-                map_house_check.setText("公司");
-                initMapDataS();//公司数据
-            }
-        } else {
-            if (data.size() == 0) {
-
-            } else {
-                if (ifMapStart == 0) {
-                    for (int i = 0; i < data.size(); ++i) {
-                        if (FinalContents.getCityID().equals(data.get(i).getId())) {
-                            map_house_check.setText(data.get(i).getCity());
-                        }
-                    }
-                }
-
-            }
-            initMapDataProject();//城市公司项目列表数据
-        }
-
-    }
-
-    //城市公司项目列表数据
-    private void initMapDataProject() {
-
-        Retrofit.Builder builder = new Retrofit.Builder();
-        builder.baseUrl(FinalContents.getBaseUrl());
-        builder.addConverterFactory(GsonConverterFactory.create());
-        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
-        Retrofit build = builder.build();
-        MyService fzbInterface = build.create(MyService.class);
-        Log.i("MyCL", "FinalContents.getUserID()：" + FinalContents.getUserID());
-        Log.i("MyCL", "FinalContents.getIfCity()：" + FinalContents.getIfCity());
-        Log.i("MyCL", "FinalContents.getIfCityType()：" + FinalContents.getIfCityType());
-        Observable<HotBean> userMessage = fzbInterface.getList(FinalContents.getUserID(), FinalContents.getIfCity(), "", "", "1", FinalContents.getIfCityType(), "", "", "", "", "", "", "", "", "", "1000");
-        userMessage.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<HotBean>() {
-                    @Override
-                    public void onSubscribe(Disposable disposable) {
-
-                    }
-
-                    @Override
-                    public void onNext(HotBean hotBean) {
-                        rows2 = hotBean.getData().getRows();
-                        map_house_search.setInputType(InputType.TYPE_CLASS_TEXT);
-                        Log.i("MyCL", "城市项目列表长度：" + rows2.size());
-                        initMap();
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-                        Log.i("MyCL", "城市项目列表错误信息：" + throwable.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-
-    }
-
-    //公司数据
-    private void initMapDataS() {
-
-        Retrofit.Builder builder = new Retrofit.Builder();
-        builder.baseUrl(FinalContents.getBaseUrl());
-        builder.addConverterFactory(GsonConverterFactory.create());
-        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
-        Retrofit build = builder.build();
-        MyService fzbInterface = build.create(MyService.class);
-        Observable<StoreListBean> storeList = fzbInterface.getCompanList("", "", "", FinalContents.getUserID(), "1000");
-        storeList.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<StoreListBean>() {
-                    @Override
-                    public void onSubscribe(Disposable disposable) {
-
-                    }
-
-                    @Override
-                    public void onNext(StoreListBean storeListBean) {
-                        rows1 = storeListBean.getData().getRows();
-                        map_house_search.setInputType(InputType.TYPE_CLASS_TEXT);
-                        Log.i("MyCL", "公司数据：" + rows1.size());
-                        initMap();
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-                        Log.i("MyCL", "公司数据错误信息：" + throwable.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-
-    }
-
-    //门店数据
-    private void initMapData() {
-
-        Retrofit.Builder builder = new Retrofit.Builder();
-        builder.baseUrl(FinalContents.getBaseUrl());
-        builder.addConverterFactory(GsonConverterFactory.create());
-        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
-        Retrofit build = builder.build();
-        MyService fzbInterface = build.create(MyService.class);
-        final Observable<StoreListBean> storeList = fzbInterface.getStoreList("", "", "", FinalContents.getUserID(), "1000", "", "", "");
-        storeList.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<StoreListBean>() {
-                    @Override
-                    public void onSubscribe(Disposable disposable) {
-
-                    }
-
-                    @Override
-                    public void onNext(StoreListBean storeListBean) {
-                        rows = storeListBean.getData().getRows();
-                        map_house_search.setInputType(InputType.TYPE_CLASS_TEXT);
-                        Log.i("MyCL", "门店数据：" + rows.size());
-                        initMap();
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-                        Log.i("MyCL", "门店数据错误信息：" + throwable.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-
-    }
-
-    //maker事件
-    private void initMap() {
-
-        if (ifStart == 0) {
-            mLayoutIn = LayoutInflater.from(MapHouseActivity.this);
-            Log.i("地图Map", " FinalContents.getCityName():" + FinalContents.getCityName());
-            if (FinalContents.getIfCity().equals("")) {
-                mCoder.geocode(new GeoCodeOption()
-                        .city(FinalContents.getCityName())
-                        .address(FinalContents.getCityName()));
-            } else {
-                for (int i = 0; i < data.size(); ++i) {
-                    if (data.get(i).getId().equals(FinalContents.getIfCity())) {
-                        mCoder.geocode(new GeoCodeOption()
-                                .city(data.get(i).getCity())
-                                .address(data.get(i).getCity()));
-                        break;
-                    }
-                }
-            }
-            ifStart = 1;
-        } else {
-            mLayoutIn = LayoutInflater.from(MapHouseActivity.this);
-            mMapStatus = new MapStatus.Builder().target(new LatLng(position.latitude, position.longitude)).zoom(20).build();
-            initMapsData();
-        }
-
-    }
-
-    private void initMapsData() {
-
-        Log.i("地图", "latitude:" + latitude);
-        Log.i("地图", "longitude:" + longitude);
-
-        Log.i("地图", "中");
-        mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(mMapStatus));
-        // 定义点聚合管理类ClusterManager
-        mClusterManager = new ClusterManager<MyItem>(MapHouseActivity.this, mBaiduMap);
-        // 添加Marker点
-        addMarkers();
-        // 设置地图监听，当地图状态发生改变时，进行点聚合运算
-        mBaiduMap.setOnMapStatusChangeListener(mClusterManager);
-        // 设置maker点击时的响应
-        mBaiduMap.setOnMarkerClickListener(mClusterManager);
-        //手势监听
-//        mBaiduMap.setOnMapStatusChangeListener(listener);
-//        listener.onMapStatusChangeFinish(mMapStatus);
-
-
-//        mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyItem>() {
-//            @Override
-//            public boolean onClusterClick(Cluster<MyItem> cluster) {
-//                ToastUtil.showToast(MainActivity.this, "有" + cluster.getSize() + "个点");
-//                return false;
-//            }
-//        });
-
-
-        //每个item点击事件
-        mClusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<MyItem>() {
-
-            private Button item_pop_btn;
-
+        aMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
             @Override
-            public boolean onClusterItemClick(MyItem item) {
-
-                item1 = item;
-//                Log.i("地图maker", "item:" + item.getPosition());
-                position = item.getPosition();
-                mBaiduMap.clear();
-                if (FinalContents.getIfCity().equals("")) {
-
-                    layout = (LinearLayout) getLayoutInflater().inflate(R.layout.pop_five_activity_bottom_layout, null);
-                    pop_title = layout.findViewById(R.id.pop_title);
-                    pop_address = layout.findViewById(R.id.pop_address);
-                    pop_name = layout.findViewById(R.id.pop_name);
-                    pop_ll_1 = layout.findViewById(R.id.pop_ll_1);
-
-                    if (ifMG == 0) {
-                        for (int i = 0; i < rows.size(); ++i) {
-                            StringBuffer stringBuffer = new StringBuffer();
-                            StringBuffer append = stringBuffer.append(rows.get(i).getLocation());
-                            for (int j = 0; j < append.length(); ++j) {
-                                if (append.substring(j, j + 1).equals(",")) {
-                                    vs1 = Double.parseDouble(append.substring(0, j));
-                                    vs2 = Double.parseDouble(append.substring(j + 1));
-                                    if (item.getPosition().longitude == vs1) {
-                                        if (rows.get(i).getStatus().equals("0")) {
-                                            pop_title.setText(rows.get(i).getStoreName() + "(未合作)");
-                                            isName = rows.get(i).getStoreName() + "(未合作)";
-                                        } else if (rows.get(i).getStatus().equals("1")) {
-                                            if (rows.get(i).getState().equals("1")) {
-                                                pop_title.setText(rows.get(i).getStoreName() + "(签约)");
-                                                isName = rows.get(i).getStoreName() + "(签约)";
-                                            } else if (rows.get(i).getState().equals("2")) {
-                                                pop_title.setText(rows.get(i).getStoreName() + "(装机)");
-                                                isName = rows.get(i).getStoreName() + "(装机)";
-                                            } else if (rows.get(i).getState().equals("3")) {
-                                                pop_title.setText(rows.get(i).getStoreName() + "(培训)");
-                                                isName = rows.get(i).getStoreName() + "(培训)";
-                                            } else if (rows.get(i).getState().equals("4")) {
-                                                pop_title.setText(rows.get(i).getStoreName() + "(维护)");
-                                                isName = rows.get(i).getStoreName() + "(维护)";
-                                            } else {
-                                                pop_title.setText(rows.get(i).getStoreName());
-                                                isName = rows.get(i).getStoreName();
-                                            }
-                                        } else if (rows.get(i).getStatus().equals("2")) {
-                                            pop_title.setText(rows.get(i).getStoreName() + "(取消合作)");
-                                            isName = rows.get(i).getStoreName() + "(取消合作)";
-                                        } else if (rows.get(i).getStatus().equals("3")) {
-                                            pop_title.setText(rows.get(i).getStoreName() + "(倒闭)");
-                                            isName = rows.get(i).getStoreName() + "(倒闭)";
-                                        }
-
-                                        pop_address.setText(rows.get(i).getAddress());
-                                        if (rows.get(i).getShopownerName().equals("")) {
-                                            pop_ll_1.setVisibility(View.GONE);
-                                        } else {
-                                            pop_ll_1.setVisibility(View.VISIBLE);
-                                            pop_name.setText(rows.get(i).getShopownerName());
-                                        }
-                                    }
-
-                                }
+            public boolean onMarkerClick(Marker marker) {
+                zoom = aMap.getCameraPosition().zoom;
+                if (mapCityId.equals("")) {
+                    if (ifStores == 0) {
+                        if (zoom >= 13) {
+                            initStoresMarkerClick(marker.getPosition());
+                        } else {
+                            if (zoom < 11) {
+                                CameraUpdate cameraUpdate = CameraUpdateFactory.zoomTo(12);
+                                aMap.moveCamera(cameraUpdate);
+                            } else if (zoom >= 11 && zoom < 13) {
+                                CameraUpdate cameraUpdate = CameraUpdateFactory.zoomTo(14);
+                                aMap.moveCamera(cameraUpdate);
                             }
+
                         }
-                    } else if (ifMG == 1) {
-                        for (int i = 0; i < rows1.size(); ++i) {
-                            StringBuffer stringBuffer = new StringBuffer();
-                            StringBuffer append = stringBuffer.append(rows1.get(i).getComLocation());
-                            for (int j = 0; j < append.length(); ++j) {
-                                if (append.substring(j, j + 1).equals(",")) {
-                                    vs1 = Double.parseDouble(append.substring(0, j));
-                                    vs2 = Double.parseDouble(append.substring(j + 1));
-//                                    Log.i("地图maker", "item1.getPosition().longitude:" + item1.getPosition().longitude);
-//                                    Log.i("地图maker", "vs1:" + vs1);
-                                    if (item1.getPosition().longitude == vs1) {
-//                                        Log.i("地图maker", "i:" + i);
-//                                        Log.i("地图maker", "rows1.get(i).getStatus():" + rows1.get(i).getStatus());
-                                        if (rows1.get(i).getStatus().equals("0")) {
-                                            pop_title.setText(rows1.get(i).getCompanyName() + "(未合作)");
-                                            isName = rows1.get(i).getCompanyName() + "(未合作)";
-                                        } else if (rows1.get(i).getStatus().equals("1")) {
-//                                            if (rows1.get(i).getState().equals("1")) {
-//                                                pop_title.setText(rows1.get(i).getCompanyName() + "(签约)");
-//                                            } else if (rows1.get(i).getState().equals("2")) {
-//                                                pop_title.setText(rows1.get(i).getCompanyName() + "(装机)");
-//                                            } else if (rows1.get(i).getState().equals("3")) {
-//                                                pop_title.setText(rows1.get(i).getCompanyName() + "(培训)");
-//                                            } else if (rows1.get(i).getState().equals("4")) {
-//                                                pop_title.setText(rows1.get(i).getCompanyName() + "(维护)");
-//                                            } else {
-                                            pop_title.setVisibility(View.VISIBLE);
-//                                            Log.i("地图maker", "rows1.get(i).getCompanyName():" + rows1.get(i).getCompanyName());
-                                            pop_title.setText(rows1.get(i).getCompanyName());
-                                            isName = rows1.get(i).getCompanyName();
-//                                            }
-                                        } else if (rows1.get(i).getStatus().equals("2")) {
-                                            pop_title.setText(rows1.get(i).getCompanyName() + "(取消合作)");
-                                            isName = rows1.get(i).getCompanyName() + "(取消合作)";
-                                        } else if (rows1.get(i).getStatus().equals("3")) {
-                                            pop_title.setText(rows1.get(i).getCompanyName() + "(倒闭)");
-                                            isName = rows1.get(i).getCompanyName() + "(倒闭)";
-                                        }
-                                        pop_address.setText(rows1.get(i).getCompanyAddress());
-                                        if (rows1.get(i).getShopownerName().equals("")) {
-                                            pop_ll_1.setVisibility(View.GONE);
-                                        } else {
-                                            pop_ll_1.setVisibility(View.VISIBLE);
-                                            pop_name.setText(rows1.get(i).getShopownerName());
-                                        }
-                                    }
-
-                                }
+                    } else if (ifStores == 1) {
+                        if (zoom >= 13) {
+                            initCompaniesMarkerClick(marker.getPosition());
+                        } else {
+                            if (zoom < 11) {
+                                CameraUpdate cameraUpdate = CameraUpdateFactory.zoomTo(12);
+                                aMap.moveCamera(cameraUpdate);
+                            } else if (zoom >= 11 && zoom < 13) {
+                                CameraUpdate cameraUpdate = CameraUpdateFactory.zoomTo(14);
+                                aMap.moveCamera(cameraUpdate);
                             }
+
                         }
                     }
                 } else {
-                    layout = (LinearLayout) getLayoutInflater().inflate(R.layout.modulebroker_fragment_recycler_item_ss, null);
-                    imageAvatar = layout.findViewById(R.id.ImageViewss);
-                    nameText = (TextView) layout.findViewById(R.id.TextViewNamess);
-                    tagView = layout.findViewById(R.id.tagViewss);
-                    chick = (TextView) layout.findViewById(R.id.chickss);
-                    attention = (TextView) layout.findViewById(R.id.attentionss);
-                    collect = (TextView) layout.findViewById(R.id.collectss);
-                    transmit = (TextView) layout.findViewById(R.id.transmitss);
-                    price_money = (TextView) layout.findViewById(R.id.price_moneyss);
-                    price = (TextView) layout.findViewById(R.id.pricess);
-                    square = (TextView) layout.findViewById(R.id.squaress);
-                    item_pop_btn = (Button) layout.findViewById(R.id.item_pop_btn);
-                    group_booking = layout.findViewById(R.id.group_booking_itemss);
-                    item_pop_btn.setVisibility(View.VISIBLE);
-                    for (int i = 0; i < rows2.size(); ++i) {
-                        StringBuffer stringBuffer = new StringBuffer();
-                        StringBuffer append = stringBuffer.append(rows2.get(i).getLocation());
-                        for (int j = 0; j < append.length(); ++j) {
-                            if (append.substring(j, j + 1).equals(",")) {
-                                vs1 = Double.parseDouble(append.substring(0, j));
-                                vs2 = Double.parseDouble(append.substring(j + 1));
-                                if (item.getPosition().longitude == vs1) {
-                                    projectId = rows2.get(i).getProjectId();
-                                    projectType = rows2.get(i).getProjectType();
-                                    Glide.with(MapHouseActivity.this).load(FinalContents.getImageUrl() + rows2.get(i).getProjectImg()).into(imageAvatar);
-                                    nameText.setText("[" + rows2.get(i).getArea() + "]" + rows2.get(i).getProjectName());
+                    if (zoom >= 13) {
+                        initProjectsMarkerClick(marker.getPosition());
+                    } else {
+                        if (zoom < 11) {
+                            CameraUpdate cameraUpdate = CameraUpdateFactory.zoomTo(12);
+                            aMap.moveCamera(cameraUpdate);
+                        } else if (zoom >= 11 && zoom < 13) {
+                            CameraUpdate cameraUpdate = CameraUpdateFactory.zoomTo(14);
+                            aMap.moveCamera(cameraUpdate);
+                        }
 
-                                    String ids = rows2.get(i).getProductFeature();//从pd里取出字符串
-                                    List tags = Arrays.asList(ids.split(","));//根据逗号分隔转化为list
-                                    List tag = new ArrayList();
-                                    if (tags.size() > 4) {
-                                        for (int s = 0; s < 4; s++) {
-                                            tag.add(tags.get(s));
-                                        }
-                                    } else {
-                                        for (int s = 0; s < tags.size(); s++) {
-                                            tag.add(tags.get(s));
-                                        }
-                                    }
-                                    isName = rows2.get(i).getProjectName() + rows2.get(i).getProductUnitPrice() + rows2.get(i).getMonetaryUnit();
-                                    if (rows2.get(i).getProductFeature().equals("")) {
-                                        tagView.setVisibility(View.GONE);
-                                    } else {
-                                        tagView.setVisibility(View.VISIBLE);
-                                        tagView.setTheme(ColorFactory.NONE);
-                                        tagView.setTags(tags);
-                                    }
+                    }
+                }
+                return false;
+            }
+        });
+
+    }
+
+    //项目marker点1
+    private void initProjectsMarker1() {
+        Log.i("归根到底", "initProjectsMarker:");
+        aMap.clear();
+        for (int i = 0; i < projectsData1.size(); ++i) {
+
+            int i1 = projectsData1.get(i).getLatLon().indexOf(",");
+            Log.i("归根到底", "0,i1:" + projectsData1.get(i).getLatLon().substring(0, i1));
+            Log.i("归根到底", "i1:" + projectsData1.get(i).getLatLon().substring(i1 + 1));
+            markerOption = new MarkerOptions();
+            markerOption.position(new LatLng(Double.parseDouble(projectsData1.get(i).getLatLon().substring(i1 + 1)), Double.parseDouble(projectsData1.get(i).getLatLon().substring(0, i1))));
+            markerOption.draggable(true);//设置Marker可拖动
+            markerOption.icon(BitmapDescriptorFactory.fromView(getView(projectsData1.get(i).getName() + "\n" + projectsData1.get(i).getNum())));
+            // 将Marker设置为贴地显示，可以双指下拉地图查看效果
+            markerOption.setFlat(true);//设置marker平贴地图效果
+            aMap.addMarker(markerOption);
+
+        }
+
+    }
+
+    //项目marker点2
+    private void initProjectsMarker2() {
+        Log.i("归根到底", "initProjectsMarker:");
+        aMap.clear();
+        for (int i = 0; i < projectsData1.size(); ++i) {
+            for (int j = 0; j < projectsData1.get(i).getList().size(); ++j) {
+                int i1 = projectsData1.get(i).getList().get(j).getLatLon().indexOf(",");
+                markerOption = new MarkerOptions();
+                markerOption.position(new LatLng(Double.parseDouble(projectsData1.get(i).getList().get(j).getLatLon().substring(i1 + 1)), Double.parseDouble(projectsData1.get(i).getList().get(j).getLatLon().substring(0, i1))));
+                markerOption.draggable(true);//设置Marker可拖动
+                markerOption.icon(BitmapDescriptorFactory.fromView(getView(projectsData1.get(i).getList().get(j).getName() + "\n" + projectsData1.get(i).getList().get(j).getNum())));
+                // 将Marker设置为贴地显示，可以双指下拉地图查看效果
+                markerOption.setFlat(true);//设置marker平贴地图效果
+                aMap.addMarker(markerOption);
+            }
+        }
+
+    }
+
+    //项目marker点3
+    private void initProjectsMarker3() {
+        Log.i("归根到底", "initProjectsMarker:");
+        aMap.clear();
+        for (int i = 0; i < projectsData1.size(); ++i) {
+            for (int j = 0; j < projectsData1.get(i).getList().size(); ++j) {
+                for (int q = 0; q < projectsData1.get(i).getList().get(j).getList().size(); ++q) {
+                    int i1 = projectsData1.get(i).getList().get(j).getList().get(q).getLatLon().indexOf(",");
+                    markerOption = new MarkerOptions();
+                    markerOption.position(new LatLng(Double.parseDouble(projectsData1.get(i).getList().get(j).getList().get(q).getLatLon().substring(i1 + 1)), Double.parseDouble(projectsData1.get(i).getList().get(j).getList().get(q).getLatLon().substring(0, i1))));
+                    markerOption.draggable(true);//设置Marker可拖动
+                    markerOption.icon(BitmapDescriptorFactory.fromView(getView(projectsData1.get(i).getList().get(j).getList().get(q).getName() + "\n" + projectsData1.get(i).getList().get(j).getList().get(q).getNum())));
+                    // 将Marker设置为贴地显示，可以双指下拉地图查看效果
+                    markerOption.setFlat(true);//设置marker平贴地图效果
+                    aMap.addMarker(markerOption);
+                }
+            }
+
+        }
+
+    }
+
+    //项目marker点4
+    private void initProjectsMarker4() {
+        Log.i("归根到底", "initProjectsMarker:");
+        aMap.clear();
+        for (int i = 0; i < projectsData1.size(); ++i) {
+
+            for (int j = 0; j < projectsData1.get(i).getList().size(); ++j) {
+                for (int q = 0; q < projectsData1.get(i).getList().get(j).getList().size(); ++q) {
+                    for (int w = 0; w < projectsData1.get(i).getList().get(j).getList().get(q).getList().size(); ++w) {
+                        int i1 = projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().indexOf(",");
+                        markerOption = new MarkerOptions();
+                        markerOption.position(new LatLng(Double.parseDouble(projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(i1 + 1)), Double.parseDouble(projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(0, i1))));
+                        markerOption.draggable(true);//设置Marker可拖动
+//                        sb = new StringBuffer(rows2.get(i).getProjectName() + rows2.get(i).getProductUnitPrice() + rows2.get(i).getMonetaryUnit());
+//                        if (projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("0")) {
+                        markerOption.icon(BitmapDescriptorFactory.fromView(getView1(projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getProductUnitPrice() + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getMonetaryUnit())));
+//                        } else if (projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("1")) {
+//                            markerOption.icon(BitmapDescriptorFactory.fromView(getView1(projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(合作)")));
+//                        } else if (projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("2")) {
+//                            markerOption.icon(BitmapDescriptorFactory.fromView(getView1(projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(取消合作)")));
+//                        } else if (projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("3")) {
+//                            markerOption.icon(BitmapDescriptorFactory.fromView(getView1(projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(倒闭)")));
+//                        }
+                        // 将Marker设置为贴地显示，可以双指下拉地图查看效果
+                        markerOption.setFlat(true);//设置marker平贴地图效果
+                        aMap.addMarker(markerOption);
+                    }
+                }
+            }
+
+        }
+
+    }
+
+    //门店marker点1
+    private void initStoresMarker1() {
+        Log.i("归根到底", "initStoresMarker:");
+        aMap.clear();
+        for (int i = 0; i < storesData.size(); ++i) {
+            int i1 = storesData.get(i).getLatLon().indexOf(",");
+            markerOption = new MarkerOptions();
+            markerOption.position(new LatLng(Double.parseDouble(storesData.get(i).getLatLon().substring(i1 + 1)), Double.parseDouble(storesData.get(i).getLatLon().substring(0, i1))));
+            markerOption.draggable(true);//设置Marker可拖动
+            markerOption.icon(BitmapDescriptorFactory.fromView(getView(storesData.get(i).getName() + "\n" + storesData.get(i).getNum())));
+            // 将Marker设置为贴地显示，可以双指下拉地图查看效果
+            markerOption.setFlat(true);//设置marker平贴地图效果
+            aMap.addMarker(markerOption);
+        }
+
+    }
+
+    //门店marker点2
+    private void initStoresMarker2() {
+        Log.i("归根到底", "initStoresMarker:");
+        aMap.clear();
+        for (int i = 0; i < storesData.size(); ++i) {
+            for (int j = 0; j < storesData.get(i).getList().size(); ++j) {
+                int i1 = storesData.get(i).getList().get(j).getLatLon().indexOf(",");
+                markerOption = new MarkerOptions();
+                markerOption.position(new LatLng(Double.parseDouble(storesData.get(i).getList().get(j).getLatLon().substring(i1 + 1)), Double.parseDouble(storesData.get(i).getList().get(j).getLatLon().substring(0, i1))));
+                markerOption.draggable(true);//设置Marker可拖动
+                markerOption.icon(BitmapDescriptorFactory.fromView(getView(storesData.get(i).getList().get(j).getName() + "\n" + storesData.get(i).getList().get(j).getNum())));
+                // 将Marker设置为贴地显示，可以双指下拉地图查看效果
+                markerOption.setFlat(true);//设置marker平贴地图效果
+                aMap.addMarker(markerOption);
+            }
+        }
+
+    }
+
+    //门店marker点3
+    private void initStoresMarker3() {
+        Log.i("归根到底", "initStoresMarker:");
+        aMap.clear();
+        for (int i = 0; i < storesData.size(); ++i) {
+            for (int j = 0; j < storesData.get(i).getList().size(); ++j) {
+                for (int q = 0; q < storesData.get(i).getList().get(j).getList().size(); ++q) {
+                    int i1 = storesData.get(i).getList().get(j).getList().get(q).getLatLon().indexOf(",");
+                    markerOption = new MarkerOptions();
+                    markerOption.position(new LatLng(Double.parseDouble(storesData.get(i).getList().get(j).getList().get(q).getLatLon().substring(i1 + 1)), Double.parseDouble(storesData.get(i).getList().get(j).getList().get(q).getLatLon().substring(0, i1))));
+                    markerOption.draggable(true);//设置Marker可拖动
+                    markerOption.icon(BitmapDescriptorFactory.fromView(getView(storesData.get(i).getList().get(j).getList().get(q).getName() + "\n" + storesData.get(i).getList().get(j).getList().get(q).getNum())));
+                    // 将Marker设置为贴地显示，可以双指下拉地图查看效果
+                    markerOption.setFlat(true);//设置marker平贴地图效果
+                    aMap.addMarker(markerOption);
+                }
+            }
+        }
+
+    }
+
+    //门店marker点4
+    private void initStoresMarker4() {
+        Log.i("归根到底", "initStoresMarker:");
+        aMap.clear();
+        for (int i = 0; i < storesData.size(); ++i) {
+            for (int j = 0; j < storesData.get(i).getList().size(); ++j) {
+                for (int q = 0; q < storesData.get(i).getList().get(j).getList().size(); ++q) {
+                    for (int w = 0; w < storesData.get(i).getList().get(j).getList().get(q).getList().size(); ++w) {
+                        int i1 = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().indexOf(",");
+                        markerOption = new MarkerOptions();
+                        markerOption.position(new LatLng(Double.parseDouble(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(i1 + 1)), Double.parseDouble(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(0, i1))));
+                        markerOption.draggable(true);//设置Marker可拖动
+//                        sb = new StringBuffer(rows2.get(i).getProjectName() + rows2.get(i).getProductUnitPrice() + rows2.get(i).getMonetaryUnit());
+                        if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("0")) {
+                            markerOption.icon(BitmapDescriptorFactory.fromView(getView1(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(未合作)")));
+                        } else if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("1")) {
+                            if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getState().equals("1")) {
+                                markerOption.icon(BitmapDescriptorFactory.fromView(getView1(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(签约)")));
+                            } else if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getState().equals("2")) {
+                                markerOption.icon(BitmapDescriptorFactory.fromView(getView1(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(装机)")));
+                            } else if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getState().equals("3")) {
+                                markerOption.icon(BitmapDescriptorFactory.fromView(getView1(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(培训)")));
+                            } else if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getState().equals("4")) {
+                                markerOption.icon(BitmapDescriptorFactory.fromView(getView1(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(维护)")));
+                            } else if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getState().equals("")) {
+                                markerOption.icon(BitmapDescriptorFactory.fromView(getView1(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(合作)")));
+                            }
+                        } else if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("2")) {
+                            markerOption.icon(BitmapDescriptorFactory.fromView(getView1(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(取消合作)")));
+                        } else if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("3")) {
+                            markerOption.icon(BitmapDescriptorFactory.fromView(getView1(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(倒闭)")));
+                        }
+                        // 将Marker设置为贴地显示，可以双指下拉地图查看效果
+                        markerOption.setFlat(true);//设置marker平贴地图效果
+                        aMap.addMarker(markerOption);
+                    }
+                }
+            }
+        }
+
+    }
+
+    //公司marker点1
+    private void initCompanyMarker1() {
+        Log.i("归根到底", "initCompanyMarker:");
+        aMap.clear();
+        for (int i = 0; i < companysData.size(); ++i) {
+            int i1 = companysData.get(i).getLatLon().indexOf(",");
+            markerOption = new MarkerOptions();
+            markerOption.position(new LatLng(Double.parseDouble(companysData.get(i).getLatLon().substring(i1 + 1)), Double.parseDouble(companysData.get(i).getLatLon().substring(0, i1))));
+            markerOption.draggable(true);//设置Marker可拖动
+            markerOption.icon(BitmapDescriptorFactory.fromView(getView(companysData.get(i).getName() + "\n" + companysData.get(i).getNum())));
+            // 将Marker设置为贴地显示，可以双指下拉地图查看效果
+            markerOption.setFlat(true);//设置marker平贴地图效果
+            aMap.addMarker(markerOption);
+        }
+
+    }
+
+    //公司marker点2
+    private void initCompanyMarker2() {
+        Log.i("归根到底", "initCompanyMarker:");
+        aMap.clear();
+        for (int i = 0; i < companysData.size(); ++i) {
+            for (int j = 0; j < companysData.get(i).getList().size(); ++j) {
+                int i1 = companysData.get(i).getList().get(j).getLatLon().indexOf(",");
+                markerOption = new MarkerOptions();
+                markerOption.position(new LatLng(Double.parseDouble(companysData.get(i).getList().get(j).getLatLon().substring(i1 + 1)), Double.parseDouble(companysData.get(i).getList().get(j).getLatLon().substring(0, i1))));
+                markerOption.draggable(true);//设置Marker可拖动
+                markerOption.icon(BitmapDescriptorFactory.fromView(getView(companysData.get(i).getList().get(j).getName() + "\n" + companysData.get(i).getList().get(j).getNum())));
+                // 将Marker设置为贴地显示，可以双指下拉地图查看效果
+                markerOption.setFlat(true);//设置marker平贴地图效果
+                aMap.addMarker(markerOption);
+            }
+        }
+
+    }
+
+    //公司marker点3
+    private void initCompanyMarker3() {
+        Log.i("归根到底", "initCompanyMarker:");
+        aMap.clear();
+        for (int i = 0; i < companysData.size(); ++i) {
+            for (int j = 0; j < companysData.get(i).getList().size(); ++j) {
+                for (int q = 0; q < companysData.get(i).getList().get(j).getList().size(); ++q) {
+                    int i1 = companysData.get(i).getList().get(j).getList().get(q).getLatLon().indexOf(",");
+                    markerOption = new MarkerOptions();
+                    markerOption.position(new LatLng(Double.parseDouble(companysData.get(i).getList().get(j).getList().get(q).getLatLon().substring(i1 + 1)), Double.parseDouble(companysData.get(i).getList().get(j).getList().get(q).getLatLon().substring(0, i1))));
+                    markerOption.draggable(true);//设置Marker可拖动
+                    markerOption.icon(BitmapDescriptorFactory.fromView(getView(companysData.get(i).getList().get(j).getList().get(q).getName() + "\n" + companysData.get(i).getList().get(j).getList().get(q).getNum())));
+                    // 将Marker设置为贴地显示，可以双指下拉地图查看效果
+                    markerOption.setFlat(true);//设置marker平贴地图效果
+                    aMap.addMarker(markerOption);
+                }
+            }
+        }
+
+    }
+
+    //公司marker点4
+    private void initCompanyMarker4() {
+        Log.i("归根到底", "initCompanyMarker:");
+        aMap.clear();
+        for (int i = 0; i < companysData.size(); ++i) {
+            for (int j = 0; j < companysData.get(i).getList().size(); ++j) {
+                for (int q = 0; q < companysData.get(i).getList().get(j).getList().size(); ++q) {
+                    for (int w = 0; w < companysData.get(i).getList().get(j).getList().get(q).getList().size(); ++w) {
+                        Log.i("归根到底测试", "getLatLon():" + companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon());
+                        Log.i("归根到底测试", "getName():" + companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName());
+                        int i1 = companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().indexOf(",");
+                        markerOption = new MarkerOptions();
+                        markerOption.position(new LatLng(Double.parseDouble(companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(i1 + 1)), Double.parseDouble(companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(0, i1))));
+                        markerOption.draggable(true);//设置Marker可拖动
+//                        sb = new StringBuffer(rows2.get(i).getProjectName() + rows2.get(i).getProductUnitPrice() + rows2.get(i).getMonetaryUnit());
+                        if (companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("0")) {
+                            markerOption.icon(BitmapDescriptorFactory.fromView(getView1(companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(未合作)")));
+                        } else if (companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("1")) {
+                            markerOption.icon(BitmapDescriptorFactory.fromView(getView1(companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(合作)")));
+                        } else if (companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("2")) {
+                            markerOption.icon(BitmapDescriptorFactory.fromView(getView1(companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(取消合作)")));
+                        } else if (companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("3")) {
+                            markerOption.icon(BitmapDescriptorFactory.fromView(getView1(companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(倒闭)")));
+                        }
+                        // 将Marker设置为贴地显示，可以双指下拉地图查看效果
+                        markerOption.setFlat(true);//设置marker平贴地图效果
+                        aMap.addMarker(markerOption);
+                    }
+                }
+            }
+        }
+
+    }
+
+    //门店marker点选择
+    private void initStoresMarkerClick(LatLng position) {
+        aMap.clear();
+
+        for (int i = 0; i < storesData.size(); ++i) {
+            for (int j = 0; j < storesData.get(i).getList().size(); ++j) {
+                for (int q = 0; q < storesData.get(i).getList().get(j).getList().size(); ++q) {
+                    for (int w = 0; w < storesData.get(i).getList().get(j).getList().get(q).getList().size(); ++w) {
+                        int i1 = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().indexOf(",");
+
+                        if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(i1 + 1).equals("" + position.latitude)) {
+//
+                            vs2 = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(i1 + 1);
+                            vs1 = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(0, i1);
+
+                            map_house_ll1.setVisibility(View.VISIBLE);
+                            map_house_ll2.setVisibility(View.VISIBLE);
+
+                            if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("0")) {
+                                ifMarkerClick = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(未合作)";
+                                pop_title.setText(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(未合作)");
+                            } else if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("1")) {
+                                if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getState().equals("1")) {
+                                    ifMarkerClick = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(签约)";
+                                    pop_title.setText(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(签约)");
+                                } else if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getState().equals("2")) {
+                                    ifMarkerClick = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(装机)";
+                                    pop_title.setText(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(装机)");
+                                } else if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getState().equals("3")) {
+                                    ifMarkerClick = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(培训)";
+                                    pop_title.setText(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(培训)");
+                                } else if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getState().equals("4")) {
+                                    ifMarkerClick = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(维护)";
+                                    pop_title.setText(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(维护)");
+                                } else if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getState().equals("")) {
+                                    ifMarkerClick = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(合作)";
+                                    pop_title.setText(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(合作)");
+                                }
+                            } else if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("2")) {
+                                ifMarkerClick = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(取消合作)";
+                                pop_title.setText(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(取消合作)");
+                            } else if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("3")) {
+                                ifMarkerClick = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(倒闭)";
+                                pop_title.setText(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(倒闭)");
+                            }
+                            pop_address.setText(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getAddress());
+                            if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getShopownerName().equals("")) {
+                                pop_ll_1.setVisibility(View.GONE);
+                            } else {
+                                pop_ll_1.setVisibility(View.VISIBLE);
+                                pop_name.setText(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getShopownerName());
+                            }
+                            initStoresMarker4();
+                        }
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    //公司marker点选择
+    private void initCompaniesMarkerClick(LatLng position) {
+
+        aMap.clear();
+
+        for (int i = 0; i < companysData.size(); ++i) {
+            for (int j = 0; j < companysData.get(i).getList().size(); ++j) {
+                for (int q = 0; q < companysData.get(i).getList().get(j).getList().size(); ++q) {
+                    for (int w = 0; w < companysData.get(i).getList().get(j).getList().get(q).getList().size(); ++w) {
+                        int i1 = companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().indexOf(",");
+                        if (companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(i1 + 1).equals("" + position.latitude)) {
+
+                            vs2 = companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(i1 + 1);
+                            vs1 = companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(0, i1);
+
+                            map_house_ll1.setVisibility(View.VISIBLE);
+                            map_house_ll2.setVisibility(View.VISIBLE);
+
+                            if (companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("0")) {
+                                ifMarkerClick = companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(未合作)";
+                                pop_title.setText(companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(未合作)");
+                            } else if (companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("1")) {
+                                ifMarkerClick = companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(合作)";
+                                pop_title.setText(companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(合作)");
+                            } else if (companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("2")) {
+                                ifMarkerClick = companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(取消合作)";
+                                pop_title.setText(companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(取消合作)");
+                            } else if (companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("3")) {
+                                ifMarkerClick = companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(倒闭)";
+                                pop_title.setText(companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(倒闭)");
+                            }
+                            pop_address.setText(companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getAddress());
+                            if (companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getShopownerName().equals("")) {
+                                pop_ll_1.setVisibility(View.GONE);
+                            } else {
+                                pop_ll_1.setVisibility(View.VISIBLE);
+                                pop_name.setText(companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getShopownerName());
+                            }
+                            initCompanyMarker4();
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    //项目marker点选择
+    private void initProjectsMarkerClick(LatLng position) {
+
+        aMap.clear();
+
+        for (int i = 0; i < projectsData1.size(); ++i) {
+            for (int j = 0; j < projectsData1.get(i).getList().size(); ++j) {
+                for (int q = 0; q < projectsData1.get(i).getList().get(j).getList().size(); ++q) {
+                    for (int w = 0; w < projectsData1.get(i).getList().get(j).getList().get(q).getList().size(); ++w) {
+                        int i1 = projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().indexOf(",");
+                        if (projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(i1 + 1).equals("" + position.latitude)) {
+
+                            vs2 = projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(i1 + 1);
+                            vs1 = projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(0, i1);
+
+                            map_house_ll1.setVisibility(View.VISIBLE);
+                            map_house_ll3.setVisibility(View.VISIBLE);
+
+                            ifMarkerClick = projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getProductUnitPrice() + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getMonetaryUnit();
+
+                            markerOption.icon(BitmapDescriptorFactory.fromView(getView1(projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getProductUnitPrice() + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getMonetaryUnit())));
+
+                            projectId = projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getId();
+                            projectType = projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getProjectType();
+                            Glide.with(MapHouseActivity.this).load(FinalContents.getImageUrl() + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getProjectImg()).into(imageAvatar);
+                            nameText.setText("[" + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getArea() + "]" + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getName());
+
+                            String ids = projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getProductFeature();//从pd里取出字符串
+                            List tags = Arrays.asList(ids.split(","));//根据逗号分隔转化为list
+                            List tag = new ArrayList();
+                            if (tags.size() > 4) {
+                                for (int s = 0; s < 4; s++) {
+                                    tag.add(tags.get(s));
+                                }
+                            } else {
+                                for (int s = 0; s < tags.size(); s++) {
+                                    tag.add(tags.get(s));
+                                }
+                            }
+                            if (projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getProductFeature().equals("")) {
+                                tagView.setVisibility(View.GONE);
+                            } else {
+                                tagView.setVisibility(View.VISIBLE);
+                                tagView.setTheme(ColorFactory.NONE);
+                                tagView.setTags(tags);
+                            }
 
 //        if(FinalContents.getZyHome().equals("1")){
 //            holder.group_booking.setVisibility(View.GONE);
 //        }else {
-                                    if (rows2.get(i).getIsgroup().equals("1")) {
-                                        group_booking.setVisibility(View.VISIBLE);
-                                        group_booking.setText(rows2.get(i).getGroupNum() + "个团火热报名中...");
-                                    } else {
-                                        group_booking.setVisibility(View.GONE);
-                                    }
+                            if (projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getIsgroup().equals("1")) {
+                                group_booking.setVisibility(View.VISIBLE);
+                                group_booking.setText(projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getGroupNum() + "个团火热报名中...");
+                            } else {
+                                group_booking.setVisibility(View.GONE);
+                            }
 //        }
 
-                                    chick.setText(Html.fromHtml("报备(" + "<font color='#A52A2A'>" + rows2.get(i).getReportAmount() + "</font>" + ")"));
-                                    attention.setText(Html.fromHtml("关注(" + "<font color='#A52A2A'>" + rows2.get(i).getBrowseNum() + "</font>" + ")"));
-                                    collect.setText(Html.fromHtml("收藏(" + "<font color='#A52A2A'>" + rows2.get(i).getCollectionNum() + "</font>" + ")"));
-                                    transmit.setText(Html.fromHtml("转发(" + "<font color='#A52A2A'>" + rows2.get(i).getForwardingAmount() + "</font>" + ")"));
+                            chick.setText(Html.fromHtml("报备(" + "<font color='#A52A2A'>" + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getReportAmount() + "</font>" + ")"));
+                            attention.setText(Html.fromHtml("关注(" + "<font color='#A52A2A'>" + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getBrowseNum() + "</font>" + ")"));
+                            collect.setText(Html.fromHtml("收藏(" + "<font color='#A52A2A'>" + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getCollectionNum() + "</font>" + ")"));
+                            transmit.setText(Html.fromHtml("转发(" + "<font color='#A52A2A'>" + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getForwardingAmount() + "</font>" + ")"));
 
 
 //                                    if(rows2.get(i).getProjectType().equals("2")){
 //                                        price.setText(rows2.get(i).getReferenceToatlPrice());
 //                                        price_money.setText(rows2.get(i).getReferenceToatlUnit());
 //                                    }else if(rows2.get(i).getProjectType().equals("3")){
-                                    price.setText(rows2.get(i).getProductUnitPrice());
-                                    price_money.setText(rows2.get(i).getMonetaryUnit());
+                            price.setText(projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getProductUnitPrice());
+                            price_money.setText(projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getMonetaryUnit());
 //                                    }else if(rows2.get(i).getProjectType().equals("1")){
 //                                       price.setText(rows2.get(i).getProductUnitPrice());
 //                                       price_money.setText(rows2.get(i).getMonetaryUnit());
 //                                    }
 
-                                    square.setText(rows2.get(i).getAreaInterval());
+                            square.setText(projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getAreaInterval());
 //                                    commission.setText("佣金："+rows2.get(i).getCommission());
 //                                    second.setText("秒结："+rows2.get(i).getSecondPay());
 //                                    FinalContents.setProjectID(rows2.get(i).getProjectId());
 
-                                }
-                            }
+                            initProjectsMarker4();
                         }
                     }
-
                 }
-
-
-                popupWindow = new PopupWindow(layout, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                //点击空白处时，隐藏掉pop窗口
-                popupWindow.setFocusable(true);
-                popupWindow.setBackgroundDrawable(new BitmapDrawable());
-                //添加弹出、弹入的动画
-//                        popupWindow.setAnimationStyle(R.style.Popupwindow);
-                int[] location = new int[2];
-                view.getLocationOnScreen(location);
-                popupWindow.showAtLocation(view, Gravity.LEFT | Gravity.BOTTOM, 0, -location[1]);
-                //添加按键事件监听
-//                if (FinalContents.getIfCity().equals("")) {
-                setButtonListeners(layout);
-//                }
-                //添加pop窗口关闭事件，主要是实现关闭时改变背景的透明度
-                //        popupWindow.setOnDismissListener(new poponDismissListener());
-                //        backgroundAlpha(1f);
-                initMap();
-                return false;
             }
-        });
+        }
 
     }
 
+    //门店marker点选择1
+    private void initStoresMarkerClick1(String title) {
 
-    /**
-     * 向地图添加Marker点
-     */
-    public void addMarkers() {
+        int isstore = 0;
+        for (int i = 0; i < storesData.size(); ++i) {
+            for (int j = 0; j < storesData.get(i).getList().size(); ++j) {
+                for (int q = 0; q < storesData.get(i).getList().get(j).getList().size(); ++q) {
+                    for (int w = 0; w < storesData.get(i).getList().get(j).getList().get(q).getList().size(); ++w) {
 
-        // 添加Marker点
-        items = new ArrayList<MyItem>();
-        items.clear();
-        strings.clear();
-        mClusterManager.clearItems();
-//        for (int p = 0; p < items.size(); ++p){
-//            mClusterManager.removeItem(items.get(p));
+                        if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName().equals("" + title)) {
+                            aMap.clear();
+                            isstore = 1;
+                            int i1 = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().indexOf(",");
+                            CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(Double.parseDouble(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(i1 + 1)), Double.parseDouble(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(0, i1))), 16, 0, 0));
+                            aMap.moveCamera(mCameraUpdate);
+
+                            vs2 = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(i1 + 1);
+                            vs1 = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(0, i1);
+
+                            map_house_ll1.setVisibility(View.VISIBLE);
+                            map_house_ll2.setVisibility(View.VISIBLE);
+
+                            if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("0")) {
+                                ifMarkerClick = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(未合作)";
+                                pop_title.setText(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(未合作)");
+                            } else if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("1")) {
+                                if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getState().equals("1")) {
+                                    ifMarkerClick = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(签约)";
+                                    pop_title.setText(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(签约)");
+                                }else if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getState().equals("2")) {
+                                    ifMarkerClick = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(装机)";
+                                    pop_title.setText(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(装机)");
+                                }else if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getState().equals("3")) {
+                                    ifMarkerClick = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(培训)";
+                                    pop_title.setText(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(培训)");
+                                }else if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getState().equals("4")) {
+                                    ifMarkerClick = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(维护)";
+                                    pop_title.setText(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(维护)");
+                                }else if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getState().equals("")) {
+                                    ifMarkerClick = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(合作)";
+                                    pop_title.setText(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(合作)");
+                                }
+                            } else if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("2")) {
+                                ifMarkerClick = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(取消合作)";
+                                pop_title.setText(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(取消合作)");
+                            } else if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("3")) {
+                                ifMarkerClick = storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(倒闭)";
+                                pop_title.setText(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(倒闭)");
+                            }
+                            pop_address.setText(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getAddress());
+                            if (storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getShopownerName().equals("")) {
+                                pop_ll_1.setVisibility(View.GONE);
+                            } else {
+                                pop_ll_1.setVisibility(View.VISIBLE);
+                                pop_name.setText(storesData.get(i).getList().get(j).getList().get(q).getList().get(w).getShopownerName());
+                            }
+                            initStoresMarker4();
+                        }
+                    }
+                }
+            }
+        }
+        if (isstore == 0) {
+            ToastUtil.showLongToast(MapHouseActivity.this, "未找到该门店");
+        } else {
+
+        }
+        ifClick = "0";
+    }
+
+    //公司marker点选择1
+    private void initCompaniesMarkerClick1(String title) {
+
+        Log.i("归根到底测试", "title:" + title);
+        int iscompany = 0;
+        for (int i = 0; i < companysData.size(); ++i) {
+            for (int j = 0; j < companysData.get(i).getList().size(); ++j) {
+                for (int q = 0; q < companysData.get(i).getList().get(j).getList().size(); ++q) {
+                    for (int w = 0; w < companysData.get(i).getList().get(j).getList().get(q).getList().size(); ++w) {
+                        if (companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName().equals("" + title)) {
+                            Log.i("归根到底测试", "getLatLon()搜索:" + companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon());
+                            Log.i("归根到底测试", "getName()搜索:" + companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName());
+                            aMap.clear();
+                            iscompany = 1;
+                            int i1 = companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().indexOf(",");
+                            CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(Double.parseDouble(companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(i1 + 1)), Double.parseDouble(companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(0, i1))), 16, 0, 0));
+                            aMap.moveCamera(mCameraUpdate);
+                            vs2 = companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(i1 + 1);
+                            vs1 = companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(0, i1);
+
+                            map_house_ll1.setVisibility(View.VISIBLE);
+                            map_house_ll2.setVisibility(View.VISIBLE);
+
+                            if (companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("0")) {
+                                ifMarkerClick = companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(未合作)";
+                                pop_title.setText(companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(未合作)");
+                            } else if (companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("1")) {
+                                ifMarkerClick = companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(合作)";
+                                pop_title.setText(companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(合作)");
+                            } else if (companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("2")) {
+                                ifMarkerClick = companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(取消合作)";
+                                pop_title.setText(companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(取消合作)");
+                            } else if (companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getStatus().equals("3")) {
+                                ifMarkerClick = companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(倒闭)";
+                                pop_title.setText(companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + "(倒闭)");
+                            }
+                            pop_address.setText(companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getAddress());
+                            if (companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getShopownerName().equals("")) {
+                                pop_ll_1.setVisibility(View.GONE);
+                            } else {
+                                pop_ll_1.setVisibility(View.VISIBLE);
+                                pop_name.setText(companysData.get(i).getList().get(j).getList().get(q).getList().get(w).getShopownerName());
+                            }
+                            initCompanyMarker4();
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if (iscompany == 0) {
+            ToastUtil.showLongToast(MapHouseActivity.this, "未找到该公司");
+        } else {
+
+        }
+        ifClick = "0";
+    }
+
+    //项目marker点选择1
+    private void initProjectsMarkerClick1(String title) {
+
+
+        int isproject = 0;
+        for (int i = 0; i < projectsData1.size(); ++i) {
+            for (int j = 0; j < projectsData1.get(i).getList().size(); ++j) {
+                for (int q = 0; q < projectsData1.get(i).getList().get(j).getList().size(); ++q) {
+                    for (int w = 0; w < projectsData1.get(i).getList().get(j).getList().get(q).getList().size(); ++w) {
+                        Log.i("搜索", "外initProjectsMarkerClick1");
+                        if (projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getName().equals("" + title)) {
+                            aMap.clear();
+                            isproject = 1;
+                            Log.i("搜索", "内initProjectsMarkerClick1");
+                            int i1 = projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().indexOf(",");
+                            CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(Double.parseDouble(projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(i1 + 1)), Double.parseDouble(projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(0, i1))), 16, 0, 0));
+                            aMap.moveCamera(mCameraUpdate);
+                            vs2 = projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(i1 + 1);
+                            vs1 = projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getLatLon().substring(0, i1);
+
+                            map_house_ll1.setVisibility(View.VISIBLE);
+                            map_house_ll3.setVisibility(View.VISIBLE);
+
+                            ifMarkerClick = projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getProductUnitPrice() + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getMonetaryUnit();
+
+                            markerOption.icon(BitmapDescriptorFactory.fromView(getView1(projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getName() + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getProductUnitPrice() + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getMonetaryUnit())));
+
+                            projectId = projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getId();
+                            projectType = projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getProjectType();
+                            Glide.with(MapHouseActivity.this).load(FinalContents.getImageUrl() + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getProjectImg()).into(imageAvatar);
+                            nameText.setText("[" + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getArea() + "]" + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getName());
+
+                            String ids = projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getProductFeature();//从pd里取出字符串
+                            List tags = Arrays.asList(ids.split(","));//根据逗号分隔转化为list
+                            List tag = new ArrayList();
+                            if (tags.size() > 4) {
+                                for (int s = 0; s < 4; s++) {
+                                    tag.add(tags.get(s));
+                                }
+                            } else {
+                                for (int s = 0; s < tags.size(); s++) {
+                                    tag.add(tags.get(s));
+                                }
+                            }
+                            if (projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getProductFeature().equals("")) {
+                                tagView.setVisibility(View.GONE);
+                            } else {
+                                tagView.setVisibility(View.VISIBLE);
+                                tagView.setTheme(ColorFactory.NONE);
+                                tagView.setTags(tags);
+                            }
+
+//        if(FinalContents.getZyHome().equals("1")){
+//            holder.group_booking.setVisibility(View.GONE);
+//        }else {
+                            if (projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getIsgroup().equals("1")) {
+                                group_booking.setVisibility(View.VISIBLE);
+                                group_booking.setText(projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getGroupNum() + "个团火热报名中...");
+                            } else {
+                                group_booking.setVisibility(View.GONE);
+                            }
 //        }
-        if (FinalContents.getIfCity().equals("")) {
-            if (ifMG == 0) {
-//                Log.i("MyCL", "添加门店数据");
-                for (int i = 0; i < rows.size(); ++i) {
-                    if (rows.get(i).getStatus().equals("3")) {
 
-                    } else {
-                        StringBuffer stringBuffer = new StringBuffer();
-                        StringBuffer append = stringBuffer.append(rows.get(i).getLocation());
-//                    Log.i("MyCL", "rows.get(i).getLocation():" + rows.get(i).getLocation());
-//                    Log.i("MyCL", "rows.get(i).getLocation():" + rows.get(i).getStoreName());
-                        for (int j = 0; j < append.length(); ++j) {
-                            if (append.substring(j, j + 1).equals(",")) {
-//                            Log.i("MyCL", "append.substring(0, j):" + append.substring(0, j));
-                                double v = Double.parseDouble(append.substring(0, j));
-                                double v1 = Double.parseDouble(append.substring(j + 1));
-//                            Log.i("地图maker", "添加门店数据:" + v + "," + v1);
-                                strings.add(rows.get(i).getStoreName());
-                                items.add(new MyItem(new LatLng(v1, v), ""));
-                            }
-                        }
-                    }
-                }
-            } else if (ifMG == 1) {
-//                Log.i("MyCL", "添加公司数据");
-                for (int i = 0; i < rows1.size(); ++i) {
-                    if (rows1.get(i).getStatus().equals("3")) {
+                            chick.setText(Html.fromHtml("报备(" + "<font color='#A52A2A'>" + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getReportAmount() + "</font>" + ")"));
+                            attention.setText(Html.fromHtml("关注(" + "<font color='#A52A2A'>" + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getBrowseNum() + "</font>" + ")"));
+                            collect.setText(Html.fromHtml("收藏(" + "<font color='#A52A2A'>" + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getCollectionNum() + "</font>" + ")"));
+                            transmit.setText(Html.fromHtml("转发(" + "<font color='#A52A2A'>" + projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getForwardingAmount() + "</font>" + ")"));
 
-                    } else {
-                        StringBuffer stringBuffer = new StringBuffer();
-                        StringBuffer append = stringBuffer.append(rows1.get(i).getComLocation());
-                        for (int j = 0; j < append.length(); ++j) {
-                            if (append.substring(j, j + 1).equals(",")) {
-                                double v = Double.parseDouble(append.substring(0, j));
-                                double v1 = Double.parseDouble(append.substring(j + 1));
-                                strings.add(rows1.get(i).getCompanyName());
-                                items.add(new MyItem(new LatLng(v1, v), ""));
-                            }
+
+//                                    if(rows2.get(i).getProjectType().equals("2")){
+//                                        price.setText(rows2.get(i).getReferenceToatlPrice());
+//                                        price_money.setText(rows2.get(i).getReferenceToatlUnit());
+//                                    }else if(rows2.get(i).getProjectType().equals("3")){
+                            price.setText(projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getProductUnitPrice());
+                            price_money.setText(projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getMonetaryUnit());
+//                                    }else if(rows2.get(i).getProjectType().equals("1")){
+//                                       price.setText(rows2.get(i).getProductUnitPrice());
+//                                       price_money.setText(rows2.get(i).getMonetaryUnit());
+//                                    }
+
+                            square.setText(projectsData1.get(i).getList().get(j).getList().get(q).getList().get(w).getAreaInterval());
+//                                    commission.setText("佣金："+rows2.get(i).getCommission());
+//                                    second.setText("秒结："+rows2.get(i).getSecondPay());
+//                                    FinalContents.setProjectID(rows2.get(i).getProjectId());
+
+                            initProjectsMarker4();
                         }
                     }
                 }
             }
+        }
+        if (isproject == 0) {
+            ToastUtil.showLongToast(MapHouseActivity.this, "未找到该项目");
         } else {
-            for (int i = 0; i < rows2.size(); ++i) {
-                StringBuffer stringBuffer = new StringBuffer();
-                StringBuffer append = stringBuffer.append(rows2.get(i).getLocation());
-                for (int j = 0; j < append.length(); ++j) {
-                    if (append.substring(j, j + 1).equals(",")) {
-                        double v = Double.parseDouble(append.substring(0, j));
-                        double v1 = Double.parseDouble(append.substring(j + 1));
-                        strings.add(rows2.get(i).getProjectName());
-                        items.add(new MyItem(new LatLng(v1, v), ""));
-                    }
-                }
-            }
+
         }
-//        Log.i("MyCL", "items数据长度：" + items.size());
-//        Log.i("地图maker", "items数据长度:" + items.size());
-        mClusterManager.addItems(items);
+        ifClick = "0";
     }
 
+    //绘图一
+    private View getView(String str) {
+        Log.i("数据", "str:" + str);
+//        if (view == null) {
+        //获取布局
+        View view = LayoutInflater.from(MapHouseActivity.this).inflate(R.layout.marker_big, null);
+        TextView marker_big_tv = view.findViewById(R.id.marker_big_tv);
 
-    /**
-     * 每个Marker点，包含Marker点坐标以及图标
-     */
-    public class MyItem implements ClusterItem {
+        marker_big_tv.setText(str);
+        return view;//返回
 
-        private final LatLng mPosition;
-        private final String mString;
-
-        private MyItem(LatLng latLng, String string) {
-            mPosition = latLng;
-            mString = string;
-//            Log.i("MyCL", "mPosition数据：" + mPosition);
-        }
-
-        @Override
-        public LatLng getPosition() {
-            return mPosition;
-        }
-
-        @Override
-        public BitmapDescriptor getBitmapDescriptor() {
-//            Bitmap bitmap = BitmapFactory.decodeResource(MapHouseActivity.this.getResources(), R.mipmap.mapb);
-            mPosition1 = this.mPosition;
-            if (FinalContents.getIfCity().equals("")) {
-                if (ifMG == 0) {
-                    Log.i("MyCL", "rows数据长度：" + rows.size());
-                    for (int i = 0; i < rows.size(); ++i) {
-                        StringBuffer stringBuffer = new StringBuffer();
-                        StringBuffer append = stringBuffer.append(rows.get(i).getLocation());
-                        for (int j = 0; j < append.length(); ++j) {
-                            if (append.substring(j, j + 1).equals(",")) {
-                                double v = Double.parseDouble(append.substring(0, j));
-                                double v1 = Double.parseDouble(append.substring(j + 1));
-                                if (this.mPosition.longitude == v) {
-                                    if (rows.get(i).getStatus().equals("0")) {
-                                        sb = new StringBuffer(rows.get(i).getStoreName() + "(未合作)");
-                                    } else if (rows.get(i).getStatus().equals("1")) {
-                                        if (rows.get(i).getState().equals("1")) {
-                                            sb = new StringBuffer(rows.get(i).getStoreName() + "(签约)");
-                                        } else if (rows.get(i).getState().equals("2")) {
-                                            sb = new StringBuffer(rows.get(i).getStoreName() + "(装机)");
-                                        } else if (rows.get(i).getState().equals("3")) {
-                                            sb = new StringBuffer(rows.get(i).getStoreName() + "(培训)");
-                                        } else if (rows.get(i).getState().equals("4")) {
-                                            sb = new StringBuffer(rows.get(i).getStoreName() + "(维护)");
-                                        } else {
-                                            sb = new StringBuffer(rows.get(i).getStoreName() + "(合作)");
-                                        }
-                                    } else if (rows.get(i).getStatus().equals("2")) {
-                                        sb = new StringBuffer(rows.get(i).getStoreName() + "(取消合作)");
-                                    } else if (rows.get(i).getStatus().equals("3")) {
-                                        sb = new StringBuffer(rows.get(i).getStoreName() + "(倒闭)");
-                                    }
-//                                    sb = new StringBuffer(rows.get(i).getStoreName());
-                                }
-                            }
-                        }
-                    }
-                } else if (ifMG == 1) {
-//                    Log.i("MyCL", "rows1数据长度：" + rows1.size());
-                    for (int i = 0; i < rows1.size(); ++i) {
-                        StringBuffer stringBuffer = new StringBuffer();
-                        StringBuffer append = stringBuffer.append(rows1.get(i).getComLocation());
-                        for (int j = 0; j < append.length(); ++j) {
-                            if (append.substring(j, j + 1).equals(",")) {
-                                double v = Double.parseDouble(append.substring(0, j));
-                                double v1 = Double.parseDouble(append.substring(j + 1));
-                                if (this.mPosition.longitude == v) {
-                                    if (rows1.get(i).getStatus().equals("0")) {
-                                        sb = new StringBuffer(rows1.get(i).getCompanyName() + "(未合作)");
-                                    } else if (rows1.get(i).getStatus().equals("1")) {
-//                                        if (rows1.get(i).getState().equals("1")) {
-//                                            sb = new StringBuffer(rows1.get(i).getCompanyName() + "(签约)");
-//                                        } else if (rows1.get(i).getState().equals("2")) {
-//                                            sb = new StringBuffer(rows1.get(i).getCompanyName() + "(装机)");
-//                                        } else if (rows1.get(i).getState().equals("3")) {
-//                                            sb = new StringBuffer(rows1.get(i).getCompanyName() + "(培训)");
-//                                        } else if (rows1.get(i).getState().equals("4")) {
-//                                            sb = new StringBuffer(rows1.get(i).getCompanyName() + "(维护)");
-//                                        } else {
-                                        sb = new StringBuffer(rows1.get(i).getCompanyName());
-//                                        }
-                                    } else if (rows1.get(i).getStatus().equals("2")) {
-                                        sb = new StringBuffer(rows1.get(i).getCompanyName() + "(取消合作)");
-                                    } else if (rows1.get(i).getStatus().equals("3")) {
-                                        sb = new StringBuffer(rows1.get(i).getCompanyName() + "(倒闭)");
-                                    }
-//                                    sb = new StringBuffer(rows1.get(i).getCompanyName());
-                                }
-                            }
-                        }
-                    }
-                }
-            } else {
-                for (int i = 0; i < rows2.size(); ++i) {
-                    StringBuffer stringBuffer = new StringBuffer();
-                    StringBuffer append = stringBuffer.append(rows2.get(i).getLocation());
-                    for (int j = 0; j < append.length(); ++j) {
-                        if (append.substring(j, j + 1).equals(",")) {
-                            double v = Double.parseDouble(append.substring(0, j));
-                            double v1 = Double.parseDouble(append.substring(j + 1));
-                            if (this.mPosition.longitude == v) {
-                                sb = new StringBuffer(rows2.get(i).getProjectName() + rows2.get(i).getProductUnitPrice() + rows2.get(i).getMonetaryUnit());
-                            }
-                        }
-                    }
-                }
-            }
-//            Log.i("地图maker", "设置文字:" + sb);
-//            Log.i("地图maker", "isName:" + isName);
-//            if(sb.toString().equals(isName)){
-//                String isColor = "";
-//                Log.i("地图maker","文字颜色：111111");
-//            }else {
-//                String isColor = "";
-//                Log.i("地图maker","文字颜色：FFFFFF");
-//            }
-            Log.i("地图maker", "getView(sb):" + getView(sb));
-            Log.i("地图maker", "BitmapDescriptorFactory.fromView(getView(sb)):" + BitmapDescriptorFactory.fromView(getView(sb)));
-            return BitmapDescriptorFactory.fromView(getView(sb));
-        }
-
-//        @Override
-//        public String getString() {
-//            Log.i("点聚合区域", "mString:" + mString);
-//            return mString;
-//        }
     }
 
-    //跳转第三方地图 路线规划 项目详情
-    private void setButtonListeners(LinearLayout layout) {
-        Button pop_btn = null;
-        if (FinalContents.getIfCity().equals("")) {
-            pop_btn = layout.findViewById(R.id.pop_btn);
+    //绘图二
+    private View getView1(String str) {
+        Log.i("数据", "str:" + str);
+//        if (view == null) {
+        //获取布局
+        View view = LayoutInflater.from(MapHouseActivity.this).inflate(R.layout.marker_item, null);
+        TextView tv_marker_text = view.findViewById(R.id.tv_marker_text);//文本
+        tv_marker_text.setText(str);
+
+        if (ifMarkerClick.equals(str)) {
+            tv_marker_text.setTextColor(Color.parseColor("#FFFFFF"));
+            tv_marker_text.setBackground(this.getResources().getDrawable(R.mipmap.mapb));
         } else {
-            pop_btn = layout.findViewById(R.id.item_pop_btn);
+            tv_marker_text.setTextColor(Color.parseColor("#111111"));
+            tv_marker_text.setBackground(this.getResources().getDrawable(R.mipmap.mapbss));
         }
-        pop_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                ToastUtil.showToast(MapHouseActivity.this, "路线");
-                //定义起终点坐标（天安门和百度大厦）
-                LatLng startPoint = new LatLng(ll.latitude, ll.longitude);
-                LatLng endPoint = new LatLng(item1.getPosition().latitude, item1.getPosition().longitude);
-
-//构建RouteParaOption参数以及策略
-//也可以通过startName和endName来构造
-                RouteParaOption paraOption = new RouteParaOption()
-                        .startPoint(startPoint)
-                        .endPoint(endPoint)
-                        .busStrategyType(RouteParaOption.EBusStrategyType.bus_recommend_way);
-//调起百度地图
-                try {
-                    BaiduMapRoutePlan.openBaiduMapTransitRoute(paraOption, MapHouseActivity.this);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }//调起结束时及时调用finish方法以释放相关资源
-                BaiduMapRoutePlan.finish(MapHouseActivity.this);
-                popupWindow.dismiss();
-            }
-        });
-        layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (FinalContents.getIfCity().equals("")) {
-
-                } else {
-                    FinalContents.setProjectID(projectId);
-                    FinalContents.setProjectType(projectType);
-                    Intent intent = new Intent(MapHouseActivity.this, ProjectDetails.class);
-                    startActivity(intent);
-                }
-            }
-        });
-
-    }
-
-    //自动生成方法存根
-    @Override
-    public void onMapLoaded() {
-        // TODO Auto-generated method stub
-        // TODO 自动生成方法存根
-        mMapStatus = new MapStatus.Builder().zoom(9).build();
-        mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(mMapStatus));
-    }
-
-    //
-    private static class ViewHolder {
-        public TextView mTextView;
-    }
-
-    //自定义视图
-    private View getView(StringBuffer str) {
-        if (view == null) {
-            //获取布局
-            view = mLayoutIn.inflate(R.layout.marker_item, null);
-            mViewHolder = new ViewHolder();
-            mViewHolder.mTextView = view.findViewById(R.id.tv_marker_text);//文本
-            view.setTag(mViewHolder);
-        } else {
-            mViewHolder = (ViewHolder) view.getTag();
-        }
-
-        mViewHolder.mTextView.setText(str);//设置文字
-//        Log.i("地图maker", "str:" + str);
-//        Log.i("地图maker", "isName:" + isName);
-        if (str.toString().equals(isName)) {
-//            Log.i("地图maker", "文字颜色：111111");
-            mViewHolder.mTextView.setTextColor(Color.parseColor("#FFFFFF"));
-            mViewHolder.mTextView.setBackground(this.getResources().getDrawable(R.mipmap.mapb));
-        } else {
-//            Log.i("地图maker", "文字颜色：FFFFFF");
-            mViewHolder.mTextView.setTextColor(Color.parseColor("#111111"));
-            mViewHolder.mTextView.setBackground(this.getResources().getDrawable(R.mipmap.mapbss));
-        }
-
-//        Log.i("地图maker", "view:" + view);
 
         return view;//返回
 
     }
 
-    //点击事件
-    @SingleClick(1000)
-    @Override
-    public void onClick(View view) {
+    //公司数据
+    private void initCompanies() {
+        Retrofit.Builder builder = new Retrofit.Builder();
+        builder.baseUrl(FinalContents.getBaseUrl());
+        builder.addConverterFactory(GsonConverterFactory.create());
+        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+        Retrofit build = builder.build();
+        MyService fzbInterface = build.create(MyService.class);
+        final Observable<CompaniesBean> CompaniesBean = fzbInterface.getCompaniesBean(FinalContents.getUserID(), "", "1", "1000");
+        CompaniesBean.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<CompaniesBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-        switch (view.getId()) {
-            case R.id.map_house_return:
-                //返回上一层
-                finish();
-                break;
-            case R.id.map_house_check:
-                //门店/公司/经纪人选择
-                initCheck();
-                break;
-        }
+                    }
+
+                    @Override
+                    public void onNext(CompaniesBean companiesBean) {
+                        Log.i("归根到底", "companiesBean.getData().size():" + companiesBean.getData().size());
+                        companysData = companiesBean.getData();
+                        if (companysData.size() == 0) {
+
+                        } else {
+                            initAmp();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    //门店数据
+    private void initStores() {
+        Retrofit.Builder builder = new Retrofit.Builder();
+        builder.baseUrl(FinalContents.getBaseUrl());
+        builder.addConverterFactory(GsonConverterFactory.create());
+        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+        Retrofit build = builder.build();
+        MyService fzbInterface = build.create(MyService.class);
+        final Observable<StoresBean> StoresBean = fzbInterface.getStoresBean(FinalContents.getUserID(), "", "", "", "1000");
+        StoresBean.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<StoresBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(StoresBean storesBean) {
+                        Log.i("归根到底", "storesBean.getData().size():" + storesBean.getData().size());
+                        storesData = storesBean.getData();
+                        if (storesData.size() == 0) {
+
+                        } else {
+                            initAmp();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    //经纬度转地址
+    @Override
+    public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
 
     }
 
-    //门店/城市选择
-    private void initCheck() {
+    //地址转经纬度
+    @Override
+    public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+        CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(geocodeResult.getGeocodeAddressList().get(0).getLatLonPoint().getLatitude(), geocodeResult.getGeocodeAddressList().get(0).getLatLonPoint().getLongitude()), 8, 0, 0));
+        aMap.moveCamera(mCameraUpdate);
 
-        final List<String> list = new ArrayList<>();
+        Log.i("归根到底", "geocodeResult.getGeocodeAddressList().get(0).getLatLonPoint().getLatitude():" + geocodeResult.getGeocodeAddressList().get(0).getLatLonPoint().getLatitude());
+        Log.i("归根到底", "geocodeResult.getGeocodeAddressList().get(0).getLatLonPoint().getLongitude():" + geocodeResult.getGeocodeAddressList().get(0).getLatLonPoint().getLongitude());
 
-        if (FinalContents.getIfCity().equals("")) {
-            list.add("公司");
-            list.add("门店");
+
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void getLocation() {
+        //获取地理位置管理器
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        //获取所有可用的位置提供器
+        List<String> providers = locationManager.getProviders(true);
+        if (providers.contains(LocationManager.GPS_PROVIDER)) {
+            //如果是GPS
+            locationProvider = LocationManager.GPS_PROVIDER;
+        } else if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
+            //如果是Network
+            locationProvider = LocationManager.NETWORK_PROVIDER;
         } else {
-            for (int i = 0; i < data.size(); ++i) {
-                list.add(data.get(i).getCity());
-            }
+            Toast.makeText(this, "没有可用的位置提供器", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //获取Location
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    Activity#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for Activity#requestPermissions for more details.
+            return;
+        }
+        Location location = locationManager.getLastKnownLocation(locationProvider);
+        if (location != null) {
+            //不为空,显示地理位置经纬度
+            showLocation(location);
+        }
+        //监视地理位置变化
+        locationManager.requestLocationUpdates(locationProvider, 3000, 1, locationListener);
+
+    }
+
+    LocationListener locationListener = new LocationListener() {
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle arg2) {
+
         }
 
+        @Override
+        public void onProviderEnabled(String provider) {
 
-//        list.add("经纪人");
-
-
-        OptionsPickerView pvOptions = new OptionsPickerBuilder(MapHouseActivity.this, new OnOptionsSelectListener() {
-            @Override
-            public void onOptionsSelect(int options1, int option2, int options3, View v) {
-                //              展示选中数据
-                map_house_check.setText(list.get(options1));
-                if (FinalContents.getIfCity().equals("")) {
-                    if (options1 == 1) {//门店
-                        ifMG = 0;
-//                    initMy();
-                        ifStart = 0;
-                        mBaiduMap.clear();
-                        initView();
-                    } else if (options1 == 0) {//公司
-                        ifStart = 0;
-                        ifMG = 1;
-//                    initMy();
-                        mBaiduMap.clear();
-                        initView();
-                    }
-                } else {
-                    for (int i = 0; i < data.size(); ++i) {
-                        if (list.get(options1).equals(data.get(i).getCity())) {
-                            Log.i("", "");
-                            FinalContents.setIfCity(data.get(i).getId());
-                            ifStart = 0;
-                            mBaiduMap.clear();
-                            ifMapStart = 1;
-                            initView();
-                        }
-                    }
-                }
-
-
-            }
-        })
-//                .setSelectOptions(1)
-                .setOutSideCancelable(false)//点击背的地方不消失
-                .build();//创建
-
-        if (FinalContents.getIfCity().equals("")) {
-            if (map_house_check.getText().equals("门店")) {
-                pvOptions.setSelectOptions(1);
-            } else if (map_house_check.getText().equals("公司")) {
-                pvOptions.setSelectOptions(0);
-            }
-
-        } else {
-            for (int i = 0; i < data.size(); ++i) {
-                if (map_house_check.getText().equals(data.get(i).getCity())) {
-                    pvOptions.setSelectOptions(i);
-                    break;
-                }
-            }
         }
 
-        //      把数据绑定到控件上面
-        pvOptions.setPicker(list);
-        //      展示
-        pvOptions.show();
+        @Override
+        public void onProviderDisabled(String provider) {
 
+        }
+
+        @Override
+        public void onLocationChanged(Location location) {
+            //如果位置发生变化,重新显示
+            showLocation(location);
+
+        }
+    };
+
+    //显示坐标
+    private void showLocation(Location location) {
+        String locationStr = "维度：" + location.getLatitude() + "\n"
+                + "经度：" + location.getLongitude();
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+        Log.i("当前定位", "location.getLatitude():" + location.getLatitude());//39.168646
+        Log.i("当前定位", "location.getLatitude():" + location.getLongitude());//117.24614
+    }
+
+    //判断是否有高德地图
+    public static boolean isInstalled(Context context, String packageName) {
+        boolean installed = false;
+        if (TextUtils.isEmpty(packageName)) {
+            return false;
+        }
+        List<ApplicationInfo> installedApplications = context.getPackageManager().getInstalledApplications(0);
+        for (ApplicationInfo in : installedApplications) {
+            if (packageName.equals(in.packageName)) {
+                installed = true;
+                break;
+            } else {
+                installed = false;
+            }
+        }
+        return installed;
     }
 
     /**
-     * 定位SDK监听函数
+     * 启动高德App进行路线规划导航 http://lbs.amap.com/api/amap-mobile/guide/android/route
+     *
+     * @param context
+     * @param sourceApplication 必填 第三方调用应用名称。如 "appName"
+     * @param sid
+     * @param sla
+     * @param slon
+     * @param sname
+     * @param did
+     * @param dlat
+     * @param dlon
+     * @param dName
+     * @param dev               起终点是否偏移(0:lat 和 lon 是已经加密后的,不需要国测加密; 1:需要国测加密)
+     * @param t                 t = 0（驾车）= 1（公交）= 2（步行）= 3（骑行）= 4（火车）= 5（长途客车）
+     *                          （骑行仅在V788以上版本支持）
      */
-    public class MyLocationListenner implements BDLocationListener {
+    public static void toGaoDeRoute(Context context, String sourceApplication
+            , String sid, String sla, String slon, String sname
+            , String did, String dlat, String dlon, String dName
+            , String dev, String t) {
 
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            // map view 销毁后不在处理新接收的位置
-            if (location == null || mMapView == null) {
-                return;
-            }
-            mlocation = location;
+//        Log.i("路线规划","sla:" + sla);
+//        Log.i("路线规划","slon:" + slon);
+//        Log.i("路线规划","dlat:" + dlat);
+//        Log.i("路线规划","dlon:" + dlon);
 
-            MyLocationData locData = new MyLocationData.Builder()
-                    .accuracy(mlocation.getRadius())
-                    // 此处设置开发者获取到的方向信息，顺时针0-360
-                    .direction(100).latitude(mlocation.getLatitude())
-                    .longitude(mlocation.getLongitude()).build();
-            mBaiduMap.setMyLocationData(locData);
-            if (isFirstLoc) {
-                isFirstLoc = false;
-                ll = new LatLng(location.getLatitude(),
-                        location.getLongitude());
-                MapStatus.Builder builder = new MapStatus.Builder();
-
-            }
-            if (ifKeyListener == 1) {
-                ifKeyListener = 0;
-                ll1 = new LatLng(ssvs,
-                        ssv);
-                MapStatus.Builder builder = new MapStatus.Builder();
-                builder.target(ll1).zoom(18.0f);
-                mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
-            }
+        StringBuffer stringBuffer = new StringBuffer("androidamap://route/plan?sourceApplication=").append(sourceApplication);
+        if (!TextUtils.isEmpty(sid)) {
+            stringBuffer.append("&sid=").append(sid);
         }
-
-        public void onReceivePoi(BDLocation poiLocation) {
+        if (!TextUtils.isEmpty(sla)) {
+            stringBuffer.append("&sla=").append(sla);
         }
-    }
-
-    OnGetGeoCoderResultListener listenerS = new OnGetGeoCoderResultListener() {
-
-        @Override
-        public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
-//            Log.i("地图", "geoCodeResult：" + geoCodeResult);
-//            Log.i("地图", "geoCodeResult.getLocation()：" + geoCodeResult.getLocation());
-            if (null != geoCodeResult && null != geoCodeResult.getLocation()) {
-//                Log.i("地图", "geoCodeResult：" + geoCodeResult);
-//                Log.i("地图", "geoCodeResult.error：" + geoCodeResult.error);
-                if (geoCodeResult == null || geoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
-                    //没有检索到结果
-                    Log.i("地图", "没有检索到结果");
-                    return;
-                } else {
-                    latitude = geoCodeResult.getLocation().latitude;
-                    longitude = geoCodeResult.getLocation().longitude;
-                    Log.i("地图", "先");
-                    mMapStatus = new MapStatus.Builder().target(new LatLng(latitude, longitude)).zoom(10).build();
-                    initMapsData();
-                }
-            }
+        if (!TextUtils.isEmpty(sla)) {
+            stringBuffer.append("&sla=").append(sla);
         }
-
-        @Override
-        public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
-
+        if (!TextUtils.isEmpty(slon)) {
+            stringBuffer.append("&slon=").append(slon);
         }
-    };
-
-    //获取地图当前缩放比例
-    BaiduMap.OnMapStatusChangeListener listener = new BaiduMap.OnMapStatusChangeListener() {
-
-        @Override
-        public void onMapStatusChangeStart(MapStatus mapStatus) {
+        if (!TextUtils.isEmpty(sname)) {
+            stringBuffer.append("&sname=").append(sname);
         }
-
-        @Override
-        public void onMapStatusChangeStart(MapStatus mapStatus, int i) {
+        if (!TextUtils.isEmpty(did)) {
+            stringBuffer.append("&did=").append(did);
         }
+        stringBuffer.append("&dlat=").append(dlat);
+        stringBuffer.append("&dlon=").append(dlon);
+        stringBuffer.append("&dName=").append(dName);
+        stringBuffer.append("&dev=").append(dev);
+        stringBuffer.append("&t=").append(t);
 
-        @Override
-        public void onMapStatusChange(MapStatus mapStatus) {
-        }
 
-        @Override
-        public void onMapStatusChangeFinish(MapStatus mapStatus) {
-            float zoom = mBaiduMap.getMapStatus().zoom;
-            Log.i("地图缩放级别", "级别：" + zoom);
-        }
-    };
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
 
-    @Override
-    protected void onResume() {
-        mMapView.onResume();
-        super.onResume();
-        // 在activity执行onResume时必须调用mMapView. onResume ()
-    }
-
-    @Override
-    protected void onPause() {
-        mMapView.onPause();
-        super.onPause();
-        // 在activity执行onPause时必须调用mMapView. onPause ()
-    }
-
-    @Override
-    protected void onDestroy() {
-        mMapView.onDestroy();
-        super.onDestroy();
-        // 在activity执行onDestroy时必须调用mMapView.onDestroy()
-    }
-
-    //    TODO 动态打开gps
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 200://刚才的识别码
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//用户同意权限,执行我们的操作
-                    initView();//开始定位
-                } else {//用户拒绝之后,当然我们也可以弹出一个窗口,直接跳转到系统设置页面
-                    ToastUtil.showToast(MapHouseActivity.this, "未开启定位权限,请手动到设置去开启权限");
-                    initView();
-                }
-                break;
-            default:
-                break;
-        }
+        //将功能Scheme以URI的方式传入data
+        Uri uri = Uri.parse(stringBuffer.toString());
+        intent.setData(uri);
+        context.startActivity(intent);
     }
 }

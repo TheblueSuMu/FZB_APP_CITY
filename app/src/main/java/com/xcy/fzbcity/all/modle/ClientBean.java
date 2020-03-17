@@ -5,16 +5,20 @@ import com.mcxtzhang.indexlib.IndexBar.bean.BaseIndexPinyinBean;
 import java.util.List;
 
 public class ClientBean extends BaseIndexPinyinBean {
-
     /**
      * code : 1
      * msg : 成功
-     * data : [{"id":"0554ad7efb1e4838928df9cfd008d580","remarks":"","createBy":"","createDate":"2019-06-16 14:38:25","updateBy":"","updateDate":"2019-06-16 14:38:25","customerName":"周一","letter":"Z","user":"","contacts1":"本人手机","contactsPhone1":"13122334455","contacts2":"本人手机","contactsPhone2":"13233445566","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"周一","searchName":""},{"id":"8e5f5d4a59934cce909a70a4838a2b8f","remarks":"","createBy":"","createDate":"2019-04-27 15:57:28","updateBy":"","updateDate":"2019-04-27 15:57:28","customerName":"晕晕乎乎","letter":"Y","user":"","contacts1":"本人手机","contactsPhone1":"12345689936","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"晕晕乎乎","searchName":""},{"id":"469b9b6b66f54c1d9457558d14615798","remarks":"","createBy":"","createDate":"2019-06-17 15:14:07","updateBy":"","updateDate":"2019-06-17 15:14:07","customerName":"小可爱","letter":"X","user":"","contacts1":"本人手机","contactsPhone1":"18600000000","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"小可爱","searchName":""},{"id":"2fa581313ff142c1a6fe4a52454edaef","remarks":"","createBy":"","createDate":"2019-04-25 17:33:42","updateBy":"","updateDate":"2019-04-25 17:33:42","customerName":"王测试","letter":"W","user":"","contacts1":"本人手机","contactsPhone1":"13144556677","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/userfiles/43dea5335a1b4cb6bf15782a3be87c6a/attachment//ff/server/customer/2019/4/1556184814829.jpeg","gender":"","name":"王测试","searchName":""},{"id":"44c54236fc414781bd05ebc0caff754b","remarks":"","createBy":"","createDate":"2019-04-30 13:47:11","updateBy":"","updateDate":"2019-04-30 13:47:11","customerName":"王大锤","letter":"W","user":"","contacts1":"本人手机","contactsPhone1":"15506075234","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"王大锤","searchName":""},{"id":"ca082d95b3274bf4b1840e1ccf947799","remarks":"","createBy":"","createDate":"2019-04-23 16:59:39","updateBy":"","updateDate":"2019-04-23 16:59:39","customerName":"王中王","letter":"W","user":"","contacts1":"本人手机","contactsPhone1":"186123456789998","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"王中王","searchName":""},{"id":"e6626e1104f244cdafc24287eb6f8b44","remarks":"","createBy":"","createDate":"2019-04-29 20:09:57","updateBy":"","updateDate":"2019-04-29 20:09:57","customerName":"王换手机","letter":"W","user":"","contacts1":"本人手机","contactsPhone1":"1760104811","contacts2":"本人手机","contactsPhone2":"45546466","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/userfiles/43dea5335a1b4cb6bf15782a3be87c6a/attachment//ff/server/customer/2019/4/1556539794759.jpeg","gender":"","name":"王换手机","searchName":""},{"id":"94513aef04944010a508caa43afba911","remarks":"","createBy":"","createDate":"2019-04-27 15:54:28","updateBy":"","updateDate":"2019-04-27 15:54:28","customerName":"天通","letter":"T","user":"","contacts1":"本人手机","contactsPhone1":"12345678912","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"天通","searchName":""},{"id":"5ae37d5665db497baac48206d9eee07e","remarks":"","createBy":"","createDate":"2019-06-16 17:47:22","updateBy":"","updateDate":"2019-06-16 17:47:22","customerName":"孙悟空","letter":"S","user":"","contacts1":"本人手机","contactsPhone1":"13734567889","contacts2":"父母手机","contactsPhone2":"1432457895467457","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"孙悟空","searchName":""},{"id":"d3720718cee443bd8279317c023534f6","remarks":"","createBy":"","createDate":"2019-07-02 15:37:05","updateBy":"","updateDate":"2019-07-02 15:37:05","customerName":"你","letter":"N","user":"","contacts1":"本人手机","contactsPhone1":"13944103508","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"你","searchName":""},{"id":"7089d98462e94cc3add191d1499d1839","remarks":"","createBy":"","createDate":"2019-04-23 15:15:16","updateBy":"","updateDate":"2019-04-23 15:15:16","customerName":"马大哈哈","letter":"M","user":"","contacts1":"本人手机","contactsPhone1":"1380000000000","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"马大哈哈","searchName":""},{"id":"1af488fc28d54f4fa5df729403964dcb","remarks":"","createBy":"","createDate":"2019-07-02 16:33:52","updateBy":"","updateDate":"2019-07-02 16:33:52","customerName":"啦啦","letter":"L","user":"","contacts1":"本人手机","contactsPhone1":"13456789441","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"啦啦","searchName":""},{"id":"313e21bed2dc42c8bb4005843697ac26","remarks":"","createBy":"","createDate":"2019-04-25 16:07:14","updateBy":"","updateDate":"2019-04-25 16:07:14","customerName":"刘测试","letter":"L","user":"","contacts1":"本人手机","contactsPhone1":"13944550088","contacts2":"本人手机","contactsPhone2":"13944550099","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"刘测试","searchName":""},{"id":"d8ee01d9b0d645c6be9b3198591bff6d","remarks":"","createBy":"","createDate":"2019-04-25 17:58:40","updateBy":"","updateDate":"2019-04-25 17:58:40","customerName":"鲁小娇","letter":"L","user":"","contacts1":"本人手机","contactsPhone1":"15506014074","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"鲁小娇","searchName":""},{"id":"92dc1fbf63a74288808e71e8d2a579ea","remarks":"","createBy":"","createDate":"2019-07-02 09:22:25","updateBy":"","updateDate":"2019-07-02 09:22:25","customerName":"客户99","letter":"K","user":"","contacts1":"本人手机","contactsPhone1":"13611112222","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"客户99","searchName":""},{"id":"fd9bb28f5df64433b3ff77f1759efea7","remarks":"","createBy":"","createDate":"2019-04-27 13:52:34","updateBy":"","updateDate":"2019-04-27 13:52:34","customerName":"经济技术看快手","letter":"J","user":"","contacts1":"本人手机","contactsPhone1":"18600503212","contacts2":"本人手机","contactsPhone2":"17012345678","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"经济技术看快手","searchName":""},{"id":"e83155c3adf44fffaa63fdca51a9bdf2","remarks":"","createBy":"","createDate":"2019-07-02 16:35:22","updateBy":"","updateDate":"2019-07-02 16:35:22","customerName":"房房测试","letter":"F","user":"","contacts1":"本人手机","contactsPhone1":"17601030007","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"房房测试","searchName":""},{"id":"3cca83f07af04b7192d3276fe04da903","remarks":"","createBy":"","createDate":"2019-04-29 11:35:42","updateBy":"","updateDate":"2019-04-29 11:35:42","customerName":"的地方","letter":"D","user":"","contacts1":"本人手机","contactsPhone1":"1760103784","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"的地方","searchName":""},{"id":"84f2d339d8584be4a8f989cb4cfe3cca","remarks":"","createBy":"","createDate":"2019-06-16 22:22:48","updateBy":"","updateDate":"2019-06-16 22:22:48","customerName":"妲己","letter":"D","user":"","contacts1":"本人手机","contactsPhone1":"15647893625","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"妲己","searchName":""},{"id":"855bc7831a5440c1b846fb4b68e66feb","remarks":"","createBy":"","createDate":"2019-06-17 15:15:06","updateBy":"","updateDate":"2019-06-17 15:15:06","customerName":"大可爱","letter":"D","user":"","contacts1":"本人手机","contactsPhone1":"17846325896","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"大可爱","searchName":""},{"id":"a078a66f7bf14739b5e5c7a2cc910b8e","remarks":"","createBy":"","createDate":"2019-07-02 16:34:43","updateBy":"","updateDate":"2019-07-02 16:34:43","customerName":"大傻子","letter":"D","user":"","contacts1":"本人手机","contactsPhone1":"13144556677","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"大傻子","searchName":""},{"id":"c8342d4ac4df4c8d86d0da8d9e61af50","remarks":"","createBy":"","createDate":"2019-06-16 22:23:04","updateBy":"","updateDate":"2019-06-16 22:23:04","customerName":"貂蝉","letter":"D","user":"","contacts1":"本人手机","contactsPhone1":"16947862369","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"貂蝉","searchName":""},{"id":"08c47b860a854c829f0a1d4ad465425b","remarks":"","createBy":"","createDate":"2019-04-29 11:40:14","updateBy":"","updateDate":"2019-04-29 11:40:14","customerName":"测试一个","letter":"C","user":"","contacts1":"本人手机","contactsPhone1":"11111111","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"测试一个","searchName":""},{"id":"30866c9688cd42e6bc447dbef62aece0","remarks":"","createBy":"","createDate":"2019-07-05 15:42:19","updateBy":"","updateDate":"2019-07-05 15:42:19","customerName":"测试","letter":"C","user":"","contacts1":"本人手机","contactsPhone1":"13056087777","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/userfiles/43dea5335a1b4cb6bf15782a3be87c6a/attachment//ff/server/customer/2019/7/1562312522529.jpeg","gender":"","name":"测试","searchName":""},{"id":"54358495de7f4c20b85d55bbdb46562e","remarks":"","createBy":"","createDate":"2019-07-18 18:30:12","updateBy":"","updateDate":"2019-07-18 18:30:12","customerName":"测调单","letter":"C","user":"","contacts1":"本人手机","contactsPhone1":"15612301230","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"测调单","searchName":""},{"id":"9360ddf8912c475aa65f9fe3ffccae28","remarks":"","createBy":"","createDate":"2019-04-29 20:19:02","updateBy":"","updateDate":"2019-04-29 20:19:02","customerName":"帮你暖暖","letter":"B","user":"","contacts1":"子女手机","contactsPhone1":"18964641","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/userfiles/43dea5335a1b4cb6bf15782a3be87c6a/attachment//ff/server/customer/2019/4/1556540329209.jpeg","gender":"","name":"帮你暖暖","searchName":""},{"id":"1b700741e7994992a667ae1aba6dde1f","remarks":"","createBy":"","createDate":"2019-04-29 11:33:58","updateBy":"","updateDate":"2019-04-29 11:33:58","customerName":"啊","letter":"A","user":"","contacts1":"本人手机","contactsPhone1":"12000000000","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"啊","searchName":""},{"id":"82c05675e5f247939ab28f9b1d8b3ff4","remarks":"","createBy":"","createDate":"2019-04-30 14:57:45","updateBy":"","updateDate":"2019-04-30 14:57:45","customerName":"aaa","letter":"A","user":"","contacts1":"本人手机","contactsPhone1":"123456","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"aaa","searchName":""},{"id":"1d4cbe0881104d7c846443954057be91","remarks":"","createBy":"","createDate":"2019-04-25 17:15:28","updateBy":"","updateDate":"2019-04-25 17:15:28","customerName":"123","letter":"1","user":"","contacts1":"本人手机","contactsPhone1":"123456789","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"123","searchName":""}]
+     * data : [{"id":"2d8d29593f384ec686c48cb2869b3492","remarks":"","createBy":"","createDate":"2020-03-06 14:25:40","updateBy":"","updateDate":"2020-03-06 14:25:40","filterField":"","customerName":"Allen","letter":"A","user":"","contacts1":"本人手机","contactsPhone1":"18302210990","contacts2":"","contactsPhone2":"","contacts3":"","contactsPhone3":"","customerImg":"/fangfang/static/common/images/flat-avatar.png","gender":"","name":"Allen","searchName":"","way":"0","companyId":"c241db93cbd247f5a8aadf501806b56a","companyName":"吉海旅居（长春）","reportNum":"0","tradeNum":"0","customerClass":"","buyingCity":"","intentionType":"","intentionArea":"","priceMin":"","priceMax":"","intentionApartment":"","intentionFitment":"","customerCity":"","customerOccupation":"","customerFocus":"","intentionalBuilding":"","paymentMethod":"","hasDecision":"","resistance":"","objective":"","token":"","openId":"","selectedBroker":""}]
      */
 
     private String code;
     private String msg;
     private List<DataBean> data;
+
+    @Override
+    public String getTarget() {
+        return null;
+    }
 
     public String getCode() {
         return code;
@@ -40,32 +44,53 @@ public class ClientBean extends BaseIndexPinyinBean {
         this.data = data;
     }
 
-    @Override
-    public String getTarget() {
-        return null;
-    }
 
     public static class DataBean {
         /**
-         * id : 0554ad7efb1e4838928df9cfd008d580
+         * id : 2d8d29593f384ec686c48cb2869b3492
          * remarks :
          * createBy :
-         * createDate : 2019-06-16 14:38:25
+         * createDate : 2020-03-06 14:25:40
          * updateBy :
-         * updateDate : 2019-06-16 14:38:25
-         * customerName : 周一
-         * letter : Z
+         * updateDate : 2020-03-06 14:25:40
+         * filterField :
+         * customerName : Allen
+         * letter : A
          * user :
          * contacts1 : 本人手机
-         * contactsPhone1 : 13122334455
-         * contacts2 : 本人手机
-         * contactsPhone2 : 13233445566
+         * contactsPhone1 : 18302210990
+         * contacts2 :
+         * contactsPhone2 :
          * contacts3 :
          * contactsPhone3 :
          * customerImg : /fangfang/static/common/images/flat-avatar.png
          * gender :
-         * name : 周一
+         * name : Allen
          * searchName :
+         * way : 0
+         * companyId : c241db93cbd247f5a8aadf501806b56a
+         * companyName : 吉海旅居（长春）
+         * reportNum : 0
+         * tradeNum : 0
+         * customerClass :
+         * buyingCity :
+         * intentionType :
+         * intentionArea :
+         * priceMin :
+         * priceMax :
+         * intentionApartment :
+         * intentionFitment :
+         * customerCity :
+         * customerOccupation :
+         * customerFocus :
+         * intentionalBuilding :
+         * paymentMethod :
+         * hasDecision :
+         * resistance :
+         * objective :
+         * token :
+         * openId :
+         * selectedBroker :
          */
 
         private String id;
@@ -74,6 +99,7 @@ public class ClientBean extends BaseIndexPinyinBean {
         private String createDate;
         private String updateBy;
         private String updateDate;
+        private String filterField;
         private String customerName;
         private String letter;
         private String user;
@@ -87,6 +113,30 @@ public class ClientBean extends BaseIndexPinyinBean {
         private String gender;
         private String name;
         private String searchName;
+        private String way;
+        private String companyId;
+        private String companyName;
+        private String reportNum;
+        private String tradeNum;
+        private String customerClass;
+        private String buyingCity;
+        private String intentionType;
+        private String intentionArea;
+        private String priceMin;
+        private String priceMax;
+        private String intentionApartment;
+        private String intentionFitment;
+        private String customerCity;
+        private String customerOccupation;
+        private String customerFocus;
+        private String intentionalBuilding;
+        private String paymentMethod;
+        private String hasDecision;
+        private String resistance;
+        private String objective;
+        private String token;
+        private String openId;
+        private String selectedBroker;
 
         public String getId() {
             return id;
@@ -134,6 +184,14 @@ public class ClientBean extends BaseIndexPinyinBean {
 
         public void setUpdateDate(String updateDate) {
             this.updateDate = updateDate;
+        }
+
+        public String getFilterField() {
+            return filterField;
+        }
+
+        public void setFilterField(String filterField) {
+            this.filterField = filterField;
         }
 
         public String getCustomerName() {
@@ -238,6 +296,198 @@ public class ClientBean extends BaseIndexPinyinBean {
 
         public void setSearchName(String searchName) {
             this.searchName = searchName;
+        }
+
+        public String getWay() {
+            return way;
+        }
+
+        public void setWay(String way) {
+            this.way = way;
+        }
+
+        public String getCompanyId() {
+            return companyId;
+        }
+
+        public void setCompanyId(String companyId) {
+            this.companyId = companyId;
+        }
+
+        public String getCompanyName() {
+            return companyName;
+        }
+
+        public void setCompanyName(String companyName) {
+            this.companyName = companyName;
+        }
+
+        public String getReportNum() {
+            return reportNum;
+        }
+
+        public void setReportNum(String reportNum) {
+            this.reportNum = reportNum;
+        }
+
+        public String getTradeNum() {
+            return tradeNum;
+        }
+
+        public void setTradeNum(String tradeNum) {
+            this.tradeNum = tradeNum;
+        }
+
+        public String getCustomerClass() {
+            return customerClass;
+        }
+
+        public void setCustomerClass(String customerClass) {
+            this.customerClass = customerClass;
+        }
+
+        public String getBuyingCity() {
+            return buyingCity;
+        }
+
+        public void setBuyingCity(String buyingCity) {
+            this.buyingCity = buyingCity;
+        }
+
+        public String getIntentionType() {
+            return intentionType;
+        }
+
+        public void setIntentionType(String intentionType) {
+            this.intentionType = intentionType;
+        }
+
+        public String getIntentionArea() {
+            return intentionArea;
+        }
+
+        public void setIntentionArea(String intentionArea) {
+            this.intentionArea = intentionArea;
+        }
+
+        public String getPriceMin() {
+            return priceMin;
+        }
+
+        public void setPriceMin(String priceMin) {
+            this.priceMin = priceMin;
+        }
+
+        public String getPriceMax() {
+            return priceMax;
+        }
+
+        public void setPriceMax(String priceMax) {
+            this.priceMax = priceMax;
+        }
+
+        public String getIntentionApartment() {
+            return intentionApartment;
+        }
+
+        public void setIntentionApartment(String intentionApartment) {
+            this.intentionApartment = intentionApartment;
+        }
+
+        public String getIntentionFitment() {
+            return intentionFitment;
+        }
+
+        public void setIntentionFitment(String intentionFitment) {
+            this.intentionFitment = intentionFitment;
+        }
+
+        public String getCustomerCity() {
+            return customerCity;
+        }
+
+        public void setCustomerCity(String customerCity) {
+            this.customerCity = customerCity;
+        }
+
+        public String getCustomerOccupation() {
+            return customerOccupation;
+        }
+
+        public void setCustomerOccupation(String customerOccupation) {
+            this.customerOccupation = customerOccupation;
+        }
+
+        public String getCustomerFocus() {
+            return customerFocus;
+        }
+
+        public void setCustomerFocus(String customerFocus) {
+            this.customerFocus = customerFocus;
+        }
+
+        public String getIntentionalBuilding() {
+            return intentionalBuilding;
+        }
+
+        public void setIntentionalBuilding(String intentionalBuilding) {
+            this.intentionalBuilding = intentionalBuilding;
+        }
+
+        public String getPaymentMethod() {
+            return paymentMethod;
+        }
+
+        public void setPaymentMethod(String paymentMethod) {
+            this.paymentMethod = paymentMethod;
+        }
+
+        public String getHasDecision() {
+            return hasDecision;
+        }
+
+        public void setHasDecision(String hasDecision) {
+            this.hasDecision = hasDecision;
+        }
+
+        public String getResistance() {
+            return resistance;
+        }
+
+        public void setResistance(String resistance) {
+            this.resistance = resistance;
+        }
+
+        public String getObjective() {
+            return objective;
+        }
+
+        public void setObjective(String objective) {
+            this.objective = objective;
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
+
+        public String getOpenId() {
+            return openId;
+        }
+
+        public void setOpenId(String openId) {
+            this.openId = openId;
+        }
+
+        public String getSelectedBroker() {
+            return selectedBroker;
+        }
+
+        public void setSelectedBroker(String selectedBroker) {
+            this.selectedBroker = selectedBroker;
         }
     }
 }

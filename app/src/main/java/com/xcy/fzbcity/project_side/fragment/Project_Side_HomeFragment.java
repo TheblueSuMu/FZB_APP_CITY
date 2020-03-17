@@ -37,6 +37,7 @@ import com.xcy.fzbcity.all.persente.MyLinearLayoutManager;
 import com.xcy.fzbcity.all.persente.SingleClick;
 import com.xcy.fzbcity.all.persente.StatusBar;
 import com.xcy.fzbcity.all.service.MyService;
+import com.xcy.fzbcity.all.utils.ToastUtil;
 import com.xcy.fzbcity.project_side.adapter.Project_Side_HomeRecyclerAdapter;
 import com.xcy.fzbcity.project_side.view.CheckPendingTheProjectEndActivity;
 import com.xcy.fzbcity.project_side.view.CommissionTheProjectEndActivity;
@@ -100,7 +101,6 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
     TextView tv14_home_the_project_end;
 
 
-
     LinearLayout time1_ll1_home_the_project_end;
     LinearLayout layout1;
     LinearLayout layout2;
@@ -139,6 +139,8 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
     private int dayOfMonth;
     private String string;
 
+    private Date select;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -154,7 +156,7 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
 
         mPtrClassicFrameLayout = view.findViewById(R.id.store_house_ptr_frame);
         project_side_scrollview = view.findViewById(R.id.project_side_scrollview);
-        project_side_scrollview.smoothScrollTo(0,20);
+        project_side_scrollview.smoothScrollTo(0, 20);
         FinalContents.setTiaozhuang("");
         all_no_information = view.findViewById(R.id.all_no_information);
         img_home_the_project_end = view.findViewById(R.id.img_home_the_project_end);
@@ -299,7 +301,12 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
 //                        shop_home_the_project_end.setText(userBean.getData().getCityName());
                         shop_home_the_project_end.setText(userBean.getData().getCityName());
                         position_home_the_project_end.setText("专案");
-                        FinalContents.setCityID(userBean.getData().getCityId());
+                        if (FinalContents.getCityID().equals(FinalContents.getOldCityId())) {
+                            FinalContents.setCityID(userBean.getData().getCityId());
+                        } else {
+
+                        }
+
 
                         Connector.setUserBean(userBean);
                     }
@@ -322,6 +329,8 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+        select = calendar.getTime();
 
         string = String.format(Locale.getDefault(), "%d.%02d.%02d", year, month + 1, dayOfMonth);
         time1_home_the_project_end.setText("<" + string);
@@ -349,7 +358,7 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
     }
 
     //TODO 首页运营数据   开始时间选择
-    private void initTimePickerView1(){
+    private void initTimePickerView1() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
         startDate.set(year - 3, month, dayOfMonth);
@@ -357,6 +366,9 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
         TimePickerView pvTime = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
+
+                select = date;
+
                 time1_home_the_project_end.setText("<" + getTime2(date));
                 beforeDate = getTime2(date);
                 NewlyIncreased.setStartDate(getTime2(date));
@@ -370,14 +382,14 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
                 .isCenterLabel(false)
                 .setDate(selectedDate)
                 .setLineSpacingMultiplier(1.5f)
-                .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
+                .setTextXOffset(-10, 0, 10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
                 .setRangDate(startDate, endDate)
                 .build();
         pvTime.show();
     }
 
     //TODO 首页运营数据   结束时间选择
-    private void initTimePickerView2(){
+    private void initTimePickerView2() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
         startDate.set(year - 3, month, dayOfMonth);
@@ -385,11 +397,17 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
         TimePickerView pvTime = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                time2_home_the_project_end.setText("-" + getTime2(date) + " >");
-                afterDate = getTime2(date);
-                NewlyIncreased.setEndDate(getTime2(date));
-                NewlyIncreased.setYJendDate(getTime2(date));
-                initViewData();
+
+                if (select.after(date)) {
+                    ToastUtil.showLongToast(getContext(), "开始时间不能大于结束时间");
+                } else {
+                    time2_home_the_project_end.setText("-" + getTime2(date) + " >");
+                    afterDate = getTime2(date);
+                    NewlyIncreased.setEndDate(getTime2(date));
+                    NewlyIncreased.setYJendDate(getTime2(date));
+                    initViewData();
+                }
+
             }
         })
 
@@ -398,7 +416,7 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
                 .isCenterLabel(false)
                 .setDate(selectedDate)
                 .setLineSpacingMultiplier(1.5f)
-                .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
+                .setTextXOffset(-10, 0, 10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
                 .setRangDate(startDate, endDate)
                 .build();
         pvTime.show();
@@ -412,7 +430,7 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<HomeBean> userMessage = fzbInterface.getHomeList(FinalContents.getUserID(), beforeDate, afterDate, type,"1000");
+        Observable<HomeBean> userMessage = fzbInterface.getHomeList(FinalContents.getUserID(), beforeDate, afterDate, type, "1000");
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<HomeBean>() {
@@ -424,7 +442,7 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
                     @SuppressLint("WrongConstant")
                     @Override
                     public void onNext(HomeBean homeBean) {
-                        Log.i("运营数据","运营数据：");
+                        Log.i("运营数据", "运营数据：");
                         tv1_home_the_project_end.setText("" + homeBean.getData().getProdjectCount());
                         tv2_home_the_project_end.setText("" + homeBean.getData().getReportNumber());
                         tv3_home_the_project_end.setText("" + homeBean.getData().getAccessingNumber());
@@ -440,52 +458,51 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
                         tv14_home_the_project_end.setText("" + homeBean.getData().getApplyCount());
 
 
-
                         if (homeBean.getData().getReportNoRead() == 1) {//    TODO    报备  未读
                             project_side_img_1.setVisibility(View.VISIBLE);
-                        }else {
+                        } else {
                             project_side_img_1.setVisibility(View.GONE);
                         }
 
                         if (homeBean.getData().getAccessingNoRead() == 1) {//    TODO    到访  未读
                             project_side_img_2.setVisibility(View.VISIBLE);
-                        }else {
+                        } else {
                             project_side_img_2.setVisibility(View.GONE);
                         }
 
                         if (homeBean.getData().getIsIslandNoRead() == 1) {//    TODO    登岛  未读
                             project_side_img_3.setVisibility(View.VISIBLE);
-                        }else {
+                        } else {
                             project_side_img_3.setVisibility(View.GONE);
                         }
 
                         if (homeBean.getData().getEarnestMoneyNoRead() == 1) {//    TODO    认筹  未读
                             project_side_img_4.setVisibility(View.VISIBLE);
-                        }else {
+                        } else {
                             project_side_img_4.setVisibility(View.GONE);
                         }
 
                         if (homeBean.getData().getTradeNoRead() == 1) {//    TODO    成交  未读
                             project_side_img_5.setVisibility(View.VISIBLE);
-                        }else {
+                        } else {
                             project_side_img_5.setVisibility(View.GONE);
                         }
 
                         if (homeBean.getData().getLoseNoRead() == 1) {//    TODO    失效  未读
                             project_side_img_6.setVisibility(View.VISIBLE);
-                        }else {
+                        } else {
                             project_side_img_6.setVisibility(View.GONE);
                         }
 
                         if (homeBean.getData().getAuditNoRead().equals("1")) {//    TODO    待审核  未读
                             project_side_img_7.setVisibility(View.VISIBLE);
-                        }else {
+                        } else {
                             project_side_img_7.setVisibility(View.GONE);
                         }
 
                         if (homeBean.getData().getApplyNoRead().equals("1")) {//    TODO    我发起的审核  未读
                             project_side_img_8.setVisibility(View.VISIBLE);
-                        }else {
+                        } else {
                             project_side_img_8.setVisibility(View.GONE);
                         }
                     }
@@ -510,7 +527,7 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<SideHomeBean> userMessage = fzbInterface.getHomeBeanList(FinalContents.getUserID(), "","1000");
+        Observable<SideHomeBean> userMessage = fzbInterface.getHomeBeanList(FinalContents.getUserID(), "", "1000");
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<SideHomeBean>() {
@@ -537,7 +554,7 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
                                 rv_home_the_project_end.setNestedScrollingEnabled(false);
                                 rv_home_the_project_end.setAdapter(recyclerAdapter);
                                 recyclerAdapter.notifyDataSetChanged();
-                            }else {
+                            } else {
                                 all_no_information.setVisibility(View.VISIBLE);
                                 rv_home_the_project_end.setVisibility(View.GONE);
                             }
@@ -570,7 +587,7 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
         if (NewlyIncreased.getTag().equals("3")) {
             NewlyIncreased.setStartDate(beforeDate);
             NewlyIncreased.setEndDate(afterDate);
-        }else {
+        } else {
             NewlyIncreased.setStartDate("");
             NewlyIncreased.setEndDate("");
         }
@@ -578,7 +595,7 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
         if (NewlyIncreased.getYJType().equals("3")) {
             NewlyIncreased.setYJstartDate(beforeDate);
             NewlyIncreased.setYJendDate(afterDate);
-        }else {
+        } else {
             NewlyIncreased.setYJstartDate("");
             NewlyIncreased.setYJendDate("");
         }
@@ -695,7 +712,7 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
     }
 
 
-    private void init(){
+    private void init() {
         UserBean userBean = Connector.getUserBean();
         Glide.with(getActivity()).load(FinalContents.getImageUrl() + userBean.getData().getPhoto()).into(img_home_the_project_end);
         name_home_the_project_end.setText(userBean.getData().getName());
@@ -708,7 +725,7 @@ public class Project_Side_HomeFragment extends AllFragment implements View.OnCli
     @Override
     public void onResume() {
         super.onResume();
-        if (NewlyIncreased.getUserMessage().equals("7")){
+        if (NewlyIncreased.getUserMessage().equals("7")) {
             init();
         }
 //        initViewData();

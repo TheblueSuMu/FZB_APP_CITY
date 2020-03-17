@@ -80,7 +80,7 @@ public class EconomicCircleParticularsActivity extends AllActivity implements Vi
     private List<EconomicCircleBean.DataBean.CommentListBean> commentList;
     private EconomicCircleBean.DataBean.CircleBean circle;
 
-    int[] zan = {R.mipmap.icon_2, R.mipmap.icon_like};
+    int[] zan = {R.mipmap.fzbicon_2, R.mipmap.fzbicon_like};
     private String likeNum;
     private String isLike;
     int flag = 0;
@@ -266,6 +266,12 @@ public class EconomicCircleParticularsActivity extends AllActivity implements Vi
                         circle = economicCircleBean.getData().getCircle();
 //        TODO 解析完成后的操作
 
+                        if(economicCircleBean.getData().getCircle().getIsLike().equals("0")){
+                            Glide.with(EconomicCircleParticularsActivity.this).load(R.mipmap.fzbicon_2).into(particulars_zan_img);
+                        }else {
+                            Glide.with(EconomicCircleParticularsActivity.this).load(R.mipmap.fzbicon_like).into(particulars_zan_img);
+                        }
+
                         String imgUrl = circle.getImgUrl();
 
                         //        TODO 图片加载
@@ -374,6 +380,11 @@ public class EconomicCircleParticularsActivity extends AllActivity implements Vi
 //                                    particulars_zan.setImageResource(zan[0]);
 //                                    particulars_like.setText(totalZanBean.getData().getLikeNum() + "");
 //                                }
+                                if(totalZanBean.getData().getStatus().equals("0")){
+                                    Glide.with(EconomicCircleParticularsActivity.this).load(R.mipmap.fzbicon_2).into(particulars_zan_img);
+                                }else {
+                                    Glide.with(EconomicCircleParticularsActivity.this).load(R.mipmap.fzbicon_like).into(particulars_zan_img);
+                                }
                                 ToastUtil.showLongToast(EconomicCircleParticularsActivity.this, totalZanBean.getData().getMessage());
                                 initData();
                             }

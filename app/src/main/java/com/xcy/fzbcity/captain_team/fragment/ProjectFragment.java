@@ -118,6 +118,8 @@ public class ProjectFragment extends AllFragment implements View.OnClickListener
     private TextView home_item_text4;
     private ImageView home_item_img4;
 
+    int istvBean = 0;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

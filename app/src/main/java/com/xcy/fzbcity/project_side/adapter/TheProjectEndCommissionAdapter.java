@@ -1,6 +1,8 @@
 package com.xcy.fzbcity.project_side.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,8 +40,17 @@ public class TheProjectEndCommissionAdapter extends RecyclerView.Adapter<TheProj
     public void onBindViewHolder(@NonNull TheProjectEndCommissionViewHolder holder, final int position) {
         //      TODO    左侧
         {
-            holder.the_project_end_title.setText(rowsBeanList.get(position).getCustomerName() + "  (" + rowsBeanList.get(position).getCustomerPhone() + ")");
+            holder.the_project_end_title.setText(rowsBeanList.get(position).getCustomerName() );
+            holder.the_project_end_title_s.setText(rowsBeanList.get(position).getCustomerPhone());
             holder.the_project_end_name.setText(rowsBeanList.get(position).getProjectName());
+
+            holder.the_project_end_title_s.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + rowsBeanList.get(position).getCustomerPhone()));//跳转到拨号界面，同时传递电话号码
+                    holder.itemView.getContext().startActivity(dialIntent);
+                }
+            });
 
             if (rowsBeanList.get(position).getRoomNumber().equals("")) {
                 holder.the_project_end_time.setVisibility(View.GONE);
@@ -276,6 +287,7 @@ public class TheProjectEndCommissionAdapter extends RecyclerView.Adapter<TheProj
         TextView the_project_end_tv6;
         TextView the_project_end_tv7;
         TextView the_project_end_tv8;
+        TextView the_project_end_title_s;
 
         public TheProjectEndCommissionViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -295,6 +307,7 @@ public class TheProjectEndCommissionAdapter extends RecyclerView.Adapter<TheProj
             the_project_end_tv6 = itemView.findViewById(R.id.the_project_end_tv6);
             the_project_end_tv7 = itemView.findViewById(R.id.the_project_end_tv7);
             the_project_end_tv8 = itemView.findViewById(R.id.the_project_end_tv8);
+            the_project_end_title_s = itemView.findViewById(R.id.the_project_end_title_s);
 
         }
     }

@@ -33,6 +33,10 @@ import com.xcy.fzbcity.all.service.MyService;
 import com.xcy.fzbcity.all.view.EconomicCircleParticularsActivity;
 import com.xcy.fzbcity.broker.adapter.TotalAdapter;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -123,6 +127,7 @@ public class TotalFragment extends AllFragment implements TotalAdapter.EPinLun, 
     }
 
     private void initfvb() {
+
         totalRv = view.findViewById(R.id.total_rv);
         total_ptrclass = view.findViewById(R.id.total_ptrclass);
         all_no_information = view.findViewById(R.id.all_no_information);
@@ -334,5 +339,26 @@ public class TotalFragment extends AllFragment implements TotalAdapter.EPinLun, 
     public void onDestroy() {
         super.onDestroy();
         FinalContents.setEconomicCircleID("");
+        if (EventBus.getDefault().isRegistered(this))//加上判断
+            EventBus.getDefault().unregister(this);
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if(!EventBus.getDefault().isRegistered(this)){//加上判断
+            EventBus.getDefault().register(this);
+        }
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+    public void onEvent(String nam) {
+        if(nam.equals("切换")){
+            Log.i("刷新","切换");
+            initView();
+        }
+    }
+
 }

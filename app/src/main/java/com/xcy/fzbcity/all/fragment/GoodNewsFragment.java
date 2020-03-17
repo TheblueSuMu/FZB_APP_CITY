@@ -90,17 +90,20 @@ public class GoodNewsFragment extends Fragment {
                 return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
             }
         });
-
+        initData();
 
     }
     private void initData() {
+
+        Log.i("列表数据加载", "喜报initData:");
+
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(FinalContents.getBaseUrl());
         builder.addConverterFactory(GsonConverterFactory.create());
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         Retrofit build = builder.build();
         MyService fzbInterface = build.create(MyService.class);
-        Observable<GoodNewsBean> userMessage = fzbInterface.getGoodNewsBeanList(FinalContents.getUserID(),FinalContents.getCityID(),"5","1000");
+        Observable<GoodNewsBean> userMessage = fzbInterface.getGoodNewsBeanList(FinalContents.getUserID(),FinalContents.getOldCityId(),"5","1000");
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<GoodNewsBean>() {
@@ -114,6 +117,7 @@ public class GoodNewsFragment extends Fragment {
                     public void onNext(GoodNewsBean goodNewsBean) {
                         GoodNewsBean.DataBean data1 = goodNewsBean.getData();
                         List<GoodNewsBean.DataBean.RowsBean> rows = data1.getRows();
+                        Log.i("列表数据加载", "喜报rows.size():" + rows.size());
                         try {
                             if (rows.size() != 0) {
                                 all_no_information.setVisibility(View.GONE);

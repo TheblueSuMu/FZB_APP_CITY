@@ -10,6 +10,11 @@ import androidx.multidex.MultiDex;
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.mob.MobSDK;
+import com.netease.nim.uikit.api.NimUIKit;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.util.NIMUtil;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.api.XCrashHandlerUtils;
@@ -26,6 +31,11 @@ import com.xcy.fzbcity.all.modle.ImgData;
 import com.xcy.fzbcity.all.modle.MessageBean2;
 import com.xcy.fzbcity.all.modle.NationBean;
 import com.xcy.fzbcity.all.modle.NewsBean;
+import com.xcy.fzbcity.all.modle.Preferences;
+import com.xcy.fzbcity.all.modle.SessionHelper;
+import com.xcy.fzbcity.all.myim.DemoCache;
+import com.xcy.fzbcity.all.myim.location.NimDemoLocationProvider;
+import com.xcy.fzbcity.all.myim.project.ProjectCustomAttachParser;
 import com.xcy.fzbcity.broker.fragment.DFragment;
 import com.xcy.fzbcity.broker.fragment.EFragment;
 
@@ -65,9 +75,49 @@ public class DemoApplication extends Application {
     //在自己的Application中添加如下代码
 //    private RefWatcher refWatcher;
 
+    private LoginInfo getLoginInfo() {
+        String account = Preferences.getUserAccount();
+        String token = Preferences.getUserToken();
+
+        if (!TextUtils.isEmpty(account) && !TextUtils.isEmpty(token)) {
+            DemoCache.setAccount(account.toLowerCase());
+            return new LoginInfo(account, token);
+        } else {
+            return null;
+        }
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        /**
+         * 网易云信
+         */
+        // ... your codes
+        DemoCache.setContext(this);
+
+        // SDK初始化（启动后台服务，若已经存在用户登录信息， SDK 将完成自动登录）
+        NIMClient.init(this, null, null);
+
+        NimUIKit.setLocationProvider(new NimDemoLocationProvider());
+
+
+
+        // ... your codes
+        if (NIMUtil.isMainProcess(this)) {
+            // 注意：以下操作必须在主进程中进行
+            // 1、UI相关初始化操作
+            // 2、相关Service调用
+            NimUIKit.init(this);
+
+            NIMClient.getService(MsgService.class).registerCustomAttachmentParser(new ProjectCustomAttachParser());
+
+
+            // IM 会话窗口的定制初始化。
+            SessionHelper.init();
+        }
+
 
         /**
          * 预先加载一级列表所有城市的数据
@@ -130,6 +180,7 @@ public class DemoApplication extends Application {
         setNationlist(new ArrayList<NationBean.DataBean>());
         setImagelist(new ArrayList<ImgData.DataBean>());
     }
+
 
     //在自己的Application中添加如下代码
 //    public static RefWatcher getRefWatcher(Context context) {

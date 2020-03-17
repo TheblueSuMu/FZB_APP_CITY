@@ -32,6 +32,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
+import com.xcy.fzbcity.all.api.CityContents;
 import com.xcy.fzbcity.all.api.Connector;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.modle.AddPhotoBean;
@@ -512,6 +513,7 @@ public class PersonalInformationActivity extends AllActivity implements View.OnC
                 break;
 //第三方账号设置
             case R.id.personal_rl_6:
+                CityContents.setPhone(personal_phone.getText().toString());
                 intent = new Intent(this, ToLoginActivity.class);
                 startActivity(intent);
 //                ToastUtil.showToast(PersonalInformationActivity.this, "暂无功能");

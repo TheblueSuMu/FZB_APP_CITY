@@ -4,11 +4,13 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ScrollView;
 
+import androidx.core.widget.NestedScrollView;
+
 /**
  * XINHAO_HAN
  *
  */
-public class GradationScrollView extends ScrollView {
+public class GradationScrollView extends NestedScrollView {
 
 
 

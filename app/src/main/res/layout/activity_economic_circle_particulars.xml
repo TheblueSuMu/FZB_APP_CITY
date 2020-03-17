@@ -219,7 +219,8 @@
                     android:layout_height="17dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="25dp"
-                    android:src="@mipmap/jjqzan" />
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/fzbicon_2" />
 
                 <ImageView
                     android:id="@+id/particulars_fb_img"
@@ -227,7 +228,7 @@
                     android:layout_height="17dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="25dp"
-                    android:src="@mipmap/jjqfz" />
+                    android:src="@mipmap/fzbfz" />
             </LinearLayout>
 
         </LinearLayout>

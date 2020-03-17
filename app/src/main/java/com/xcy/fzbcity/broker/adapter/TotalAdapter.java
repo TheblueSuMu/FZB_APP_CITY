@@ -73,6 +73,21 @@ public class TotalAdapter extends RecyclerView.Adapter<TotalAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
+
+        if (FinalContents.getCityID().equals(FinalContents.getOldCityId())){
+            holder.all_pinglun.setVisibility(View.VISIBLE);
+            holder.all_zan.setVisibility(View.VISIBLE);
+        }else {
+            if(FinalContents.getIsMyTotal().equals("2")){
+                holder.all_pinglun.setVisibility(View.VISIBLE);
+                holder.all_zan.setVisibility(View.VISIBLE);
+            }else {
+                holder.all_pinglun.setVisibility(View.GONE);
+                holder.all_zan.setVisibility(View.GONE);
+            }
+
+        }
+
         if (list.get(position).getIsLike().equals("0")) {
             Glide.with(holder.itemView.getContext()).load(R.mipmap.icon_2).into(holder.item_circle_like);
         } else {
@@ -193,10 +208,20 @@ public class TotalAdapter extends RecyclerView.Adapter<TotalAdapter.ViewHolder> 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FinalContents.setEconomicCircleID(list.get(position).getId());
-                Log.i("MyCL", "ID：" + list.get(position).getId());
-                Intent intent = new Intent(holder.itemView.getContext(), EconomicCircleParticularsActivity.class);
-                holder.itemView.getContext().startActivity(intent);
+                if (FinalContents.getCityID().equals(FinalContents.getOldCityId())){
+                    FinalContents.setEconomicCircleID(list.get(position).getId());
+                    Log.i("MyCL", "ID：" + list.get(position).getId());
+                    Intent intent = new Intent(holder.itemView.getContext(), EconomicCircleParticularsActivity.class);
+                    holder.itemView.getContext().startActivity(intent);
+                }else {
+                    if(FinalContents.getIsMyTotal().equals("2")){
+                        FinalContents.setEconomicCircleID(list.get(position).getId());
+                        Log.i("MyCL", "ID：" + list.get(position).getId());
+                        Intent intent = new Intent(holder.itemView.getContext(), EconomicCircleParticularsActivity.class);
+                        holder.itemView.getContext().startActivity(intent);
+                    }
+                }
+
             }
         });
 

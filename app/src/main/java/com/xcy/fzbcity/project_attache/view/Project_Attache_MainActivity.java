@@ -162,6 +162,20 @@ public class Project_Attache_MainActivity extends AllActivity implements View.On
 
                 transaction.commit();
                 button_economics.setChecked(true);
+            }else if (str.equals("10")) {
+                FragmentManager manager = getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+//                MessageFragment messageFragment = new MessageFragment();
+                message_fragment.setType("1");
+//                transaction.replace(R.id.main_framelayout,messageFragment);
+
+                transaction.hide(home_fragment);
+                transaction.hide(dFragment);
+                transaction.show(message_fragment);
+                transaction.hide(eFragment);
+
+                transaction.commit();
+                button_economics.setChecked(true);
             }
         }
     }
@@ -199,15 +213,15 @@ public class Project_Attache_MainActivity extends AllActivity implements View.On
         img_backup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (FinalContents.getCityIs().equals("")) {
+                if(FinalContents.getCityID().equals(FinalContents.getOldCityId())){
                     GetandSaveCurrentImage();
                     String sdCardPath = getSDCardPath();
                     Intent intent = new Intent(Project_Attache_MainActivity.this, ContentActivity.class);
                     intent.putExtra("img", filepath);
                     startActivity(intent);
-//                } else if (FinalContents.getCityIs().equals("不是当前城市")) {
-//                    ToastUtil.showLongToast(Project_Attache_MainActivity.this, "不是主营城市");
-//                }
+                } else {
+                    ToastUtil.showLongToast(Project_Attache_MainActivity.this, "不是主营城市");
+                }
             }
         });
 

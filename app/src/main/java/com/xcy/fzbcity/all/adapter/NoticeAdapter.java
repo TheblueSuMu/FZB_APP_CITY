@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.xcy.fzbcity.R;
+import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.modle.MessageBean;
 
 import java.util.ArrayList;
@@ -94,6 +96,16 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
         holder.room_message.setText(rows.get(position).getContent());
         holder.room_name.setText(rows.get(position).getUserName());
 
+        if (FinalContents.getCityID().equals(FinalContents.getOldCityId())) {
+            holder.room_ImageView.setVisibility(View.VISIBLE);
+            holder.room_name.setVisibility(View.VISIBLE);
+            holder.room_phone.setVisibility(View.VISIBLE);
+        }else {
+            holder.room_ImageView.setVisibility(View.GONE);
+            holder.room_name.setVisibility(View.GONE);
+            holder.room_phone.setVisibility(View.GONE);
+        }
+
 
         holder.room_img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +138,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
     class NoticeViewHolder extends RecyclerView.ViewHolder {
 
         ImageView room_title_img;
+        ImageView room_ImageView;
         RecyclerView room_img;
 
         TextView room_title;
@@ -137,10 +150,13 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
         LinearLayout room_ll_1;
         LinearLayout room_ll_2;
 
+        RelativeLayout good_img_RelativeLayout;
+
         public NoticeViewHolder(@NonNull View itemView) {
             super(itemView);
 
 
+            good_img_RelativeLayout = itemView.findViewById(R.id.good_img_RelativeLayout);
             room_title_img = itemView.findViewById(R.id.room_title_img);
             room_img = itemView.findViewById(R.id.good_img_rv);
             room_title = itemView.findViewById(R.id.room_title);
@@ -150,6 +166,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
             room_phone = itemView.findViewById(R.id.room_phone);
             room_ll_1 = itemView.findViewById(R.id.room_ll_1);
             room_ll_2 = itemView.findViewById(R.id.room_ll_2);
+            room_ImageView = itemView.findViewById(R.id.room_ImageView);
 
         }
 

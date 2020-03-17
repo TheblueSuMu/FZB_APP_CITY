@@ -259,7 +259,7 @@ public class NewsDetailsBean {
             this.company = company;
         }
 
-        public int getIsProject() {
+            public int getIsProject() {
             return isProject;
         }
 

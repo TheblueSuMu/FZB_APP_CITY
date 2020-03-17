@@ -102,7 +102,7 @@ public class MoreInformationActivity extends AllActivity implements View.OnClick
 
         if (!FinalContents.getCityID().equals(FinalContents.getOldCityId())) {
             information_relative1.setVisibility(View.GONE);
-            information_relative2.setVisibility(View.VISIBLE);
+            information_relative2.setVisibility(View.GONE);
         }else {
             information_relative1.setVisibility(View.VISIBLE);
             information_relative2.setVisibility(View.GONE);

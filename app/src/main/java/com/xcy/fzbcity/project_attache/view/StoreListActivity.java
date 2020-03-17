@@ -449,6 +449,7 @@ public class StoreListActivity extends AllActivity implements View.OnClickListen
                     public void onNext(StoreListBean storeListBean) {
                         listData.clear();
                         mContactModels.clear();
+                        Log.i("专员公司列表", "onNext");
                         rows = storeListBean.getData().getRows();
                         if (rows.size() != 0) {
                             all_no_information.setVisibility(View.GONE);

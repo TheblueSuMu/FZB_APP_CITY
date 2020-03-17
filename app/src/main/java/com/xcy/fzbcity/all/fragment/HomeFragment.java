@@ -66,6 +66,8 @@ import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,6 +125,8 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
     TextView side_message_no;
     private TextBannerAdapter textBannerAdapter;
     private TextBannerAdapter_S textBannerAdapter_s;
+
+    int istvBean = 0;
 
     @Nullable
     @Override
@@ -193,6 +197,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
         super.onResume();
 
         tvBanner2.startFlipping();
+        tvBanner2_S.startFlipping();
         city.setText(FinalContents.getCityName());
         //TODO 获取加速传感器
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
@@ -203,6 +208,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
     public void onPause() {
         super.onPause();
         tvBanner2.stopFlipping();
+        tvBanner2_S.stopFlipping();
         //        TODO 摇一摇
         mSensorManager.unregisterListener(this);
     }
@@ -348,12 +354,26 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                 } else {
                                     FinalContents.setCityIs("");
                                 }
+                                tvBanner2.stopFlipping();
+                                tvBanner2_S.stopFlipping();
+                                messagelist2.clear();
+                                messagelist2_S.clear();
+                                messagelist.clear();
+                                tvBanner2.removeAllViews();
+                                tvBanner2_S.removeAllViews();
+                                tvBanner2.clearFocus();
+                                tvBanner2_S.clearFocus();
                                 city.setText(list.get(options1));
                                 FinalContents.setCityName(list.get(options1));
                                 FinalContents.setCityID(citylist.get(options1).getId());
                                 Log.i("city", FinalContents.getCityID());
 
+                                EventBus.getDefault().post("切换");
+
+                                tvBanner2();
+                                initView();
                                 initHotList();
+
                             }
                         })
                                 .setSelectOptions(2)//设置选择第一个
@@ -440,9 +460,6 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
 
     //文字轮播
     private void tvBanner() {
-        messagelist2.clear();
-        messagelist2_S.clear();
-        Log.i("文字轮播", "文字轮播1");
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(FinalContents.getBaseUrl());
         builder.addConverterFactory(GsonConverterFactory.create());
@@ -453,7 +470,6 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
         userMessage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<MessageBean2>() {
-
                     @Override
                     public void onSubscribe(Disposable d) {
 
@@ -488,12 +504,13 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
 
                         } else if (messagelist.size() == 1) {
 
-                            Log.i("文字轮播", "messagelist.size() == 1");
+                            Log.i("文字轮播","messagelist.size() == 1");
 
                             tvBanner2.setVisibility(View.VISIBLE);
                             tvBanner2_S.setVisibility(View.INVISIBLE);
                             side_message_no.setVisibility(View.GONE);
                             tvBanner2.setFlipInterval(500000000);
+                            tvBanner2_S.setFlipInterval(500000000);
                             for (int i = 0; i < messagelist.size(); i++) {
                                 if (messagelist.get(i).getType().equals("0")) {
                                     messagelist2.add(new Bean(R.mipmap.give, messagelist.get(i).getTitle()));
@@ -501,6 +518,8 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                     messagelist2.add(new Bean(R.mipmap.lodger, messagelist.get(i).getTitle()));
                                 } else if (messagelist.get(i).getType().equals("5")) {
                                     messagelist2.add(new Bean(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                } else if (messagelist.get(i).getType().equals("10")){
+                                    messagelist2.add(new Bean(R.mipmap.buildingdynamicimage,messagelist.get(i).getTitle()));
                                 }
                             }
                             textBannerAdapter = new TextBannerAdapter(messagelist2, view.getContext());
@@ -508,16 +527,18 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                             textBannerAdapter.setOnItemClickListener(new TextBannerAdapter.OnItemClickLisenter() {
                                 @Override
                                 public void onItemClick(int postion) {
-                                    Log.i("文字轮播", "点击执行回调textBannerAdapter：" + messagelist.get(postion).getType());
                                     if (messagelist.get(postion).getType().equals("0")) {
                                         listterner.process("0"); // 3.1 执行回调
                                     } else if (messagelist.get(postion).getType().equals("2")) {
                                         listterner.process("2"); // 3.1 执行回调
                                     } else if (messagelist.get(postion).getType().equals("5")) {
                                         listterner.process("5"); // 3.1 执行回调
+                                    }else if (messagelist.get(postion).getType().equals("10")){
+                                        listterner.process("10"); // 3.1 执行回调
                                     }
                                 }
                             });
+
                             //TODO 第二行
                             int numSize = 0;
                             for (int i = 1; i < messagelist.size(); ++i) {
@@ -525,8 +546,10 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                     messagelist2_S.add(new Bean_S(R.mipmap.give, messagelist.get(i).getTitle()));
                                 } else if (messagelist.get(i).getType().equals("2")) {
                                     messagelist2_S.add(new Bean_S(R.mipmap.lodger, messagelist.get(i).getTitle()));
-                                } else if (messagelist.get(i).getType().equals("5")) {
+                                }else if (messagelist.get(i).getType().equals("5")) {
                                     messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                }else if (messagelist.get(i).getType().equals("10")){
+                                    messagelist2_S.add(new Bean_S(R.mipmap.buildingdynamicimage,messagelist.get(i).getTitle()));
                                 }
                                 numSize = i;
                             }
@@ -537,6 +560,8 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                 messagelist2_S.add(new Bean_S(R.mipmap.lodger, messagelist.get(0).getTitle()));
                             } else if (messagelist.get(0).getType().equals("5")) {
                                 messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(0).getTitle()));
+                            }else if (messagelist.get(0).getType().equals("10")){
+                                messagelist2_S.add(new Bean_S(R.mipmap.buildingdynamicimage,messagelist.get(0).getTitle()));
                             }
 //                            }
                             textBannerAdapter_s = new TextBannerAdapter_S(messagelist2_S, view.getContext());
@@ -545,25 +570,28 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                             textBannerAdapter_s.setOnItemClickListener(new TextBannerAdapter_S.OnItemClickLisenter() {
                                 @Override
                                 public void onItemClick(int postion) {
-                                    if (messagelist.get(postion + 1).getType().equals("0")) {
+                                    if (messagelist.get(postion+1).getType().equals("0")) {
                                         listterner.process("0"); // 3.1 执行回调
-                                    } else if (messagelist.get(postion + 1).getType().equals("2")) {
+                                    } else if (messagelist.get(postion+1).getType().equals("2")) {
                                         listterner.process("2"); // 3.1 执行回调
-                                    } else if (messagelist.get(postion + 1).getType().equals("5")) {
+                                    } else if (messagelist.get(postion+1).getType().equals("5")) {
                                         listterner.process("5"); // 3.1 执行回调
+                                    }else if (messagelist.get(postion+1).getType().equals("10")){
+                                        listterner.process("10"); // 3.1 执行回调
                                     }
                                 }
                             });
+
                         } else {
-                            Log.i("文字轮播", "else");
+                            Log.i("文字轮播","else");
 
                             tvBanner2.setVisibility(View.VISIBLE);
                             tvBanner2_S.setVisibility(View.VISIBLE);
                             side_message_no.setVisibility(View.GONE);
-                            if (messagelist.size() == 2) {
+                            if(messagelist.size() == 2){
                                 tvBanner2.setFlipInterval(500000000);
                                 tvBanner2_S.setFlipInterval(500000000);
-                            } else {
+                            }else {
 
                             }
                             //TODO 第一行
@@ -574,6 +602,8 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                     messagelist2.add(new Bean(R.mipmap.lodger, messagelist.get(i).getTitle()));
                                 } else if (messagelist.get(i).getType().equals("5")) {
                                     messagelist2.add(new Bean(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                }else if (messagelist.get(i).getType().equals("10")){
+                                    messagelist2.add(new Bean(R.mipmap.buildingdynamicimage,messagelist.get(i).getTitle()));
                                 }
                             }
                             textBannerAdapter = new TextBannerAdapter(messagelist2, view.getContext());
@@ -581,19 +611,22 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                             textBannerAdapter.setOnItemClickListener(new TextBannerAdapter.OnItemClickLisenter() {
                                 @Override
                                 public void onItemClick(int postion) {
-                                    Log.i("文字轮播", "点击执行回调textBannerAdapter：" + messagelist.get(postion).getType());
+                                    Log.i("文字轮播点击","messagelist.get(postion).getType()：" + messagelist.get(postion).getType());
                                     if (messagelist.get(postion).getType().equals("0")) {
                                         listterner.process("0"); // 3.1 执行回调
                                     } else if (messagelist.get(postion).getType().equals("2")) {
                                         listterner.process("2"); // 3.1 执行回调
                                     } else if (messagelist.get(postion).getType().equals("5")) {
                                         listterner.process("5"); // 3.1 执行回调
+                                    }else if (messagelist.get(postion).getType().equals("10")){
+                                        listterner.process("10"); // 3.1 执行回调
                                     }
+
                                 }
                             });
 
-                            for (int i = 0; i < messagelist2.size(); ++i) {
-                                Log.i("文字轮播", "第一行：" + messagelist2.get(i).getName());
+                            for (int i = 0; i < messagelist2.size(); ++i){
+                                Log.i("文字轮播","第一行：" + messagelist2.get(i).getName());
                             }
 
                             //TODO 第二行
@@ -603,8 +636,10 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                     messagelist2_S.add(new Bean_S(R.mipmap.give, messagelist.get(i).getTitle()));
                                 } else if (messagelist.get(i).getType().equals("2")) {
                                     messagelist2_S.add(new Bean_S(R.mipmap.lodger, messagelist.get(i).getTitle()));
-                                } else if (messagelist.get(i).getType().equals("5")) {
+                                }else if (messagelist.get(i).getType().equals("5")) {
                                     messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                }else if (messagelist.get(i).getType().equals("10")){
+                                    messagelist2_S.add(new Bean_S(R.mipmap.buildingdynamicimage,messagelist.get(i).getTitle()));
                                 }
                                 numSize = i;
                             }
@@ -615,6 +650,8 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                 messagelist2_S.add(new Bean_S(R.mipmap.lodger, messagelist.get(0).getTitle()));
                             } else if (messagelist.get(0).getType().equals("5")) {
                                 messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(0).getTitle()));
+                            }else if (messagelist.get(0).getType().equals("10")){
+                                messagelist2_S.add(new Bean_S(R.mipmap.buildingdynamicimage,messagelist.get(0).getTitle()));
                             }
 //                            }
                             textBannerAdapter_s = new TextBannerAdapter_S(messagelist2_S, view.getContext());
@@ -622,18 +659,22 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                             textBannerAdapter_s.setOnItemClickListener(new TextBannerAdapter_S.OnItemClickLisenter() {
                                 @Override
                                 public void onItemClick(int postion) {
-                                    if (messagelist.get(postion + 1).getType().equals("0")) {
+                                    Log.i("文字轮播点击","messagelist.get(postion).getType()：" + messagelist.get(postion).getType());
+                                    if (messagelist.get(postion+1).getType().equals("0")) {
                                         listterner.process("0"); // 3.1 执行回调
-                                    } else if (messagelist.get(postion + 1).getType().equals("2")) {
+                                    } else if (messagelist.get(postion+1).getType().equals("2")) {
                                         listterner.process("2"); // 3.1 执行回调
-                                    } else if (messagelist.get(postion + 1).getType().equals("5")) {
+                                    } else if (messagelist.get(postion+1).getType().equals("5")) {
                                         listterner.process("5"); // 3.1 执行回调
+                                    }else if (messagelist.get(postion+1).getType().equals("10")){
+                                        listterner.process("10"); // 3.1 执行回调
                                     }
+
                                 }
                             });
-                            Log.i("文字轮播", "*********************************************************************");
-                            for (int i = 0; i < messagelist2_S.size(); ++i) {
-                                Log.i("文字轮播", "第二行：" + messagelist2_S.get(i).getName());
+                            Log.i("文字轮播","*********************************************************************");
+                            for (int i = 0; i < messagelist2_S.size(); ++i){
+                                Log.i("文字轮播","第二行：" + messagelist2_S.get(i).getName());
                             }
                         }
 
@@ -658,6 +699,13 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
     private void tvBanner2() {
         tvBanner2.stopFlipping();
         tvBanner2_S.stopFlipping();
+        messagelist2.clear();
+        messagelist2_S.clear();
+        messagelist.clear();
+        tvBanner2.removeAllViews();
+        tvBanner2_S.removeAllViews();
+        tvBanner2.clearFocus();
+        tvBanner2_S.clearFocus();
         messagelist2 = new ArrayList<>();
         messagelist2_S = new ArrayList<>();
         Retrofit.Builder builder = new Retrofit.Builder();
@@ -678,6 +726,8 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                     @SuppressLint("WrongConstant")
                     @Override
                     public void onNext(MessageBean2 messageBean) {
+                        textBannerAdapter.notifyDataChanged();
+                        textBannerAdapter_s.notifyDataChanged();
                         MessageBean2.DataBean dataBean = messageBean.getData();
                         messagelist = dataBean.getRows();
                         if (messagelist.size() == 0) {
@@ -688,6 +738,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                             messagelist2_S.add(new Bean_S(R.mipmap.no_information, "暂无数据"));
                             messagelist2_S.add(new Bean_S(R.mipmap.no_information, "暂无数据"));
                         } else if (messagelist.size() == 1) {
+                            side_message_no.setVisibility(View.GONE);
                             //TODO 第一行
                             for (int i = 0; i < messagelist.size(); i++) {
                                 if (messagelist.get(i).getType().equals("0")) {
@@ -696,6 +747,8 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                     messagelist2.add(new Bean(R.mipmap.lodger, messagelist.get(i).getTitle()));
                                 } else if (messagelist.get(i).getType().equals("5")) {
                                     messagelist2.add(new Bean(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                }else if (messagelist.get(i).getType().equals("10")){
+                                    messagelist2.add(new Bean(R.mipmap.buildingdynamicimage,messagelist.get(i).getTitle()));
                                 }
                             }
                             int numSize = 0;
@@ -706,12 +759,15 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                     messagelist2_S.add(new Bean_S(R.mipmap.lodger, messagelist.get(i).getTitle()));
                                 } else if (messagelist.get(i).getType().equals("5")) {
                                     messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                }else if (messagelist.get(i).getType().equals("10")){
+                                    messagelist2_S.add(new Bean_S(R.mipmap.buildingdynamicimage,messagelist.get(i).getTitle()));
                                 }
                                 numSize = i;
                             }
                             tvBanner2.setFlipInterval(500000000);
                             tvBanner2_S.setFlipInterval(500000000);
                         } else {
+                            side_message_no.setVisibility(View.GONE);
                             //TODO 第一行
                             for (int i = 0; i < messagelist.size(); i++) {
                                 if (messagelist.get(i).getType().equals("0")) {
@@ -720,6 +776,8 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                     messagelist2.add(new Bean(R.mipmap.lodger, messagelist.get(i).getTitle()));
                                 } else if (messagelist.get(i).getType().equals("5")) {
                                     messagelist2.add(new Bean(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                }else if (messagelist.get(i).getType().equals("10")){
+                                    messagelist2.add(new Bean(R.mipmap.buildingdynamicimage,messagelist.get(i).getTitle()));
                                 }
                             }
                             int numSize = 0;
@@ -728,14 +786,15 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                     messagelist2_S.add(new Bean_S(R.mipmap.give, messagelist.get(i).getTitle()));
                                 } else if (messagelist.get(i).getType().equals("2")) {
                                     messagelist2_S.add(new Bean_S(R.mipmap.lodger, messagelist.get(i).getTitle()));
-                                } else if (messagelist.get(i).getType().equals("5")) {
+                                }else if (messagelist.get(i).getType().equals("5")) {
                                     messagelist2_S.add(new Bean_S(R.mipmap.goodnews, messagelist.get(i).getTitle()));
+                                }else if (messagelist.get(i).getType().equals("10")){
+                                    messagelist2_S.add(new Bean_S(R.mipmap.buildingdynamicimage,messagelist.get(i).getTitle()));
                                 }
                                 numSize = i;
                             }
                         }
-
-                        if (messagelist.size() != 1) {
+                        if (messagelist.size() != 1){
                             tvBanner2_S.setVisibility(View.VISIBLE);
                         }
                         textBannerAdapter.setData(messagelist2);
@@ -749,25 +808,34 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
                                     listterner.process("2"); // 3.1 执行回调
                                 } else if (messagelist.get(postion).getType().equals("5")) {
                                     listterner.process("5"); // 3.1 执行回调
+                                }else if (messagelist.get(postion).getType().equals("10")){
+                                    listterner.process("10"); // 3.1 执行回调
                                 }
+                                Log.i("文字轮播点击","messagelist.get(postion).getType()：" + messagelist.get(postion).getType());
                             }
                         });
                         textBannerAdapter_s.setOnItemClickListener(new TextBannerAdapter_S.OnItemClickLisenter() {
                             @Override
                             public void onItemClick(int postion) {
-                                if (messagelist.get(postion + 1).getType().equals("0")) {
+                                if (messagelist.get(postion+1).getType().equals("0")) {
                                     listterner.process("0"); // 3.1 执行回调
-                                } else if (messagelist.get(postion + 1).getType().equals("2")) {
+                                } else if (messagelist.get(postion+1).getType().equals("2")) {
                                     listterner.process("2"); // 3.1 执行回调
-                                } else if (messagelist.get(postion + 1).getType().equals("5")) {
+                                } else if (messagelist.get(postion+1).getType().equals("5")) {
                                     listterner.process("5"); // 3.1 执行回调
+                                }else if (messagelist.get(postion+1).getType().equals("10")){
+                                    listterner.process("10"); // 3.1 执行回调
                                 }
+                                Log.i("文字轮播点击","messagelist.get(postion).getType()：" + messagelist.get(postion).getType());
                             }
                         });
+                        Log.i("下拉刷新","istvBean == 0");
+                        istvBean = 0;
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        istvBean = 0;
                         tvBanner2.setVisibility(View.GONE);
                         tvBanner2_S.setVisibility(View.GONE);
                         side_message_no.setVisibility(View.VISIBLE);
@@ -783,6 +851,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
 
     //首页轮播图
     private void initView() {
+        Log.i("刷新", "initView");
         list_path = new ArrayList<>();
         list_title = new ArrayList<>();
         list_path.clear();
@@ -851,6 +920,7 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
 
                         } else {
                             banner.setVisibility(View.GONE);
+
                             home_banner_no.setVisibility(View.VISIBLE);
                         }
                     }
@@ -871,10 +941,17 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
 
     @Override
     public void onRefresh() {
+
         if (layout.isRefreshing()) {//如果正在刷新
             initView();
             initHotList();
-            tvBanner2();
+            if(istvBean == 0){
+                Log.i("下拉刷新","istvBean == 0");
+                istvBean = 1;
+                tvBanner2();
+            }else {
+                Log.i("下拉刷新","istvBean != 0");
+            }
             layout.setRefreshing(false);//取消刷新
         }
     }

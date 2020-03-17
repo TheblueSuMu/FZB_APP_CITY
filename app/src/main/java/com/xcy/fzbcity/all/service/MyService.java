@@ -1,5 +1,8 @@
 package com.xcy.fzbcity.all.service;
 
+import com.xcy.fzbcity.all.adapter.CompaniesBean;
+import com.xcy.fzbcity.all.adapter.ProjectsBean;
+import com.xcy.fzbcity.all.adapter.StoresBean;
 import com.xcy.fzbcity.all.database.AddBrokerBean;
 import com.xcy.fzbcity.all.database.AddCompanyBean;
 import com.xcy.fzbcity.all.database.AgentDetailsBean;
@@ -50,6 +53,7 @@ import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface MyService {
+    String PAGE_SIZE = "pageSize";
 
     //http://192.168.79.28:8080/webapi/post?username=itheima&password=123
     //@POST标注当前方法 使用POST请求
@@ -225,7 +229,7 @@ public interface MyService {
 
     //专案端发布楼盘动态数据
     @POST("specialUpdate/addHousesDynamic?")
-    Observable<MessageIssueBean> getAddHousesDynamic(@Query("title") String title, @Query("content") String content, @Query("img") String img, @Query("userId") String userId, @Query("projectId") String projectId);
+    Observable<MessageIssueBean> getAddHousesDynamic(@Query("title") String title, @Query("content") String content, @Query("img") String img, @Query("userId") String userId, @Query("projectId") String projectId,@Query("type") String type);
 
     //专案端待我审核列表
     @POST("specialSelect/toAuditList?")
@@ -246,7 +250,7 @@ public interface MyService {
 
     //首页轮播图列表详情数据
     @POST("commonSelect/newsDetails?")
-    Observable<NewsDetailsBean> getNewsDetails(@Query("userId") String userId, @Query("id") String id);
+    Observable<NewsDetailsBean> getNewsDetails(@Query("cityCompanyId") String cityCompanyId,@Query("userId") String userId, @Query("id") String id);
 
     //首页新闻头条数据
     @POST("commonSelect/messageList?")
@@ -262,7 +266,7 @@ public interface MyService {
 
     //消息界面楼盘动态数据
     @POST("commonSelect/housesDynamicList")
-    Observable<Dynamic2Bean> getDynamicBeanList2(@Query("userId") String userId, @Query("pageSize") String pageSize);
+    Observable<Dynamic2Bean> getDynamicBeanList2(@Query("cityCompanyId") String cityCompanyId, @Query("userId") String userId, @Query("pageSize") String pageSize);
 
     //消息界面通知+房客数据
     @POST("commonSelect/messageList?")
@@ -278,7 +282,7 @@ public interface MyService {
 
     //海外筛选 楼盘特色/项目标签
     @POST("commonSelect/label")
-    Observable<LabelBean> getLabel(@Query("projectType") String projectType, @Query("userId") String userId, @Query("type") String type);
+    Observable<LabelBean> getLabel(@Query("projectType") String projectType, @Query("userId") String userId, @Query("type") String type, @Query("city") String city);
 
     //项目详情 户型解析
     @POST("commonSelect/familyInfo")
@@ -497,7 +501,7 @@ public interface MyService {
 
     //
     @POST("commonSelect/housesDynamicList")
-    Observable<Dynamic2Bean> getDynamicBean(@Query("userId") String userId, @Query("projectId") String projectId, @Query("pageSize") String pageSize);
+    Observable<Dynamic2Bean> getDynamicBean(@Query("userId") String userId, @Query("cityCompanyId") String cityCompanyId, @Query("projectId") String projectId, @Query("pageSize") String pageSize);
 
     //
     @POST("commonSelect/projectBuildingInfo")
@@ -851,4 +855,52 @@ public interface MyService {
     @POST("commonUpdate/updateLoginFlag")
     Observable<UpdateLoginFlag> getUpdateLoginFlag(@Query("userId") String userId, @Query("sysUserId") String sysUserId);
 
+    //注册城市列表
+    @POST("commonSelect/registerCityCompanyList")
+    Observable<SignInCityBean> getSignInCityBean(@Query("pageSize") String pageSize,@Query("name") String name);
+
+    //注册经纪公司列表
+    @POST("commonSelect/registerCompanyList")
+    Observable<SignInCompanyBean> getSignInCompanyBean(@Query("parentId") String parentId, @Query("type") String type,@Query("name") String name,@Query("pageSize") String pageSize);
+
+    //注册经纪门店列表
+    @POST("commonSelect/registerStoreList")
+    Observable<SignInStoreBean> getSignInStoreBean(@Query("parentId") String parentId,@Query("name") String name,@Query("pageSize") String pageSize);
+
+    //注册
+    @POST("commonUpdate/userRegister")
+    Observable<SignInBean> getSignInBean(@Query("storeId") String storeId, @Query("type") String type, @Query("name") String name, @Query("phone") String phone, @Query("loginName") String loginName);
+
+    //项目列表数据
+    @POST("commonSelect/mapFindProjectList")
+    Observable<ProjectsBean> getProjectsBean(@Query("city") String city, @Query("searchName") String searchName, @Query("userId") String userId, @Query("cityType") String cityType, @Query("pageSize") String pageSize);
+
+    //门店列表数据
+    @POST("commonSelect/mapFindStoreList")
+    Observable<StoresBean> getStoresBean(@Query("userId") String userId, @Query("status") String status, @Query("companyId") String companyId, @Query("search") String search, @Query("pageSize") String pageSize);
+
+    //公司列表数据
+    @POST("commonSelect/mapFindCompanyList")
+    Observable<CompaniesBean> getCompaniesBean(@Query("userId") String userId, @Query("search") String search, @Query("status") String status, @Query("pageSize") String pageSize);
+
+
+    //常用语查询
+    @POST("ordinarySelect/findLanguage")
+    Observable<SetPhraseBean> getSetPhraseBean(@Query("agentId") String agentId, @Query("type") String type, @Query("pageSize") String pageSize);
+
+    //修改常用语
+    @POST("ordinaryUpdate/updateLanguage")
+    Observable<AmendUsefulExpressionsBean> getAmendUsefulExpressionsBean(@Query("languageId") String languageId, @Query("content") String content);
+
+    //删除常用语
+    @POST("ordinaryUpdate/delLanguage")
+    Observable<DeleteLanguageBean> getDeleteLanguageBean(@Query("languageId") String languageId);
+
+    //新增常用语
+    @POST("ordinaryUpdate/addLanguage")
+    Observable<AddLanguageBean> getAddLanguageBean(@Query("agentId") String agentId, @Query("content") String content);
+
+    //通知消息
+    @POST("commonSelect/systemMessage")
+    Observable<InformTheDetailsBean> getInformTheDetailsBean(@Query("userId") String userId, @Query("pageSize") String pageSize);
 }

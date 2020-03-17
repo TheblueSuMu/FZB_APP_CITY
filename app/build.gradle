@@ -7,8 +7,8 @@ android {
         applicationId "com.xcy.fzbcity"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 4
-        versionName "1.0.3"
+        versionCode 7
+        versionName "1.0.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk {
@@ -42,6 +42,10 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+
+    dataBinding {
+        enabled = true;
+    }
 }
 
 MobSDK {
@@ -69,6 +73,7 @@ MobSDK {
 
         }
     }
+
 }
 
 // 注意：主App中请确保添加aspectjx
@@ -189,4 +194,21 @@ dependencies {
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3'
     implementation project(path: ':lib_citydata')
     implementation project(path: ':citypickerview')
+    compile project(path: ':uikit')
+//    implementation files('libs\\AMap3DMap_7.1.0_AMapNavi_7.1.0_AMapSearch_7.1.0_AMapLocation_4.8.0_20191210.jar')//高德地图
+//    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
+
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+
+    //推送
+//    implementation 'com.meizu.flyme.internet:push-internal:3.6.3@aar'//魅族
+//    implementation 'com.google.firebase:firebase-messaging:20.0.0'//谷歌
+//    implementation 'com.google.firebase:firebase-core:17.2.0'//谷歌
+//    implementation 'com.google.android.gms:play-services-base:17.1.0'//谷歌
+//    implementation files('libs\\vivo_pushsdk_v2.3.4.jar')//vivo
+//    implementation files('libs\\com.coloros.mcssdk.jar')//oppo
+//    implementation files('libs\\MiPush_SDK_Client_3_7_0.jar')//小米
+//    implementation 'com.huawei.hms:push:3.0.3.301'//华为
+
 }

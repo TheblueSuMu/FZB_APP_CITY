@@ -16,14 +16,39 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/the_project_end_title"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="#111111"
-                android:textSize="15sp" />
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/the_project_end_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="#111111"
+                    android:textSize="15sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="（"
+                    android:textColor="#111111"
+                    android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/the_project_end_title_s"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="#334485"
+                    android:background="@drawable/x_color"
+                    android:textSize="15sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="）"
+                    android:textColor="#111111"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/the_project_end_name"

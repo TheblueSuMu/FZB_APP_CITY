@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.xcy.fzbcity.R;
+import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.modle.MessageBean;
 
 import java.util.ArrayList;
@@ -84,6 +85,12 @@ public class GuestRoomAdapter extends RecyclerView.Adapter<GuestRoomAdapter.Gues
             holder.room_img.setAdapter(imageAdapter);
             imageAdapter.notifyDataSetChanged();
 
+        }
+
+        if (!FinalContents.getCityIs().equals("")) {
+            holder.room_ll_1.setVisibility(View.GONE);
+        }else {
+            holder.room_ll_1.setVisibility(View.VISIBLE);
         }
 
         holder.room_title.setText(rows.get(position).getTitle());

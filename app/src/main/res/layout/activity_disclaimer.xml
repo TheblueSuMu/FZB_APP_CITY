@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#FFFFFF"
     tools:ignore="ResourceName">
 
     <LinearLayout
@@ -54,35 +55,11 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="15dp"
-                    android:text="房坐标用户服务条款"
-                    android:textColor="#ff333333"
-                    android:textSize="23sp" />
-
-                <TextView
-                    android:id="@+id/disclaimer_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <WebView
+                    android:id="@+id/web_disclaimer"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="17dp"
-                    android:layout_marginRight="15dp"
-                    android:text=""
-                    android:textColor="#121212"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/disclaimer_message"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="15dp"
-                    android:textColor="#666666"
-                    android:textSize="14sp" />
+                    android:layout_height="wrap_content"></WebView>
             </LinearLayout>
         </ScrollView>
 

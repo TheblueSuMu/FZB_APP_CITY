@@ -292,7 +292,7 @@
                             android:id="@+id/project_attache_ll2"
                             android:layout_width="match_parent"
                             android:layout_height="3dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="4dp"
                             android:background="@drawable/project_attache_s"
                             android:orientation="horizontal"/>
                     </LinearLayout>
@@ -316,7 +316,7 @@
                             android:id="@+id/project_attache_ll4"
                             android:layout_width="match_parent"
                             android:layout_height="3dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="4dp"
                             android:background="@drawable/project_attache_s"
                             android:orientation="horizontal"
                             android:visibility="invisible"/>
@@ -460,43 +460,6 @@
 
                     </LinearLayout>
 
-
-                    <LinearLayout
-                        android:id="@+id/details_the_project_end_ll6"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/details_the_project_end_tv9"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:ellipsize="end"
-                                android:lines="1"
-                                android:text=""
-                                android:textColor="#111111"
-                                android:textSize="18sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:gravity="center"
-                                android:text="认筹"
-                                android:textColor="#111111"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-
                     <!--                    <LinearLayout-->
                     <!--                        android:layout_width="1dp"-->
                     <!--                        android:layout_height="40dp"-->
@@ -505,7 +468,6 @@
                     <!--                        android:background="#E5E5E5"></LinearLayout>-->
 
                     <LinearLayout
-                        android:visibility="gone"
                         android:id="@+id/details_the_project_end_ll5"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -550,6 +512,41 @@
                     android:layout_marginTop="40dp"
                     android:orientation="horizontal">
 
+                    <LinearLayout
+                        android:id="@+id/details_the_project_end_ll6"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/details_the_project_end_tv9"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:ellipsize="end"
+                                android:lines="1"
+                                android:text=""
+                                android:textColor="#111111"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:gravity="center"
+                                android:text="认筹"
+                                android:textColor="#111111"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                     <!--                    <LinearLayout-->
                     <!--                        android:layout_width="1dp"-->
@@ -643,15 +640,6 @@
                     <!--                        android:layout_gravity="bottom"-->
                     <!--                        android:layout_marginBottom="-3dp"-->
                     <!--                        android:background="#E5E5E5"></LinearLayout>-->
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-
-
-                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -828,7 +816,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginTop="5dp"
-                                android:text="应收(万)"
+                                android:text="总佣金(万)"
                                 android:textColor="#111111"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -1120,7 +1108,6 @@
                     android:id="@+id/details_chart"
                     android:layout_width="match_parent"
                     android:layout_height="130dp"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="15dp"

@@ -63,7 +63,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 //TODO 意见反馈
-public class FeedbackActivity extends AllActivity {
+public class  FeedbackActivity extends AllActivity {
 
     RelativeLayout feedback_return;
     EditText feedback_editText;

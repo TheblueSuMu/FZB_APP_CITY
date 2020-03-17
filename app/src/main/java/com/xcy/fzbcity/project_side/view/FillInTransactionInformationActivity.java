@@ -18,14 +18,11 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.xcy.fzbcity.all.api.CityContents;
-import com.xcy.fzbcity.all.utils.ToastUtil;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,6 +39,7 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
 import com.xcy.fzbcity.all.adapter.ConfessAdapter;
 import com.xcy.fzbcity.all.adapter.ConfessAdapter2;
+import com.xcy.fzbcity.all.api.CityContents;
 import com.xcy.fzbcity.all.api.FinalContents;
 import com.xcy.fzbcity.all.modle.BrokerBean;
 import com.xcy.fzbcity.all.modle.DictListBean;
@@ -63,9 +61,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -74,7 +70,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import top.defaults.view.DateTimePickerView;
 
 //TODO 填写成交信息
 public class FillInTransactionInformationActivity extends AppCompatActivity implements View.OnClickListener {
@@ -125,7 +120,6 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
     private String projecttype;
     private RecyclerView fill_in_transaction_information_rv;
     private TextView fill_in_transaction_information_tishi;
-    private boolean whethe = false;
     private String str = "";
 
     int ifnum1 = 0;
@@ -182,11 +176,6 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
         fill_in_transaction_information_title = findViewById(R.id.fill_in_transaction_information_title);
 
 
-        Calendar calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH);
-        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-
         project_type = findViewById(R.id.project_type);
         project_relation = findViewById(R.id.project_relation);
         house_type = findViewById(R.id.house_type);
@@ -197,6 +186,7 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
         transition_layout = findViewById(R.id.transition_layout);
         transition_recycler = findViewById(R.id.transition_recycler);
         transition_layout.setOnClickListener(this);
+
 
 
         fill_in_transaction_information_rl1 = findViewById(R.id.fill_in_transaction_information_rl1);
@@ -333,7 +323,7 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
             fill_in_transaction_information_tishi.setVisibility(View.GONE);
         }
 
-        fill_in_transaction_information_et4.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+        fill_in_transaction_information_et4.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -359,7 +349,7 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
 
         });
 
-        fill_in_transaction_information_et5.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+        fill_in_transaction_information_et5.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -425,54 +415,51 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
 
     // TODO 添加成交信息数据
     private void initTradeSave() {
+        Log.i("错误","FinalContents.getCommissionId()"+FinalContents.getCommissionId());
         initselect();
-        if (whethe) {
-            if (FinalContents.getCommissionId().equals("")) {
-                ToastUtil.showToast(FillInTransactionInformationActivity.this, "请选择佣金");
-                ifnum6 = 0;
-                return;
-            } else {
-            }
-            Retrofit.Builder builder = new Retrofit.Builder();
-            builder.baseUrl(FinalContents.getBaseUrl());
-            builder.addConverterFactory(GsonConverterFactory.create());
-            builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
-            Retrofit build = builder.build();
-            MyService fzbInterface = build.create(MyService.class);
-            Observable<TradeSaveBean> userMessage = fzbInterface.getTradeSave("", FinalContents.getProjectID(), "", FinalContents.getPreparationId(), FinalContents.getCustomerID(), fang_hao_et1.getText().toString() + "栋" + fang_hao_et2.getText().toString() + "单元" + fang_hao_et3.getText().toString() + "室", apartment, fill_in_transaction_information_et4.getText().toString(), fill_in_transaction_information_et5.getText().toString(), str, payment_way.getText().toString(), FinalContents.getCommissionId(), projecttype, gender, project_relation.getText().toString(), fill_in_transaction_information_et1.getText().toString(), fill_in_transaction_information_et2.getText().toString(), fill_in_transaction_information_et3.getText().toString(), FinalContents.getUserID(), project_time.getText().toString());
-            userMessage.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<TradeSaveBean>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @SuppressLint("WrongConstant")
-                        @Override
-                        public void onNext(TradeSaveBean tradeSaveBean) {
-                            ToastUtil.showToast(FillInTransactionInformationActivity.this, tradeSaveBean.getData().getMessage());
-                            finish();
-                            Log.i("判断", "shuju2：" + ifnum6);
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.i("成交信息", "错误" + e);
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
-            if (FinalContents.getCommissionId().equals("")) {
-                ToastUtil.showToast(FillInTransactionInformationActivity.this, "请选择佣金");
-            } else {
-                FinalContents.setTiaozhuang("成交");
-            }
+        if (FinalContents.getCommissionId().equals("")) {
+            Toast.makeText(FillInTransactionInformationActivity.this, "请选择佣金", Toast.LENGTH_SHORT).show();
+            ifnum6 = 0;
+            return;
         } else {
+        }
+        Retrofit.Builder builder = new Retrofit.Builder();
+        builder.baseUrl(FinalContents.getBaseUrl());
+        builder.addConverterFactory(GsonConverterFactory.create());
+        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+        Retrofit build = builder.build();
+        MyService fzbInterface = build.create(MyService.class);
+        Observable<TradeSaveBean> userMessage = fzbInterface.getTradeSave("", FinalContents.getProjectID(), "", FinalContents.getPreparationId(), FinalContents.getCustomerID(), fang_hao_et1.getText().toString() + "栋" + fang_hao_et2.getText().toString() + "单元" + fang_hao_et3.getText().toString() + "室", apartment, fill_in_transaction_information_et4.getText().toString(), fill_in_transaction_information_et5.getText().toString(), str, payment_way.getText().toString(), FinalContents.getCommissionId(), projecttype, gender, project_relation.getText().toString(), fill_in_transaction_information_et1.getText().toString(), fill_in_transaction_information_et2.getText().toString(), fill_in_transaction_information_et3.getText().toString(), FinalContents.getUserID(), project_time.getText().toString());
+        userMessage.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<TradeSaveBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @SuppressLint("WrongConstant")
+                    @Override
+                    public void onNext(TradeSaveBean tradeSaveBean) {
+                        ToastUtil.showToast(FillInTransactionInformationActivity.this, tradeSaveBean.getData().getMessage());
+                        finish();
+                        Log.i("判断", "shuju2：" + ifnum6);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("成交信息", "错误" + e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+        if (FinalContents.getCommissionId().equals("")) {
             ToastUtil.showToast(FillInTransactionInformationActivity.this, "请选择佣金");
+        } else {
+            FinalContents.setTiaozhuang("成交");
         }
     }
 
@@ -536,7 +523,6 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
                     ToastUtil.showToast(this, "请输入正确的手机号");
                     return;
                 } else {
-
                     if (project_type.getText().toString().equals("")) {
                         ToastUtil.showToast(this, "请选择产品类型");
                         return;
@@ -606,21 +592,16 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
                             initTradeSave();
                         }
                     }
-
                 }
-
-
                 break;
             //            TODO 产品类型
             case R.id.fill_in_transaction_information_rl1:
-
                 if (ifnum4 == 0) {
                     ifnum4 = 1;
                     type = "procuct_type";
                     initData(project_type);
                     ifnum4 = 0;
                 }
-
                 break;
             //            TODO 成交客户与报备客户关系
             case R.id.fill_in_transaction_information_rl2:
@@ -661,9 +642,14 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
             //            TODO 成交时间
             case R.id.fill_in_transaction_information_rl5:
                 hideInput();
+                Calendar calendar = Calendar.getInstance();
+                year = calendar.get(Calendar.YEAR);
+                month = calendar.get(Calendar.MONTH) ;
+                dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
                 Calendar selectedDate = Calendar.getInstance();//系统当前时间
                 Calendar startDate = Calendar.getInstance();
-                startDate.set(year - 2, month, dayOfMonth);
+                startDate.set(year-2, month, dayOfMonth);
                 final Calendar endDate = Calendar.getInstance();
                 endDate.set(year, month, dayOfMonth);
                 TimePickerView pvTime = new TimePickerBuilder(FillInTransactionInformationActivity.this, new OnTimeSelectListener() {
@@ -672,13 +658,12 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
                         project_time.setText(getTime1(date));
                     }
                 })
-
                         .setType(new boolean[]{true, true, true, false, false, false}) //年月日时分秒 的显示与否，不设置则默认全部显示
                         .setLabel("年", "月", "日", "", "", "")//默认设置为年月日时分秒
                         .isCenterLabel(false)
                         .setDate(selectedDate)
                         .setLineSpacingMultiplier(1.5f)
-                        .setTextXOffset(-10, 0, 10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
+                        .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
                         .setRangDate(startDate, endDate)
                         .build();
                 pvTime.show();
@@ -689,10 +674,14 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
                     ToastUtil.showLongToast(FillInTransactionInformationActivity.this,"请选择时间后，再进行佣金选择");
                     return;
                 }
-                project_time.getText().toString();
-                Intent intent = new Intent(FillInTransactionInformationActivity.this,Commission_To_Choose.class);
-                intent.putExtra("time",project_time.getText().toString());
-                startActivity(intent);
+
+//                if (whether) {
+                    initTimeData();
+//                    whether = false;
+//                } else {
+//                    transition_layout.setVisibility(View.GONE);
+//                    whether = true;
+//                }
                 break;
             //            TODO 佣金选择
             case R.id.transition_layout:
@@ -701,7 +690,6 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
 
         }
     }
-
 
     private void initTimeData() {
         Retrofit.Builder builder = new Retrofit.Builder();
@@ -723,24 +711,10 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
                     @Override
                     public void onNext(final BrokerBean brokerBean) {
                         if (brokerBean.getData().size() != 0) {
-                            transition_layout.setVisibility(View.VISIBLE);
-                            MyLinearLayoutManager layoutManager = new MyLinearLayoutManager(FillInTransactionInformationActivity.this);
-                            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                            layoutManager.setScrollEnabled(false);
-                            transition_recycler.setLayoutManager(layoutManager);
-                            TimeRangeAdapter timeRangeAdapter = new TimeRangeAdapter(brokerBean.getData());
-                            transition_recycler.setNestedScrollingEnabled(false);
-                            transition_recycler.setAdapter(timeRangeAdapter);
-                            timeRangeAdapter.setOnItemClickListener(new TimeRangeAdapter.OnItemClickLisenter() {
-                                @Override
-                                public void onItemClick(int postion) {
-                                    project_brokerage.setText(brokerBean.getData().get(postion).getCommissionFormat());
-                                    FinalContents.setCommissionId(brokerBean.getData().get(postion).getId());
-                                    transition_layout.setVisibility(View.GONE);
-                                    whethe = true;
-                                }
-                            });
-                            timeRangeAdapter.notifyDataSetChanged();
+                            project_time.getText().toString();
+                            Intent intent = new Intent(FillInTransactionInformationActivity.this,Commission_To_Choose.class);
+                            intent.putExtra("time",project_time.getText().toString());
+                            startActivity(intent);
                         }else {
                             ToastUtil.showLongToast(FillInTransactionInformationActivity.this,"暂无佣金");
                             transition_layout.setVisibility(View.GONE);
@@ -751,7 +725,7 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
                     public void onError(Throwable e) {
                         ToastUtil.showLongToast(FillInTransactionInformationActivity.this,"佣金列表数据获取错误");
                         transition_layout.setVisibility(View.GONE);
-                        Log.i("列表数据获取错误", "错误" + e);
+                        Log.i("佣金列表数据获取错误", "错误" + e);
                     }
 
                     @Override
@@ -970,6 +944,7 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
         hideInput();
         //      监听选中
         OptionsPickerView pvOptions = new OptionsPickerBuilder(FillInTransactionInformationActivity.this, new OnOptionsSelectListener() {
+
             @Override
             public void onOptionsSelect(int options1, int option2, int options3, View v) {
                 //               返回的分别是三个级别的选中位置
@@ -998,6 +973,44 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
         }
     }
 
+    /**
+     * 根据EditText所在坐标和用户点击的坐标相对比，来判断是否隐藏键盘，因为当用户点击EditText时则不能隐藏
+     *
+     * @param v
+     * @param event
+     * @return
+     */
+    private boolean isShouldHideKeyboard(View v, MotionEvent event) {
+        if (v != null && (v instanceof EditText)) {
+            int[] l = {0, 0};
+            v.getLocationInWindow(l);
+            int left = l[0],
+                    top = l[1],
+                    bottom = top + v.getHeight(),
+                    right = left + v.getWidth();
+            if (event.getX() > left && event.getX() < right
+                    && event.getY() > top && event.getY() < bottom) {
+                // 点击EditText的事件，忽略它。
+                return false;
+            } else {
+                return true;
+            }
+        }
+        // 如果焦点不是EditText则忽略，这个发生在视图刚绘制完，第一个焦点不在EditText上，和用户用轨迹球选择其他的焦点
+        return false;
+    }
+
+    /**
+     * 获取InputMethodManager，隐藏软键盘
+     * @param token
+     */
+    private boolean hideKeyboard(IBinder token) {
+        if (token != null) {
+            InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            return im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+        return false;
+    }
 
     public String getTime1(Date date) {//可根据需要自行截取数据显示
 //        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -1020,5 +1033,4 @@ public class FillInTransactionInformationActivity extends AppCompatActivity impl
         super.onDestroy();
         CityContents.setCommissionFormat("");
     }
-
 }

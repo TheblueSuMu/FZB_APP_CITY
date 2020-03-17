@@ -1,7 +1,5 @@
 package com.xcy.fzbcity.all.modle;
 
-import java.io.Serializable;
-
 /**
  * 创建：Sun
  * 时间：2019/7/23
@@ -12,7 +10,7 @@ public class LoginUserBean {
     /**
      * code : 1
      * msg : 成功
-     * data : {"id":"43dea5335a1b4cb6bf15782a3be87c6a","loginName":"cs5","name":"cs5","email":"","phone":"19904308150","mobile":"","loginIp":"127.0.0.1","loginDate":1563854002177,"loginFlag":"1","photo":"/fangfang/userfiles/3c37d25396a940f9b784b4c180f7db37/attachment//ff/server/sysUser/2019/4/1.png","qrCode":"","oldLoginName":"","newPassword":"","sign":"","oldLoginIp":"127.0.0.1","oldLoginDate":1563853881170,"sex":"男","province":"吉林省","city":"长春市","county":"宽城区","identity":"1","companyManage":{"id":"004c70f2438249039728411b50d996a7","remarks":"","createBy":"","createDate":"2019-06-16 14:30:41","updateBy":"","updateDate":"2019-06-16 22:10:28","companyCityName":"长春房坐标（吉海优房）","companyName":"唐老鸭","area":"吉林省/长春市/南关区","zoneId":"","location":"125.333415,43.822148","address":"吉林省长春市南关区人民大街辅路","companyInfo":"测试","attacheId":"","managerId":"","directorId":"","flag":"1","officeId":"c241db93cbd247f5a8aadf501806b56a","userId":"43dea5335a1b4cb6bf15782a3be87c6a","userName":"cs5","phone":"19904308150","loginName":"cs5","password":"","startTime":"","endTime":"","lprovince":"吉林省","lcity":"长春市","lregion":"南关区"},"storeManage":{"id":"f294af6abbfc4a3ea2a1c7b999c7deff","remarks":"","createBy":"","createDate":"2019-06-16 14:32:08","updateBy":"","updateDate":"2019-06-16 21:52:31","company":"","storeName":"鸭店001","area":"吉林省/长春市/宽城区","zoneId":"","location":"125.330372,43.945159","address":"吉林省长春市宽城区北人民大街辅路","storeInfo":"测试不许删","attache":"","managerId":"","directorId":"","flag":"1","lProvince":"吉林省","lCity":"长春市","lRegion":"宽城区","officeId":"c241db93cbd247f5a8aadf501806b56a","storeRise":"/fangfang/userfiles/3c37d25396a940f9b784b4c180f7db37/attachment//ff/server/ffServerStoreManage/2019/6/3.jpg","storeImg":"/fangfang/userfiles/3c37d25396a940f9b784b4c180f7db37/attachment//ff/server/ffServerStoreManage/2019/6/2.jpg","reason":"","userId":"43dea5335a1b4cb6bf15782a3be87c6a","storeNum":"0000004","userName":"cs5","phone":"19904308150","loginName":"cs5","password":"","attacheName":"专员","attachePhone":"17610596662","startTime":"","endTime":"","lprovince":"吉林省","lcity":"长春市","lregion":"宽城区"},"storeManagePhone":"17610596662","storeManageName":"专员","cityId":"c241db93cbd247f5a8aadf501806b56a","cityName":"长春房坐标（吉海优房）","team":"","codeImg":"/fangfang/static/down/appTwoCode.png","codeHref":"/fangfang/static/down/index.html","uId":"8df1397fdf4eeb2f582d416272b1e275c58abbe18559e5ac94073c452f81c5de8d85d48153555e494b79cfa0d9ae3cf1","status":"1","message":""}
+     * data : {"id":"623f85bb900d4dadb74921390509301a","loginName":"wyyceshi","name":"网易云测试","email":"2529785659@qq.com","phone":"17602638197","mobile":"","loginIp":"0:0:0:0:0:0:0:1","loginDate":1583301407000,"loginFlag":"1","photo":"/fangfang/userfiles/1/attachment//ff/server/sysUser/2020/3/1583287617166.jpg","qrCode":"","oldLoginName":"","newPassword":"","sign":"","oldLoginIp":"0:0:0:0:0:0:0:1","oldLoginDate":1583301407000,"sex":"男","province":"吉林省","city":"长春市","county":"南关区","identity":"3","companyManage":{"id":"7c1b500778774cbd80ab61091dadb72d","remarks":"","createBy":"","createDate":"2020-01-13 15:42:48","updateBy":"","updateDate":"2020-01-13 15:42:48","filterField":"","companyCityName":"吉海旅居（长春）","companyName":"珠穆朗玛峰公司","area":"吉林省/长春市/南关区","zoneId":"","location":"125.31432828345758,43.794024368449705","address":"吉林省长春市南关区X001(永春街)","companyInfo":"","attacheId":"62a59be0914b487186d287ed4e490d9c","managerId":"","directorId":"","flag":"1","state":"","officeId":"c241db93cbd247f5a8aadf501806b56a","sysUserId":"","userName":"","phone":"","loginName":"","password":"","startTime":"","endTime":"","type":"","attacheName":"yyy","identity":"5","lprovince":"吉林省","lcity":"长春市","lregion":"南关区","isSecond":"普通专员"},"storeManage":{"id":"758f0b0f0f00488e8fcf29baea9dff8b","remarks":"","createBy":"","createDate":"2020-01-13 15:43:32","updateBy":"","updateDate":"2020-01-13 15:43:32","filterField":"","company1":"","company":"","storeName":"修木门店","area":"吉林省/长春市/南关区","zoneId":"","location":"125.31428336818209,43.794115470366265","address":"吉林省长春市南关区X001(永春街)","storeInfo":"","attache":"","managerId":"","directorId":"","flag":"1","state":"1","lProvince":"吉林省","lCity":"长春市","lRegion":"南关区","officeId":"c241db93cbd247f5a8aadf501806b56a","storeRise":"","storeImg":"","reason":"","userId":"","storeNum":"0002455","userName":"","phone":"","loginName":"","password":"","attacheName":"yyy","attachePhone":"13944619975","startTime":"","endTime":"","officeName":"吉海旅居（长春）","identity":"5","lprovince":"吉林省","lcity":"长春市","lregion":"南关区","isSecond":"普通专员"},"storeManagePhone":"13944619975","storeManageName":"yyy","cityId":"c241db93cbd247f5a8aadf501806b56a","cityName":"吉海旅居（长春）","team":"","layerTeamVo":"","manageFlag":"","codeImg":"/fangfang/static/down/appTwoCode.png","wechatOpenid":"","wechatData":"","codeHref":"/fangfang/static/down/index.html","uId":"4c07dcfacdb6ee63719d66ed79200f8a01c243706537e4fa262c218a15e5f5af8d85d48153555e494b79cfa0d9ae3cf1","status":"1","message":"","token":"3a388f9033774d9486e9db02d745db1e","webshopId":"83f4460f9b724db3ae85b3de0ac2b5f7"}
      */
 
     private String code;
@@ -43,41 +41,47 @@ public class LoginUserBean {
         this.data = data;
     }
 
-    public static class DataBean implements Serializable {
+    public static class DataBean {
         /**
-         * id : 43dea5335a1b4cb6bf15782a3be87c6a
-         * loginName : cs5
-         * name : cs5
-         * email :
-         * phone : 19904308150
+         * id : 623f85bb900d4dadb74921390509301a
+         * loginName : wyyceshi
+         * name : 网易云测试
+         * email : 2529785659@qq.com
+         * phone : 17602638197
          * mobile :
-         * loginIp : 127.0.0.1
-         * loginDate : 1563854002177
+         * loginIp : 0:0:0:0:0:0:0:1
+         * loginDate : 1583301407000
          * loginFlag : 1
-         * photo : /fangfang/userfiles/3c37d25396a940f9b784b4c180f7db37/attachment//ff/server/sysUser/2019/4/1.png
+         * photo : /fangfang/userfiles/1/attachment//ff/server/sysUser/2020/3/1583287617166.jpg
          * qrCode :
          * oldLoginName :
          * newPassword :
          * sign :
-         * oldLoginIp : 127.0.0.1
-         * oldLoginDate : 1563853881170
+         * oldLoginIp : 0:0:0:0:0:0:0:1
+         * oldLoginDate : 1583301407000
          * sex : 男
          * province : 吉林省
          * city : 长春市
-         * county : 宽城区
-         * identity : 1
-         * companyManage : {"id":"004c70f2438249039728411b50d996a7","remarks":"","createBy":"","createDate":"2019-06-16 14:30:41","updateBy":"","updateDate":"2019-06-16 22:10:28","companyCityName":"长春房坐标（吉海优房）","companyName":"唐老鸭","area":"吉林省/长春市/南关区","zoneId":"","location":"125.333415,43.822148","address":"吉林省长春市南关区人民大街辅路","companyInfo":"测试","attacheId":"","managerId":"","directorId":"","flag":"1","officeId":"c241db93cbd247f5a8aadf501806b56a","userId":"43dea5335a1b4cb6bf15782a3be87c6a","userName":"cs5","phone":"19904308150","loginName":"cs5","password":"","startTime":"","endTime":"","lprovince":"吉林省","lcity":"长春市","lregion":"南关区"}
-         * storeManage : {"id":"f294af6abbfc4a3ea2a1c7b999c7deff","remarks":"","createBy":"","createDate":"2019-06-16 14:32:08","updateBy":"","updateDate":"2019-06-16 21:52:31","company":"","storeName":"鸭店001","area":"吉林省/长春市/宽城区","zoneId":"","location":"125.330372,43.945159","address":"吉林省长春市宽城区北人民大街辅路","storeInfo":"测试不许删","attache":"","managerId":"","directorId":"","flag":"1","lProvince":"吉林省","lCity":"长春市","lRegion":"宽城区","officeId":"c241db93cbd247f5a8aadf501806b56a","storeRise":"/fangfang/userfiles/3c37d25396a940f9b784b4c180f7db37/attachment//ff/server/ffServerStoreManage/2019/6/3.jpg","storeImg":"/fangfang/userfiles/3c37d25396a940f9b784b4c180f7db37/attachment//ff/server/ffServerStoreManage/2019/6/2.jpg","reason":"","userId":"43dea5335a1b4cb6bf15782a3be87c6a","storeNum":"0000004","userName":"cs5","phone":"19904308150","loginName":"cs5","password":"","attacheName":"专员","attachePhone":"17610596662","startTime":"","endTime":"","lprovince":"吉林省","lcity":"长春市","lregion":"宽城区"}
-         * storeManagePhone : 17610596662
-         * storeManageName : 专员
+         * county : 南关区
+         * identity : 3
+         * companyManage : {"id":"7c1b500778774cbd80ab61091dadb72d","remarks":"","createBy":"","createDate":"2020-01-13 15:42:48","updateBy":"","updateDate":"2020-01-13 15:42:48","filterField":"","companyCityName":"吉海旅居（长春）","companyName":"珠穆朗玛峰公司","area":"吉林省/长春市/南关区","zoneId":"","location":"125.31432828345758,43.794024368449705","address":"吉林省长春市南关区X001(永春街)","companyInfo":"","attacheId":"62a59be0914b487186d287ed4e490d9c","managerId":"","directorId":"","flag":"1","state":"","officeId":"c241db93cbd247f5a8aadf501806b56a","sysUserId":"","userName":"","phone":"","loginName":"","password":"","startTime":"","endTime":"","type":"","attacheName":"yyy","identity":"5","lprovince":"吉林省","lcity":"长春市","lregion":"南关区","isSecond":"普通专员"}
+         * storeManage : {"id":"758f0b0f0f00488e8fcf29baea9dff8b","remarks":"","createBy":"","createDate":"2020-01-13 15:43:32","updateBy":"","updateDate":"2020-01-13 15:43:32","filterField":"","company1":"","company":"","storeName":"修木门店","area":"吉林省/长春市/南关区","zoneId":"","location":"125.31428336818209,43.794115470366265","address":"吉林省长春市南关区X001(永春街)","storeInfo":"","attache":"","managerId":"","directorId":"","flag":"1","state":"1","lProvince":"吉林省","lCity":"长春市","lRegion":"南关区","officeId":"c241db93cbd247f5a8aadf501806b56a","storeRise":"","storeImg":"","reason":"","userId":"","storeNum":"0002455","userName":"","phone":"","loginName":"","password":"","attacheName":"yyy","attachePhone":"13944619975","startTime":"","endTime":"","officeName":"吉海旅居（长春）","identity":"5","lprovince":"吉林省","lcity":"长春市","lregion":"南关区","isSecond":"普通专员"}
+         * storeManagePhone : 13944619975
+         * storeManageName : yyy
          * cityId : c241db93cbd247f5a8aadf501806b56a
-         * cityName : 长春房坐标（吉海优房）
+         * cityName : 吉海旅居（长春）
          * team :
+         * layerTeamVo :
+         * manageFlag :
          * codeImg : /fangfang/static/down/appTwoCode.png
+         * wechatOpenid :
+         * wechatData :
          * codeHref : /fangfang/static/down/index.html
-         * uId : 8df1397fdf4eeb2f582d416272b1e275c58abbe18559e5ac94073c452f81c5de8d85d48153555e494b79cfa0d9ae3cf1
+         * uId : 4c07dcfacdb6ee63719d66ed79200f8a01c243706537e4fa262c218a15e5f5af8d85d48153555e494b79cfa0d9ae3cf1
          * status : 1
          * message :
+         * token : 3a388f9033774d9486e9db02d745db1e
+         * webshopId : 83f4460f9b724db3ae85b3de0ac2b5f7
          */
 
         private String id;
@@ -108,11 +112,17 @@ public class LoginUserBean {
         private String cityId;
         private String cityName;
         private String team;
+        private String layerTeamVo;
+        private String manageFlag;
         private String codeImg;
+        private String wechatOpenid;
+        private String wechatData;
         private String codeHref;
         private String uId;
         private String status;
         private String message;
+        private String token;
+        private String webshopId;
 
         public String getId() {
             return id;
@@ -338,12 +348,44 @@ public class LoginUserBean {
             this.team = team;
         }
 
+        public String getLayerTeamVo() {
+            return layerTeamVo;
+        }
+
+        public void setLayerTeamVo(String layerTeamVo) {
+            this.layerTeamVo = layerTeamVo;
+        }
+
+        public String getManageFlag() {
+            return manageFlag;
+        }
+
+        public void setManageFlag(String manageFlag) {
+            this.manageFlag = manageFlag;
+        }
+
         public String getCodeImg() {
             return codeImg;
         }
 
         public void setCodeImg(String codeImg) {
             this.codeImg = codeImg;
+        }
+
+        public String getWechatOpenid() {
+            return wechatOpenid;
+        }
+
+        public void setWechatOpenid(String wechatOpenid) {
+            this.wechatOpenid = wechatOpenid;
+        }
+
+        public String getWechatData() {
+            return wechatData;
+        }
+
+        public void setWechatData(String wechatData) {
+            this.wechatData = wechatData;
         }
 
         public String getCodeHref() {
@@ -378,36 +420,58 @@ public class LoginUserBean {
             this.message = message;
         }
 
-        public static class CompanyManageBean implements Serializable {
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
+
+        public String getWebshopId() {
+            return webshopId;
+        }
+
+        public void setWebshopId(String webshopId) {
+            this.webshopId = webshopId;
+        }
+
+        public static class CompanyManageBean {
             /**
-             * id : 004c70f2438249039728411b50d996a7
+             * id : 7c1b500778774cbd80ab61091dadb72d
              * remarks :
              * createBy :
-             * createDate : 2019-06-16 14:30:41
+             * createDate : 2020-01-13 15:42:48
              * updateBy :
-             * updateDate : 2019-06-16 22:10:28
-             * companyCityName : 长春房坐标（吉海优房）
-             * companyName : 唐老鸭
+             * updateDate : 2020-01-13 15:42:48
+             * filterField :
+             * companyCityName : 吉海旅居（长春）
+             * companyName : 珠穆朗玛峰公司
              * area : 吉林省/长春市/南关区
              * zoneId :
-             * location : 125.333415,43.822148
-             * address : 吉林省长春市南关区人民大街辅路
-             * companyInfo : 测试
-             * attacheId :
+             * location : 125.31432828345758,43.794024368449705
+             * address : 吉林省长春市南关区X001(永春街)
+             * companyInfo :
+             * attacheId : 62a59be0914b487186d287ed4e490d9c
              * managerId :
              * directorId :
              * flag : 1
+             * state :
              * officeId : c241db93cbd247f5a8aadf501806b56a
-             * userId : 43dea5335a1b4cb6bf15782a3be87c6a
-             * userName : cs5
-             * phone : 19904308150
-             * loginName : cs5
+             * sysUserId :
+             * userName :
+             * phone :
+             * loginName :
              * password :
              * startTime :
              * endTime :
+             * type :
+             * attacheName : yyy
+             * identity : 5
              * lprovince : 吉林省
              * lcity : 长春市
              * lregion : 南关区
+             * isSecond : 普通专员
              */
 
             private String id;
@@ -416,6 +480,7 @@ public class LoginUserBean {
             private String createDate;
             private String updateBy;
             private String updateDate;
+            private String filterField;
             private String companyCityName;
             private String companyName;
             private String area;
@@ -427,17 +492,22 @@ public class LoginUserBean {
             private String managerId;
             private String directorId;
             private String flag;
+            private String state;
             private String officeId;
-            private String userId;
+            private String sysUserId;
             private String userName;
             private String phone;
             private String loginName;
             private String password;
             private String startTime;
             private String endTime;
+            private String type;
+            private String attacheName;
+            private String identity;
             private String lprovince;
             private String lcity;
             private String lregion;
+            private String isSecond;
 
             public String getId() {
                 return id;
@@ -485,6 +555,14 @@ public class LoginUserBean {
 
             public void setUpdateDate(String updateDate) {
                 this.updateDate = updateDate;
+            }
+
+            public String getFilterField() {
+                return filterField;
+            }
+
+            public void setFilterField(String filterField) {
+                this.filterField = filterField;
             }
 
             public String getCompanyCityName() {
@@ -575,6 +653,14 @@ public class LoginUserBean {
                 this.flag = flag;
             }
 
+            public String getState() {
+                return state;
+            }
+
+            public void setState(String state) {
+                this.state = state;
+            }
+
             public String getOfficeId() {
                 return officeId;
             }
@@ -583,12 +669,12 @@ public class LoginUserBean {
                 this.officeId = officeId;
             }
 
-            public String getUserId() {
-                return userId;
+            public String getSysUserId() {
+                return sysUserId;
             }
 
-            public void setUserId(String userId) {
-                this.userId = userId;
+            public void setSysUserId(String sysUserId) {
+                this.sysUserId = sysUserId;
             }
 
             public String getUserName() {
@@ -639,6 +725,30 @@ public class LoginUserBean {
                 this.endTime = endTime;
             }
 
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
+            }
+
+            public String getAttacheName() {
+                return attacheName;
+            }
+
+            public void setAttacheName(String attacheName) {
+                this.attacheName = attacheName;
+            }
+
+            public String getIdentity() {
+                return identity;
+            }
+
+            public void setIdentity(String identity) {
+                this.identity = identity;
+            }
+
             public String getLprovince() {
                 return lprovince;
             }
@@ -662,47 +772,61 @@ public class LoginUserBean {
             public void setLregion(String lregion) {
                 this.lregion = lregion;
             }
+
+            public String getIsSecond() {
+                return isSecond;
+            }
+
+            public void setIsSecond(String isSecond) {
+                this.isSecond = isSecond;
+            }
         }
 
-        public static class StoreManageBean implements Serializable {
+        public static class StoreManageBean {
             /**
-             * id : f294af6abbfc4a3ea2a1c7b999c7deff
+             * id : 758f0b0f0f00488e8fcf29baea9dff8b
              * remarks :
              * createBy :
-             * createDate : 2019-06-16 14:32:08
+             * createDate : 2020-01-13 15:43:32
              * updateBy :
-             * updateDate : 2019-06-16 21:52:31
+             * updateDate : 2020-01-13 15:43:32
+             * filterField :
+             * company1 :
              * company :
-             * storeName : 鸭店001
-             * area : 吉林省/长春市/宽城区
+             * storeName : 修木门店
+             * area : 吉林省/长春市/南关区
              * zoneId :
-             * location : 125.330372,43.945159
-             * address : 吉林省长春市宽城区北人民大街辅路
-             * storeInfo : 测试不许删
+             * location : 125.31428336818209,43.794115470366265
+             * address : 吉林省长春市南关区X001(永春街)
+             * storeInfo :
              * attache :
              * managerId :
              * directorId :
              * flag : 1
+             * state : 1
              * lProvince : 吉林省
              * lCity : 长春市
-             * lRegion : 宽城区
+             * lRegion : 南关区
              * officeId : c241db93cbd247f5a8aadf501806b56a
-             * storeRise : /fangfang/userfiles/3c37d25396a940f9b784b4c180f7db37/attachment//ff/server/ffServerStoreManage/2019/6/3.jpg
-             * storeImg : /fangfang/userfiles/3c37d25396a940f9b784b4c180f7db37/attachment//ff/server/ffServerStoreManage/2019/6/2.jpg
+             * storeRise :
+             * storeImg :
              * reason :
-             * userId : 43dea5335a1b4cb6bf15782a3be87c6a
-             * storeNum : 0000004
-             * userName : cs5
-             * phone : 19904308150
-             * loginName : cs5
+             * userId :
+             * storeNum : 0002455
+             * userName :
+             * phone :
+             * loginName :
              * password :
-             * attacheName : 专员
-             * attachePhone : 17610596662
+             * attacheName : yyy
+             * attachePhone : 13944619975
              * startTime :
              * endTime :
+             * officeName : 吉海旅居（长春）
+             * identity : 5
              * lprovince : 吉林省
              * lcity : 长春市
-             * lregion : 宽城区
+             * lregion : 南关区
+             * isSecond : 普通专员
              */
 
             private String id;
@@ -711,6 +835,8 @@ public class LoginUserBean {
             private String createDate;
             private String updateBy;
             private String updateDate;
+            private String filterField;
+            private String company1;
             private String company;
             private String storeName;
             private String area;
@@ -722,6 +848,7 @@ public class LoginUserBean {
             private String managerId;
             private String directorId;
             private String flag;
+            private String state;
             private String lProvince;
             private String lCity;
             private String lRegion;
@@ -739,9 +866,12 @@ public class LoginUserBean {
             private String attachePhone;
             private String startTime;
             private String endTime;
+            private String officeName;
+            private String identity;
             private String lprovince;
             private String lcity;
             private String lregion;
+            private String isSecond;
 
             public String getId() {
                 return id;
@@ -789,6 +919,22 @@ public class LoginUserBean {
 
             public void setUpdateDate(String updateDate) {
                 this.updateDate = updateDate;
+            }
+
+            public String getFilterField() {
+                return filterField;
+            }
+
+            public void setFilterField(String filterField) {
+                this.filterField = filterField;
+            }
+
+            public String getCompany1() {
+                return company1;
+            }
+
+            public void setCompany1(String company1) {
+                this.company1 = company1;
             }
 
             public String getCompany() {
@@ -877,6 +1023,14 @@ public class LoginUserBean {
 
             public void setFlag(String flag) {
                 this.flag = flag;
+            }
+
+            public String getState() {
+                return state;
+            }
+
+            public void setState(String state) {
+                this.state = state;
             }
 
             public String getLProvince() {
@@ -1015,6 +1169,22 @@ public class LoginUserBean {
                 this.endTime = endTime;
             }
 
+            public String getOfficeName() {
+                return officeName;
+            }
+
+            public void setOfficeName(String officeName) {
+                this.officeName = officeName;
+            }
+
+            public String getIdentity() {
+                return identity;
+            }
+
+            public void setIdentity(String identity) {
+                this.identity = identity;
+            }
+
             public String getLprovince() {
                 return lprovince;
             }
@@ -1037,6 +1207,14 @@ public class LoginUserBean {
 
             public void setLregion(String lregion) {
                 this.lregion = lregion;
+            }
+
+            public String getIsSecond() {
+                return isSecond;
+            }
+
+            public void setIsSecond(String isSecond) {
+                this.isSecond = isSecond;
             }
         }
     }

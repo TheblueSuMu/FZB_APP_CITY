@@ -53,7 +53,7 @@ public class TimeRangeAdapter extends RecyclerView.Adapter<TimeRangeAdapter.View
         holder.commission_item_money_activity.setText(list.get(position).getCommissionFormat());
         holder.commission_item_time_activity.setText(list.get(position).getSecondsFormat());
 
-        if (list.get(position).getIsSeconds().equals("0")) {
+        if (list.get(position).getIsSeconds().equals("1")) {
             holder.commission_item_time_activity.setTextColor(Color.parseColor("#31CA98"));
         }else {
             holder.commission_item_time_activity.setTextColor(Color.parseColor("#999999"));

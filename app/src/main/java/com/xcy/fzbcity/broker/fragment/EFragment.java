@@ -17,6 +17,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.netease.nim.uikit.api.NimUIKit;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.xcy.fzbcity.all.utils.ToastUtil;
 
 import androidx.annotation.Nullable;
@@ -92,7 +97,7 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
 //TODO 设置导航栏、标题栏透明
         StatusBar.makeStatusBarTransparent(getActivity());
         my_tv_huancun = getActivity().findViewById(R.id.my_tv_huancun);
-        me_gr = getActivity().findViewById(R.id.me_gr);//个人中心
+        me_gr = getActivity().findViewById(R.id.me_gr_S);//个人中心
         me_Client = getActivity().findViewById(R.id.me_Client);//我的客户
         me_brokerage = getActivity().findViewById(R.id.me_Brokerage);//我的佣金
         my_collect = getActivity().findViewById(R.id.my_collect);//我的收藏
@@ -229,6 +234,25 @@ public class EFragment extends AllFragment implements View.OnClickListener, Swip
 //            TODO 关于房坐标
             intent = new Intent(getContext(), AboutFZBActivity.class);
             startActivity(intent);
+//            NimUIKit.login(new LoginInfo("test1","123456"), new RequestCallback<LoginInfo>() {
+//                @Override
+//                public void onSuccess(LoginInfo loginInfo) {
+//                    Log.e("TAG", "登录成功");
+//                    //TODO 页面间的跳转
+//
+//                }
+//
+//                @Override
+//                public void onFailed(int i) {
+//
+//                }
+//
+//                @Override
+//                public void onException(Throwable throwable) {
+//                    Toast.makeText(getContext(), "登录失败" + throwable, Toast.LENGTH_SHORT).show();
+//                    Log.e("TAG", "登录失败" + throwable);
+//                }
+//            });
         } else if (id == R.id.my_empty) {
 //            TODO 清空缓存
 

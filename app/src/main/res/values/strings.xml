@@ -5,4 +5,74 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_contact">搜索联系人</string>
     <string name="no_contact">没有找到联系人</string>
+    <string name="main_tab_session">会话</string>
+    <string name="net_broken">当前网络不可用</string>
+    <string name="nim_status_unlogin">未登录</string>
+    <string name="nim_status_connecting">连接中...</string>
+    <string name="nim_status_logining">登录中...</string>
+    <string name="copyright">Copyright ©1997-2019 网易公司版权所有</string>
+    <string name="user_not_exsit">该用户不存在</string>
+    <string name="user_tips">请检查你输入的帐号是否正确</string>
+    <string name="edit">编辑</string>
+
+
+    <string name="multiport_manager">多端登录管理</string>
+    <string name="multiport_logout">下线</string>
+    <string name="computer_version">云信电脑版</string>
+    <string name="web_version">云信网页版</string>
+    <string name="mobile_version">云信移动版</string>
+    <string name="multiport_logging">正在使用</string>
+    <string name="kickout_notify">下线通知</string>
+    <string name="kickout_content">你的帐号被%1$s踢出下线，请确定帐号信息安全</string>
+
+    <string name="login_failed">帐号或密码错误</string>
+
+
+    <string name="message_p2p_clear_tips">确定清空点对点历史消息?</string>
+    <string name="sure_keep_roam">确认单保留漫游</string>
+    <string name="message_info">聊天信息</string>
+    <string name="avchat_list">音视频通话记录</string>
+
+    <string name="message_history_query">云消息记录</string>
+    <string name="message_search_title">搜索本地消息记录</string>
+    <string name="message_clear">清空本地消息记录</string>
+    <string name="message_p2p_clear">清空点对点历史消息</string>
+
+
+    <string name="cloud_session_list">云端会话列表</string>
+
+
+    <string name="readed">已读</string>
+    <string name="unread">未读</string>
+    <string name="about">关于</string>
+
+
+    <string name="send_ack_msg">发送已读回执消息</string>
+    <string name="ack_msg_info">消息已读详情</string>
+    <string name="ack_msg_tip">已读回执能力支持文本、图片、音频、视频、文件、自定义等消息类型。此处仅以文本消息作为演示，开发者可以根据具体业务场景进行功能设计。</string>
+    <string name="down_time_enable_notification">免打扰期间显示通知</string>
+    <string name="independent_mode_error">独立AppKey模式，appKey不能为空</string>
+    <string name="appkey_cannot_empty">appKey不能为空</string>
+    <string name="view_cloud_session">查看云端会话</string>
+
+
+    <string name="input_panel_file">发送文件</string>
+    <string name="input_panel_cyy">常用语</string>
+    <string name="input_panel_voice">语音聊天</string>
+    <string name="input_panel_voide">视频聊天</string>
+    <string name="input_panel_project">项 目</string>
+
+
+     location
+    <string name="location_navigate">导航</string>
+    <string name="location_loading">正在定位</string>
+    <string name="location_map">地图定位</string>
+    <string name="my_location">我的位置</string>
+    <string name="location_address_unkown">该位置信息暂无</string>
+    <string name="format_mylocation">我的位置：%s</string>
+    <string name="location_address_fail">获取位置信息失败</string>
+    <string name="tools_selected">选择工具</string>
+    <string name="friends_map_navigation_web">在网页中打开</string>
+    <string name="location_open_map_error">打开地图出错</string>
+
 </resources>

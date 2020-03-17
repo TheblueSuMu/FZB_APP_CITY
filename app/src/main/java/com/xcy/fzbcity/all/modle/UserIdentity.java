@@ -2,10 +2,11 @@ package com.xcy.fzbcity.all.modle;
 
 public class UserIdentity {
 
+
     /**
      * code : 1
      * msg : 成功
-     * data : {"identity":"4"}
+     * data : {"identity":"","message":"此账号不存在","status":"2"}
      */
 
     private String code;
@@ -38,10 +39,14 @@ public class UserIdentity {
 
     public static class DataBean {
         /**
-         * identity : 4
+         * identity :
+         * message : 此账号不存在
+         * status : 2
          */
 
         private String identity;
+        private String message;
+        private String status;
 
         public String getIdentity() {
             return identity;
@@ -49,6 +54,22 @@ public class UserIdentity {
 
         public void setIdentity(String identity) {
             this.identity = identity;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
         }
     }
 }

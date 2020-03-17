@@ -3,7 +3,7 @@ package com.xcy.fzbcity.project_side.view;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -21,9 +21,6 @@ import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.CombinedChart;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -33,11 +30,7 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IFillFormatter;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xcy.fzbcity.R;
@@ -59,6 +52,8 @@ import com.xcy.fzbcity.all.view.MapActivity;
 import com.xcy.fzbcity.all.view.ProjectDetails;
 import com.xcy.fzbcity.all.view.ReportActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -158,7 +153,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
     private String afterDate3 = "";
 
     private String status = "10";
-    private CombinedChart details_chart;
+    private CombinedChart combinedChart;
 
 
     private DynamicLineChartManager dynamicLineChartManager;
@@ -180,6 +175,9 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
     String tag = "1";
     private String string;
     private Date select;
+    private Date select1;
+    private Date select2;
+    private Date select3;
     private Date endselect;
 
     @Override
@@ -296,7 +294,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
         details_the_project_end_time_ll2 = findViewById(R.id.details_the_project_end_time_ll2);
         details_the_project_end_time_ll3 = findViewById(R.id.details_the_project_end_time_ll3);
 
-        details_chart = findViewById(R.id.details_chart);
+        combinedChart = findViewById(R.id.details_chart);
 
         details_the_project_end_return.setOnClickListener(this);
         details_the_project_end_rl1.setOnClickListener(this);
@@ -359,10 +357,11 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-
         select = calendar.getTime();
+        select1 = calendar.getTime();
+        select2 = calendar.getTime();
+        select3 = calendar.getTime();
         endselect = calendar.getTime();
-
         string = String.format(Locale.getDefault(), "%d.%02d.%02d", year, month + 1, dayOfMonth);
         details_the_project_end_time1.setText("<" + string);
         details_the_project_end_time2.setText("-" + string + " >");
@@ -440,10 +439,10 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
         TimePickerView pvTime = new TimePickerBuilder(DetailsTheProjectEndActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
+                select2 = date;
                 details_the_project_end_time1.setText("<" + getTime2(date));
                 beforeDate1 = getTime2(date);
                 NewlyIncreased.setStartDate(getTime2(date));
-//                initViewData2();
             }
         })
 
@@ -467,10 +466,14 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
         TimePickerView pvTime = new TimePickerBuilder(DetailsTheProjectEndActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                afterDate1 = getTime2(date);
-                details_the_project_end_time2.setText("-" + getTime2(date) + " >");
-                NewlyIncreased.setEndDate(getTime2(date));
-                initViewData2();
+                if (select2.after(date)) {
+                    ToastUtil.showLongToast(DetailsTheProjectEndActivity.this, "开始时间不能大于结束时间");
+                } else {
+                    afterDate1 = getTime2(date);
+                    details_the_project_end_time2.setText("-" + getTime2(date) + " >");
+                    NewlyIncreased.setEndDate(getTime2(date));
+                    initViewData2();
+                }
             }
         })
 
@@ -494,6 +497,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
         TimePickerView pvTime = new TimePickerBuilder(DetailsTheProjectEndActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
+                select3 = date;
                 beforeDate2 = getTime2(date);
                 details_the_project_end_time3.setText("<" + getTime2(date));
                 NewlyIncreased.setYJstartDate(getTime2(date));
@@ -521,9 +525,13 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
             @Override
             public void onTimeSelect(Date date, View v) {
                 afterDate2 = getTime2(date);
-                details_the_project_end_time4.setText("-" + getTime2(date) + " >");
-                NewlyIncreased.setYJendDate(getTime2(date));
-                initViewData1();
+                if (select3.after(date)) {
+                    ToastUtil.showLongToast(DetailsTheProjectEndActivity.this, "开始时间不能大于结束时间");
+                } else {
+                    details_the_project_end_time4.setText("-" + getTime2(date) + " >");
+                    NewlyIncreased.setYJendDate(getTime2(date));
+                    initViewData1();
+                }
             }
         })
 
@@ -548,6 +556,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
             @Override
             public void onTimeSelect(Date date, View v) {
                 select = date;
+                select1 = date;
                 beforeDate3 = getTime2(date);
                 details_the_project_end_time5.setText("<" + getTime2(date));
             }
@@ -566,7 +575,6 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
 
     //            TODO  项目详情    业务趋势   结束时间
     private void initTime3_Date2() {
-
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(select);
         int selectyear = calendar.get(Calendar.YEAR);
@@ -574,18 +582,20 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
         int selectdayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
         final Calendar selected = Calendar.getInstance();
-        selected.set(selectyear,selectmonth,selectdayOfMonth+100);
+        selected.set(selectyear, selectmonth, selectdayOfMonth + 100);
         select = selected.getTime();
 
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(year-3, month, dayOfMonth);
+        startDate.set(year - 3, month, dayOfMonth);
         Calendar endDate = Calendar.getInstance();
         TimePickerView pvTime = new TimePickerBuilder(DetailsTheProjectEndActivity.this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                if (select.before(date)) {
-                    ToastUtil.showLongToast(DetailsTheProjectEndActivity.this,"时间间隔不能大于100天");
+                if (select1.after(date)) {
+                    ToastUtil.showLongToast(DetailsTheProjectEndActivity.this, "开始时间不能大于结束时间");
+                } else if (select.before(date)) {
+                    ToastUtil.showLongToast(DetailsTheProjectEndActivity.this, "时间间隔不能大于100天");
                 } else {
                     afterDate3 = getTime2(date);
                     details_the_project_end_time6.setText("-" + getTime2(date) + " >");
@@ -593,13 +603,12 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
                 }
             }
         })
-
                 .setType(new boolean[]{true, true, true, false, false, false}) //年月日时分秒 的显示与否，不设置则默认全部显示
                 .setLabel("年", "月", "日", "", "", "")//默认设置为年月日时分秒
                 .isCenterLabel(false)
                 .setDate(selectedDate)
                 .setLineSpacingMultiplier(1.5f)
-                .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
+                .setTextXOffset(-10, 0, 10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
                 .setRangDate(startDate, endDate)
                 .build();
         pvTime.show();
@@ -644,13 +653,12 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
                         details_the_project_end_tv9.setText("" + detailsBean.getData().getOperation().getEarnestMoneyNumber());
                         details_the_project_end_tv10.setText("" + detailsBean.getData().getOperation().getTradeNumber());
                         details_the_project_end_tv11.setText("" + detailsBean.getData().getOperation().getInvalidNum());
-
-                        List<Integer> integers = detailsBean.getData().getGsonOption().getSeries().get(0).getData();
-                        Log.i("长度", "integers:" + integers.size());
-                        indexList = detailsBean.getData().getGsonOption().getXAxis().getData();
-                        if (integers.size() != 0) {
+                        if (detailsBean.getData().getGsonOption().getSeries().get(0).getData().size() != 0) {
+                            List<Integer> integers = detailsBean.getData().getGsonOption().getSeries().get(0).getData();
+                            indexList = detailsBean.getData().getGsonOption().getXAxis().getData();
                             setData(integers);
                         }
+
                     }
 
                     @Override
@@ -747,7 +755,6 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
 
     //TODO 详情页趋势数据赋值
     private void initViewData3() {
-
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(FinalContents.getBaseUrl());
         builder.addConverterFactory(GsonConverterFactory.create());
@@ -766,9 +773,9 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
                     @SuppressLint("WrongConstant")
                     @Override
                     public void onNext(BusinessBean businessBean) {
-                        List<Integer> integers = businessBean.getData().getSeries().get(0).getData();
-                        indexList = businessBean.getData().getXAxis().getData();
-                        if (integers.size() != 0) {
+                        if (businessBean.getData().getSeries().get(0).getData().size() != 0) {
+                            List<Integer> integers = businessBean.getData().getSeries().get(0).getData();
+                            indexList = businessBean.getData().getXAxis().getData();
                             setData(integers);
                         }
                     }
@@ -785,7 +792,6 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
                 });
     }
 
-
     //TODO 详情页趋势图数据填充
     private void setData(final List<Integer> list) {
 
@@ -797,19 +803,20 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
 
 
         {
-            details_chart.setDrawBorders(false); // 显示边界
-            details_chart.getDescription().setEnabled(false);  // 不显示备注信息
-            details_chart.setPinchZoom(false); // 比例缩放
-            details_chart.animateY(1500);
-            details_chart.setTouchEnabled(true);
-            details_chart.setDragEnabled(true);
-            details_chart.setExtraTopOffset(10);
-            details_chart.getLegend().setEnabled(false);
-            details_chart.setDoubleTapToZoomEnabled(false);
-            details_chart.setHighlightPerTapEnabled(false);
-            details_chart.getAxisRight().setEnabled(false);
+            combinedChart.setDrawBorders(false); // 显示边界
+            combinedChart.getDescription().setEnabled(false);  // 不显示备注信息
+            combinedChart.setPinchZoom(false); // 比例缩放
+            combinedChart.animateY(1500);
+            combinedChart.setTouchEnabled(true);
+            combinedChart.setDragEnabled(true);
+            combinedChart.setExtraTopOffset(10);
+            combinedChart.getLegend().setEnabled(false);
+            combinedChart.setDoubleTapToZoomEnabled(false);
+            combinedChart.setHighlightPerTapEnabled(false);
+            combinedChart.getAxisRight().setEnabled(false);
+//            combinedChart.setVisibleXRangeMinimum(5);
 
-            XAxis xAxis = details_chart.getXAxis();
+            XAxis xAxis = combinedChart.getXAxis();
             xAxis.setDrawGridLines(false);
             /*解决左右两端柱形图只显示一半的情况 只有使用CombinedChart时会出现，如果单独使用BarChart不会有这个问题*/
             xAxis.setAxisMinimum(-0.2f);
@@ -831,7 +838,7 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
                 }
             });
 
-            int max = 0;
+            float max = 0;
 
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i) > max) {
@@ -839,12 +846,12 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
                 }
             }
 
-            YAxis axisLeft = details_chart.getAxisLeft(); // 获取左边Y轴操作类
+            YAxis axisLeft = combinedChart.getAxisLeft(); // 获取左边Y轴操作类
             axisLeft.setAxisMinimum(0); // 设置最小值
-//            axisLeft.setAxisMaximum(max); // 设置最大值
+//            axisLeft.setAxisMaximum(max+5); // 设置最大值
+//            axisLeft.setLabelCount(5); // 设置最大值
             axisLeft.setAxisLineColor(Color.parseColor("#00000000"));
             axisLeft.setTextColor(Color.parseColor("#999999"));
-
 
             List<Entry> lineEntries = new ArrayList<>();
             List<BarEntry> barEntries = new ArrayList<>();
@@ -901,14 +908,13 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
             combinedData.setData(barData);  // 添加柱形图数据源
             combinedData.setData(lineData); // 添加折线图数据源
             if (indexList.size() > 5) {
-                details_chart.setVisibleXRange(0, 5);
+                combinedChart.setVisibleXRange(0, 5);
             }
-            details_chart.setData(combinedData); // 为组合图设置数据源
-//            combinedChart.setVisibleXRangeMaximum(12);
-//            combinedChart.setVisibleXRangeMinimum(6);
+            combinedChart.setData(combinedData); // 为组合图设置数据源
+            combinedChart.setVisibleXRangeMaximum(12);
+            combinedChart.setVisibleXRangeMinimum(5);
         }
-        details_chart.animateXY(2000, 2000);
-
+        combinedChart.animateXY(2000, 2000);
 
     }
 
@@ -1213,4 +1219,28 @@ public class DetailsTheProjectEndActivity extends AllActivity implements View.On
         NewlyIncreased.setYJstartDate("");
         NewlyIncreased.setYJendDate("");
     }
+
+    /**
+     * 比较当前时间和服务器返回时间大小
+     *
+     * @param nowDate
+     * @param compareDate
+     * @return
+     */
+    public boolean compareDate(String nowDate, String compareDate) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        try {
+            Date now = df.parse(nowDate);
+            Date compare = df.parse(compareDate);
+            if (now.before(compare)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

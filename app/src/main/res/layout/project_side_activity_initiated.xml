@@ -100,24 +100,19 @@
                                 android:id="@+id/initiated_tv3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="top"
+                                android:layout_gravity="center_vertical"
                                 android:text=""
                                 android:textColor="#ff666666"
                                 android:textSize="13sp" />
 
-                            <RelativeLayout
-                                android:layout_gravity="top"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
-
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/initiated_NameRv"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"/>
-
-                            </RelativeLayout>
+                            <ImageView
+                                android:id="@+id/initiated_img2"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="5dp"
+                                android:src="@mipmap/icon_mine_call" />
                         </LinearLayout>
-
                     </LinearLayout>
                 </RelativeLayout>
 

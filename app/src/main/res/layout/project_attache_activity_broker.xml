@@ -42,6 +42,9 @@
                 android:layout_marginBottom="10dp"
                 android:text="经纪人名称"
                 android:textColor="#FFFFFF"
+                android:maxLines="1"
+                android:layout_marginRight="60dp"
+                android:layout_marginLeft="60dp"
                 android:textSize="18sp" />
 
             <ImageView
@@ -102,6 +105,7 @@
                             android:layout_height="wrap_content"
                             android:text=""
                             android:textColor="#ff111111"
+                            android:maxLength="15"
                             android:textSize="15sp" />
 
                         <TextView
