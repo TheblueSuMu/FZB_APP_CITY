@@ -217,7 +217,6 @@ public class HomeFragment extends AllFragment implements View.OnClickListener, S
     private void fvbId(View view) {
         application = (DemoApplication) getActivity().getApplication();
 
-
         recyclerView = view.findViewById(R.id.home_recycler_vertical);
         all_no_information = view.findViewById(R.id.all_no_information_h);
         home_banner_no = view.findViewById(R.id.home_banner_no);

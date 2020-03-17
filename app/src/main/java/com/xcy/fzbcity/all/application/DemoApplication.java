@@ -46,8 +46,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lljjcoder.style.citylist.utils.CityListLoader;
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
 
 public class DemoApplication extends Application {
 
@@ -97,18 +95,20 @@ public class DemoApplication extends Application {
         // ... your codes
         DemoCache.setContext(this);
 
+
+
         // SDK初始化（启动后台服务，若已经存在用户登录信息， SDK 将完成自动登录）
-        NIMClient.init(this, null, null);
+        NIMClient.init(this, null,  NimSDKOptionConfig.getSDKOptions(this));
+//        NimSDKOptionConfig.getSDKOptions(this)
 
         NimUIKit.setLocationProvider(new NimDemoLocationProvider());
-
-
 
         // ... your codes
         if (NIMUtil.isMainProcess(this)) {
             // 注意：以下操作必须在主进程中进行
             // 1、UI相关初始化操作
             // 2、相关Service调用
+
             NimUIKit.init(this);
 
             NIMClient.getService(MsgService.class).registerCustomAttachmentParser(new ProjectCustomAttachParser());

@@ -205,13 +205,13 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
 
     //推送
-//    implementation 'com.meizu.flyme.internet:push-internal:3.6.3@aar'//魅族
-//    implementation 'com.google.firebase:firebase-messaging:20.0.0'//谷歌
-//    implementation 'com.google.firebase:firebase-core:17.2.0'//谷歌
-//    implementation 'com.google.android.gms:play-services-base:17.1.0'//谷歌
-//    implementation files('libs\\vivo_pushsdk_v2.3.4.jar')//vivo
-//    implementation files('libs\\com.coloros.mcssdk.jar')//oppo
-//    implementation files('libs\\MiPush_SDK_Client_3_7_0.jar')//小米
-//    implementation 'com.huawei.hms:push:3.0.3.301'//华为
+    implementation files('libs\\nim-push-7.2.0.jar')
+    implementation files('libs\\MiPush_SDK_Client_3_7_5.jar')//小米
+    implementation files('libs\\hmssdk-base-4.0.1.300.jar')//华为
+//    implementation 'com.meizu.flyme.internet:push-internal:3.4.2@aar'//魅族
+    implementation files('libs\\mcssdk-2.0.2.jar')//OPPO
+
+
+
 
 }
